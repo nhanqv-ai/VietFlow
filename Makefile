@@ -18,6 +18,10 @@ app:
 	@chmod +x Scripts/build_app.sh
 	@./Scripts/build_app.sh
 
+## demo: Launch interactive Terminal real-time typing demo
+demo:
+	@./build/vietflow_cli
+
 ## install: Install VietFlow.app into /Applications
 install: app
 	@echo "==> Installing VietFlow.app into /Applications..."
