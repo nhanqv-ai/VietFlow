@@ -214,6 +214,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 return false
             }
 
+            let wasBypassed = isBypassed
             isBypassed = false
             didBackspace = true
 
@@ -229,13 +230,32 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 committedPrefix.removeLast()
             }
 
-            // Recompute transform state for remaining active keys
-            if !activeRawKeys.isEmpty {
+            // Check if remaining word should retain bypass (e.g. English keywords or foreign clusters)
+            if wasBypassed && !wordRawKeys.isEmpty {
+                let remainingWord = String(wordRawKeys).lowercased()
+                if EnglishRestoreDetector.isEnglishKeyword(remainingWord) {
+                    isBypassed = true
+                    activePreedit = String(activeRawKeys)
+                } else {
+                    for cluster in EnglishRestoreDetector.invalidOnsetClusters {
+                        if remainingWord.hasPrefix(cluster) {
+                            isBypassed = true
+                            activePreedit = String(activeRawKeys)
+                            break
+                        }
+                    }
+                }
+            }
+
+            // Recompute transform state for remaining active keys if not bypassed
+            if !isBypassed && !activeRawKeys.isEmpty {
                 let (reconstructed, state) = evaluateRaw(keys: activeRawKeys)
                 transformState = state
                 if activePreedit.count > reconstructed.count {
                     activePreedit = reconstructed
                 }
+            } else if isBypassed {
+                transformState = SyllableTransformState()
             } else {
                 transformState = SyllableTransformState()
             }
