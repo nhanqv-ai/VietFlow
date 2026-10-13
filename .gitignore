@@ -1,0 +1,7 @@
+.build/
+build/
+.agents/
+*.iconset/
+.DS_Store
+*.swp
+*~
