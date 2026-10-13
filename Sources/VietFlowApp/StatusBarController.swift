@@ -52,9 +52,9 @@ public final class StatusBarController: NSObject {
         button.toolTip = "VietFlow — \(mode.title) (Click trái để chuyển, Click phải để mở menu)"
     }
     
-    // MARK: - Vector Status Glyphs (No Emoji, Dark/Light Mode Template)
+    // MARK: - Vector Status Glyphs (Pattern A: Tactile Keycap Squircle)
     private func renderVectorStatusIcon(mode: InputMode) -> NSImage {
-        let size = NSSize(width: 18, height: 18)
+        let size = NSSize(width: 19, height: 19)
         let image = NSImage(size: size)
         image.lockFocus()
         
@@ -63,24 +63,63 @@ public final class StatusBarController: NSObject {
             return image
         }
         
-        ctx.clear(CGRect(x: 0, y: 0, width: 18, height: 18))
+        ctx.clear(CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        ctx.setAllowsAntialiasing(true)
+        ctx.setShouldAntialias(true)
         
-        let letter = mode.rawValue // "V" or "E"
-        let font = NSFont.systemFont(ofSize: 13, weight: .bold)
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .foregroundColor: NSColor.black // In template mode, macOS automatically inverts in dark mode
-        ]
+        let boxRect = CGRect(x: 1.5, y: 1.5, width: 16.0, height: 16.0)
+        let boxPath = CGPath(roundedRect: boxRect, cornerWidth: 4.8, cornerHeight: 4.8, transform: nil)
         
-        let attrString = NSAttributedString(string: letter, attributes: attributes)
-        let strSize = attrString.size()
-        let x = (18 - strSize.width) / 2
-        let y = (18 - strSize.height) / 2 + 0.5
-        
-        attrString.draw(at: NSPoint(x: x, y: y))
+        if mode == .vietnamese {
+            // Active Vietnamese mode: Solid filled keycap with knocked-out "V"
+            ctx.saveGState()
+            ctx.addPath(boxPath)
+            ctx.setFillColor(NSColor.black.cgColor)
+            ctx.fillPath()
+            
+            ctx.setBlendMode(.destinationOut)
+            let font = NSFont.systemFont(ofSize: 11.2, weight: .heavy)
+            let text = "V" as NSString
+            let attrs: [NSAttributedString.Key: Any] = [
+                .font: font,
+                .foregroundColor: NSColor.black
+            ]
+            let strSize = text.size(withAttributes: attrs)
+            text.draw(
+                at: CGPoint(
+                    x: (size.width - strSize.width) / 2,
+                    y: (size.height - strSize.height) / 2 + 0.5
+                ),
+                withAttributes: attrs
+            )
+            ctx.restoreGState()
+        } else {
+            // English mode: Outlined keycap with centered "E"
+            ctx.saveGState()
+            ctx.addPath(boxPath)
+            ctx.setStrokeColor(NSColor.black.cgColor)
+            ctx.setLineWidth(1.3)
+            ctx.strokePath()
+            
+            let font = NSFont.systemFont(ofSize: 10.8, weight: .bold)
+            let text = "E" as NSString
+            let attrs: [NSAttributedString.Key: Any] = [
+                .font: font,
+                .foregroundColor: NSColor.black
+            ]
+            let strSize = text.size(withAttributes: attrs)
+            text.draw(
+                at: CGPoint(
+                    x: (size.width - strSize.width) / 2,
+                    y: (size.height - strSize.height) / 2 + 0.5
+                ),
+                withAttributes: attrs
+            )
+            ctx.restoreGState()
+        }
         
         image.unlockFocus()
-        image.isTemplate = true // Allows automatic macOS system dark/light accenting
+        image.isTemplate = true // macOS automatically renders white in Dark Mode, dark in Light Mode
         return image
     }
     
