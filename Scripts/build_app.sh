@@ -100,7 +100,7 @@ cp "$REPO_ROOT/Resources/Info.plist" "$APP_DIR/Contents/Info.plist"
 # Generate and Copy AppIcon.icns if needed
 if [ ! -f "$REPO_ROOT/AppIcon.icns" ]; then
     echo "==> Generating AppIcon.icns..."
-    swift -sdk "$SDK_PATH" "$REPO_ROOT/.agents/teamwork/explorer_survey_3/test_icon_gen.swift"
+    swift -sdk "$SDK_PATH" "$REPO_ROOT/Scripts/generate_app_icon.swift"
 fi
 cp "$REPO_ROOT/AppIcon.icns" "$APP_DIR/Contents/Resources/AppIcon.icns"
 
