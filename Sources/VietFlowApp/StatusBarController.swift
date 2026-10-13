@@ -135,12 +135,35 @@ public final class StatusBarController: NSObject {
         }
     }
     
+    private var activeShortcutLabel: String {
+        switch stateManager.shortcutType {
+        case .modifierChord:
+            return stateManager.modifierChord.title
+        case .customKeyCombo:
+            return KeyCombinationHelper.formattedSymbolShortcut(
+                keyCode: stateManager.customKeyCombo.keyCode,
+                modifiers: stateManager.customKeyCombo.carbonModifiers
+            )
+        }
+    }
+    
     private func showContextMenu() {
         let menu = NSMenu(title: "VietFlow Menu")
         
+        if !AccessibilityService.shared.isAccessibilityTrusted {
+            let permItem = NSMenuItem(
+                title: "Cấp quyền Trợ năng (Cần thiết để gõ tiếng Việt)...",
+                action: #selector(grantAccessibilityAction),
+                keyEquivalent: ""
+            )
+            permItem.target = self
+            menu.addItem(permItem)
+            menu.addItem(NSMenuItem.separator())
+        }
+        
         // Mode header
         let modeItem = NSMenuItem(
-            title: "Chế độ: \(stateManager.currentInputMode.title) (\(stateManager.currentInputMode.rawValue))",
+            title: "Chế độ: \(stateManager.currentInputMode.title) [\(stateManager.currentInputMode.rawValue)] — \(activeShortcutLabel)",
             action: #selector(toggleModeMenuAction),
             keyEquivalent: ""
         )
@@ -209,6 +232,10 @@ public final class StatusBarController: NSObject {
         statusItem.menu = menu
         statusItem.button?.performClick(nil)
         statusItem.menu = nil // Restore click detection
+    }
+    
+    @objc private func grantAccessibilityAction() {
+        _ = AccessibilityService.shared.resetAndRequestAccessibilityPermission()
     }
     
     @objc private func toggleModeMenuAction() {

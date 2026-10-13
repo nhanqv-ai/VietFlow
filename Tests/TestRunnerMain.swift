@@ -10,10 +10,12 @@ import Foundation
 import VietFlowEngine
 import VietFlowState
 import VietFlowEventTap
+import VietFlowApp
 import VietFlowEngineTests
 import VietFlowTerminalBufferTests
 import VietFlowStateTests
 import VietFlowEventTapTests
+import SettingsLayoutTests
 
 @main
 struct TestRunnerMain {
@@ -33,6 +35,7 @@ struct TestRunnerMain {
         registry.register(name: "HotkeyStateMachineTests") { HotkeyStateMachineTests() }
         registry.register(name: "SettingsPersistenceTests") { SettingsPersistenceTests() }
         registry.register(name: "ModeToggleBufferResetTests") { ModeToggleBufferResetTests() }
+        registry.register(name: "SettingsLayoutTests") { SettingsLayoutTests() }
         
         let args = CommandLine.arguments
         let verbose = args.contains("--verbose") || args.contains("-v")

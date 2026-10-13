@@ -176,8 +176,12 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
     @Published public var currentInputMode: InputMode = .vietnamese {
         didSet {
             settings.inputMode = currentInputMode
+            if isVietFlowUIActive {
+                perAppModes.removeAll()
+            }
             saveCurrentModeForActiveApp()
             saveSettings()
+            engine?.reset()
             NotificationCenter.default.post(name: .vietFlowInputModeChanged, object: currentInputMode)
         }
     }
@@ -187,6 +191,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             settings.inputMethod = currentInputMethod
             saveSettings()
             engineConfig.inputMethod = currentInputMethod
+            syncEngineConfig()
         }
     }
     
@@ -195,6 +200,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             settings.tonePlacement = currentTonePlacement
             saveSettings()
             engineConfig.tonePlacement = currentTonePlacement
+            syncEngineConfig()
         }
     }
     
@@ -203,6 +209,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             settings.autoRestoreEnglish = autoRestoreEnglish
             saveSettings()
             engineConfig.autoCorrectEnglish = autoRestoreEnglish
+            syncEngineConfig()
         }
     }
     
@@ -211,6 +218,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             settings.escapeByDoubleKey = escapeByDoubleKey
             saveSettings()
             engineConfig.escapeByDoubleKey = escapeByDoubleKey
+            syncEngineConfig()
         }
     }
     
@@ -258,6 +266,9 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
     @Published public var perAppInputMode: Bool = true {
         didSet {
             settings.perAppInputMode = perAppInputMode
+            if perAppInputMode && !activeAppBundleId.isEmpty {
+                perAppModes[activeAppBundleId] = currentInputMode
+            }
             saveSettings()
         }
     }
@@ -277,15 +288,24 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
     @Published public var activeAppName: String = ""
     
     // MARK: - Engine Linkage
-    public weak var engine: BambooEngine?
+    public weak var engine: BambooEngine? {
+        didSet {
+            syncEngineConfig()
+        }
+    }
     public var onToggleInputMode: (() -> Void)?
     
     // MARK: - High-Performance In-Memory Caches for EventTap
     public private(set) var isBlacklistActive: Bool = false
-    public var engineConfig: EngineConfig = EngineConfig()
+    public var engineConfig: EngineConfig = EngineConfig() {
+        didSet {
+            engine?.config = engineConfig
+        }
+    }
     
     private let userDefaults = UserDefaults.standard
     private var perAppModes: [String: InputMode] = [:]
+    private var isVietFlowUIActive: Bool = false
     private var workspaceObserver: NSObjectProtocol?
     
     public init() {
@@ -299,6 +319,19 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         if let observer = workspaceObserver {
             NSWorkspace.shared.notificationCenter.removeObserver(observer)
         }
+    }
+    
+    // MARK: - Engine Config Synchronization
+    public func syncEngineConfig() {
+        let updated = EngineConfig(
+            inputMethod: currentInputMethod,
+            tonePlacement: currentTonePlacement,
+            autoCorrectEnglish: autoRestoreEnglish,
+            escapeByDoubleKey: escapeByDoubleKey
+        )
+        engineConfig = updated
+        engine?.config = updated
+        engine?.reset()
     }
     
     // MARK: - Toggle Input Mode
@@ -350,10 +383,19 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         }
     }
     
-    private func handleActiveAppChanged(bundleId: String, appName: String) {
+    public func handleActiveAppChanged(bundleId: String, appName: String = "") {
+        // Ignore VietFlow's own bundle ID so opening VietFlow Settings or clicking the Menu Bar
+        // never overwrites the user's active target app or causes mode reversion upon closing Settings.
+        if bundleId == "com.nhanqv.VietFlow" || bundleId == Bundle.main.bundleIdentifier {
+            isVietFlowUIActive = true
+            return
+        }
+        
+        isVietFlowUIActive = false
         self.activeAppBundleId = bundleId
-        self.activeAppName = appName
+        self.activeAppName = appName.isEmpty ? bundleId : appName
         self.isBlacklistActive = isApplicationBlacklisted(bundleId: bundleId)
+        self.engine?.reset()
         
         if perAppInputMode {
             if let savedMode = perAppModes[bundleId] {
@@ -361,26 +403,9 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
                     self.currentInputMode = savedMode
                 }
             } else {
-                // If it's a code editor or terminal, default to English for developer productivity
-                if isDeveloperApp(bundleId: bundleId) {
-                    self.currentInputMode = .english
-                }
+                perAppModes[bundleId] = self.currentInputMode
             }
         }
-    }
-    
-    private func isDeveloperApp(bundleId: String) -> Bool {
-        let devApps = [
-            "com.apple.Terminal",
-            "com.googlecode.iterm2",
-            "dev.warp.Warp-Stable",
-            "io.alacritty",
-            "net.kovidgoyal.kitty",
-            "com.microsoft.VSCode",
-            "com.sublimetext.4",
-            "com.jetbrains.intellij"
-        ]
-        return devApps.contains(bundleId)
     }
     
     private func saveCurrentModeForActiveApp() {
@@ -505,15 +530,12 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             launchAtLogin = (SMAppService.mainApp.status == .enabled)
         }
         
-        engineConfig = EngineConfig(
-            inputMethod: currentInputMethod,
-            tonePlacement: currentTonePlacement,
-            autoCorrectEnglish: autoRestoreEnglish,
-            escapeByDoubleKey: escapeByDoubleKey
-        )
+        syncEngineConfig()
     }
     
     public func resetToDefaults() {
+        perAppModes.removeAll()
+        isVietFlowUIActive = false
         settings.resetToDefaults()
         currentInputMode = settings.inputMode
         currentInputMethod = settings.inputMethod
@@ -527,6 +549,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         launchAtLogin = settings.launchAtLogin
         perAppInputMode = settings.perAppInputMode
         blacklistedBundleIdentifiers = settings.blacklistedBundleIdentifiers
+        syncEngineConfig()
         saveSettings()
     }
 }

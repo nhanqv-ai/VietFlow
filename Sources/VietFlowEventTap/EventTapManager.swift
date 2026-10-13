@@ -16,6 +16,12 @@ public enum EventLoopGuard {
     public static let magicMarker: Int64 = 0x564E4B59 // 'VNKY'
 }
 
+public enum ShortcutEventSource: String, Equatable, Sendable {
+    case eventTap = "eventTap"
+    case localMonitor = "localMonitor"
+    case globalMonitor = "globalMonitor"
+}
+
 public final class EventTapManager: @unchecked Sendable {
     public static let shared = EventTapManager()
     
@@ -23,6 +29,42 @@ public final class EventTapManager: @unchecked Sendable {
     private var runLoopSource: CFRunLoopSource?
     private var watchdogTimer: DispatchSourceTimer?
     private let eventSource: CGEventSource
+    
+    private var localFlagsMonitor: Any?
+    private var globalFlagsMonitor: Any?
+    private var localKeyAndMouseMonitor: Any?
+    private var globalKeyAndMouseMonitor: Any?
+    
+    /// Suppresses modifier chord toggling while user is actively recording a custom hotkey in Settings
+    public var isRecordingCustomShortcut: Bool = false {
+        didSet {
+            if isRecordingCustomShortcut {
+                stateMachine.reset()
+            }
+        }
+    }
+    
+    /// Allows unit tests to deterministically simulate an active CGEventTap without TCC privileges
+    public var simulateEventTapActiveForTesting: Bool = false
+    
+    /// True when the low-level CGEventTap mach port is created and enabled
+    public var isEventTapActive: Bool {
+        if simulateEventTapActiveForTesting {
+            return true
+        }
+        guard let port = machPort else { return false }
+        return CGEvent.tapIsEnabled(tap: port)
+    }
+    
+    /// True when NSEvent local & global fallback shortcut monitors are installed
+    public var areShortcutMonitorsInstalled: Bool {
+        return localFlagsMonitor != nil && globalFlagsMonitor != nil
+    }
+    
+    private var currentEventSource: ShortcutEventSource = .eventTap
+    private var lastTriggerSource: ShortcutEventSource? = nil
+    private var lastTriggerTimestamp: CFAbsoluteTime = 0
+    private let crossSourceDeduplicationWindow: CFTimeInterval = 0.040
     
     public let engine: BambooEngine
     public let stateManager: AppStateManager
@@ -47,12 +89,13 @@ public final class EventTapManager: @unchecked Sendable {
         source.userData = EventLoopGuard.magicMarker
         self.eventSource = source
         
-        // Link stateManager to engine for synchronous buffer flushes
+        // Link stateManager to engine for synchronous buffer flushes and config sync
+        engine.config = stateManager.engineConfig
         stateManager.engine = engine
         
-        // Configure shortcut triggers
+        // Configure shortcut triggers with cross-source deduplication
         stateMachine.onTrigger = { [weak self] in
-            self?.toggleModeSynchronously()
+            self?.handleStateMachineTriggered()
         }
         
         self.hotKeyManager.onTrigger = { [weak self] in
@@ -61,6 +104,23 @@ public final class EventTapManager: @unchecked Sendable {
         
         setupStateObservation()
         updateShortcutConfiguration()
+        startShortcutMonitors()
+    }
+    
+    deinit {
+        stopShortcutMonitors()
+    }
+    
+    private func handleStateMachineTriggered() {
+        let now = CFAbsoluteTimeGetCurrent()
+        if let lastSource = lastTriggerSource,
+           lastSource != currentEventSource,
+           (now - lastTriggerTimestamp) < crossSourceDeduplicationWindow {
+            return
+        }
+        lastTriggerSource = currentEventSource
+        lastTriggerTimestamp = now
+        toggleModeSynchronously()
     }
     
     private func setupStateObservation() {
@@ -79,6 +139,32 @@ public final class EventTapManager: @unchecked Sendable {
         stateManager.$customKeyCombo
             .sink { [weak self] _ in
                 self?.updateShortcutConfiguration()
+            }
+            .store(in: &cancellables)
+            
+        stateManager.$currentInputMethod
+            .sink { [weak self] method in
+                guard let self = self else { return }
+                self.engine.config.inputMethod = method
+                self.engine.reset()
+            }
+            .store(in: &cancellables)
+            
+        stateManager.$currentTonePlacement
+            .sink { [weak self] tone in
+                self?.engine.config.tonePlacement = tone
+            }
+            .store(in: &cancellables)
+            
+        stateManager.$autoRestoreEnglish
+            .sink { [weak self] autoRestore in
+                self?.engine.config.autoCorrectEnglish = autoRestore
+            }
+            .store(in: &cancellables)
+            
+        stateManager.$escapeByDoubleKey
+            .sink { [weak self] escapeDouble in
+                self?.engine.config.escapeByDoubleKey = escapeDouble
             }
             .store(in: &cancellables)
     }
@@ -103,15 +189,116 @@ public final class EventTapManager: @unchecked Sendable {
         engine.reset()
     }
     
+    // MARK: - Unconditional Local & Global NSEvent Monitors
+    public func startShortcutMonitors() {
+        if localFlagsMonitor == nil {
+            localFlagsMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
+                guard let self = self else { return event }
+                _ = self.processFlagsChanged(
+                    ModifierChordStateMachine.cgFlags(from: event.modifierFlags),
+                    source: .localMonitor
+                )
+                return event
+            }
+        }
+        
+        if globalFlagsMonitor == nil {
+            globalFlagsMonitor = NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
+                guard let self = self else { return }
+                _ = self.processFlagsChanged(
+                    ModifierChordStateMachine.cgFlags(from: event.modifierFlags),
+                    source: .globalMonitor
+                )
+            }
+        }
+        
+        if localKeyAndMouseMonitor == nil {
+            localKeyAndMouseMonitor = NSEvent.addLocalMonitorForEvents(
+                matching: [.keyDown, .leftMouseDown, .rightMouseDown, .otherMouseDown]
+            ) { [weak self] event in
+                guard let self = self else { return event }
+                if !self.isEventTapActive {
+                    if event.type == .keyDown {
+                        self.stateMachine.handleKeyDown()
+                    } else {
+                        self.stateMachine.handleMouseDown()
+                    }
+                }
+                return event
+            }
+        }
+        
+        if globalKeyAndMouseMonitor == nil {
+            globalKeyAndMouseMonitor = NSEvent.addGlobalMonitorForEvents(
+                matching: [.keyDown, .leftMouseDown, .rightMouseDown, .otherMouseDown]
+            ) { [weak self] event in
+                guard let self = self else { return }
+                if !self.isEventTapActive {
+                    if event.type == .keyDown {
+                        self.stateMachine.handleKeyDown()
+                    } else {
+                        self.stateMachine.handleMouseDown()
+                    }
+                }
+            }
+        }
+    }
+    
+    public func stopShortcutMonitors() {
+        if let monitor = localFlagsMonitor {
+            NSEvent.removeMonitor(monitor)
+            localFlagsMonitor = nil
+        }
+        if let monitor = globalFlagsMonitor {
+            NSEvent.removeMonitor(monitor)
+            globalFlagsMonitor = nil
+        }
+        if let monitor = localKeyAndMouseMonitor {
+            NSEvent.removeMonitor(monitor)
+            localKeyAndMouseMonitor = nil
+        }
+        if let monitor = globalKeyAndMouseMonitor {
+            NSEvent.removeMonitor(monitor)
+            globalKeyAndMouseMonitor = nil
+        }
+    }
+    
+    /// Unified, deduplicated entry point for modifier flagsChanged events from EventTap, local monitor, or global monitor.
+    @discardableResult
+    public func processFlagsChanged(_ flags: CGEventFlags, source: ShortcutEventSource) -> Bool {
+        guard !isRecordingCustomShortcut else {
+            stateMachine.reset()
+            return false
+        }
+        guard stateManager.shortcutType == .modifierChord else {
+            return false
+        }
+        // When CGEventTap is active, it intercepts all global and local events synchronously;
+        // defer NSEvent monitors to prevent duplicate state machine transitions.
+        if (source == .localMonitor || source == .globalMonitor) && isEventTapActive {
+            return false
+        }
+        
+        let previousSource = currentEventSource
+        currentEventSource = source
+        defer { currentEventSource = previousSource }
+        
+        return stateMachine.handleFlagsChanged(flags)
+    }
+    
     // MARK: - Lifecycle
     public func start() -> Bool {
+        startShortcutMonitors()
+        updateShortcutConfiguration()
+        
         guard AXIsProcessTrusted() else {
             return false
         }
         
-        updateShortcutConfiguration()
-        
-        if machPort != nil {
+        if let existingPort = machPort {
+            if !CGEvent.tapIsEnabled(tap: existingPort) {
+                CGEvent.tapEnable(tap: existingPort, enable: true)
+            }
             return true
         }
         
@@ -150,6 +337,7 @@ public final class EventTapManager: @unchecked Sendable {
         watchdogTimer?.cancel()
         watchdogTimer = nil
         
+        stopShortcutMonitors()
         hotKeyManager.unregister()
         stateMachine.reset()
         
@@ -164,6 +352,7 @@ public final class EventTapManager: @unchecked Sendable {
     }
     
     private func startWatchdog() {
+        watchdogTimer?.cancel()
         let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.main)
         timer.schedule(deadline: .now() + 1.0, repeating: 1.0)
         timer.setEventHandler { [weak self] in
@@ -208,9 +397,7 @@ public final class EventTapManager: @unchecked Sendable {
         
         // 5. Modifier flags changed (Global V/E Toggle Shortcut Detection)
         if type == .flagsChanged {
-            if stateManager.shortcutType == .modifierChord {
-                _ = stateMachine.handleFlagsChanged(event.flags)
-            }
+            _ = processFlagsChanged(event.flags, source: .eventTap)
             return Unmanaged.passRetained(event)
         }
         

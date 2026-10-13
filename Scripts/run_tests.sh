@@ -58,6 +58,24 @@ swiftc $SDK_FLAG \
     Sources/VietFlowEventTap/*.swift \
     -o "$BUILD_DIR/libVietFlowEventTap.dylib"
 
+echo "==> Step 3b: Compiling VietFlowApp module..."
+swiftc $SDK_FLAG \
+    -O \
+    -emit-library \
+    -emit-module \
+    -module-name VietFlowApp \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState -lVietFlowEventTap \
+    -emit-module-path "$BUILD_DIR/VietFlowApp.swiftmodule" \
+    Sources/VietFlowApp/AccessibilityService.swift \
+    Sources/VietFlowApp/KeyCombinationHelper.swift \
+    Sources/VietFlowApp/PreferencesView.swift \
+    Sources/VietFlowApp/PreferencesWindowController.swift \
+    Sources/VietFlowApp/SettingsView.swift \
+    Sources/VietFlowApp/SettingsWindowController.swift \
+    Sources/VietFlowApp/StatusBarController.swift \
+    Sources/VietFlowApp/AppDelegate.swift \
+    -o "$BUILD_DIR/libVietFlowApp.dylib"
+
 echo "==> Step 4: Compiling VietFlowEngineTests module..."
 swiftc $SDK_FLAG \
     -O \
@@ -112,15 +130,27 @@ swiftc $SDK_FLAG \
     Tests/VietFlowEventTapTests/HotkeyStateMachineTests.swift \
     -o "$BUILD_DIR/libVietFlowEventTapTests.dylib"
 
+echo "==> Step 7b: Compiling SettingsLayoutTests module..."
+swiftc $SDK_FLAG \
+    -O \
+    -emit-library \
+    -emit-module \
+    -module-name SettingsLayoutTests \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" \
+    -lVietFlowEngine -lVietFlowState -lVietFlowEventTap -lVietFlowApp -lVietFlowEngineTests \
+    -emit-module-path "$BUILD_DIR/SettingsLayoutTests.swiftmodule" \
+    Tests/SettingsLayoutTests.swift \
+    -o "$BUILD_DIR/libSettingsLayoutTests.dylib"
+
 echo "==> Step 8: Compiling TestRunner executable..."
 TEST_BINARY="$BUILD_DIR/vietflow_test_runner"
 swiftc $SDK_FLAG \
     -O \
     -parse-as-library \
     -I "$BUILD_DIR" -L "$BUILD_DIR" \
-    -lVietFlowEngine -lVietFlowState -lVietFlowEventTap \
+    -lVietFlowEngine -lVietFlowState -lVietFlowEventTap -lVietFlowApp \
     -lVietFlowEngineTests -lVietFlowTerminalBufferTests \
-    -lVietFlowStateTests -lVietFlowEventTapTests \
+    -lVietFlowStateTests -lVietFlowEventTapTests -lSettingsLayoutTests \
     -Xlinker -rpath -Xlinker "@loader_path" \
     -Xlinker -rpath -Xlinker "$BUILD_DIR" \
     Tests/TestRunnerMain.swift \

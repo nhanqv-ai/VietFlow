@@ -86,6 +86,7 @@ echo "==> Verifying Universal Binary architectures:"
 lipo -info "$BUILD_DIR/universal/VietFlow"
 
 echo "==> Packaging VietFlow.app bundle..."
+killall VietFlow 2>/dev/null || true
 rm -rf "$APP_DIR"
 mkdir -p "$APP_DIR/Contents/MacOS"
 mkdir -p "$APP_DIR/Contents/Resources"
@@ -105,6 +106,7 @@ fi
 cp "$REPO_ROOT/AppIcon.icns" "$APP_DIR/Contents/Resources/AppIcon.icns"
 
 echo "==> Signing VietFlow.app bundle (ad-hoc)..."
+killall VietFlow 2>/dev/null || true
 codesign --force --deep --sign - "$APP_DIR"
 
 echo "================================================================================"

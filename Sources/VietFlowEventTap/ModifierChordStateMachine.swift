@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 import CoreGraphics
 import VietFlowState
 
@@ -58,6 +59,22 @@ public final class ModifierChordStateMachine: @unchecked Sendable {
     
     public convenience init(preset: ModifierChordShortcut, onTrigger: (() -> Void)? = nil) {
         self.init(shortcut: preset, onTrigger: onTrigger)
+    }
+    
+    /// Converts NSEvent.ModifierFlags into CGEventFlags for unified chord detection.
+    public static func cgFlags(from nsFlags: NSEvent.ModifierFlags) -> CGEventFlags {
+        var flags: CGEventFlags = []
+        if nsFlags.contains(.control) { flags.insert(.maskControl) }
+        if nsFlags.contains(.shift) { flags.insert(.maskShift) }
+        if nsFlags.contains(.option) { flags.insert(.maskAlternate) }
+        if nsFlags.contains(.command) { flags.insert(.maskCommand) }
+        return flags
+    }
+    
+    /// Handles an NSEvent.ModifierFlags change by converting to CGEventFlags.
+    @discardableResult
+    public func handleNSEventFlagsChanged(_ nsFlags: NSEvent.ModifierFlags) -> Bool {
+        return handleFlagsChanged(Self.cgFlags(from: nsFlags))
     }
     
     /// Handles a flagsChanged event with strict modifier bitmasking.

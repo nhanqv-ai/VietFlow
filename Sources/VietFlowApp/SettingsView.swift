@@ -18,6 +18,7 @@ import Carbon
 import UniformTypeIdentifiers
 import VietFlowEngine
 import VietFlowState
+import VietFlowEventTap
 
 // MARK: - Settings Tab Definition
 public enum SettingsTab: String, CaseIterable, Identifiable {
@@ -69,6 +70,7 @@ public struct BlacklistedAppItem: Identifiable, Hashable {
 // MARK: - SettingsView
 public struct SettingsView: View {
     @ObservedObject public var stateManager: AppStateManager
+    @ObservedObject public var accessibilityService: AccessibilityService
     public var onClose: (() -> Void)?
 
     @State private var selectedTab: SettingsTab = .keyboard
@@ -81,10 +83,12 @@ public struct SettingsView: View {
 
     public init(
         stateManager: AppStateManager = .shared,
+        accessibilityService: AccessibilityService = .shared,
         initialTab: SettingsTab = .keyboard,
         onClose: (() -> Void)? = nil
     ) {
         self.stateManager = stateManager
+        self.accessibilityService = accessibilityService
         self._selectedTab = State(initialValue: initialTab)
         self.onClose = onClose
     }
@@ -97,7 +101,7 @@ public struct SettingsView: View {
             Divider()
             footerBar
         }
-        .frame(width: 520, height: 490)
+        .frame(width: 520, height: 520)
         .background(Color(nsColor: .windowBackgroundColor))
         .onDisappear {
             stopRecordingHotKey()
@@ -157,7 +161,7 @@ public struct SettingsView: View {
     // MARK: - Content Area
     @ViewBuilder
     private var contentArea: some View {
-        ScrollView {
+        ScrollView(.vertical, showsIndicators: true) {
             VStack(spacing: 12) {
                 switch selectedTab {
                 case .keyboard:
@@ -170,9 +174,11 @@ public struct SettingsView: View {
                     aboutTabContent
                 }
             }
+            .frame(maxWidth: 488)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
         }
+        .frame(width: 520)
     }
 
     // MARK: - Card Container Helper
@@ -195,6 +201,8 @@ public struct SettingsView: View {
     // MARK: - Tab 1: Keyboard Tab Content
     private var keyboardTabContent: some View {
         VStack(spacing: 12) {
+            accessibilityStatusCard
+
             // Card 1: Input method & Tone rule
             cardView {
                 Text("Kiểu gõ & Dấu thanh")
@@ -208,9 +216,9 @@ public struct SettingsView: View {
                             .frame(width: 140, alignment: .leading)
 
                         Picker("", selection: $stateManager.currentInputMethod) {
-                            ForEach(InputMethod.allCases, id: \.self) { method in
-                                Text(method.rawValue).tag(method)
-                            }
+                            Text("Telex (Tiêu chuẩn)").tag(InputMethod.telex)
+                            Text("Simple Telex").tag(InputMethod.simpleTelex)
+                            Text("VNI").tag(InputMethod.vni)
                         }
                         .pickerStyle(.menu)
                         .frame(width: 180)
@@ -233,6 +241,7 @@ public struct SettingsView: View {
                 Text("Kiểu gõ và quy tắc bỏ dấu được xử lý theo thuật toán Bamboo Engine với độ chính xác cao.")
                     .font(.system(size: 10.5))
                     .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             // Card 2: Advanced Typing Options
@@ -251,6 +260,7 @@ public struct SettingsView: View {
                             .font(.system(size: 10.5))
                             .foregroundColor(.secondary)
                             .padding(.leading, 18)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
 
                     VStack(alignment: .leading, spacing: 3) {
@@ -262,6 +272,58 @@ public struct SettingsView: View {
                             .font(.system(size: 10.5))
                             .foregroundColor(.secondary)
                             .padding(.leading, 18)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Live Accessibility Status Card
+    private var accessibilityStatusCard: some View {
+        cardView {
+            HStack(alignment: .center, spacing: 10) {
+                Image(systemName: accessibilityService.isTrusted ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                    .font(.system(size: 16))
+                    .foregroundColor(accessibilityService.isTrusted ? .green : .orange)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(accessibilityService.isTrusted ? "Quyền Trợ năng: Đã kích hoạt" : "Quyền Trợ năng: Chưa cấp")
+                        .font(.system(size: 12.5, weight: .semibold))
+                        .foregroundColor(.primary)
+
+                    Text(accessibilityService.isTrusted
+                        ? "VietFlow có đủ quyền để ghi nhận và chuyển đổi phím tiếng Việt."
+                        : "Cần cấp quyền Trợ năng để bộ gõ hoạt động trong các ứng dụng khác.")
+                        .font(.system(size: 10.5))
+                        .foregroundColor(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer()
+
+                if accessibilityService.isTrusted {
+                    Button("Kiểm tra lại") {
+                        accessibilityService.refresh()
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                    .font(.system(size: 11))
+                } else {
+                    HStack(spacing: 6) {
+                        Button("Kiểm tra lại") {
+                            accessibilityService.refresh()
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                        .font(.system(size: 11))
+
+                        Button("Cấp quyền Trợ năng") {
+                            accessibilityService.resetAndRequestAccessibilityPermission()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.small)
+                        .font(.system(size: 11))
                     }
                 }
             }
@@ -270,7 +332,7 @@ public struct SettingsView: View {
 
     // MARK: - Tab 2: Shortcuts Tab Content
     private var shortcutsTabContent: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
             // Card 1: Shortcut Type Selection
             cardView {
                 Text("Phương thức phím tắt chuyển đổi")
@@ -280,13 +342,15 @@ public struct SettingsView: View {
                 Text("Chọn phương thức để chuyển đổi tức thời giữa Tiếng Việt [V] và English [E]:")
                     .font(.system(size: 11.5))
                     .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Picker("Loại phím tắt:", selection: $stateManager.shortcutType) {
-                    Text("Chùm phím bổ trợ (Modifier Chords)").tag(ShortcutType.modifierChord)
-                    Text("Tổ hợp phím tùy chỉnh (Custom Key Combo)").tag(ShortcutType.customKeyCombo)
+                    Text("Chùm phím bổ trợ").tag(ShortcutType.modifierChord)
+                    Text("Phím tắt tùy chỉnh").tag(ShortcutType.customKeyCombo)
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
+                .frame(maxWidth: .infinity)
             }
 
             // Card 2: Shortcut Configuration
@@ -341,8 +405,9 @@ public struct SettingsView: View {
             Text("Nhấn giữ đồng thời các phím bổ trợ rồi nhả ra để chuyển đổi chế độ tức thời:")
                 .font(.system(size: 11.5))
                 .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 4) {
                 ForEach(ModifierChordShortcut.allCases, id: \.self) { chord in
                     let isSelected = (stateManager.modifierChord == chord)
                     Button(action: {
@@ -370,7 +435,7 @@ public struct SettingsView: View {
                             }
                         }
                         .padding(.horizontal, 8)
-                        .padding(.vertical, 5)
+                        .padding(.vertical, 4)
                         .background(
                             RoundedRectangle(cornerRadius: 6, style: .continuous)
                                 .fill(isSelected ? Color.accentColor.opacity(0.12) : Color.clear)
@@ -384,6 +449,7 @@ public struct SettingsView: View {
             Text("Trạng thái phím bổ trợ được xử lý bằng máy trạng thái 4 pha tại EventTap, độc lập hoàn toàn với thứ tự bấm và không có độ trễ.")
                 .font(.system(size: 10.5))
                 .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -428,6 +494,7 @@ public struct SettingsView: View {
 
                     quickPresetsMenu
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
 
                 if isRecordingHotKey {
                     Text("Đang ghi nhận: Bấm tổ hợp phím mong muốn (phải có Control, Option, hoặc Command). Bấm Escape để hủy.")
@@ -485,7 +552,7 @@ public struct SettingsView: View {
                     .buttonStyle(.plain)
                     .help("Hủy ghi nhận")
                 } else {
-                    Text(KeyCombinationHelper.formattedShortcut(
+                    Text(KeyCombinationHelper.formattedSymbolShortcut(
                         keyCode: stateManager.customKeyCombo.keyCode,
                         modifiers: stateManager.customKeyCombo.carbonModifiers
                     ))
@@ -494,7 +561,6 @@ public struct SettingsView: View {
                 }
             }
             .lineLimit(1)
-            .fixedSize()
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .background(Color(nsColor: .textBackgroundColor))
@@ -505,7 +571,7 @@ public struct SettingsView: View {
             )
         }
         .buttonStyle(.plain)
-        .help(isRecordingHotKey ? "Bấm Escape hoặc nút X để hủy" : "Nhấp để ghi nhận phím tắt mới")
+        .help(isRecordingHotKey ? "Bấm Escape hoặc nút X để hủy" : "Nhấp để ghi nhận phím tắt mới (\(KeyCombinationHelper.formattedShortcut(keyCode: stateManager.customKeyCombo.keyCode, modifiers: stateManager.customKeyCombo.carbonModifiers)))")
     }
 
     // MARK: - Quick Presets Menu
@@ -535,6 +601,7 @@ public struct SettingsView: View {
         stopRecordingHotKey()
         hotKeyWarningMessage = nil
         isRecordingHotKey = true
+        EventTapManager.shared.isRecordingCustomShortcut = true
 
         localKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
             if event.keyCode == 53 { // Escape
@@ -568,6 +635,7 @@ public struct SettingsView: View {
             localKeyMonitor = nil
         }
         isRecordingHotKey = false
+        EventTapManager.shared.isRecordingCustomShortcut = false
     }
 
     private func applyCustomKeyCombo(keyCode: UInt32, modifiers: UInt32) {
@@ -603,6 +671,7 @@ public struct SettingsView: View {
                     .font(.system(size: 10.5))
                     .foregroundColor(.secondary)
                     .padding(.leading, 18)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             // Card 2: Blacklist Applications Management
@@ -614,6 +683,7 @@ public struct SettingsView: View {
                 Text("VietFlow sẽ tự động tạm dừng hoàn toàn và không can thiệp phím khi bạn sử dụng các ứng dụng trong danh sách này:")
                     .font(.system(size: 11.5))
                     .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 VStack(spacing: 6) {
                     if stateManager.blacklistedBundleIdentifiers.isEmpty {
@@ -770,30 +840,49 @@ public struct SettingsView: View {
 
     // MARK: - Tab 4: About Tab Content
     private var aboutTabContent: some View {
-        VStack(spacing: 12) {
-            // App Identity Header
-            VStack(spacing: 6) {
-                if let icon = NSApp?.applicationIconImage, icon.isValid {
-                    Image(nsImage: icon)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 52, height: 52)
-                } else {
-                    Image(systemName: "keyboard")
-                        .font(.system(size: 36))
-                        .foregroundColor(.accentColor)
-                }
+        VStack(spacing: 10) {
+            // App Identity Header Card
+            cardView {
+                HStack(spacing: 12) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.accentColor, Color.accentColor.opacity(0.75)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 40, height: 40)
 
-                VStack(spacing: 2) {
-                    Text("VietFlow")
-                        .font(.system(size: 16, weight: .bold))
+                        Text("V")
+                            .font(.system(size: 21, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                    }
 
-                    Text("Phiên bản 1.0.0 (Build 2026.10)")
-                        .font(.system(size: 11))
-                        .foregroundColor(.secondary)
+                    VStack(alignment: .leading, spacing: 2) {
+                        HStack(spacing: 8) {
+                            Text("VietFlow")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(.primary)
+
+                            Text("v1.0.0 (Build 2026.10)")
+                                .font(.system(size: 10.5, weight: .medium))
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.secondary.opacity(0.12))
+                                .cornerRadius(4)
+                        }
+
+                        Text("Bộ gõ Tiếng Việt gốc hiệu năng cao dành cho macOS")
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondary)
+                    }
+
+                    Spacer()
                 }
             }
-            .padding(.top, 4)
 
             // Card 1: Architecture & System Information
             cardView {
@@ -801,7 +890,7 @@ public struct SettingsView: View {
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(.primary)
 
-                VStack(spacing: 8) {
+                VStack(spacing: 6) {
                     HStack {
                         Label("Kiến trúc nhị phân:", systemImage: "cpu")
                             .font(.system(size: 11.5))
@@ -846,7 +935,7 @@ public struct SettingsView: View {
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(.primary)
 
-                VStack(spacing: 8) {
+                VStack(spacing: 6) {
                     HStack {
                         Label("Tác giả:", systemImage: "person.crop.circle")
                             .font(.system(size: 11.5))
@@ -873,12 +962,12 @@ public struct SettingsView: View {
                             .foregroundColor(.secondary)
                         Spacer()
                         Button(action: {
-                            if let url = URL(string: "https://github.com/nhanqv-ai/my-vietnamese-keyboard") {
+                            if let url = URL(string: "https://github.com/nhanqv-ai/VietFlow") {
                                 NSWorkspace.shared.open(url)
                             }
                         }) {
                             HStack(spacing: 4) {
-                                Text("nhanqv-ai/my-vietnamese-keyboard")
+                                Text("nhanqv-ai/VietFlow")
                                     .font(.system(size: 11.5, weight: .medium))
                                 Image(systemName: "arrow.up.forward.square")
                                     .font(.system(size: 10))
@@ -899,6 +988,7 @@ public struct SettingsView: View {
                         Text("Đưa toàn bộ thiết lập về trạng thái mặc định ban đầu.")
                             .font(.system(size: 10.5))
                             .foregroundColor(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
 
                     Spacer()

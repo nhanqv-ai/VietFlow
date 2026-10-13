@@ -120,7 +120,7 @@ Do sử dụng cơ chế `CGEventTap` mức thấp để xử lý phím không g
 ## 📂 Cấu Trúc Mã Nguồn
 
 ```
-my-vietnamese-keyboard/
+VietFlow/
 ├── Sources/
 │   ├── VietFlowEngine/        # Lõi Bamboo Engine: ma trận âm tiết, Telex/VNI, LCP diff
 │   ├── VietFlowState/         # Quản lý cài đặt, per-app state, blacklist, hotkeys
@@ -144,4 +144,4 @@ my-vietnamese-keyboard/
 ## 👤 Tác Giả & Bản Quyền
 * **Tác giả**: Quách Văn Nhân ([@nhanqv-ai](https://github.com/nhanqv-ai))
 * **Email**: 25052403@vnu.edu.vn
-* **Kho lưu trữ**: [https://github.com/nhanqv-ai/my-vietnamese-keyboard](https://github.com/nhanqv-ai/my-vietnamese-keyboard)
+* **Kho lưu trữ**: [https://github.com/nhanqv-ai/VietFlow](https://github.com/nhanqv-ai/VietFlow)
