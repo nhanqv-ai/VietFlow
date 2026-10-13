@@ -36,13 +36,35 @@ swiftc $SDK_FLAG \
     Sources/VietFlowEngine/*.swift \
     -o "$BUILD_DIR/libVietFlowEngine.dylib"
 
-echo "==> Step 2: Compiling VietFlowEngineTests module..."
+echo "==> Step 2: Compiling VietFlowState module..."
+swiftc $SDK_FLAG \
+    -O \
+    -emit-library \
+    -emit-module \
+    -module-name VietFlowState \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine \
+    -emit-module-path "$BUILD_DIR/VietFlowState.swiftmodule" \
+    Sources/VietFlowState/*.swift \
+    -o "$BUILD_DIR/libVietFlowState.dylib"
+
+echo "==> Step 3: Compiling VietFlowEventTap module..."
+swiftc $SDK_FLAG \
+    -O \
+    -emit-library \
+    -emit-module \
+    -module-name VietFlowEventTap \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState \
+    -emit-module-path "$BUILD_DIR/VietFlowEventTap.swiftmodule" \
+    Sources/VietFlowEventTap/*.swift \
+    -o "$BUILD_DIR/libVietFlowEventTap.dylib"
+
+echo "==> Step 4: Compiling VietFlowEngineTests module..."
 swiftc $SDK_FLAG \
     -O \
     -emit-library \
     -emit-module \
     -module-name VietFlowEngineTests \
-    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState \
     -emit-module-path "$BUILD_DIR/VietFlowEngineTests.swiftmodule" \
     Tests/VietFlowEngineTests/TestFramework.swift \
     Tests/VietFlowEngineTests/BasicTelexTests.swift \
@@ -53,9 +75,10 @@ swiftc $SDK_FLAG \
     Tests/VietFlowEngineTests/EnglishRestoreTests.swift \
     Tests/VietFlowEngineTests/RapidTypingTests.swift \
     Tests/VietFlowEngineTests/MinimalDiffTests.swift \
+    Tests/VietFlowEngineTests/ModeToggleBufferResetTests.swift \
     -o "$BUILD_DIR/libVietFlowEngineTests.dylib"
 
-echo "==> Step 3: Compiling VietFlowTerminalBufferTests module..."
+echo "==> Step 5: Compiling VietFlowTerminalBufferTests module..."
 swiftc $SDK_FLAG \
     -O \
     -emit-library \
@@ -67,13 +90,37 @@ swiftc $SDK_FLAG \
     Tests/VietFlowTerminalBufferTests/TerminalCompatibilityTests.swift \
     -o "$BUILD_DIR/libVietFlowTerminalBufferTests.dylib"
 
-echo "==> Step 4: Compiling TestRunner executable..."
+echo "==> Step 6: Compiling VietFlowStateTests module..."
+swiftc $SDK_FLAG \
+    -O \
+    -emit-library \
+    -emit-module \
+    -module-name VietFlowStateTests \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState -lVietFlowEngineTests \
+    -emit-module-path "$BUILD_DIR/VietFlowStateTests.swiftmodule" \
+    Tests/VietFlowStateTests/SettingsPersistenceTests.swift \
+    -o "$BUILD_DIR/libVietFlowStateTests.dylib"
+
+echo "==> Step 7: Compiling VietFlowEventTapTests module..."
+swiftc $SDK_FLAG \
+    -O \
+    -emit-library \
+    -emit-module \
+    -module-name VietFlowEventTapTests \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState -lVietFlowEventTap -lVietFlowEngineTests \
+    -emit-module-path "$BUILD_DIR/VietFlowEventTapTests.swiftmodule" \
+    Tests/VietFlowEventTapTests/HotkeyStateMachineTests.swift \
+    -o "$BUILD_DIR/libVietFlowEventTapTests.dylib"
+
+echo "==> Step 8: Compiling TestRunner executable..."
 TEST_BINARY="$BUILD_DIR/vietflow_test_runner"
 swiftc $SDK_FLAG \
     -O \
     -parse-as-library \
     -I "$BUILD_DIR" -L "$BUILD_DIR" \
-    -lVietFlowEngine -lVietFlowEngineTests -lVietFlowTerminalBufferTests \
+    -lVietFlowEngine -lVietFlowState -lVietFlowEventTap \
+    -lVietFlowEngineTests -lVietFlowTerminalBufferTests \
+    -lVietFlowStateTests -lVietFlowEventTapTests \
     -Xlinker -rpath -Xlinker "@loader_path" \
     -Xlinker -rpath -Xlinker "$BUILD_DIR" \
     Tests/TestRunnerMain.swift \

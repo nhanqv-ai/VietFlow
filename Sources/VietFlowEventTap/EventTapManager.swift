@@ -8,6 +8,7 @@
 import Cocoa
 import Carbon
 import ApplicationServices
+import Combine
 import VietFlowEngine
 import VietFlowState
 
@@ -25,21 +26,81 @@ public final class EventTapManager: @unchecked Sendable {
     
     public let engine: BambooEngine
     public let stateManager: AppStateManager
+    public let stateMachine: ModifierChordStateMachine
+    public let hotKeyManager: HotKeyManaging
     
-    // Modifier-only shortcut state machine
-    private var lastModifierFlags: CGEventFlags = []
-    private var modifierKeyDownTime: Date?
-    private var interveningKeyDuringModifiers: Bool = false
+    private var cancellables = Set<AnyCancellable>()
     
-    public init(engine: BambooEngine = BambooEngine(), stateManager: AppStateManager = .shared) {
+    public init(
+        engine: BambooEngine = BambooEngine(),
+        stateManager: AppStateManager = .shared,
+        hotKeyManager: HotKeyManaging = CarbonHotKeyManager.shared
+    ) {
         self.engine = engine
         self.stateManager = stateManager
+        self.hotKeyManager = hotKeyManager
+        self.stateMachine = ModifierChordStateMachine(shortcut: stateManager.modifierChord)
         
         guard let source = CGEventSource(stateID: .combinedSessionState) else {
             fatalError("VietFlow: Unable to initialize CGEventSource")
         }
         source.userData = EventLoopGuard.magicMarker
         self.eventSource = source
+        
+        // Link stateManager to engine for synchronous buffer flushes
+        stateManager.engine = engine
+        
+        // Configure shortcut triggers
+        stateMachine.onTrigger = { [weak self] in
+            self?.toggleModeSynchronously()
+        }
+        
+        self.hotKeyManager.onTrigger = { [weak self] in
+            self?.toggleModeSynchronously()
+        }
+        
+        setupStateObservation()
+        updateShortcutConfiguration()
+    }
+    
+    private func setupStateObservation() {
+        stateManager.$modifierChord
+            .sink { [weak self] chord in
+                self?.stateMachine.shortcut = chord
+            }
+            .store(in: &cancellables)
+            
+        stateManager.$shortcutType
+            .sink { [weak self] _ in
+                self?.updateShortcutConfiguration()
+            }
+            .store(in: &cancellables)
+            
+        stateManager.$customKeyCombo
+            .sink { [weak self] _ in
+                self?.updateShortcutConfiguration()
+            }
+            .store(in: &cancellables)
+    }
+    
+    public func updateShortcutConfiguration() {
+        switch stateManager.shortcutType {
+        case .modifierChord:
+            hotKeyManager.unregister()
+            stateMachine.shortcut = stateManager.modifierChord
+            stateMachine.reset()
+        case .customKeyCombo:
+            stateMachine.reset()
+            hotKeyManager.register(
+                keyCode: stateManager.customKeyCombo.keyCode,
+                modifiers: stateManager.customKeyCombo.carbonModifiers
+            )
+        }
+    }
+    
+    public func toggleModeSynchronously() {
+        stateManager.toggleInputMode()
+        engine.reset()
     }
     
     // MARK: - Lifecycle
@@ -47,6 +108,8 @@ public final class EventTapManager: @unchecked Sendable {
         guard AXIsProcessTrusted() else {
             return false
         }
+        
+        updateShortcutConfiguration()
         
         if machPort != nil {
             return true
@@ -86,6 +149,9 @@ public final class EventTapManager: @unchecked Sendable {
     public func stop() {
         watchdogTimer?.cancel()
         watchdogTimer = nil
+        
+        hotKeyManager.unregister()
+        stateMachine.reset()
         
         if let port = machPort {
             CGEvent.tapEnable(tap: port, enable: false)
@@ -128,19 +194,23 @@ public final class EventTapManager: @unchecked Sendable {
         
         // 3. Secure Input Bypass (Passwords, TouchID, Terminal sudo)
         if IsSecureEventInputEnabled() {
+            stateMachine.reset()
             engine.reset()
             return Unmanaged.passRetained(event)
         }
         
-        // 4. Mouse click boundary: caret repositioned, reset buffer
+        // 4. Mouse click boundary: caret repositioned, reset buffer & cancel active chord
         if type == .leftMouseDown || type == .rightMouseDown || type == .otherMouseDown {
+            stateMachine.handleMouseDown()
             engine.reset()
             return Unmanaged.passRetained(event)
         }
         
         // 5. Modifier flags changed (Global V/E Toggle Shortcut Detection)
         if type == .flagsChanged {
-            handleFlagsChanged(event: event)
+            if stateManager.shortcutType == .modifierChord {
+                _ = stateMachine.handleFlagsChanged(event.flags)
+            }
             return Unmanaged.passRetained(event)
         }
         
@@ -154,7 +224,8 @@ public final class EventTapManager: @unchecked Sendable {
             return Unmanaged.passRetained(event)
         }
         
-        interveningKeyDuringModifiers = true
+        // Cancel any active modifier chord on intervening key down
+        stateMachine.handleKeyDown()
         
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
         let flags = event.flags
@@ -255,57 +326,6 @@ public final class EventTapManager: @unchecked Sendable {
         
         down.post(tap: .cghidEventTap)
         up.post(tap: .cghidEventTap)
-    }
-    
-    // MARK: - Shortcut Detection
-    private func handleFlagsChanged(event: CGEvent) {
-        let currentFlags = event.flags
-        let previousFlags = lastModifierFlags
-        lastModifierFlags = currentFlags
-        
-        let shortcut = stateManager.toggleShortcut
-        
-        // Match modifier key down
-        let matchesDown: Bool
-        switch shortcut {
-        case .controlShift:
-            matchesDown = currentFlags.contains(.maskControl) && currentFlags.contains(.maskShift)
-        case .commandShift:
-            matchesDown = currentFlags.contains(.maskCommand) && currentFlags.contains(.maskShift)
-        case .option:
-            matchesDown = currentFlags.contains(.maskAlternate) && !currentFlags.contains(.maskCommand) && !currentFlags.contains(.maskControl)
-        case .optionShift:
-            matchesDown = currentFlags.contains(.maskAlternate) && currentFlags.contains(.maskShift)
-        }
-        
-        if matchesDown && modifierKeyDownTime == nil {
-            modifierKeyDownTime = Date()
-            interveningKeyDuringModifiers = false
-        }
-        
-        // Match modifier key release (clean tap without intervening keys within 500ms)
-        let matchesUp: Bool
-        switch shortcut {
-        case .controlShift:
-            matchesUp = previousFlags.contains(.maskControl) && previousFlags.contains(.maskShift) && (!currentFlags.contains(.maskControl) || !currentFlags.contains(.maskShift))
-        case .commandShift:
-            matchesUp = previousFlags.contains(.maskCommand) && previousFlags.contains(.maskShift) && (!currentFlags.contains(.maskCommand) || !currentFlags.contains(.maskShift))
-        case .option:
-            matchesUp = previousFlags.contains(.maskAlternate) && !currentFlags.contains(.maskAlternate)
-        case .optionShift:
-            matchesUp = previousFlags.contains(.maskAlternate) && previousFlags.contains(.maskShift) && (!currentFlags.contains(.maskAlternate) || !currentFlags.contains(.maskShift))
-        }
-        
-        if matchesUp, let downTime = modifierKeyDownTime {
-            let duration = Date().timeIntervalSince(downTime)
-            if duration < 0.5 && !interveningKeyDuringModifiers {
-                DispatchQueue.main.async { [weak self] in
-                    self?.stateManager.toggleInputMode()
-                }
-            }
-            modifierKeyDownTime = nil
-            interveningKeyDuringModifiers = false
-        }
     }
 }
 

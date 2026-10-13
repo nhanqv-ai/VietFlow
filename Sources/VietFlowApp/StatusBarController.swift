@@ -15,7 +15,6 @@ public final class StatusBarController: NSObject {
     private var statusItem: NSStatusItem!
     private let stateManager: AppStateManager
     private var cancellables = Set<AnyCancellable>()
-    private var preferencesWindowController: PreferencesWindowController?
     
     public init(stateManager: AppStateManager = .shared) {
         self.stateManager = stateManager
@@ -187,10 +186,10 @@ public final class StatusBarController: NSObject {
         
         menu.addItem(NSMenuItem.separator())
         
-        // Preferences
+        // Preferences / Settings
         let prefItem = NSMenuItem(
-            title: "Cài đặt (Preferences)...",
-            action: #selector(openPreferences),
+            title: "Cài đặt (Settings)...",
+            action: #selector(openSettings),
             keyEquivalent: ","
         )
         prefItem.target = self
@@ -228,12 +227,12 @@ public final class StatusBarController: NSObject {
         }
     }
     
+    @objc public func openSettings() {
+        SettingsWindowController.shared.showSettings()
+    }
+    
     @objc public func openPreferences() {
-        if preferencesWindowController == nil {
-            preferencesWindowController = PreferencesWindowController(stateManager: stateManager)
-        }
-        preferencesWindowController?.showWindow(nil)
-        NSApp.activate(ignoringOtherApps: true)
+        SettingsWindowController.shared.showSettings()
     }
     
     @objc private func quitApp() {
