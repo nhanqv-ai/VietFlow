@@ -26,9 +26,11 @@ public final class StatusBarController: NSObject {
     }
     
     private func setupStatusItem() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        statusItem = NSStatusBar.system.statusItem(withLength: 26)
         
         guard let button = statusItem.button else { return }
+        button.imagePosition = .imageOnly
+        button.imageScaling = .scaleNone
         button.target = self
         button.action = #selector(handleStatusBarClick(_:))
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
@@ -51,9 +53,9 @@ public final class StatusBarController: NSObject {
         button.toolTip = "VietFlow — \(mode.title) (Click trái để chuyển, Click phải để mở menu)"
     }
     
-    // MARK: - Vector Status Glyphs (Pattern A: Tactile Keycap Squircle)
-    private func renderVectorStatusIcon(mode: InputMode) -> NSImage {
-        let size = NSSize(width: 19, height: 19)
+    // MARK: - Vector Status Glyphs (Large Tactile Keycap Squircle)
+    public func renderVectorStatusIcon(mode: InputMode) -> NSImage {
+        let size = NSSize(width: 22, height: 22)
         let image = NSImage(size: size)
         image.lockFocus()
         
@@ -66,60 +68,73 @@ public final class StatusBarController: NSObject {
         ctx.setAllowsAntialiasing(true)
         ctx.setShouldAntialias(true)
         
-        let boxRect = CGRect(x: 1.5, y: 1.5, width: 16.0, height: 16.0)
-        let boxPath = CGPath(roundedRect: boxRect, cornerWidth: 4.8, cornerHeight: 4.8, transform: nil)
-        
         if mode == .vietnamese {
-            // Active Vietnamese mode: Solid filled keycap with knocked-out "V"
+            // Active Vietnamese mode: Large solid filled keycap (19.5 x 19.5pt) with knocked-out bold "V"
+            let boxRect = CGRect(x: 1.25, y: 1.25, width: 19.5, height: 19.5)
+            let boxPath = CGPath(roundedRect: boxRect, cornerWidth: 4.6, cornerHeight: 4.6, transform: nil)
+            
             ctx.saveGState()
             ctx.addPath(boxPath)
             ctx.setFillColor(NSColor.black.cgColor)
             ctx.fillPath()
             
             ctx.setBlendMode(.destinationOut)
-            let font = NSFont.systemFont(ofSize: 11.2, weight: .heavy)
-            let text = "V" as NSString
-            let attrs: [NSAttributedString.Key: Any] = [
-                .font: font,
-                .foregroundColor: NSColor.black
-            ]
-            let strSize = text.size(withAttributes: attrs)
-            text.draw(
-                at: CGPoint(
-                    x: (size.width - strSize.width) / 2,
-                    y: (size.height - strSize.height) / 2 + 0.5
-                ),
-                withAttributes: attrs
-            )
+            drawCenteredGlyph("V", fontSize: 14.2, weight: .black, in: boxRect, context: ctx)
             ctx.restoreGState()
         } else {
-            // English mode: Outlined keycap with centered "E"
+            // English mode: Large outlined keycap (18.8 x 18.8pt stroke center -> 20.4pt outer) with bold "E"
+            let boxRect = CGRect(x: 1.6, y: 1.6, width: 18.8, height: 18.8)
+            let boxPath = CGPath(roundedRect: boxRect, cornerWidth: 4.6, cornerHeight: 4.6, transform: nil)
+            
             ctx.saveGState()
             ctx.addPath(boxPath)
             ctx.setStrokeColor(NSColor.black.cgColor)
-            ctx.setLineWidth(1.3)
+            ctx.setLineWidth(1.65)
             ctx.strokePath()
             
-            let font = NSFont.systemFont(ofSize: 10.8, weight: .bold)
-            let text = "E" as NSString
-            let attrs: [NSAttributedString.Key: Any] = [
-                .font: font,
-                .foregroundColor: NSColor.black
-            ]
-            let strSize = text.size(withAttributes: attrs)
-            text.draw(
-                at: CGPoint(
-                    x: (size.width - strSize.width) / 2,
-                    y: (size.height - strSize.height) / 2 + 0.5
-                ),
-                withAttributes: attrs
-            )
+            drawCenteredGlyph("E", fontSize: 13.8, weight: .heavy, in: boxRect, context: ctx)
             ctx.restoreGState()
         }
         
         image.unlockFocus()
         image.isTemplate = true // macOS automatically renders white in Dark Mode, dark in Light Mode
         return image
+    }
+    
+    private func drawCenteredGlyph(
+        _ string: String,
+        fontSize: CGFloat,
+        weight: NSFont.Weight,
+        in rect: CGRect,
+        context ctx: CGContext
+    ) {
+        let baseFont = NSFont.systemFont(ofSize: fontSize, weight: weight)
+        let font: NSFont
+        if let roundedDesc = baseFont.fontDescriptor.withDesign(.rounded),
+           let roundedFont = NSFont(descriptor: roundedDesc, size: fontSize) {
+            font = roundedFont
+        } else {
+            font = baseFont
+        }
+        
+        let attrString = NSAttributedString(
+            string: string,
+            attributes: [
+                .font: font,
+                .foregroundColor: NSColor.black
+            ]
+        )
+        let line = CTLineCreateWithAttributedString(attrString)
+        let glyphBounds = CTLineGetBoundsWithOptions(line, .useGlyphPathBounds)
+        
+        let tx = rect.midX - glyphBounds.midX
+        let ty = rect.midY - glyphBounds.midY
+        
+        ctx.saveGState()
+        ctx.textMatrix = .identity
+        ctx.translateBy(x: tx, y: ty)
+        CTLineDraw(line, ctx)
+        ctx.restoreGState()
     }
     
     // MARK: - Click Handling
@@ -144,6 +159,14 @@ public final class StatusBarController: NSObject {
                 keyCode: stateManager.customKeyCombo.keyCode,
                 modifiers: stateManager.customKeyCombo.carbonModifiers
             )
+        }
+    }
+    
+    private func inputMethodTitle(_ method: InputMethod) -> String {
+        switch method {
+        case .telex: return "Telex (Tiêu chuẩn)"
+        case .simpleTelex: return "Simple Telex"
+        case .vni: return "VNI"
         }
     }
     
@@ -176,7 +199,7 @@ public final class StatusBarController: NSObject {
         let methodMenu = NSMenu(title: "Kiểu gõ")
         for method in InputMethod.allCases {
             let item = NSMenuItem(
-                title: method.rawValue,
+                title: inputMethodTitle(method),
                 action: #selector(selectInputMethod(_:)),
                 keyEquivalent: ""
             )

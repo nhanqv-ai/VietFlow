@@ -470,6 +470,75 @@ public final class SettingsLayoutTests: TestCase {
         XCTAssertEqual(state.currentInputMode, .vietnamese, "Switching to Safari must preserve .vietnamese mode")
     }
 
+    // MARK: - Test 10: Enlarged Status Bar Icon Verification & Preview Export
+    func test_10_status_bar_enlarged_icon_dimensions_and_rendering() {
+        let controller = StatusBarController(stateManager: .shared)
+        let vIcon = controller.renderVectorStatusIcon(mode: .vietnamese)
+        let eIcon = controller.renderVectorStatusIcon(mode: .english)
+
+        XCTAssertEqual(vIcon.size.width, 22.0, "Status bar V icon width must be 22pt")
+        XCTAssertEqual(vIcon.size.height, 22.0, "Status bar V icon height must be 22pt")
+        XCTAssertTrue(vIcon.isTemplate, "Status bar V icon must be template image")
+
+        XCTAssertEqual(eIcon.size.width, 22.0, "Status bar E icon width must be 22pt")
+        XCTAssertEqual(eIcon.size.height, 22.0, "Status bar E icon height must be 22pt")
+        XCTAssertTrue(eIcon.isTemplate, "Status bar E icon must be template image")
+
+        if let snapshotDir = ProcessInfo.processInfo.environment["VIETFLOW_SNAPSHOT_DIR"], !snapshotDir.isEmpty {
+            let previewView = HStack(spacing: 32) {
+                VStack(spacing: 8) {
+                    HStack(spacing: 16) {
+                        Image(nsImage: vIcon)
+                            .foregroundColor(.white)
+                            .scaleEffect(2.2)
+                            .frame(width: 56, height: 56)
+                        Image(nsImage: eIcon)
+                            .foregroundColor(.white)
+                            .scaleEffect(2.2)
+                            .frame(width: 56, height: 56)
+                    }
+                    Text("Dark Menu Bar (V / E — 22×22pt)")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(.white.opacity(0.85))
+                }
+                .padding(20)
+                .background(RoundedRectangle(cornerRadius: 12).fill(Color(white: 0.14)))
+
+                VStack(spacing: 8) {
+                    HStack(spacing: 16) {
+                        Image(nsImage: vIcon)
+                            .foregroundColor(.black)
+                            .scaleEffect(2.2)
+                            .frame(width: 56, height: 56)
+                        Image(nsImage: eIcon)
+                            .foregroundColor(.black)
+                            .scaleEffect(2.2)
+                            .frame(width: 56, height: 56)
+                    }
+                    Text("Light Menu Bar (V / E — 22×22pt)")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(.black.opacity(0.8))
+                }
+                .padding(20)
+                .background(RoundedRectangle(cornerRadius: 12).fill(Color(white: 0.93)))
+            }
+            .padding(20)
+            .background(Color(white: 0.08))
+
+            let hc = NSHostingController(rootView: previewView)
+            let size = NSSize(width: 480, height: 150)
+            hc.view.frame = NSRect(origin: .zero, size: size)
+            hc.view.layoutSubtreeIfNeeded()
+            if let rep = hc.view.bitmapImageRepForCachingDisplay(in: NSRect(origin: .zero, size: size)) {
+                hc.view.cacheDisplay(in: NSRect(origin: .zero, size: size), to: rep)
+                if let png = rep.representation(using: .png, properties: [:]) {
+                    let url = URL(fileURLWithPath: snapshotDir).appendingPathComponent("StatusBar_Enlarged_Preview.png")
+                    try? png.write(to: url)
+                }
+            }
+        }
+    }
+
     // MARK: - Test Registry Registration
     public override var allTests: [(name: String, test: () throws -> Void)] {
         return [
@@ -482,6 +551,7 @@ public final class SettingsLayoutTests: TestCase {
             ("test_07_unconditional_shortcut_monitors_and_deduplication", test_07_unconditional_shortcut_monitors_and_deduplication),
             ("test_08_engine_config_sync_and_vietnamese_typing_e2e", test_08_engine_config_sync_and_vietnamese_typing_e2e),
             ("test_09_per_app_mode_preserves_vietnamese_from_settings_to_target_apps", test_09_per_app_mode_preserves_vietnamese_from_settings_to_target_apps),
+            ("test_10_status_bar_enlarged_icon_dimensions_and_rendering", test_10_status_bar_enlarged_icon_dimensions_and_rendering),
         ]
     }
 }
