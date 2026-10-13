@@ -45,6 +45,12 @@ public struct InputMethodDefinitions {
         return res.tone != nil || res.isClearTone
     }
 
+    // MARK: - Tone & Base Vowel Extraction
+    
+    public static func stripToneAndExtractBase(from char: Character) -> (base: Character, tone: Tone) {
+        return TonePlacement.removeTone(from: char)
+    }
+
     // MARK: - Diacritic Transformations
     
     public static func applyDiacritic(
@@ -53,7 +59,8 @@ public struct InputMethodDefinitions {
         method: InputMethod
     ) -> Character? {
         let isUpper = base.isUppercase || modifier.isUppercase
-        let b = Character(base.lowercased())
+        let (baseToneless, tone) = TonePlacement.removeTone(from: base)
+        let b = Character(baseToneless.lowercased())
         let m = Character(modifier.lowercased())
         
         var result: Character? = nil
@@ -84,6 +91,14 @@ public struct InputMethodDefinitions {
         }
         
         guard let res = result else { return nil }
+        
+        if tone != .none {
+            let lookupBase = Character(res.lowercased())
+            if let toneRow = TonePlacementEngine.lowercaseVowelTable[lookupBase], let tuned = toneRow[tone] {
+                return isUpper ? Character(tuned.uppercased()) : tuned
+            }
+        }
+        
         return isUpper ? Character(res.uppercased()) : res
     }
     

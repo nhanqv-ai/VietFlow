@@ -94,6 +94,7 @@ swiftc $SDK_FLAG \
     Tests/VietFlowEngineTests/RapidTypingTests.swift \
     Tests/VietFlowEngineTests/MinimalDiffTests.swift \
     Tests/VietFlowEngineTests/ModeToggleBufferResetTests.swift \
+    Tests/VietFlowEngineTests/RealWorldTypingAndBackspaceTests.swift \
     -o "$BUILD_DIR/libVietFlowEngineTests.dylib"
 
 echo "==> Step 5: Compiling VietFlowTerminalBufferTests module..."

@@ -36,6 +36,7 @@ struct TestRunnerMain {
         registry.register(name: "SettingsPersistenceTests") { SettingsPersistenceTests() }
         registry.register(name: "ModeToggleBufferResetTests") { ModeToggleBufferResetTests() }
         registry.register(name: "SettingsLayoutTests") { SettingsLayoutTests() }
+        registry.register(name: "RealWorldTypingAndBackspaceTests") { RealWorldTypingAndBackspaceTests() }
         
         let args = CommandLine.arguments
         let verbose = args.contains("--verbose") || args.contains("-v")

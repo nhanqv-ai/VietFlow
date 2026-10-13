@@ -57,7 +57,9 @@ public enum EnglishKeywords {
         "override", "convenience", "required", "dynamic", "optional", "lazy",
         "weak", "unowned", "isolated", "nonisolated", "viewing", "viewer", "views",
         "mkdir", "curl", "tar", "ssh", "user", "cargo", "origin", "nano", "wifi", "water", "cat", "macos",
-        "word", "warning", "report", "localhost"
+        "word", "warning", "report", "localhost",
+        "pattern", "letter", "button", "better", "common", "matter",
+        "swim", "swing", "sweet", "swap", "fix"
     ]
 }
 
@@ -86,6 +88,23 @@ public enum EnglishRestoreDetector {
         "bb", "gg"
     ]
 
+    /// English medial double-consonant + vowel sequences that never occur in valid Vietnamese words.
+    public static let invalidMedialDoubleConsonants: [String] = [
+        "tta", "tte", "tti", "tto", "ttu", "tty",
+        "lla", "lle", "lli", "llo", "llu", "lly",
+        "ppa", "ppe", "ppi", "ppo", "ppu", "ppy",
+        "bba", "bbe", "bbi", "bbo", "bbu", "bby",
+        "ffa", "ffe", "ffi", "ffo", "ffu", "ffy",
+        "mma", "mme", "mmi", "mmo", "mmu", "mmy",
+        "rra", "rre", "rri", "rro", "rru", "rry",
+        "ssa", "sse", "ssi", "sso", "ssu", "ssy"
+    ]
+
+    /// English 'sw-' prefixes that are not valid Vietnamese 'sư-' syllables in Telex.
+    public static let invalidTelexSwPrefixes: [String] = [
+        "swi", "swe", "swap", "swan", "swat", "swam", "swag"
+    ]
+
     /// Voiceless stop codas that can ONLY take Acute (sắc) or Dot (nặng) tones.
     public static let stopCodas: Set<String> = ["c", "ch", "p", "t", "k"]
 
@@ -105,6 +124,23 @@ public enum EnglishRestoreDetector {
         let lower = coda.lowercased()
         for cluster in invalidCodaClusters {
             if lower.hasSuffix(cluster) || lower == cluster { return true }
+        }
+        return false
+    }
+
+    public static func hasInvalidMedialDoubleConsonant(_ rawWord: String) -> Bool {
+        let lower = rawWord.lowercased()
+        guard lower.count >= 4 else { return false }
+        for pattern in invalidMedialDoubleConsonants {
+            if lower.contains(pattern) { return true }
+        }
+        return false
+    }
+
+    public static func hasInvalidTelexSwPrefix(_ rawWord: String) -> Bool {
+        let lower = rawWord.lowercased()
+        for prefix in invalidTelexSwPrefixes {
+            if lower.hasPrefix(prefix) { return true }
         }
         return false
     }
@@ -136,7 +172,7 @@ public enum EnglishRestoreDetector {
         guard autoCorrectEnabled else { return false }
 
         // Rule 1: Known English keyword match
-        if isEnglishKeyword(rawWord) {
+        if isEnglishKeyword(rawWord) || hasInvalidMedialDoubleConsonant(rawWord) {
             return true
         }
 

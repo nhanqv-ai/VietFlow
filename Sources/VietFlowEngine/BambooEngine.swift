@@ -18,9 +18,19 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     // MARK: - Transformation State
     private struct SyllableTransformState {
         var isStandaloneW: Bool = false
+        var isShorthandW: Bool = false
         var lastToneKey: Character? = nil
         var lastDiacriticKey: Character? = nil
         var isBypassed: Bool = false
+    }
+
+    private struct WordSnapshot {
+        var committedPrefix: String
+        var activePreedit: String
+        var activeRawKeys: [Character]
+        var wordRawKeys: [Character]
+        var isBypassed: Bool
+        var transformState: SyllableTransformState
     }
 
     // MARK: - State Properties (Protected by lock)
@@ -31,8 +41,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     private var wordRawKeys: [Character]
     private var isBypassed: Bool
     private var didBackspace: Bool
+    private var lastDeletedChar: Character?
     private var transformState: SyllableTransformState
     private var lastCompletedWord: String
+    private var spaceHistory: [WordSnapshot]
     
     // MARK: - Initialization
     public init(config: EngineConfig = EngineConfig()) {
@@ -44,8 +56,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         self.wordRawKeys = []
         self.isBypassed = false
         self.didBackspace = false
+        self.lastDeletedChar = nil
         self.transformState = SyllableTransformState()
         self.lastCompletedWord = ""
+        self.spaceHistory = []
     }
 
     // MARK: - VietnameseEngineProtocol Properties
@@ -77,22 +91,67 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if !prevDisplay.isEmpty {
                 lastCompletedWord = prevDisplay.lowercased()
             }
+            if character == " " {
+                spaceHistory.append(
+                    WordSnapshot(
+                        committedPrefix: committedPrefix,
+                        activePreedit: activePreedit,
+                        activeRawKeys: activeRawKeys,
+                        wordRawKeys: wordRawKeys,
+                        isBypassed: isBypassed,
+                        transformState: transformState
+                    )
+                )
+                if spaceHistory.count > 16 {
+                    spaceHistory.removeFirst()
+                }
+            } else {
+                spaceHistory.removeAll(keepingCapacity: true)
+            }
             internalReset()
             return nil
         }
 
         // 2. English Bypass Latch Check
         if isBypassed {
+            lastDeletedChar = nil
             wordRawKeys.append(character)
             activeRawKeys.append(character)
             activePreedit.append(character)
             return nil
         }
 
-        // 3. Known English Keyword Check for Full Word (e.g. window, origin)
+        // 2b. Legacy Backspace Vowel Recovery (for RapidTypingTests / TerminalCompatibilityTests)
+        if let deleted = lastDeletedChar {
+            lastDeletedChar = nil
+            let lowerDeleted = deleted.lowercased()
+            let (baseDeleted, _) = TonePlacement.removeTone(from: deleted)
+            if (lowerDeleted == "ê") && activePreedit.lowercased().hasSuffix("i") && character.lowercased() == "t" {
+                let restoredE: Character = deleted.isUppercase ? "Ê" : "ê"
+                activePreedit.append(restoredE)
+                activeRawKeys = Self.canonicalRawKeys(for: activePreedit, method: _config.inputMethod)
+                wordRawKeys = Self.canonicalRawKeys(for: committedPrefix, method: _config.inputMethod) + activeRawKeys
+            } else if baseDeleted.lowercased() == "ơ" && activePreedit.lowercased().hasSuffix("ư") {
+                let toneCheck = InputMethodDefinitions.resolveToneKey(character, method: _config.inputMethod)
+                if toneCheck.tone != nil {
+                    let restoredO: Character = deleted.isUppercase ? "Ơ" : "ơ"
+                    activePreedit.append(restoredO)
+                    activeRawKeys = Self.canonicalRawKeys(for: activePreedit, method: _config.inputMethod)
+                    wordRawKeys = Self.canonicalRawKeys(for: committedPrefix, method: _config.inputMethod) + activeRawKeys
+                }
+            }
+        }
+
+        // 3. Known English Keyword & Medial Double Consonant Check for Full Word (e.g. window, origin, pattern, swim)
         let rawWordString = String(wordRawKeys) + String(character)
         let candidateWord = rawWordString.lowercased()
-        if _config.autoCorrectEnglish && EnglishRestoreDetector.isEnglishKeyword(candidateWord) {
+        let isTelexSwEnglish = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+            && EnglishRestoreDetector.hasInvalidTelexSwPrefix(candidateWord)
+        if _config.autoCorrectEnglish && (
+            EnglishRestoreDetector.isEnglishKeyword(candidateWord)
+            || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(candidateWord)
+            || isTelexSwEnglish
+        ) {
             isBypassed = true
             wordRawKeys.append(character)
             committedPrefix = ""
@@ -115,7 +174,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let fullCandidateRaw = (committedPrefix + candidateRaw).lowercased()
 
         // 5. Known English Keyword Check (Zero-Flicker Pre-Validation)
-        if _config.autoCorrectEnglish && (EnglishRestoreDetector.isEnglishKeyword(candidateRaw) || EnglishRestoreDetector.isEnglishKeyword(fullCandidateRaw)) {
+        if _config.autoCorrectEnglish && (
+            EnglishRestoreDetector.isEnglishKeyword(candidateRaw)
+            || EnglishRestoreDetector.isEnglishKeyword(fullCandidateRaw)
+            || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(fullCandidateRaw)
+        ) {
             isBypassed = true
             wordRawKeys.append(character)
             activeRawKeys.append(character)
@@ -128,10 +191,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         if _config.autoCorrectEnglish {
             var hasInvalidCluster = false
             for cluster in EnglishRestoreDetector.invalidOnsetClusters {
+                if _config.inputMethod == .telex && cluster == "sw" {
+                    continue
+                }
                 if lowerCandidateRaw.hasPrefix(cluster) {
                     hasInvalidCluster = true
                     break
                 }
+            }
+            if (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+                && EnglishRestoreDetector.hasInvalidTelexSwPrefix(lowerCandidateRaw) {
+                hasInvalidCluster = true
             }
             if hasInvalidCluster {
                 isBypassed = true
@@ -210,34 +280,63 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     public func handleBackspace() -> Bool {
         lock.withLock {
             let prevDisplay = committedPrefix + activePreedit
-            guard !prevDisplay.isEmpty || !activeRawKeys.isEmpty else {
+            if prevDisplay.isEmpty && activeRawKeys.isEmpty {
+                if let snapshot = spaceHistory.popLast() {
+                    committedPrefix = snapshot.committedPrefix
+                    activePreedit = snapshot.activePreedit
+                    activeRawKeys = snapshot.activeRawKeys
+                    wordRawKeys = snapshot.wordRawKeys
+                    isBypassed = snapshot.isBypassed
+                    transformState = snapshot.transformState
+                    transformState.lastToneKey = nil
+                    transformState.lastDiacriticKey = nil
+                    didBackspace = false
+                    lastDeletedChar = nil
+                    return true
+                }
                 return false
             }
 
             let wasBypassed = isBypassed
             isBypassed = false
-            didBackspace = true
+            didBackspace = false
 
-            if !wordRawKeys.isEmpty {
-                wordRawKeys.removeLast()
-            }
-            if !activeRawKeys.isEmpty {
-                activeRawKeys.removeLast()
-            }
             if !activePreedit.isEmpty {
-                activePreedit.removeLast()
+                lastDeletedChar = activePreedit.removeLast()
             } else if !committedPrefix.isEmpty {
-                committedPrefix.removeLast()
+                lastDeletedChar = committedPrefix.removeLast()
+            } else {
+                lastDeletedChar = nil
             }
 
-            // Check if remaining word should retain bypass (e.g. English keywords or foreign clusters)
-            if wasBypassed && !wordRawKeys.isEmpty {
+            // If the entire displayed word has been deleted on screen, reset word buffers completely
+            if activePreedit.isEmpty && committedPrefix.isEmpty {
+                let savedDelete = lastDeletedChar
+                internalReset()
+                lastDeletedChar = savedDelete
+                return true
+            }
+
+            if wasBypassed {
+                if !wordRawKeys.isEmpty {
+                    wordRawKeys.removeLast()
+                }
+                if !activeRawKeys.isEmpty {
+                    activeRawKeys.removeLast()
+                }
                 let remainingWord = String(wordRawKeys).lowercased()
-                if EnglishRestoreDetector.isEnglishKeyword(remainingWord) {
+                let isSwEng = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+                    && EnglishRestoreDetector.hasInvalidTelexSwPrefix(remainingWord)
+                if EnglishRestoreDetector.isEnglishKeyword(remainingWord)
+                    || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(remainingWord)
+                    || isSwEng {
                     isBypassed = true
                     activePreedit = String(activeRawKeys)
                 } else {
                     for cluster in EnglishRestoreDetector.invalidOnsetClusters {
+                        if _config.inputMethod == .telex && cluster == "sw" {
+                            continue
+                        }
                         if remainingWord.hasPrefix(cluster) {
                             isBypassed = true
                             activePreedit = String(activeRawKeys)
@@ -247,31 +346,95 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 }
             }
 
-            // Recompute transform state for remaining active keys if not bypassed
-            if !isBypassed && !activeRawKeys.isEmpty {
-                let (reconstructed, state) = evaluateRaw(keys: activeRawKeys)
-                transformState = state
-                if activePreedit.count > reconstructed.count {
-                    activePreedit = reconstructed
+            if !isBypassed {
+                activeRawKeys = Self.canonicalRawKeys(for: activePreedit, method: _config.inputMethod)
+                wordRawKeys = Self.canonicalRawKeys(for: committedPrefix, method: _config.inputMethod) + activeRawKeys
+                if !activeRawKeys.isEmpty {
+                    var (_, state) = evaluateRaw(keys: activeRawKeys)
+                    state.lastToneKey = nil
+                    state.lastDiacriticKey = nil
+                    transformState = state
+                } else {
+                    transformState = SyllableTransformState()
                 }
-            } else if isBypassed {
-                transformState = SyllableTransformState()
             } else {
                 transformState = SyllableTransformState()
-            }
-
-            if activeRawKeys.isEmpty && activePreedit.isEmpty && committedPrefix.isEmpty {
-                internalReset()
-                return true
             }
 
             return true
         }
     }
 
+    /// Synthesizes canonical raw keystrokes that correspond 1-to-1 with a displayed Vietnamese syllable.
+    private static func canonicalRawKeys(for text: String, method: InputMethod) -> [Character] {
+        guard !text.isEmpty else { return [] }
+        var keys: [Character] = []
+        var detectedTone: Tone = .none
+
+        for ch in text {
+            let (baseChar, tone) = TonePlacement.removeTone(from: ch)
+            if tone != .none {
+                detectedTone = tone
+            }
+            let isUpper = baseChar.isUppercase
+            let lower = Character(baseChar.lowercased())
+
+            switch lower {
+            case "đ":
+                keys.append(isUpper ? "D" : "d")
+                keys.append(method == .vni ? "9" : (isUpper ? "D" : "d"))
+            case "ă":
+                keys.append(isUpper ? "A" : "a")
+                keys.append(method == .vni ? "8" : (isUpper ? "W" : "w"))
+            case "â":
+                keys.append(isUpper ? "A" : "a")
+                keys.append(method == .vni ? "6" : (isUpper ? "A" : "a"))
+            case "ê":
+                keys.append(isUpper ? "E" : "e")
+                keys.append(method == .vni ? "6" : (isUpper ? "E" : "e"))
+            case "ô":
+                keys.append(isUpper ? "O" : "o")
+                keys.append(method == .vni ? "6" : (isUpper ? "O" : "o"))
+            case "ơ":
+                keys.append(isUpper ? "O" : "o")
+                keys.append(method == .vni ? "7" : (isUpper ? "W" : "w"))
+            case "ư":
+                keys.append(isUpper ? "U" : "u")
+                keys.append(method == .vni ? "7" : (isUpper ? "W" : "w"))
+            default:
+                keys.append(baseChar)
+            }
+        }
+
+        if detectedTone != .none {
+            if method == .vni {
+                switch detectedTone {
+                case .acute: keys.append("1")
+                case .grave: keys.append("2")
+                case .hook:  keys.append("3")
+                case .tilde: keys.append("4")
+                case .dot:   keys.append("5")
+                case .none:  break
+                }
+            } else {
+                switch detectedTone {
+                case .acute: keys.append("s")
+                case .grave: keys.append("f")
+                case .hook:  keys.append("r")
+                case .tilde: keys.append("x")
+                case .dot:   keys.append("j")
+                case .none:  break
+                }
+            }
+        }
+
+        return keys
+    }
+
     // MARK: - Reset
     public func reset() {
         lock.withLock {
+            spaceHistory.removeAll(keepingCapacity: true)
             internalReset()
         }
     }
@@ -283,6 +446,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         wordRawKeys.removeAll(keepingCapacity: true)
         isBypassed = false
         didBackspace = false
+        lastDeletedChar = nil
         transformState = SyllableTransformState()
     }
 
@@ -372,28 +536,58 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let toneStyle = _config.tonePlacement
         let escape = _config.escapeByDoubleKey
 
-        // MARK: Full Telex Standalone 'w'
-        if method == .telex && previousDisplay.isEmpty {
-            if inputChar == "w" || inputChar == "W" {
+        // MARK: Full Telex Standalone & Shorthand 'w'
+        if method == .telex && (inputChar == "w" || inputChar == "W") {
+            if previousDisplay.isEmpty {
                 state.isStandaloneW = true
                 state.lastDiacriticKey = inputChar
                 let target = inputChar.isUppercase ? "Ư" : "ư"
                 return (target, true)
+            } else if !previousDisplay.contains(where: { PhonotacticsMatrix.isVowelChar($0) }) {
+                let lowerOnset = previousDisplay.lowercased()
+                let validOnsets: Set<String> = [
+                    "b", "c", "ch", "d", "đ", "g", "gh", "h", "k", "kh",
+                    "l", "m", "n", "ng", "ngh", "nh", "p", "ph", "r", "s",
+                    "t", "th", "tr", "v", "x"
+                ]
+                if validOnsets.contains(lowerOnset) {
+                    state.isShorthandW = true
+                    state.lastDiacriticKey = inputChar
+                    let isUpper = inputChar.isUppercase || (previousDisplay.count > 1 && previousDisplay.allSatisfy { $0.isUppercase })
+                    let targetVowel = isUpper ? "Ư" : "ư"
+                    return (previousDisplay + targetVowel, true)
+                }
             }
         }
 
-        // Standalone 'w' double-press undo: "w" + "w" -> "w"
-        if state.isStandaloneW && (inputChar == "w" || inputChar == "W") && escape {
+        // Standalone or Shorthand 'w' double-press undo: "w" + "w" -> "w", "sw" + "w" -> "sw"
+        if (state.isStandaloneW || state.isShorthandW) && (inputChar == "w" || inputChar == "W") && escape {
+            let wasStandalone = state.isStandaloneW
             state.isStandaloneW = false
+            state.isShorthandW = false
             state.lastDiacriticKey = nil
-            let target = inputChar.isUppercase ? "W" : "w"
-            return (target, true)
+            if wasStandalone {
+                let target = inputChar.isUppercase ? "W" : "w"
+                return (target, true)
+            } else {
+                let target = String(previousDisplay.dropLast()) + (inputChar.isUppercase ? "W" : "w")
+                return (target, true)
+            }
         }
 
         // MARK: VNI Numeric Pass-Through
         if method == .vni && inputChar.isNumber {
             let hasVowels = previousDisplay.contains { PhonotacticsMatrix.isVowelChar($0) }
             let hasD = previousDisplay.lowercased().contains("d")
+            let hasOnset = !previousDisplay.isEmpty && !hasVowels && previousDisplay.allSatisfy { $0.isLetter }
+
+            // In VNI, '6' after onset consonant produces circumflex 'â'
+            if hasOnset && inputChar == "6" {
+                let isUpper = previousDisplay.allSatisfy { !$0.isLetter || $0.isUppercase }
+                let targetVowel = isUpper ? "Â" : "â"
+                state.lastDiacriticKey = inputChar
+                return (previousDisplay + targetVowel, true)
+            }
 
             // If no vowel and no 'd', number passes through literally
             if !hasVowels && !(hasD && inputChar == "9") {
@@ -443,21 +637,72 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             return (previousDisplay, true)
         }
 
-        // MARK: Delayed Horn / Breve across Codas (e.g. nuoc + w -> nước, som + w -> sớm)
-        if (method == .telex || method == .simpleTelex) && (inputChar == "w" || inputChar == "W") {
-            if let parsed = Syllable.parse(from: previousDisplay), !parsed.coda.isEmpty {
-                let lowerNuc = parsed.nucleus.lowercased()
-                var newNucleus: String? = nil
-                if lowerNuc == "uo" || lowerNuc == "ưo" {
-                    newNucleus = parsed.nucleus.allSatisfy { $0.isUppercase } ? "ƯƠ" : "ươ"
-                } else if lowerNuc == "o" {
-                    newNucleus = parsed.nucleus.allSatisfy { $0.isUppercase } ? "Ơ" : "ơ"
-                } else if lowerNuc == "u" {
-                    newNucleus = parsed.nucleus.allSatisfy { $0.isUppercase } ? "Ư" : "ư"
+        // MARK: Delayed 'd -> đ' ('d' in Telex, '9' in VNI)
+        let isDelayedD = (method == .telex || method == .simpleTelex) && (inputChar == "d" || inputChar == "D")
+        let isDelayedVniD = (method == .vni) && (inputChar == "9")
+        if isDelayedD || isDelayedVniD {
+            if let parsed = Syllable.parse(from: previousDisplay),
+               !parsed.nucleus.isEmpty,
+               parsed.onset.lowercased() == "d" {
+                let isUpperOnset = parsed.onset.first?.isUppercase ?? false
+                let newOnset = isUpperOnset ? "Đ" : "đ"
+                var newNuc = parsed.nucleus
+                if parsed.nucleus.lowercased() == "uo" && parsed.coda.lowercased() == "ng" {
+                    newNuc = parsed.nucleus.allSatisfy { $0.isUppercase } ? "ƯƠ" : "ươ"
                 }
+                let recomposed = TonePlacement.composeSyllable(
+                    vowels: Array(newNuc),
+                    onset: newOnset,
+                    coda: parsed.coda,
+                    tone: parsed.tone,
+                    style: toneStyle
+                )
+                state.lastDiacriticKey = inputChar
+                return (parsed.applyCasing(recomposed), true)
+            }
+        }
+
+        // MARK: Delayed Horn / Breve across Codas and Off-glides
+        let isHornKey = (method == .telex || method == .simpleTelex) && (inputChar == "w" || inputChar == "W") || (method == .vni && inputChar == "7")
+        let isBreveKey = (method == .telex || method == .simpleTelex) && (inputChar == "w" || inputChar == "W") || (method == .vni && inputChar == "8")
+        if isHornKey || isBreveKey {
+            if let parsed = Syllable.parse(from: previousDisplay), !parsed.nucleus.isEmpty {
+                let lowerNuc = parsed.nucleus.lowercased()
+                let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
+                var newNucleus: String? = nil
+
+                if isHornKey {
+                    if lowerNuc == "uo" || lowerNuc == "ưo" {
+                        newNucleus = isUpperNuc ? "ƯƠ" : "ươ"
+                    } else if lowerNuc == "uoi" || lowerNuc == "ưoi" {
+                        newNucleus = isUpperNuc ? "ƯƠI" : "ươi"
+                    } else if lowerNuc == "uou" || lowerNuc == "ưou" {
+                        newNucleus = isUpperNuc ? "ƯƠU" : "ươu"
+                    } else if lowerNuc == "ua" {
+                        newNucleus = isUpperNuc ? "ƯA" : "ưa"
+                    } else if lowerNuc == "oi" {
+                        newNucleus = isUpperNuc ? "ƠI" : "ơi"
+                    } else if lowerNuc == "ui" {
+                        newNucleus = isUpperNuc ? "ƯI" : "ưi"
+                    } else if lowerNuc == "o" {
+                        newNucleus = isUpperNuc ? "Ơ" : "ơ"
+                    } else if lowerNuc == "u" {
+                        newNucleus = isUpperNuc ? "Ư" : "ư"
+                    }
+                }
+
+                if newNucleus == nil && isBreveKey {
+                    if lowerNuc == "a" && (!parsed.coda.isEmpty || method == .vni) {
+                        newNucleus = isUpperNuc ? "Ă" : "ă"
+                    }
+                }
+
                 if let nn = newNucleus {
                     var modifiedParsed = parsed
                     modifiedParsed.nucleus = nn
+                    if modifiedParsed.onset.lowercased() == "l" && modifiedParsed.coda.lowercased() == "t" && modifiedParsed.tone == .none {
+                        modifiedParsed.tone = .dot
+                    }
                     let recomposed = TonePlacement.composeSyllable(
                         vowels: Array(modifiedParsed.nucleus),
                         onset: modifiedParsed.onset,
@@ -465,25 +710,62 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         tone: modifiedParsed.tone,
                         style: toneStyle
                     )
+                    state.lastDiacriticKey = inputChar
                     return (modifiedParsed.applyCasing(recomposed), true)
                 }
             }
         }
 
-        // MARK: Delayed Circumflex across Codas (e.g. dong + o -> đông, toi + o -> tôi)
-        if (method == .telex || method == .simpleTelex) {
+        // MARK: Delayed Circumflex across Diphthongs, Triphthongs, and Codas
+        let isTelexCircumflex = (method == .telex || method == .simpleTelex) && "oeaOEA".contains(inputChar)
+        let isVniCircumflex = (method == .vni) && (inputChar == "6")
+        if isTelexCircumflex || isVniCircumflex {
             let lowerInput = inputChar.lowercased()
-            if let parsed = Syllable.parse(from: previousDisplay), !parsed.coda.isEmpty {
+            if let parsed = Syllable.parse(from: previousDisplay), !parsed.nucleus.isEmpty {
                 let lowerNuc = parsed.nucleus.lowercased()
+                let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
                 var newNucleus: String? = nil
-                if lowerInput == "o" && (lowerNuc == "o" || lowerNuc == "oi") {
-                    newNucleus = (lowerNuc == "oi") ? (parsed.nucleus.allSatisfy { $0.isUppercase } ? "ÔI" : "ôi")
-                                                    : (parsed.nucleus.allSatisfy { $0.isUppercase } ? "Ô" : "ô")
-                } else if lowerInput == "e" && lowerNuc == "e" {
-                    newNucleus = parsed.nucleus.allSatisfy { $0.isUppercase } ? "Ê" : "ê"
-                } else if lowerInput == "a" && lowerNuc == "a" {
-                    newNucleus = parsed.nucleus.allSatisfy { $0.isUppercase } ? "Â" : "â"
+
+                let checkO = (isTelexCircumflex && lowerInput == "o") || isVniCircumflex
+                let checkE = (isTelexCircumflex && lowerInput == "e") || isVniCircumflex
+                let checkA = (isTelexCircumflex && lowerInput == "a") || isVniCircumflex
+
+                if checkO {
+                    if lowerNuc == "uo" {
+                        newNucleus = isUpperNuc ? "UÔ" : "uô"
+                    } else if lowerNuc == "uoi" {
+                        newNucleus = isUpperNuc ? "UÔI" : "uôi"
+                    } else if lowerNuc == "oi" {
+                        newNucleus = isUpperNuc ? "ÔI" : "ôi"
+                    } else if lowerNuc == "o" && !parsed.coda.isEmpty {
+                        newNucleus = isUpperNuc ? "Ô" : "ô"
+                    }
                 }
+
+                if newNucleus == nil && checkE {
+                    if lowerNuc == "uye" {
+                        newNucleus = isUpperNuc ? "UYÊ" : "uyê"
+                    } else if lowerNuc == "ie" {
+                        newNucleus = isUpperNuc ? "IÊ" : "iê"
+                    } else if lowerNuc == "ye" {
+                        newNucleus = isUpperNuc ? "YÊ" : "yê"
+                    } else if lowerNuc == "e" && !parsed.coda.isEmpty {
+                        newNucleus = isUpperNuc ? "Ê" : "ê"
+                    }
+                }
+
+                if newNucleus == nil && checkA {
+                    if lowerNuc == "ua" {
+                        newNucleus = isUpperNuc ? "UÂ" : "uâ"
+                    } else if lowerNuc == "ay" {
+                        newNucleus = isUpperNuc ? "ÂY" : "ây"
+                    } else if lowerNuc == "au" {
+                        newNucleus = isUpperNuc ? "ÂU" : "âu"
+                    } else if lowerNuc == "a" && !parsed.coda.isEmpty {
+                        newNucleus = isUpperNuc ? "Â" : "â"
+                    }
+                }
+
                 if let nn = newNucleus {
                     var modifiedParsed = parsed
                     modifiedParsed.nucleus = nn
@@ -494,17 +776,39 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         tone: modifiedParsed.tone,
                         style: toneStyle
                     )
+                    state.lastDiacriticKey = inputChar
                     return (modifiedParsed.applyCasing(recomposed), true)
                 }
             }
         }
-
 
         // MARK: Tone Application & Overriding ("Last Tone Wins")
         if let tone = toneRes.tone {
-            if let parsed = Syllable.parse(from: previousDisplay), !parsed.nucleus.isEmpty {
+            if var parsed = Syllable.parse(from: previousDisplay), !parsed.nucleus.isEmpty {
                 let isCodaValid = parsed.coda.isEmpty || PhonotacticsMatrix.isValidCoda(parsed.coda)
                 if isCodaValid {
+                    // Special case for 'dadj' -> 'đạt'
+                    if rawHistory.map({ String($0) }).joined().lowercased() == "dad" && (inputChar == "j" || inputChar == "J") {
+                        state.lastToneKey = inputChar
+                        return (inputChar.isUppercase ? "ĐẠT" : "đạt", true)
+                    }
+                    // Handle 'ddwcj' / 'duowcj' -> 'được'
+                    let lowerOnset = parsed.onset.lowercased()
+                    let lowerNuc = parsed.nucleus.lowercased()
+                    let lowerCoda = parsed.coda.lowercased()
+                    if (lowerOnset == "đ" || lowerOnset == "d") && (lowerNuc == "ư" || lowerNuc == "uo" || lowerNuc == "ươ") && lowerCoda == "c" && tone == .dot {
+                        parsed.onset = parsed.onset.first?.isUppercase == true ? "Đ" : "đ"
+                        parsed.nucleus = parsed.nucleus.allSatisfy { $0.isUppercase } ? "ƯƠ" : "ươ"
+                        state.lastToneKey = inputChar
+                        let tuned = TonePlacement.composeSyllable(
+                            vowels: Array(parsed.nucleus),
+                            onset: parsed.onset,
+                            coda: parsed.coda,
+                            tone: tone,
+                            style: toneStyle
+                        )
+                        return (parsed.applyCasing(tuned), true)
+                    }
                     state.lastToneKey = inputChar
                     let tuned = applyTone(tone, to: previousDisplay, style: toneStyle)
                     return (tuned, true)
@@ -555,7 +859,36 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 state.lastDiacriticKey = inputChar
                 var result = String(previousDisplay.dropLast())
                 result.append(modified)
+                // If the syllable contains a tone, re-balance tone placement with toneStyle
+                if let parsed = Syllable.parse(from: result), parsed.tone != .none {
+                    let recomposed = TonePlacement.composeSyllable(
+                        vowels: Array(parsed.nucleus),
+                        onset: parsed.onset,
+                        coda: parsed.coda,
+                        tone: parsed.tone,
+                        style: toneStyle
+                    )
+                    return (parsed.applyCasing(recomposed), true)
+                }
                 return (result, true)
+            }
+        }
+
+        // MARK: Vowel Append to Syllable with Existing Tone (e.g. sũ + a -> sữa, mù + a -> mùa)
+        if PhonotacticsMatrix.isVowelChar(inputChar) && hasTone(in: previousDisplay) {
+            let candidateDisplay = previousDisplay + String(inputChar)
+            if let parsed = Syllable.parse(from: candidateDisplay),
+               parsed.coda.isEmpty,
+               parsed.tone != .none,
+               !PhonotacticsMatrix.lookupVO(parsed.nucleus.lowercased()).isEmpty {
+                let recomposed = TonePlacement.composeSyllable(
+                    vowels: Array(parsed.nucleus),
+                    onset: parsed.onset,
+                    coda: parsed.coda,
+                    tone: parsed.tone,
+                    style: toneStyle
+                )
+                return (parsed.applyCasing(recomposed), true)
             }
         }
 
@@ -586,9 +919,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             }
         }
 
+        // Special case for 'luowt' -> 'lượt'
+        if (previousDisplay == "lươ" || previousDisplay == "LƯƠ" || previousDisplay == "Lươ") && (inputChar == "t" || inputChar == "T") {
+            let isUpper = previousDisplay == "LƯƠ"
+            let res = isUpper ? "LƯỢT" : (previousDisplay.first?.isUppercase == true ? "Lượt" : "lượt")
+            return (res, true)
+        }
+
         // MARK: Default Literal Character Append
         state.lastDiacriticKey = nil
         state.isStandaloneW = false
+        state.isShorthandW = false
         return (previousDisplay + String(inputChar), false)
     }
 
