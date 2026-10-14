@@ -163,6 +163,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 didBackspace = true
                 activePreedit = "tưo"
                 activeRawKeys = ["t", "w", "o"]
+            } else if String(wordRawKeys).lowercased() == "ties" && character.lowercased() == "e" {
+                isBypassed = false
+                didBackspace = true
+                activePreedit = "tíe"
+                activeRawKeys = ["t", "i", "e", "s"]
+            } else if _config.escapeByDoubleKey && String(wordRawKeys).lowercased() == "ties" && character.lowercased() == "s" {
+                return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
             } else {
                 lastDeletedChar = nil
 
@@ -759,7 +766,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             // Do not split if a non-adjacent vowel jumped across the coda (e.g. 't-a-n-a' in 'tanaka', 'a-n-a' in 'anata')
             // or if the last raw key was 's' or 'r' forming a foreign medial cluster (e.g. 'trans-' in 'transmission', 'emer-' in 'emerge')
             let lastKeyLower = activeRawKeys.last?.lowercased()
-            if lastRawIsVowel || lastKeyLower == "s" || lastKeyLower == "r" || (lowerNuc == "ua" && parsed.onset.lowercased() != "q") {
+            let lowerActiveRaw = String(activeRawKeys).lowercased()
+            let hasSClusterSuffix = lowerActiveRaw.hasSuffix("st") || lowerActiveRaw.hasSuffix("sc") || lowerActiveRaw.hasSuffix("sp")
+            if lastRawIsVowel || lastKeyLower == "s" || lastKeyLower == "r" || hasSClusterSuffix || (lowerNuc == "ua" && parsed.onset.lowercased() != "q") {
                 return false
             }
             let candidateCoda = parsed.coda + String(nextChar)

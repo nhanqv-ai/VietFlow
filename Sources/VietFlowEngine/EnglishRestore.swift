@@ -202,7 +202,16 @@ public enum EnglishKeywords {
         "gulf", "gulfs", "golf", "golfs", "wolf", "wolfs",
         "nerf", "serf", "kerf", "miser",
         "boxes", "boxer", "boxers", "mixes", "mixer", "mixers",
-        "vexes", "hexes", "sexes", "lexus", "oxen", "vixen", "thorax", "xerox"
+        "vexes", "hexes", "sexes", "lexus", "oxen", "vixen", "thorax", "xerox",
+        "display", "displays", "muscle", "muscles", "castle", "castles",
+        "hustle", "hustles", "bustle", "bustles", "thistle", "thistles",
+        "pestle", "pestles", "nestle", "nestles", "trestle", "trestles",
+        "beetle", "beetles", "chestnut", "chestnuts", "dustbin", "dustpan", "passbook",
+        "died", "dies", "ties", "pies", "lies", "vies", "tries", "trier", "bier", "biers",
+        "diet", "diets", "dieted", "dieting", "quiet", "quiets", "quieted", "quieter", "quietest", "quietly",
+        "goes", "does", "foes", "woes", "roes", "noes", "toes", "hoes",
+        "trees", "sees", "buys", "guys", "pays", "puts", "taxis", "sixes",
+        "pasta", "pastas", "rasta", "basta", "lisp", "lisps", "gasp", "gasps", "rasp", "rasps", "cusp", "cusps"
     ]
 }
 
@@ -258,7 +267,8 @@ public enum EnglishRestoreDetector {
     public static let invalidCodaClusters: Set<String> = [
         "st", "nd", "nt", "rt", "rd", "ld", "rk", "rm", "rn",
         "lp", "lt", "lf", "mp", "ct", "ft", "ck", "ll",
-        "bb", "gg", "th", "sh", "ph", "gh", "kh"
+        "bb", "gg", "th", "sh", "ph", "gh", "kh",
+        "tl", "cl", "pl"
     ]
 
     /// English medial double-consonant + vowel/consonant sequences that never occur in valid Vietnamese words.
@@ -273,7 +283,8 @@ public enum EnglishRestoreDetector {
         "cca", "cce", "cci", "cco", "ccu", "ccy", "cch",
         "rra", "rre", "rri", "rro", "rru", "rry",
         "ssa", "sse", "ssi", "sso", "ssu", "ssy",
-        "ssw", "ssc", "ssp", "ssk", "ssr", "ssh", "ssl", "ssm", "ssn"
+        "ssw", "ssc", "ssp", "ssk", "ssr", "ssh", "ssl", "ssm", "ssn",
+        "ssb", "ssd", "ssf", "ssg", "sst", "ssv"
     ]
 
     /// English 'sw-', 'tw-', 'dw-', and 'thw-' prefixes that are not valid Vietnamese 'sư-' / 'tư-' / 'dư-' / 'thư-' syllables in Telex.

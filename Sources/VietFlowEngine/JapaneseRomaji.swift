@@ -157,7 +157,11 @@ public enum JapaneseRomajiLexicon {
         // Katakana long-vowel & IT/lifestyle loanwords (Cycle 10)
         "puran", "buranchi", "haafu", "saafu", "taafu", "naasu", "paasu", "baasu", "daasu",
         "gaaru", "paaru", "seefu", "peesu", "supeesu", "reeru", "beeru", "seeru", "teeru",
-        "neeru", "sukeeru"
+        "neeru", "sukeeru",
+
+        // Everyday -au/-aru/-iru/-eru verbs & nouns (Cycle 11)
+        "arau", "harau", "sarau", "tarau", "sasaru", "nasaru", "masaru", "tasaru", "hasaru", "asaru",
+        "chiru", "biru", "ieru", "mieru", "asa", "masa", "doro", "oto"
     ]
 }
 

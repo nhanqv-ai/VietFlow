@@ -992,7 +992,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (169 Tests)
+    // MARK: - Cycle 11: -tle/-cle/-ple Words, -ies/-oes Verbs & Japanese -au/-aru/-eru Verbs (5 Tests)
+    // =========================================================================
+
+    func test_tier4_170_english_tle_cle_ple_and_medial_st_sc_sp_compounds() {
+        let input = "display displays displayed displaying muscle muscles castle castles hustle hustles bustle bustles thistle thistles pestle pestles nestle nestles trestle trestles beetle beetles chestnut chestnuts dustbin dustpan passbook crossbow crossbar basswood chessboard pressman"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_171_english_ies_oes_ees_diet_quiet_and_tieseng_disambiguation() {
+        let input = "died dies ties pies lies vies tries trier bier biers diet diets dieted dieting quiet quiets quieted quieter quietest quietly goes does foes woes roes noes toes hoes trees sees buys guys pays puts taxis sixes pasta pastas rasta basta lisp lisps gasp gasps rasp rasps cusp cusps tieseng"
+        let expected = "died dies ties pies lies vies tries trier bier biers diet diets dieted dieting quiet quiets quieted quieter quietest quietly goes does foes woes roes noes toes hoes trees sees buys guys pays puts taxis sixes pasta pastas rasta basta lisp lisps gasp gasps rasp rasps cusp cusps tiếng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_172_japanese_au_aru_iru_eru_verbs_and_daily_nouns() {
+        let input = "arau harau sarau tarau sasaru nasaru masaru tasaru hasaru asaru chiru biru ieru mieru asa masa doro oto narau warau morau ukagau chigau mukau tsukau omou utau hirou sorou sasou mayou kayou kikoeru oboeru kangaeru oshieru kotaeru tsutaeru mukaeru"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_173_japanese_verb_conjugations_mashou_tai_nakatta_teiru_rareru_saseru_tara_reba() {
+        let input = "ikimashou tabemashou shimashou kaerimashou ikitai tabetai shitai mitai ikitakunai ikitakatta ikanakatta tabenakatta shinakatta wakaranakatta ikanakereba tabeteiru miteiru shiteiru matteiru nondeiru taberareru mirareru korareru tabesaseru ikaseru ittara tabetara ikeba mireba tabenasai ikinasai"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_174_scenario20_trilingual_ui_display_debug_and_japanese_payment_workflow() {
+        let input = "Buổi asa hôm nay trên biru tầng 5, màn hình display đã mieru rõ ràng và không còn oto lạ khi user buys gói pasta hay pays hoá đơn harau qua app; hệ thống goes mượt mà, does đúng thiết kế vaf giữ quiet ổn định!"
+        let expected = "Buổi asa hôm nay trên biru tầng 5, màn hình display đã mieru rõ ràng và không còn oto lạ khi user buys gói pasta hay pays hoá đơn harau qua app; hệ thống goes mượt mà, does đúng thiết kế và giữ quiet ổn định!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (174 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1111,7 +1142,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (61 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (66 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1173,6 +1204,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_167_english_lk_lm_lv_rb_rp_rg_rv_rch_coda_clusters", test_tier4_167_english_lk_lm_lv_rb_rp_rg_rv_rch_coda_clusters),
             ("test_tier4_168_japanese_katakana_it_loanwords_in_romaji", test_tier4_168_japanese_katakana_it_loanwords_in_romaji),
             ("test_tier4_169_scenario19_git_branch_workflow_and_katakana_it_standup", test_tier4_169_scenario19_git_branch_workflow_and_katakana_it_standup),
+            ("test_tier4_170_english_tle_cle_ple_and_medial_st_sc_sp_compounds", test_tier4_170_english_tle_cle_ple_and_medial_st_sc_sp_compounds),
+            ("test_tier4_171_english_ies_oes_ees_diet_quiet_and_tieseng_disambiguation", test_tier4_171_english_ies_oes_ees_diet_quiet_and_tieseng_disambiguation),
+            ("test_tier4_172_japanese_au_aru_iru_eru_verbs_and_daily_nouns", test_tier4_172_japanese_au_aru_iru_eru_verbs_and_daily_nouns),
+            ("test_tier4_173_japanese_verb_conjugations_mashou_tai_nakatta_teiru_rareru_saseru_tara_reba", test_tier4_173_japanese_verb_conjugations_mashou_tai_nakatta_teiru_rareru_saseru_tara_reba),
+            ("test_tier4_174_scenario20_trilingual_ui_display_debug_and_japanese_payment_workflow", test_tier4_174_scenario20_trilingual_ui_display_debug_and_japanese_payment_workflow),
         ]
     }
 }
