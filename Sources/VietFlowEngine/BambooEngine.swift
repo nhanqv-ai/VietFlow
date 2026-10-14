@@ -168,7 +168,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 didBackspace = true
                 activePreedit = "tíe"
                 activeRawKeys = ["t", "i", "e", "s"]
-            } else if ["laws", "raws", "saws", "thaws"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
+            } else if ["laws", "raws", "saws", "thaws", "caws", "maws", "haws"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["mara", "hara", "sara", "tara"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["kiete", "miete", "uete", "suete"].contains(String(wordRawKeys).lowercased()) && "sj".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -196,7 +204,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws", "thaws"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
+            } else if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws", "thaws", "caws", "maws", "haws"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
                 return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
             } else {
                 lastDeletedChar = nil
@@ -496,7 +504,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let firstNuc = lowerNuc.first
                 let invalidOaiOnsets: Set<String> = ["b", "m", "p", "ph", "v", "n", "g", "gh", "d", "r", "tr"]
                 let invalidOeOnsets: Set<String> = ["b", "c", "d", "đ", "g", "gh", "m", "n", "p", "ph", "r", "s", "tr", "v"]
-                let invalidOaOnsets: Set<String> = ["b", "m", "n", "p", "ph", "r", "tr"]
+                let invalidOaOnsets: Set<String> = ["b", "g", "gh", "m", "n", "p", "ph", "r", "tr", "v"]
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!))
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!))

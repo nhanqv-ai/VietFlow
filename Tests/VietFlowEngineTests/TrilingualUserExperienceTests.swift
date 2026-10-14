@@ -1267,8 +1267,40 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // --- Cycle 20: Invalid 'g/gh/v + oa' Orthography, 'caws/maws/haws' & 'mara/hara/sara/tara' & 'kiete/miete' Unlatching (Tests 215-219) ---
+
+    func test_tier4_215_invalid_g_gh_v_oa_onsets_gora_gosa_goats_goal_and_vietnamese_oa_preservation() {
+        let input = "gora gosa goats goal goals goad goads hoar toar doaj ddoanj ngoan khoac"
+        let expected = "gora gosa goats goal goals goad goads hỏa tỏa dọa đoạn ngoan khoac"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_216_english_caws_maws_haws_sere_and_vietnamese_cawst_mawst_hawst_unlatch() {
+        let input = "caws maws hawsaws<BS><BS><BS> claws flaws draws straws paws jaws yaws sere cawst mawst hawst cawsn mawsc"
+        let expected = "caws maws haws claws flaws draws straws paws jaws yaws sere cắt mắt hắt cắn mắc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_217_japanese_mara_hara_sara_tara_and_vietnamese_maran_haram_saram_taram_unlatch() {
+        let input = "mara hara sara tara maran haram saram taram"
+        let expected = "mara hara sara tara mẩn hẩm sẩm tẩm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_218_japanese_kire_nire_bire_gire_giro_hore_kieru_kiete_miete_uete_suete_and_unlatch() {
+        let input = "kire nire bire gire giro hore kieru kiete miete uete suete kietes kietej mietes mietej kireem"
+        let expected = "kire nire bire gire giro hore kieru kiete miete uete suete kiết kiệt miết miệt kiểm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_219_scenario29_trilingual_sara_kire_sushi_and_kieru_bug_chat() {
+        let input = "Tại quán sushi truyền thống, đầu bếp bày các lát cá kire đều đặn lên đĩa sara gốm cổ cạnh gốc cây nire; trong lúc đó team kỹ thuật đã làm kieru hoàn toàn lỗi hiển thị để miete rõ các chỉ số trên màn hình vaf kiểm (kireem) tra kĩ từng chi tiết kietej (kietej) tác!"
+        let expected = "Tại quán sushi truyền thống, đầu bếp bày các lát cá kire đều đặn lên đĩa sara gốm cổ cạnh gốc cây nire; trong lúc đó team kỹ thuật đã làm kieru hoàn toàn lỗi hiển thị để miete rõ các chỉ số trên màn hình và kiểm (kiểm) tra kĩ từng chi tiết kiệt (kiệt) tác!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (214 Tests)
+    // MARK: - Test Registration (219 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1387,7 +1419,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (106 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (111 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1494,6 +1526,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_212_english_r_controlled_barn_darn_harm_charm_thorn_churn_urn_swarth", test_tier4_212_english_r_controlled_barn_darn_harm_charm_thorn_churn_urn_swarth),
             ("test_tier4_213_japanese_sura_suri_turo_tura_ture_nura_bura_gura_guri_and_vietnamese_unlatch", test_tier4_213_japanese_sura_suri_turo_tura_ture_nura_bura_gura_guri_and_vietnamese_unlatch),
             ("test_tier4_214_scenario28_trilingual_ramen_tureen_gura_stream_and_charm_chat", test_tier4_214_scenario28_trilingual_ramen_tureen_gura_stream_and_charm_chat),
+            ("test_tier4_215_invalid_g_gh_v_oa_onsets_gora_gosa_goats_goal_and_vietnamese_oa_preservation", test_tier4_215_invalid_g_gh_v_oa_onsets_gora_gosa_goats_goal_and_vietnamese_oa_preservation),
+            ("test_tier4_216_english_caws_maws_haws_sere_and_vietnamese_cawst_mawst_hawst_unlatch", test_tier4_216_english_caws_maws_haws_sere_and_vietnamese_cawst_mawst_hawst_unlatch),
+            ("test_tier4_217_japanese_mara_hara_sara_tara_and_vietnamese_maran_haram_saram_taram_unlatch", test_tier4_217_japanese_mara_hara_sara_tara_and_vietnamese_maran_haram_saram_taram_unlatch),
+            ("test_tier4_218_japanese_kire_nire_bire_gire_giro_hore_kieru_kiete_miete_uete_suete_and_unlatch", test_tier4_218_japanese_kire_nire_bire_gire_giro_hore_kieru_kiete_miete_uete_suete_and_unlatch),
+            ("test_tier4_219_scenario29_trilingual_ramen_sara_kire_and_kieru_bug_chat", test_tier4_219_scenario29_trilingual_sara_kire_sushi_and_kieru_bug_chat),
         ]
     }
 }

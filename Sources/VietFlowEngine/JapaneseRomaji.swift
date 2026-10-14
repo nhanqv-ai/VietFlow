@@ -198,7 +198,10 @@ public enum JapaneseRomajiLexicon {
         "yasa", "yase", "yoso", "yose", "kase", "kaso", "mase", "maso", "nase", "hase",
         "sase", "saso", "sasu", "tase", "dase", "gase", "kosa", "kose", "gosa", "dosa",
         "sosa", "soso", "tosa", "hura", "hure", "huri", "huro",
-        "sura", "suri", "turo", "tura", "ture", "turi", "nura", "nuri", "bura", "buri", "gura", "guri"
+        "sura", "suri", "turo", "tura", "ture", "turi", "nura", "nuri", "bura", "buri", "gura", "guri",
+        "kire", "nire", "bire", "gire", "giro", "hore",
+        "mara", "hara", "sara", "tara",
+        "kieru", "kiete", "miete", "uete", "suete"
     ]
 }
 
