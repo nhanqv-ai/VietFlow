@@ -256,6 +256,18 @@ public final class StatusBarController: NSObject {
         
         menu.addItem(NSMenuItem.separator())
         
+        // Check for updates
+        let updateItem = NSMenuItem(
+            title: "Kiểm tra cập nhật...",
+            action: #selector(checkForUpdatesMenuAction),
+            keyEquivalent: ""
+        )
+        updateItem.target = self
+        if #available(macOS 11.0, *) {
+            updateItem.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil)
+        }
+        menu.addItem(updateItem)
+        
         // Quit
         let quitItem = NSMenuItem(
             title: "Thoát VietFlow",
@@ -301,6 +313,11 @@ public final class StatusBarController: NSObject {
     
     @objc public func openPreferences() {
         SettingsWindowController.shared.showSettings()
+    }
+    
+    @objc public func checkForUpdatesMenuAction() {
+        SettingsWindowController.shared.showSettings(tab: .about)
+        UpdateManager.shared.checkForUpdates(userInitiated: true)
     }
     
     @objc private func quitApp() {

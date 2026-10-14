@@ -22,9 +22,15 @@ public final class SettingsLayoutTests: TestCase {
     public override func setUp() {
         super.setUp()
         AppStateManager.shared.resetToDefaults()
+        UpdateManager.shared.status = .idle
+        UpdateManager.shared.hasPendingUpdate = false
+        UpdateManager.shared.isBannerDismissedForSession = false
     }
 
     public override func tearDown() {
+        UpdateManager.shared.status = .idle
+        UpdateManager.shared.hasPendingUpdate = false
+        UpdateManager.shared.isBannerDismissedForSession = false
         AppStateManager.shared.resetToDefaults()
         super.tearDown()
     }
@@ -349,7 +355,20 @@ public final class SettingsLayoutTests: TestCase {
             "Quyền Trợ năng: Chưa cấp",
             "Kiểm tra lại",
             "Cấp quyền Trợ năng",
-            "Khôi phục cài đặt gốc"
+            "Khôi phục cài đặt gốc",
+            "Kiểm tra cập nhật...",
+            "Tự động kiểm tra cập nhật mỗi ngày",
+            "Kiểm tra cập nhật",
+            "Xem thay đổi",
+            "Để sau",
+            "Cập nhật ngay",
+            "Khởi động lại",
+            "Đang kiểm tra...",
+            "Đã là phiên bản mới nhất",
+            "Có bản mới",
+            "Đang tải bản cập nhật...",
+            "Sẵn sàng khởi động lại",
+            "Cập nhật phần mềm"
         ]
 
         for s in stringsToCheck {
@@ -539,6 +558,77 @@ public final class SettingsLayoutTests: TestCase {
         }
     }
 
+    // MARK: - Test 11: Zero Clipping and Fitting Size with Update Banner Visible
+    func test_11_layout_with_update_banner_visible_across_all_tabs() {
+        let state = AppStateManager.shared
+        let updateMgr = UpdateManager.shared
+        let release = ReleaseInfo(
+            tagName: "v1.2.0",
+            name: "VietFlow 1.2.0",
+            releaseNotes: "Test release notes",
+            htmlURL: URL(string: "https://github.com/nhanqv-ai/VietFlow")!
+        )
+        for bannerStatus in [UpdateStatus.updateAvailable(release), UpdateStatus.readyToRestart(release)] {
+            updateMgr.status = bannerStatus
+            updateMgr.hasPendingUpdate = true
+            updateMgr.isBannerDismissedForSession = false
+            XCTAssertTrue(updateMgr.shouldShowBanner)
+
+            for tab in SettingsTab.allCases {
+                // Verify fitting size remains <= 520
+                let view = SettingsView(stateManager: state, updateManager: updateMgr, initialTab: tab)
+                let hc = NSHostingController(rootView: view)
+                let targetView = hc.view
+                targetView.frame = NSRect(origin: .zero, size: fixedWindowSize)
+                targetView.layoutSubtreeIfNeeded()
+
+                let fitting = targetView.fittingSize
+                XCTAssertTrue(fitting.width <= 520.0, "Banner \(bannerStatus): Tab \(tab.rawValue) fittingSize.width (\(fitting.width)) > 520")
+                XCTAssertTrue(fitting.height <= 520.0, "Banner \(bannerStatus): Tab \(tab.rawValue) fittingSize.height (\(fitting.height)) > 520")
+
+            // Verify offscreen bitmap margin strips (0..<12 and 508..<520) have 0 clipping violations
+            guard let rep = targetView.bitmapImageRepForCachingDisplay(in: NSRect(origin: .zero, size: fixedWindowSize)) else {
+                XCTFail("Failed to allocate NSBitmapImageRep for \(tab.rawValue) with banner")
+                continue
+            }
+            targetView.cacheDisplay(in: NSRect(origin: .zero, size: fixedWindowSize), to: rep)
+
+            let scale = CGFloat(rep.pixelsWide) / 520.0
+            guard let bg = rep.colorAt(x: Int(2 * scale), y: Int(100 * scale)) else {
+                XCTFail("Failed to sample background color for \(tab.rawValue) with banner")
+                continue
+            }
+
+            var leftViolations = 0
+            var rightViolations = 0
+
+            let yStart = Int(60 * scale)
+            let yEnd = Int(460 * scale)
+            let leftLimit = Int(12 * scale)
+            let rightStart = Int(508 * scale)
+            let rightLimit = rep.pixelsWide
+
+            for y in yStart..<yEnd {
+                for x in 0..<leftLimit {
+                    if let c = rep.colorAt(x: x, y: y) {
+                        let diff = abs(c.redComponent - bg.redComponent) + abs(c.greenComponent - bg.greenComponent) + abs(c.blueComponent - bg.blueComponent)
+                        if diff > 0.08 { leftViolations += 1 }
+                    }
+                }
+                for x in rightStart..<rightLimit {
+                    if let c = rep.colorAt(x: x, y: y) {
+                        let diff = abs(c.redComponent - bg.redComponent) + abs(c.greenComponent - bg.greenComponent) + abs(c.blueComponent - bg.blueComponent)
+                        if diff > 0.08 { rightViolations += 1 }
+                    }
+                }
+            }
+
+            XCTAssertEqual(leftViolations, 0, "Banner \(bannerStatus): Left margin strip contains \(leftViolations) violations in \(tab.rawValue)")
+            XCTAssertEqual(rightViolations, 0, "Banner \(bannerStatus): Right margin strip contains \(rightViolations) violations in \(tab.rawValue)")
+        }
+        }
+    }
+
     // MARK: - Test Registry Registration
     public override var allTests: [(name: String, test: () throws -> Void)] {
         return [
@@ -552,6 +642,7 @@ public final class SettingsLayoutTests: TestCase {
             ("test_08_engine_config_sync_and_vietnamese_typing_e2e", test_08_engine_config_sync_and_vietnamese_typing_e2e),
             ("test_09_per_app_mode_preserves_vietnamese_from_settings_to_target_apps", test_09_per_app_mode_preserves_vietnamese_from_settings_to_target_apps),
             ("test_10_status_bar_enlarged_icon_dimensions_and_rendering", test_10_status_bar_enlarged_icon_dimensions_and_rendering),
+            ("test_11_layout_with_update_banner_visible_across_all_tabs", test_11_layout_with_update_banner_visible_across_all_tabs),
         ]
     }
 }

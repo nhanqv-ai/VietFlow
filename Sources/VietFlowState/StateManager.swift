@@ -99,6 +99,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var launchAtLogin: Bool
     public var perAppInputMode: Bool
     public var blacklistedBundleIdentifiers: [String]
+    public var automaticallyCheckForUpdates: Bool
+    public var lastUpdateCheckDate: Date?
     
     public static let `default` = AppSettings()
     
@@ -117,7 +119,9 @@ public struct AppSettings: Codable, Equatable, Sendable {
         blacklistedBundleIdentifiers: [String] = [
             "com.valvesoftware.steam",
             "com.riotgames.leagueoflegends"
-        ]
+        ],
+        automaticallyCheckForUpdates: Bool = true,
+        lastUpdateCheckDate: Date? = nil
     ) {
         self.inputMode = inputMode
         self.inputMethod = inputMethod
@@ -131,6 +135,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.launchAtLogin = launchAtLogin
         self.perAppInputMode = perAppInputMode
         self.blacklistedBundleIdentifiers = blacklistedBundleIdentifiers
+        self.automaticallyCheckForUpdates = automaticallyCheckForUpdates
+        self.lastUpdateCheckDate = lastUpdateCheckDate
     }
     
     public mutating func resetToDefaults() {
@@ -150,6 +156,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case launchAtLogin
         case perAppInputMode
         case blacklistedBundleIdentifiers
+        case automaticallyCheckForUpdates
+        case lastUpdateCheckDate
     }
     
     public init(from decoder: Decoder) throws {
@@ -169,6 +177,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
             "com.valvesoftware.steam",
             "com.riotgames.leagueoflegends"
         ]
+        self.automaticallyCheckForUpdates = try container.decodeIfPresent(Bool.self, forKey: .automaticallyCheckForUpdates) ?? true
+        self.lastUpdateCheckDate = try container.decodeIfPresent(Date.self, forKey: .lastUpdateCheckDate)
     }
 }
 
@@ -304,6 +314,20 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         didSet {
             settings.blacklistedBundleIdentifiers = blacklistedBundleIdentifiers
             updateBlacklistCache()
+            saveSettings()
+        }
+    }
+    
+    @Published public var automaticallyCheckForUpdates: Bool = true {
+        didSet {
+            settings.automaticallyCheckForUpdates = automaticallyCheckForUpdates
+            saveSettings()
+        }
+    }
+    
+    @Published public var lastUpdateCheckDate: Date? = nil {
+        didSet {
+            settings.lastUpdateCheckDate = lastUpdateCheckDate
             saveSettings()
         }
     }
@@ -617,6 +641,8 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         userDefaults.set(toggleShortcut.rawValue, forKey: "toggleShortcut")
         userDefaults.set(perAppInputMode, forKey: "perAppInputMode")
         userDefaults.set(blacklistedBundleIdentifiers, forKey: "blacklistedBundleIdentifiers")
+        userDefaults.set(automaticallyCheckForUpdates, forKey: "automaticallyCheckForUpdates")
+        userDefaults.set(lastUpdateCheckDate, forKey: "lastUpdateCheckDate")
         
         userDefaults.set(customKeyCombo.keyCode, forKey: "customKeyComboKeyCode")
         userDefaults.set(customKeyCombo.carbonModifiers, forKey: "customKeyComboModifiers")
@@ -644,6 +670,8 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             self.launchAtLogin = loaded.launchAtLogin
             self.perAppInputMode = loaded.perAppInputMode
             self.blacklistedBundleIdentifiers = loaded.blacklistedBundleIdentifiers
+            self.automaticallyCheckForUpdates = loaded.automaticallyCheckForUpdates
+            self.lastUpdateCheckDate = loaded.lastUpdateCheckDate
         } else {
             if let modeStr = userDefaults.string(forKey: "currentInputMode"),
                let mode = InputMode(rawValue: modeStr) {
@@ -687,6 +715,14 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             if let blacklist = userDefaults.stringArray(forKey: "blacklistedBundleIdentifiers") {
                 blacklistedBundleIdentifiers = blacklist
             }
+            if userDefaults.object(forKey: "automaticallyCheckForUpdates") != nil {
+                automaticallyCheckForUpdates = userDefaults.bool(forKey: "automaticallyCheckForUpdates")
+            } else {
+                automaticallyCheckForUpdates = true
+            }
+            if let checkDate = userDefaults.object(forKey: "lastUpdateCheckDate") as? Date {
+                lastUpdateCheckDate = checkDate
+            }
             
             settings = AppSettings(
                 inputMode: currentInputMode,
@@ -700,7 +736,9 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
                 customKeyCombo: customKeyCombo,
                 launchAtLogin: launchAtLogin,
                 perAppInputMode: perAppInputMode,
-                blacklistedBundleIdentifiers: blacklistedBundleIdentifiers
+                blacklistedBundleIdentifiers: blacklistedBundleIdentifiers,
+                automaticallyCheckForUpdates: automaticallyCheckForUpdates,
+                lastUpdateCheckDate: lastUpdateCheckDate
             )
         }
         
@@ -732,6 +770,8 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         launchAtLogin = settings.launchAtLogin
         perAppInputMode = settings.perAppInputMode
         blacklistedBundleIdentifiers = settings.blacklistedBundleIdentifiers
+        automaticallyCheckForUpdates = settings.automaticallyCheckForUpdates
+        lastUpdateCheckDate = settings.lastUpdateCheckDate
         syncEngineConfig()
         saveSettings()
         checkInitialInputSource()

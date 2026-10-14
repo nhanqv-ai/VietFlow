@@ -19,7 +19,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat-square" alt="License"></a>
   <img src="https://img.shields.io/badge/platform-macOS%2013%2B%20%7C%20Sonoma%2014.6%2B%20%7C%20Sequoia%2015%2B-lightgrey.svg?style=flat-square" alt="Platform">
   <img src="https://img.shields.io/badge/architecture-Universal%202%20(arm64%20%2B%20x86__64)-blue.svg?style=flat-square" alt="Architecture">
-  <img src="https://img.shields.io/badge/tests-1%2C470%2B%20passed%20(100%25)-success.svg?style=flat-square" alt="Tests">
+  <img src="https://img.shields.io/badge/tests-1%2C499%20passed%20(100%25)-success.svg?style=flat-square" alt="Tests">
   <img src="https://img.shields.io/badge/Swift-6.0-orange.svg?style=flat-square" alt="Swift">
 </p>
 
@@ -57,6 +57,8 @@ If you work in a **Vietnamese &ndash; Japanese &ndash; English** environment (So
 - **Per-App Input Mode & Application Blacklist**:
   - Remembers `[V]` or `[E]` independently for each application (`perAppInputMode`), and completely bypasses blacklisted apps or games (`blacklistedBundleIdentifiers`).
   - Automatically bypasses macOS **Secure Event Input** fields (password prompts, Touch ID, `sudo`, 1Password).
+- **Native GitHub Releases Auto-Updater (`UpdateManager`)**:
+  - Built-in background & manual update checker querying GitHub Releases with SemVer comparison, one-click `.zip` download, safe unpacking (`ditto`/`unzip`), automatic Gatekeeper quarantine cleansing (`xattr -cr`), code signature validation (`codesign`), atomic `/Applications/VietFlow.app` replacement with backup rollback, and one-click app restart.
 - **Universal 2 Architecture & Zero Emojis Design**:
   - Compiled as a native Mach-O fat binary supporting both Apple Silicon (`arm64`: M1/M2/M3/M4) and Intel (`x86_64`: MacBook Pro 2020 and earlier) on macOS 13.0 (Ventura), macOS 14.6+ (Sonoma), and macOS 15+ (Sequoia).
   - Native login item management via `SMAppService`, crisp CoreGraphics vector Menu Bar keycap glyphs (`V` / `E`), and a 4-tab SwiftUI Settings window adhering strictly to a 0-emoji professional design.
@@ -69,7 +71,7 @@ If you work in a **Vietnamese &ndash; Japanese &ndash; English** environment (So
 | `Command + Shift` / `Option + Shift` / `Option` | Alternative modifier-chord shortcuts selectable in Settings | Global |
 | `Custom Key Combo` (e.g., `⌃Space`, `⌥Z`) | User-recordable custom global hotkey via Carbon `RegisterEventHotKey` | Global |
 | `Left-Click Menu Bar Icon` | Instantly toggle `[V]` / `[E]` (or switch `あ Japanese` &harr; `ABC [V]`) | Menu Bar |
-| `Right-Click Menu Bar Icon` | Open quick context menu (Status, Input Method, Tone Style, Settings, Quit) | Menu Bar |
+| `Right-Click Menu Bar Icon` | Open quick context menu (Status, Input Method, Tone Style, Settings, Check for Updates, Quit) | Menu Bar |
 | `Double-Press Diacritic / Tone Key` | Undo transformation and restore literal ASCII key (`aa`, `ww`, `ss`, `dd`, `carr`, `sexx`) | While Typing |
 | `z` (Telex) / `0` (VNI) | Explicitly strip tone mark from the current syllable | While Typing |
 
@@ -81,7 +83,7 @@ If you work in a **Vietnamese &ndash; Japanese &ndash; English** environment (So
 ### Installation
 
 #### Pre-built Release
-1. Download the latest `VietFlow-v1.1.0.zip` from [Releases](https://github.com/nhanqv-ai/VietFlow/releases).
+1. Download the latest `VietFlow-v1.2.0.zip` from [Releases](https://github.com/nhanqv-ai/VietFlow/releases).
 2. Unzip and drag `VietFlow.app` into your `/Applications` folder.
 3. Open `VietFlow.app`. The `V` / `E` keycap icon will appear on your macOS menu bar.
 
@@ -116,13 +118,13 @@ open /Applications/VietFlow.app
 ### Development & Testing
 
 ```bash
-# Compile and execute all 16 automated test suites (1,470+ tests, 100% pass)
+# Compile and execute all 17 automated test suites (1,499 tests, 100% pass)
 make test
 
 # Build Universal 2 VietFlow.app bundle (arm64 + x86_64)
 make app
 
-# Package distributable Universal 2 zip archive (build/VietFlow-v1.1.0.zip)
+# Package distributable Universal 2 zip archive (build/VietFlow-v1.2.0.zip)
 make package
 
 # Install VietFlow.app into /Applications
@@ -167,6 +169,9 @@ Khi sử dụng các bộ gõ tiếng Việt thông thường trên macOS song s
 - **Ghi Nhớ Theo Từng Ứng Dụng & Danh Sách Loại Trừ (Blacklist)**:
   - Tự động ghi nhớ chế độ `[V]` / `[E]` riêng cho từng ứng dụng (`perAppInputMode`) và tự động bỏ qua các ứng dụng/game nằm trong danh sách loại trừ (`blacklistedBundleIdentifiers`).
   - Tự động nhường phím an toàn tại các ô nhập mật khẩu bảo mật (**Secure Event Input** như `sudo`, Touch ID, 1Password).
+- **Tự Động Cập Nhật Trực Tiếp Từ GitHub Releases (`UpdateManager`)**:
+  - Hỗ trợ kiểm tra cập nhật tự động mỗi ngày và kiểm tra thủ công từ Menu Bar (`Kiểm tra cập nhật...`) hoặc tab **Thông tin (About)**.
+  - Tải gói `.zip`, giải nén an toàn (`ditto`/`unzip`), tự động gỡ chặn Gatekeeper (`xattr -cr`), xác thực chữ ký số (`codesign`), thay thế nguyên tử `/Applications/VietFlow.app` kèm cơ chế sao lưu khôi phục (rollback) và khởi động lại ứng dụng chỉ với 1 cú nhấp chuột.
 - **Kiến Trúc Universal 2 & Thiết Kế Chuẩn Apple HIG (0 Emojis)**:
   - Biên dịch dưới dạng Mach-O fat binary hỗ trợ gốc cả chip Apple Silicon (`arm64`: M1/M2/M3/M4) và chip Intel (`x86_64`: MacBook Pro 2020) trên macOS 13.0 (Ventura), macOS 14.6+ (Sonoma) và macOS 15+ (Sequoia).
   - Biểu tượng Menu Bar dạng keycap vector sắc nét (`V` / `E`), hỗ trợ khởi động cùng hệ thống qua `SMAppService` và tuân thủ quy chuẩn **0 Emojis**.
@@ -179,7 +184,7 @@ Khi sử dụng các bộ gõ tiếng Việt thông thường trên macOS song s
 | `Command + Shift` / `Option + Shift` / `Option` | Các tổ hợp phím bổ trợ thay thế chọn trong Cài đặt | Toàn hệ thống |
 | `Tổ hợp phím tùy chỉnh` (VD: `⌃Space`, `⌥Z`) | Tự ghi nhận phím tắt bất kỳ qua Carbon `RegisterEventHotKey` | Toàn hệ thống |
 | `Click chuột trái vào icon Menu Bar` | Chuyển đổi tức thì chế độ `[V]` / `[E]` (hoặc chuyển 2 chiều `あ Japanese` &harr; `ABC [V]`) | Thanh Menu |
-| `Click chuột phải vào icon Menu Bar` | Mở menu xem trạng thái, chọn nhanh Kiểu gõ, Quy tắc dấu, Cài đặt, Thoát | Thanh Menu |
+| `Click chuột phải vào icon Menu Bar` | Mở menu xem trạng thái, chọn nhanh Kiểu gõ, Quy tắc dấu, Cài đặt, Kiểm tra cập nhật, Thoát | Thanh Menu |
 | `Gõ lặp 2 lần phím dấu` (`aa`, `ww`, `ss`, `dd`, `carr`, `sexx`) | Hoàn tác dấu vừa bỏ và trả về ký tự ASCII nguyên gốc | Khi đang gõ |
 | `z` (Telex) / `0` (VNI) | Xóa dấu thanh của âm tiết hiện tại | Khi đang gõ |
 
@@ -191,7 +196,7 @@ Khi sử dụng các bộ gõ tiếng Việt thông thường trên macOS song s
 ### Hướng dẫn cài đặt
 
 #### Tải bản đóng gói sẵn
-1. Tải bản phát hành mới nhất `VietFlow-v1.1.0.zip` tại mục [Releases](https://github.com/nhanqv-ai/VietFlow/releases).
+1. Tải bản phát hành mới nhất `VietFlow-v1.2.0.zip` tại mục [Releases](https://github.com/nhanqv-ai/VietFlow/releases).
 2. Giải nén và kéo file `VietFlow.app` vào thư mục `/Applications` (Ứng dụng).
 3. Mở `VietFlow.app`. Biểu tượng chữ `V` trên khung vuông sẽ xuất hiện trên thanh menu macOS.
 
@@ -223,16 +228,16 @@ make install
 open /Applications/VietFlow.app
 ```
 
-### Lệnh phát triển & Kiểm thử (1.470+ Tests Pass 100%)
+### Lệnh phát triển & Kiểm thử (1.499 Tests Pass 100%)
 
 ```bash
-# Chạy toàn bộ 16 bộ kiểm thử tự động (1.470+ test cases, pass 100%)
+# Chạy toàn bộ 17 bộ kiểm thử tự động (1.499 test cases, pass 100%)
 make test
 
 # Đóng gói bản dựng Universal 2 (build/VietFlow.app)
 make app
 
-# Đóng gói file nén zip phân phối Universal 2 (build/VietFlow-v1.1.0.zip)
+# Đóng gói file nén zip phân phối Universal 2 (build/VietFlow-v1.2.0.zip)
 make package
 
 # Cài đặt trực tiếp vào thư mục /Applications
@@ -257,13 +262,14 @@ make clean
  Running Suite: TerminalCompatibilityTests (80 tests)        -> 80 passed,  0 failed
  Running Suite: HotkeyStateMachineTests (26 tests)           -> 26 passed,  0 failed
  Running Suite: InputSourceSynchronizationTests (26 tests)   -> 26 passed,  0 failed
- Running Suite: SettingsPersistenceTests (27 tests)          -> 27 passed,  0 failed
+ Running Suite: SettingsPersistenceTests (28 tests)          -> 28 passed,  0 failed
  Running Suite: ModeToggleBufferResetTests (12 tests)        -> 12 passed,  0 failed
- Running Suite: SettingsLayoutTests (10 tests)               -> 10 passed,  0 failed
+ Running Suite: SettingsLayoutTests (11 tests)               -> 11 passed,  0 failed
  Running Suite: RealWorldTypingAndBackspaceTests (385 tests) -> 385 passed, 0 failed
  Running Suite: TrilingualUserExperienceTests (119 tests)    -> 119 passed, 0 failed
+ Running Suite: UpdateManagerTests (25 tests)                -> 25 passed,  0 failed
 ================================================================================
- Total Suites: 16 | Total Test Cases: 1473 | Passed: 1473 (100%) | Failed: 0
+ Total Suites: 17 | Total Test Cases: 1499 | Passed: 1499 (100%) | Failed: 0
 ================================================================================
 ```
 

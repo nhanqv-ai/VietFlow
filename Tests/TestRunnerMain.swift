@@ -39,6 +39,7 @@ struct TestRunnerMain {
         registry.register(name: "SettingsLayoutTests") { SettingsLayoutTests() }
         registry.register(name: "RealWorldTypingAndBackspaceTests") { RealWorldTypingAndBackspaceTests() }
         registry.register(name: "TrilingualUserExperienceTests") { TrilingualUserExperienceTests() }
+        registry.register(name: "UpdateManagerTests") { UpdateManagerTests() }
         
         let args = CommandLine.arguments
         let verbose = args.contains("--verbose") || args.contains("-v")

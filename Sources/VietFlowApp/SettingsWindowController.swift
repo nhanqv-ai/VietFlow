@@ -39,10 +39,12 @@ public final class SettingsWindowController: NSWindowController, NSWindowDelegat
     private static let userDefaultsFrameKey = "NSWindow Frame VietFlowSettingsWindow"
 
     public let stateManager: AppStateManager
+    public let updateManager: UpdateManager
     private var hasBeenCentered: Bool = false
 
-    public init(stateManager: AppStateManager = .shared) {
+    public init(stateManager: AppStateManager = .shared, updateManager: UpdateManager = .shared) {
         self.stateManager = stateManager
+        self.updateManager = updateManager
 
         // Purge any stale narrower autosaved frame from UserDefaults
         UserDefaults.standard.removeObject(forKey: Self.userDefaultsFrameKey)
@@ -70,10 +72,12 @@ public final class SettingsWindowController: NSWindowController, NSWindowDelegat
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func setupContentView() {
+    public func setupContentView(tab: SettingsTab = .keyboard) {
         guard let window = self.window else { return }
         let settingsView = SettingsView(
             stateManager: stateManager,
+            updateManager: updateManager,
+            initialTab: tab,
             onClose: { [weak self] in
                 self?.close()
             }
@@ -84,14 +88,20 @@ public final class SettingsWindowController: NSWindowController, NSWindowDelegat
         window.setContentSize(Self.fixedSize)
     }
 
-    public func showSettings() {
+    public func showSettings(tab: SettingsTab? = nil) {
         guard Thread.isMainThread else {
             DispatchQueue.main.async { [weak self] in
-                self?.showSettings()
+                self?.showSettings(tab: tab)
             }
             return
         }
         guard let window = self.window else { return }
+
+        if let tab = tab {
+            setupContentView(tab: tab)
+        } else if window.contentViewController == nil {
+            setupContentView()
+        }
 
         // Enforce fixed 520x520 geometry on presentation
         window.setContentSize(Self.fixedSize)

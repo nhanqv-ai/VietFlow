@@ -7,10 +7,11 @@
 
 import AppKit
 import ApplicationServices
+import UserNotifications
 import VietFlowEventTap
 import VietFlowState
 
-public final class AppDelegate: NSObject, NSApplicationDelegate {
+public final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     private var statusBarController: StatusBarController?
     private var permissionTimer: Timer?
     private var accessibilityObserver: NSObjectProtocol?
@@ -38,10 +39,58 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         
         // 4. Check and request Accessibility permissions (auto-flushing stale ad-hoc TCC cache if needed)
         checkAccessibilityPermissions()
+        
+        // 5. Wire native macOS notifications (UNUserNotificationCenter)
+        if Bundle.main.bundleIdentifier != nil {
+            let center = UNUserNotificationCenter.current()
+            center.delegate = self
+        }
+        
+        // 6. Initialize auto-updater & background checks
+        UpdateManager.shared.checkOnStartupIfNeeded(stateManager: .shared)
+        UpdateManager.shared.startPeriodicCheck(stateManager: .shared)
+    }
+    
+    public func applicationWillTerminate(_ notification: Notification) {
+        UpdateManager.shared.stopPeriodicCheck()
+        permissionTimer?.invalidate()
+        if let observer = accessibilityObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if Bundle.main.bundleIdentifier != nil {
+            let center = UNUserNotificationCenter.current()
+            center.removeAllPendingNotificationRequests()
+            center.removeAllDeliveredNotifications()
+        }
     }
     
     public func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return false // Background agent remains running in Menu Bar
+    }
+    
+    // MARK: - UNUserNotificationCenterDelegate
+    public func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        if #available(macOS 11.0, *) {
+            completionHandler([.banner, .sound])
+        } else {
+            completionHandler([.alert, .sound])
+        }
+    }
+    
+    public func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        let identifier = response.notification.request.identifier
+        if identifier.hasPrefix("com.nhanqv.vietflow.update") {
+            SettingsWindowController.shared.showSettings(tab: .about)
+        }
+        completionHandler()
     }
     
     private func checkAccessibilityPermissions() {

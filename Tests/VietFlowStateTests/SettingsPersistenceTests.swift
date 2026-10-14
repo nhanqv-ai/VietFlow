@@ -51,6 +51,8 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertEqual(def.blacklistedBundleIdentifiers.count, 2)
         XCTAssertTrue(def.blacklistedBundleIdentifiers.contains("com.valvesoftware.steam"))
         XCTAssertTrue(def.blacklistedBundleIdentifiers.contains("com.riotgames.leagueoflegends"))
+        XCTAssertTrue(def.automaticallyCheckForUpdates)
+        XCTAssertNil(def.lastUpdateCheckDate)
     }
     
     // MARK: - Test 2: JSON Serialization & Roundtrip
@@ -119,6 +121,8 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertFalse(decoded.launchAtLogin)
         XCTAssertTrue(decoded.perAppInputMode)
         XCTAssertEqual(decoded.blacklistedBundleIdentifiers.count, 2)
+        XCTAssertTrue(decoded.automaticallyCheckForUpdates)
+        XCTAssertNil(decoded.lastUpdateCheckDate)
     }
     
     // MARK: - Test 5: Input Method Mutation
@@ -310,6 +314,8 @@ public final class SettingsPersistenceTests: TestCase {
         manager.shortcutType = .customKeyCombo
         manager.modifierChord = .commandShift
         manager.perAppInputMode = false
+        manager.automaticallyCheckForUpdates = false
+        manager.lastUpdateCheckDate = Date()
         manager.addBlacklistApp(bundleId: "com.test.temp")
         
         manager.resetToDefaults()
@@ -326,6 +332,8 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertTrue(manager.perAppInputMode)
         XCTAssertEqual(manager.blacklistedBundleIdentifiers.count, 2)
         XCTAssertFalse(manager.isApplicationBlacklisted(bundleId: "com.test.temp"))
+        XCTAssertTrue(manager.automaticallyCheckForUpdates)
+        XCTAssertNil(manager.lastUpdateCheckDate)
     }
     
     // MARK: - Test 19: Synchronous Mode Toggle

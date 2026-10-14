@@ -116,9 +116,10 @@ swiftc $SDK_FLAG \
     -emit-library \
     -emit-module \
     -module-name VietFlowStateTests \
-    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState -lVietFlowEngineTests \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState -lVietFlowApp -lVietFlowEngineTests \
     -emit-module-path "$BUILD_DIR/VietFlowStateTests.swiftmodule" \
     Tests/VietFlowStateTests/SettingsPersistenceTests.swift \
+    Tests/VietFlowStateTests/UpdateManagerTests.swift \
     -o "$BUILD_DIR/libVietFlowStateTests.dylib"
 
 echo "==> Step 7: Compiling VietFlowEventTapTests module..."

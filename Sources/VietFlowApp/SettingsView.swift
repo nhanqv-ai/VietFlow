@@ -25,7 +25,7 @@ public enum SettingsTab: String, CaseIterable, Identifiable {
     case keyboard = "Bàn phím"
     case shortcuts = "Phím tắt"
     case applications = "Ứng dụng"
-    case about = "Giới thiệu"
+    case about = "Thông tin"
 
     public var id: String { rawValue }
 
@@ -71,6 +71,7 @@ public struct BlacklistedAppItem: Identifiable, Hashable {
 public struct SettingsView: View {
     @ObservedObject public var stateManager: AppStateManager
     @ObservedObject public var accessibilityService: AccessibilityService
+    @ObservedObject public var updateManager: UpdateManager
     public var onClose: (() -> Void)?
 
     @State private var selectedTab: SettingsTab = .keyboard
@@ -84,11 +85,13 @@ public struct SettingsView: View {
     public init(
         stateManager: AppStateManager = .shared,
         accessibilityService: AccessibilityService = .shared,
+        updateManager: UpdateManager = .shared,
         initialTab: SettingsTab = .keyboard,
         onClose: (() -> Void)? = nil
     ) {
         self.stateManager = stateManager
         self.accessibilityService = accessibilityService
+        self.updateManager = updateManager
         self._selectedTab = State(initialValue: initialTab)
         self.onClose = onClose
     }
@@ -97,6 +100,9 @@ public struct SettingsView: View {
         VStack(spacing: 0) {
             topTabBar
             Divider()
+            if updateManager.shouldShowBanner {
+                updateBannerView
+            }
             contentArea
             Divider()
             footerBar
@@ -134,9 +140,18 @@ public struct SettingsView: View {
                     }
                 }) {
                     VStack(spacing: 2) {
-                        Image(systemName: tab.iconName)
-                            .font(.system(size: 18, weight: .regular))
-                            .frame(height: 22)
+                        ZStack(alignment: .topTrailing) {
+                            Image(systemName: tab.iconName)
+                                .font(.system(size: 18, weight: .regular))
+                                .frame(height: 22)
+
+                            if tab == .about && updateManager.hasPendingUpdate {
+                                Circle()
+                                    .fill(Color.accentColor)
+                                    .frame(width: 6, height: 6)
+                                    .offset(x: 4, y: -2)
+                            }
+                        }
                         Text(tab.rawValue)
                             .font(.system(size: 11, weight: selectedTab == tab ? .semibold : .regular))
                             .lineLimit(1)
@@ -850,6 +865,152 @@ public struct SettingsView: View {
         selectedBlacklistId = nil
     }
 
+    // MARK: - Update Banner View
+    private var updateBannerView: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                .foregroundColor(.accentColor)
+                .font(.system(size: 13))
+
+            VStack(alignment: .leading, spacing: 1) {
+                switch updateManager.status {
+                case .readyToRestart:
+                    Text("Sẵn sàng khởi động lại")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(.primary)
+
+                case .downloading(let progress):
+                    Text("Đang tải bản cập nhật... \(Int(progress * 100))%")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(.primary)
+
+                case .updateAvailable(let release):
+                    Text("Có bản mới v\(release.versionString)")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(.primary)
+
+                case .error(let msg):
+                    Text(msg)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(.red)
+                        .lineLimit(1)
+
+                default:
+                    EmptyView()
+                }
+            }
+
+            Spacer()
+
+            switch updateManager.status {
+            case .readyToRestart(let release):
+                Button(action: {
+                    NSWorkspace.shared.open(release.htmlURL)
+                }) {
+                    Text("Xem thay đổi")
+                        .font(.system(size: 10))
+                }
+                .buttonStyle(.plain)
+                .foregroundColor(.secondary)
+
+                Button(action: {
+                    updateManager.dismissBannerForSession()
+                }) {
+                    Text("Để sau")
+                        .font(.system(size: 10))
+                }
+                .buttonStyle(.plain)
+                .foregroundColor(.secondary)
+
+                Button(action: {
+                    updateManager.restartApp()
+                }) {
+                    Text("Khởi động lại")
+                        .font(.system(size: 10, weight: .semibold))
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+
+            case .downloading:
+                ProgressView()
+                    .controlSize(.small)
+                    .scaleEffect(0.6)
+
+            case .updateAvailable(let release):
+                Button(action: {
+                    NSWorkspace.shared.open(release.htmlURL)
+                }) {
+                    Text("Xem thay đổi")
+                        .font(.system(size: 10))
+                }
+                .buttonStyle(.plain)
+                .foregroundColor(.secondary)
+
+                Button(action: {
+                    updateManager.dismissBannerForSession()
+                }) {
+                    Text("Để sau")
+                        .font(.system(size: 10))
+                }
+                .buttonStyle(.plain)
+                .foregroundColor(.secondary)
+
+                Button(action: {
+                    updateManager.startDownloadAndInstall(release: release)
+                }) {
+                    Text("Cập nhật ngay")
+                        .font(.system(size: 10, weight: .semibold))
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+
+            case .error:
+                if let release = updateManager.latestRelease {
+                    Button(action: {
+                        NSWorkspace.shared.open(release.htmlURL)
+                    }) {
+                        Text("Xem thay đổi")
+                            .font(.system(size: 10))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundColor(.secondary)
+                }
+
+                Button(action: {
+                    updateManager.dismissBannerForSession()
+                }) {
+                    Text("Để sau")
+                        .font(.system(size: 10))
+                }
+                .buttonStyle(.plain)
+                .foregroundColor(.secondary)
+
+                if let release = updateManager.latestRelease {
+                    Button(action: {
+                        updateManager.startDownloadAndInstall(release: release)
+                    }) {
+                        Text("Cập nhật ngay")
+                            .font(.system(size: 10, weight: .semibold))
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+                }
+
+            default:
+                EmptyView()
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .frame(maxWidth: 488)
+        .background(
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .fill(Color.accentColor.opacity(0.1))
+        )
+        .padding(.horizontal, 16)
+        .padding(.vertical, 4)
+    }
+
     // MARK: - Tab 4: About Tab Content
     private var aboutTabContent: some View {
         VStack(spacing: 10) {
@@ -878,7 +1039,7 @@ public struct SettingsView: View {
                                 .font(.system(size: 15, weight: .bold))
                                 .foregroundColor(.primary)
 
-                            Text("v1.1.0 (Build 2026.10)")
+                            Text("v\(updateManager.currentVersion) (Build 2026.10)")
                                 .font(.system(size: 10.5, weight: .medium))
                                 .foregroundColor(.secondary)
                                 .padding(.horizontal, 6)
@@ -938,6 +1099,47 @@ public struct SettingsView: View {
                     Toggle("Tự động khởi động cùng macOS khi đăng nhập", isOn: $stateManager.launchAtLogin)
                         .toggleStyle(.checkbox)
                         .font(.system(size: 11.5))
+                }
+            }
+
+            // Card 2: Software Updates
+            cardView {
+                Text("Cập nhật phần mềm")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.primary)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Toggle("Tự động kiểm tra cập nhật mỗi ngày", isOn: $stateManager.automaticallyCheckForUpdates)
+                        .toggleStyle(.checkbox)
+                        .font(.system(size: 11.5))
+
+                    Divider()
+
+                    HStack(spacing: 10) {
+                        Button(action: {
+                            updateManager.checkForUpdates(userInitiated: true)
+                        }) {
+                            HStack(spacing: 4) {
+                                if case .checking = updateManager.status {
+                                    ProgressView()
+                                        .controlSize(.small)
+                                        .scaleEffect(0.6)
+                                } else {
+                                    Image(systemName: "arrow.triangle.2.circlepath")
+                                        .font(.system(size: 11))
+                                }
+                                Text("Kiểm tra cập nhật")
+                                    .font(.system(size: 11.5, weight: .medium))
+                            }
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                        .disabled(updateManager.isBusy)
+
+                        Spacer()
+
+                        updateStatusLabel
+                    }
                 }
             }
 
@@ -1019,6 +1221,59 @@ public struct SettingsView: View {
                     .controlSize(.small)
                 }
             }
+        }
+    }
+
+    // MARK: - Update Status Label
+    @ViewBuilder
+    private var updateStatusLabel: some View {
+        switch updateManager.status {
+        case .idle:
+            EmptyView()
+        case .checking:
+            Text("Đang kiểm tra...")
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+        case .upToDate(let ver):
+            Text("Đã là phiên bản mới nhất (v\(ver))")
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+        case .updateAvailable(let release):
+            HStack(spacing: 6) {
+                Text("Có bản mới v\(release.versionString)")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.accentColor)
+                Button("Cập nhật ngay") {
+                    updateManager.startDownloadAndInstall(release: release)
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.mini)
+            }
+        case .downloading:
+            HStack(spacing: 4) {
+                ProgressView()
+                    .controlSize(.small)
+                    .scaleEffect(0.6)
+                Text("Đang tải bản cập nhật...")
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+            }
+        case .readyToRestart:
+            HStack(spacing: 6) {
+                Text("Sẵn sàng khởi động lại")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.accentColor)
+                Button("Khởi động lại") {
+                    updateManager.restartApp()
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.mini)
+            }
+        case .error(let msg):
+            Text(msg)
+                .font(.system(size: 11))
+                .foregroundColor(.red)
+                .lineLimit(1)
         }
     }
 
