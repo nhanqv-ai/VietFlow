@@ -237,7 +237,7 @@ public enum EnglishRestoreDetector {
         "lla", "lle", "lli", "llo", "llu", "lly",
         "ppa", "ppe", "ppi", "ppo", "ppu", "ppy",
         "bba", "bbe", "bbi", "bbo", "bbu", "bby",
-        "ffa", "ffe", "ffi", "ffo", "ffu", "ffy",
+        "ffa", "ffe", "ffi", "ffo", "ffu", "ffy", "ffl", "ffs", "ffh", "ffr",
         "mma", "mme", "mmi", "mmo", "mmu", "mmy",
         "rra", "rre", "rri", "rro", "rru", "rry",
         "ssa", "sse", "ssi", "sso", "ssu", "ssy",

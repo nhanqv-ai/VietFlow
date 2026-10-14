@@ -775,8 +775,36 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_130_english_trans_cons_boots_gats_prefixes_and_ff_clusters() {
+        let input = "transfer transform translate transaction transparent transition transport transmission transmit construct constraint constant consumer consult bootstrap gatsby hotspot offspring offline offset offshore offload offhand"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_131_japanese_verb_conjugations_te_ta_nai_tai_forms() {
+        let input = "tabete tabeta tabenai tabetai mite mita minai mitai shite shita shinai shitai kite kita konai kitai itte itta ikanai ikitai katte katta kawanai kaitai matte matta matanai machitai yonde yonda yomanai yomitai"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_132_mid_word_backspace_and_retype_english_and_romaji() {
+        let input = "passwrod<BS><BS><BS>ord transmisison<BS><BS><BS><BS>sion offspirng<BS><BS><BS><BS>ring bootstarp<BS><BS><BS>rap shinkanesn<BS><BS><BS>sen otsukareasam<BS><BS><BS><BS>sama shouchishimashtia<BS><BS><BS>ita tot<BS>oth tehre<BS><BS><BS><BS>here zomo<BS><BS>om"
+        let expected = "password transmission offspring bootstrap shinkansen otsukaresama shouchishimashita tooth there zoom"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_133_cross_word_backspace_across_trilingual_tokens() {
+        let input = "Chusng tooi ddang test transmission vaf otsukaresama<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>shouchishimashita trong buooir hopj"
+        let expected = "Chúng tôi đang test transmission và shouchishimashita trong buổi họp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_134_scenario12_devops_networking_and_japanese_client_review() {
+        let input = " Tanaka-sama, heej thoongs transmission ddax offload sang server offline vaf bootstrap xong cluster. Chusng tooi ddax kakunin vaf tabete bento truowsc khi release!"
+        let expected = " Tanaka-sama, hệ thống transmission đã offload sang server offline và bootstrap xong cluster. Chúng tôi đã kakunin và tabete bento trước khi release!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (129 Tests)
+    // MARK: - Test Registration (134 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -895,7 +923,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (21 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (26 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -917,6 +945,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_127_english_th_coda_and_common_re_se_words", test_tier4_127_english_th_coda_and_common_re_se_words),
             ("test_tier4_128_english_hyphenated_compounds_and_cloud_frameworks", test_tier4_128_english_hyphenated_compounds_and_cloud_frameworks),
             ("test_tier4_129_scenario11_business_email_keigo_and_cloud_architecture", test_tier4_129_scenario11_business_email_keigo_and_cloud_architecture),
+            ("test_tier4_130_english_trans_cons_boots_gats_prefixes_and_ff_clusters", test_tier4_130_english_trans_cons_boots_gats_prefixes_and_ff_clusters),
+            ("test_tier4_131_japanese_verb_conjugations_te_ta_nai_tai_forms", test_tier4_131_japanese_verb_conjugations_te_ta_nai_tai_forms),
+            ("test_tier4_132_mid_word_backspace_and_retype_english_and_romaji", test_tier4_132_mid_word_backspace_and_retype_english_and_romaji),
+            ("test_tier4_133_cross_word_backspace_across_trilingual_tokens", test_tier4_133_cross_word_backspace_across_trilingual_tokens),
+            ("test_tier4_134_scenario12_devops_networking_and_japanese_client_review", test_tier4_134_scenario12_devops_networking_and_japanese_client_review),
         ]
     }
 }
