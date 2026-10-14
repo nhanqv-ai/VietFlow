@@ -77,12 +77,17 @@
 2. Unzip and drag `VietFlow.app` into your `/Applications` folder.
 3. Open `VietFlow.app`. The `V` / `E` keycap icon will appear on your macOS menu bar.
 
-> [!NOTE]
-> **First-Time Launch (macOS Gatekeeper)**:
-> Since VietFlow is an independent open-source project without paid Apple Developer ID notarization, macOS may display a verification prompt (*"VietFlow" Not Opened*). You can open it easily via any of these methods:
-> - **Terminal (Recommended)**: Run `xattr -cr /Applications/VietFlow.app` (or on the unzipped path).
-> - **System Settings**: Go to **System Settings** $\rightarrow$ **Privacy & Security** $\rightarrow$ scroll down to **Security** $\rightarrow$ click **Open Anyway**.
-> - **Finder**: Right-click (or `Control` + click) `VietFlow.app` $\rightarrow$ choose **Open** $\rightarrow$ click **Open**.
+#### First-Time Launch (macOS Gatekeeper)
+
+Because VietFlow is an open-source application not notarized with an Apple Developer account, macOS Gatekeeper may show a warning on first launch (*"VietFlow" Not Opened*).
+
+You can easily allow it by running this one-line command in Terminal:
+
+```bash
+xattr -cr /Applications/VietFlow.app
+```
+
+*(Or go to System Settings -> Privacy & Security -> click **Open Anyway**, or right-click VietFlow.app and choose **Open**).*
 
 > [!TIP]
 > **Accessibility Permission (`CGEventTap` & TCC Cache Refresh)**:
@@ -173,12 +178,17 @@ make clean
 2. Giải nén và kéo file `VietFlow.app` vào thư mục `/Applications` (Ứng dụng).
 3. Mở `VietFlow.app`. Biểu tượng chữ `V` trên khung vuông sẽ xuất hiện trên thanh menu macOS.
 
-> [!NOTE]
-> **Mở ứng dụng lần đầu (macOS Gatekeeper)**:
-> Do VietFlow là phần mềm mã nguồn mở độc lập (chưa đăng ký chứng chỉ Apple Developer có phí), macOS có thể hiển thị thông báo bảo vệ (*"VietFlow" Not Opened*). Bạn có thể mở ứng dụng dễ dàng bằng một trong các cách:
-> - **Dùng Terminal (Nhanh nhất)**: Chạy lệnh `xattr -cr /Applications/VietFlow.app` (hoặc đường dẫn file vừa giải nén).
-> - **Dùng Cài đặt hệ thống**: Vào **System Settings** $\rightarrow$ **Privacy & Security** $\rightarrow$ cuộn xuống mục **Security** $\rightarrow$ chọn **Open Anyway** (Vẫn mở).
-> - **Dùng chuột phải**: Nhấp chuột phải (hoặc giữ phím `Control` + click) vào `VietFlow.app` $\rightarrow$ chọn **Open** (Mở) $\rightarrow$ chọn **Open**.
+#### Mở ứng dụng lần đầu (macOS Gatekeeper)
+
+Do VietFlow là ứng dụng mã nguồn mở độc lập (chưa đăng ký chứng chỉ Apple Developer có phí), macOS Gatekeeper có thể hiển thị cảnh báo trong lần mở đầu tiên (*"VietFlow" Not Opened*).
+
+Bạn có thể mở ứng dụng dễ dàng bằng cách chạy câu lệnh 1 dòng này trong Terminal:
+
+```bash
+xattr -cr /Applications/VietFlow.app
+```
+
+*(Hoặc vào System Settings -> Privacy & Security -> nhấn **Open Anyway**, hoặc click chuột phải vào VietFlow.app và chọn **Open**).*
 
 > [!TIP]
 > **Cấp quyền Trợ năng (`CGEventTap` & Làm mới cache TCC)**:
