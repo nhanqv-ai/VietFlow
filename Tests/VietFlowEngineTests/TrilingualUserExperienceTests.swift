@@ -803,8 +803,35 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_135_japanese_geminate_ssh_and_conversational_adverbs() {
+        let input = "issho isshoni isshou isshoukenmei irasshai irasshaimase zasshi ressha hassha kesshite asshuku sesshu kesshou nisshi busshi sasshi mochiron tabun zenzen chanto itsumo tokidoki tamani suguni yukkuri hayaku"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_136_japanese_tokyo_stations_neighborhoods_and_regions() {
+        let input = "akihabara ikebukuro roppongi harajuku ebisu meguro shinagawa ueno asakusa ginza odaiba kichijoji shimokitazawa nakameguro daikanyama omotesando kabukicho marunouchi otemachi nihonbashi tsukiji toyosu haneda narita kansai kanto okinawa hakone kamakura fujisan"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_137_english_emerge_refuse_piece_purse_curse_and_dge_age_words() {
+        let input = "piece pieces niece nieces chose refuse refused refuses refusal peruse purse purses curse curses cursed emerge emerged emerges emerging emergency emergencies bridge fridge edge badge judge budget gadget widget message package storage"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_138_vni_alphanumeric_tech_tokens_and_trilingual_sentence() {
+        let input = "Chu1ng to6i d9a4 deploy vue3 web3 http2 http3 oauth2 base64 sha256 utf8 i18n l10n k8s s3 ec2 p2p b2b b2c o2o ta5i akihabara va2 roppongi!"
+        let expected = "Chúng tôi đã deploy vue3 web3 http2 http3 oauth2 base64 sha256 utf8 i18n l10n k8s s3 ec2 p2p b2b b2c o2o tại akihabara và roppongi!"
+        assertBuffer(input, equals: expected, inputMethod: .vni)
+    }
+
+    func test_tier4_139_scenario13_simple_telex_trilingual_tokyo_commute_and_incident_response() {
+        let input = "Chusng tooi ddang ddi ressha tuwf akihabara ddeens roppongi isshoni. Neeus cos emergency hoawcj client refuse piece code nayf, team sex emerge vowsi solution mowsi!"
+        let expected = "Chúng tôi đang đi ressha từ akihabara đến roppongi isshoni. Nếu có emergency hoặc client refuse piece code này, team sẽ emerge với solution mới!"
+        assertBuffer(input, equals: expected, inputMethod: .simpleTelex)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (134 Tests)
+    // MARK: - Test Registration (139 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -923,7 +950,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (26 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (31 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -950,6 +977,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_132_mid_word_backspace_and_retype_english_and_romaji", test_tier4_132_mid_word_backspace_and_retype_english_and_romaji),
             ("test_tier4_133_cross_word_backspace_across_trilingual_tokens", test_tier4_133_cross_word_backspace_across_trilingual_tokens),
             ("test_tier4_134_scenario12_devops_networking_and_japanese_client_review", test_tier4_134_scenario12_devops_networking_and_japanese_client_review),
+            ("test_tier4_135_japanese_geminate_ssh_and_conversational_adverbs", test_tier4_135_japanese_geminate_ssh_and_conversational_adverbs),
+            ("test_tier4_136_japanese_tokyo_stations_neighborhoods_and_regions", test_tier4_136_japanese_tokyo_stations_neighborhoods_and_regions),
+            ("test_tier4_137_english_emerge_refuse_piece_purse_curse_and_dge_age_words", test_tier4_137_english_emerge_refuse_piece_purse_curse_and_dge_age_words),
+            ("test_tier4_138_vni_alphanumeric_tech_tokens_and_trilingual_sentence", test_tier4_138_vni_alphanumeric_tech_tokens_and_trilingual_sentence),
+            ("test_tier4_139_scenario13_simple_telex_trilingual_tokyo_commute_and_incident_response", test_tier4_139_scenario13_simple_telex_trilingual_tokyo_commute_and_incident_response),
         ]
     }
 }

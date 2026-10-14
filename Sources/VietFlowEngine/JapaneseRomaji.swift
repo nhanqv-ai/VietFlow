@@ -97,7 +97,22 @@ public enum JapaneseRomajiLexicon {
         "monjayaki", "imagawayaki", "daifuku", "warabimochi", "kakigoori", "anmitsu",
         "umeboshi", "furikake", "kamaboko", "chikuwa", "konnyaku", "shiitake",
         "shimeji", "matsutake", "daikon", "kabocha", "kyuuri", "tamanegi", "jagaimo",
-        "satsumaimo", "takenoko"
+        "satsumaimo", "takenoko",
+
+        // Tokyo stations, Japanese regions, geminates & conversational adverbs (Cycle 4)
+        "akihabara", "ikebukuro", "roppongi", "harajuku", "ebisu", "meguro", "shinagawa",
+        "ueno", "asakusa", "ginza", "odaiba", "kichijoji", "shimokitazawa", "nakameguro",
+        "daikanyama", "omotesando", "kabukicho", "marunouchi", "otemachi", "nihonbashi",
+        "tsukiji", "toyosu", "haneda", "narita", "kansai", "chubu", "tohoku", "kanto",
+        "kyushu", "shikoku", "okinawa", "hakone", "nikko", "kamakura", "kawagoe",
+        "karuizawa", "atami", "fujisan", "biwako", "korewa", "sorewa", "arewa",
+        "watashiwa", "anatawa", "konbanwa", "mochiron", "tabun", "zenzen", "chanto",
+        "itsumo", "tokidoki", "tamani", "suguni", "yukkuri", "hayaku", "issho",
+        "isshoni", "isshou", "isshoukenmei", "irasshai", "irasshaimase", "zasshi",
+        "ressha", "hassha", "kesshite", "asshuku", "sesshu", "kesshou", "nisshi",
+        "busshi", "sasshi", "hitori", "futari", "minna", "zenbu", "hanbun", "sukoshi",
+        "takusan", "amari", "totemo", "sugoku", "meccha", "kawaii", "kakkoii",
+        "suzushii", "atatakai", "ookii", "chiisai"
     ]
 }
 

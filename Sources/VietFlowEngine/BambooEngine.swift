@@ -745,8 +745,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         // Case 2: Syllable already has a valid coda, and nextChar is a valid onset that cannot extend the coda
         if !parsed.coda.isEmpty && PhonotacticsMatrix.isValidCoda(parsed.coda) {
             // Do not split if a non-adjacent vowel jumped across the coda (e.g. 't-a-n-a' in 'tanaka', 'a-n-a' in 'anata')
-            // or if the last raw key was 's' forming a foreign medial cluster (e.g. 'trans-' in 'transmit'/'transmission', 'boots-' in 'bootstrap')
-            if lastRawIsVowel || activeRawKeys.last?.lowercased() == "s" {
+            // or if the last raw key was 's' or 'r' forming a foreign medial cluster (e.g. 'trans-' in 'transmission', 'emer-' in 'emerge')
+            let lastKeyLower = activeRawKeys.last?.lowercased()
+            if lastRawIsVowel || lastKeyLower == "s" || lastKeyLower == "r" {
                 return false
             }
             let candidateCoda = parsed.coda + String(nextChar)
