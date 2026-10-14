@@ -74,7 +74,30 @@ public enum JapaneseRomajiLexicon {
         "tsunade", "haruka", "misaki", "chisato", "hisashi", "musashi", "suzuki",
         "tanaka", "yamamoto", "watanabe", "takahashi", "itou", "satou", "kobayashi",
         "nakamura", "katou", "yoshida", "yamada", "sasaki", "yamaguchi", "matsumoto",
-        "inoue", "kimura", "hayashi", "shimizu"
+        "inoue", "kimura", "hayashi", "shimizu",
+
+        // Honorifics, Keigo, Workplace & Daily JLPT Vocabulary (Cycle 2)
+        "sama", "kamisama", "ousama", "himesama", "uchiawase", "kaigishitsu", "uketsuke",
+        "jimusho", "buchou", "kachou", "shachou", "tenchou", "sekininsha", "kanrisha",
+        "shain", "douryou", "torihikisaki", "kokyaku", "mitsumorisho", "ryoushuusho",
+        "keiyakusho", "sekkeisho", "houkokusho", "teiansho", "ringisho", "kessai",
+        "natsuin", "meishi", "aisatsu", "keigo", "sonkeigo", "kenjougo", "teineigo",
+        "shitsurei", "shitsureishimasu", "otsukaresamadesu", "osewaninarimasu",
+        "moushiwakearimasen", "gozaimasen", "shouchishimashita", "ryoukaishimashita",
+        "kakuninshimashita", "renrakushimasu", "houkokushimasu", "soudanshimasu",
+        "kentoushimasu", "taioushimasu", "shuuseishimasu", "teishutsushimasu",
+        "sakuseishimasu", "henshinshimasu", "chikatetsu", "takushii", "kousaten",
+        "shingou", "kippu", "nimotsu", "omiyage", "resutoran", "shokudou", "kissaten",
+        "depaato", "suupaa", "kusuri", "kangoshi", "yuubinkyoku", "keisatsu",
+        "toshokan", "bijutsukan", "eigakan", "doubutsuen", "taishikan", "chuugakkou",
+        "shougakkou", "youchien", "kyoushitsu", "shokugyou", "kaishain", "ginkouin",
+        "kyoushi", "gakusei", "ryuugakusei", "kenkyuusha", "bengoshi", "keisatsukan",
+        "ryourinin", "untenshu", "ochazuke", "oyakodon", "katsudon", "gyuudon",
+        "kaisendon", "nikujaga", "shabushabu", "yakiniku", "yakisoba", "yakiudon",
+        "monjayaki", "imagawayaki", "daifuku", "warabimochi", "kakigoori", "anmitsu",
+        "umeboshi", "furikake", "kamaboko", "chikuwa", "konnyaku", "shiitake",
+        "shimeji", "matsutake", "daikon", "kabocha", "kyuuri", "tamanegi", "jagaimo",
+        "satsumaimo", "takenoko"
     ]
 }
 

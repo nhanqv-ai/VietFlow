@@ -421,12 +421,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 )
                 let lowerOnset = parsed.onset.lowercased()
                 let isTransientQu = (lowerOnset == "q" && lowerNuc.hasPrefix("u"))
-                let isInvalidKOrthography = (lowerOnset == "k" && !lowerNuc.isEmpty && !"ieêy".contains(lowerNuc.first!))
+                let isInvalidKOrZOrthography = (lowerOnset == "k" && !lowerNuc.isEmpty && !"ieêy".contains(lowerNuc.first!))
+                    || (lowerOnset == "z")
                 let hasInvalidTransformedOnset = isTransformed
                     && !candidateState.isBypassed
                     && !lowerOnset.isEmpty
                     && !isTransientQu
-                    && (PhonotacticsMatrix.lookupFC(lowerOnset, isComplete: false).isEmpty || isInvalidKOrthography)
+                    && (PhonotacticsMatrix.lookupFC(lowerOnset, isComplete: false).isEmpty || isInvalidKOrZOrthography)
                 let hasInvalidTransformedNucleus = isTransformed
                     && parsed.nucleus.count >= 2
                     && PhonotacticsMatrix.lookupVO(lowerNuc).isEmpty
