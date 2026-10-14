@@ -234,7 +234,10 @@ public enum EnglishKeywords {
         "thorns", "morns", "terns", "kerns", "berms", "perms", "barfs",
         "naifs", "coifs", "loafs", "oafs", "liars", "leers", "seers",
         "queer", "queers", "corsair", "corsairs", "chasm", "chasms",
-        "disc", "discs", "tues", "duos"
+        "disc", "discs", "tues", "duos",
+        "life", "lifelong", "lifestyle", "lifetime", "lifespan", "lifeguard",
+        "lifeline", "lifeless", "wildlife", "afterlife", "nightlife", "midlife",
+        "minx", "minxes", "manx", "bronx", "spanx", "sans"
     ]
 }
 

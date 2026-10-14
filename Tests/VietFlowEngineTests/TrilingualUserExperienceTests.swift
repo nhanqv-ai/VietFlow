@@ -1145,7 +1145,39 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (194 Tests)
+    // MARK: - Cycle 16: -owing Split Guard, Single-Vowel Y Coda Orthography, Life Unlatch & Romaji -fu/-ju (5 Tests)
+    // =========================================================================
+
+    func test_tier4_195_english_owing_awing_ewing_participles() {
+        let input = "bowing mowing rowing sowing towing vowing cowing sawing pawing jawing cawing rawing lawing thawing drawing gnawing clawing flawing brewing chewing crewing hewing mewing sewing skewing spewing stewing viewing reviewing interviewing previewing renewing"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_196_english_single_y_coda_orthography_and_life_disambiguation() {
+        let input = "lynx styx calyx oryx coccyx bombyx minx minxes manx bronx spanx sans life lifelong lifestyle lifetime lifespan lifeguard lifeline lifeless wildlife afterlife nightlife midlife lifeem lifeen lifeeu"
+        let expected = "lynx styx calyx oryx coccyx bombyx minx minxes manx bronx spanx sans life lifelong lifestyle lifetime lifespan lifeguard lifeline lifeless wildlife afterlife nightlife midlife liềm liền liều"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_197_japanese_ifu_ufu_iju_uju_and_cuuw_unlatch() {
+        let input = "kifu hifu gifu rufu kufu mufu nufu fufu sufu yufu gufu bufu dufu pufu kiju miju niju hiju biju giju riju kuju muju nuju fuju suju yuju guju buju puju duju ruju cufuw"
+        let expected = "kifu hifu gifu rufu kufu mufu nufu fufu sufu yufu gufu bufu dufu pufu kiju miju niju hiju biju giju riju kuju muju nuju fuju suju yuju guju buju puju duju ruju cừu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_198_japanese_wa_za_ze_zo_zu_and_oru_ori_vocabulary() {
+        let input = "kawaru kawari kawagoe kawaguchi kawanishi kawase sawaru sawagi sawagu sawayaka mawaru mawari mawasu mawashi tawara tawamure nawate nawabari yawaraka yawarakai yawaragu zawazawa owari owaru suwaru suwari biwako niwatori wakaba wakame wakamono wakare wakaru wakai wakate wakayama wakusei warau warai waribiki warikan kazari kazaru mazaru mazeru mazui hazukashii hazusu suzuki suzume suzushii kizuku kizuna mizugi mizuumi shizuka shizuku shizen bijin bijutsu gijutsu kaoru naoru taoru kaori naori haori"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_199_scenario25_trilingual_gifu_wildlife_expedition_and_rowing_lifestyle_chat() {
+        let input = "Chuyến dã ngoại khám phá wildlife tại tỉnh gifu vaf suối nước nóng yufuin mang lại trải nghiệm lifestyle tuyệt vời; cả đoàn vừa chèo thuyền rowing trên hồ biwako, vừa ngắm loài linh miêu lynx quý hiếm và quyết định làm việc chăm chỉ liền (lifeen) mạch suốt tuần tới!"
+        let expected = "Chuyến dã ngoại khám phá wildlife tại tỉnh gifu và suối nước nóng yufuin mang lại trải nghiệm lifestyle tuyệt vời; cả đoàn vừa chèo thuyền rowing trên hồ biwako, vừa ngắm loài linh miêu lynx quý hiếm và quyết định làm việc chăm chỉ liền (liền) mạch suốt tuần tới!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (199 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1264,7 +1296,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (86 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (91 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1351,6 +1383,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_192_japanese_oai_onset_orthography_and_rai_sai_rui_sui_ura_vocabulary", test_tier4_192_japanese_oai_onset_orthography_and_rai_sai_rui_sui_ura_vocabulary),
             ("test_tier4_193_english_ism_ist_istic_and_spect_spire_families", test_tier4_193_english_ism_ist_istic_and_spect_spire_families),
             ("test_tier4_194_scenario24_trilingual_disaster_recovery_bosai_and_urayasu_trip_chat", test_tier4_194_scenario24_trilingual_disaster_recovery_bosai_and_urayasu_trip_chat),
+            ("test_tier4_195_english_owing_awing_ewing_participles", test_tier4_195_english_owing_awing_ewing_participles),
+            ("test_tier4_196_english_single_y_coda_orthography_and_life_disambiguation", test_tier4_196_english_single_y_coda_orthography_and_life_disambiguation),
+            ("test_tier4_197_japanese_ifu_ufu_iju_uju_and_cuuw_unlatch", test_tier4_197_japanese_ifu_ufu_iju_uju_and_cuuw_unlatch),
+            ("test_tier4_198_japanese_wa_za_ze_zo_zu_and_oru_ori_vocabulary", test_tier4_198_japanese_wa_za_ze_zo_zu_and_oru_ori_vocabulary),
+            ("test_tier4_199_scenario25_trilingual_gifu_wildlife_expedition_and_rowing_lifestyle_chat", test_tier4_199_scenario25_trilingual_gifu_wildlife_expedition_and_rowing_lifestyle_chat),
         ]
     }
 }
