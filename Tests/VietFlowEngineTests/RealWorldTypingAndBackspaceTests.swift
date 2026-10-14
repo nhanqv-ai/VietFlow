@@ -1306,8 +1306,196 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         let expected = "dưới bầu trời mùa thu, tiếng chim khướu hót vang giữa rừng cây xanh mướt"
         XCTAssertEqual(apply(input), expected)
     }
+
+    // =========================================================================
+    // MARK: - Section 19: Long-Essay & Code Review Batch 1 (15 tests)
+    // =========================================================================
+
+    func test_356_gi_early_tone_before_shorthand_w() {
+        XCTAssertEqual(apply("gixw giwx gixwa giwax gifwong giwfong giswong girwong"), "giữ giữ giữa giữa giường giường giướng giưởng")
+    }
+
+    func test_357_multi_syllable_english_auto_restore_er_or_en() {
+        let input = "number member center render doctor editor monitor author tailor modern header router tokens container pointer"
+        XCTAssertEqual(apply(input), input)
+    }
+
+    func test_358_multi_syllable_english_auto_restore_first_syllable_tone() {
+        let input = "server service version person target market garden carbon margin normal formal portal airport airlines"
+        XCTAssertEqual(apply(input), input)
+    }
+
+    func test_359_multi_syllable_english_auto_restore_diacritic_suffix() {
+        let input = "shadow window follow yellow bamboo yahoo degree agree"
+        XCTAssertEqual(apply(input), input)
+    }
+
+    func test_360_double_press_undo_vs_non_adjacent_absorption() {
+        XCTAssertEqual(apply("uoww truwongwf nguwoiwf dduwocwj tiensge nguyxene duwocjd"), "uow trường người được tiếng nguyễn được")
+    }
+
+    func test_361_long_essay_literature_ha_noi_mua_thu_full() {
+        let cleanInput = "Haf Nooij muaf thu, caay cowm nguooij vafng caay bafng las ddor, nawfm keef been nhau phoos xwa nhaf coor mais ngois thaam naau. Nhwngx buoior chieufe se lajnh, huowng hoa suxwa ngatj ngafo bay qua twfng con dduongwf nhor. Nguoiwf Haf Nooij ddi dajo quanh hoof Guowm, gixw giwax tim mifnh nhwngx kyr nieemj ddepj nhaats cuar thuowr moiws biets yeusez thuowng."
+        let cleanExpected = "Hà Nội mùa thu, cây cơm nguội vàng cây bàng lá đỏ, nằm kề bên nhau phố xưa nhà cổ mái ngói thâm nâu. Những buổi chiều se lạnh, hương hoa sữa ngạt ngào bay qua từng con đường nhỏ. Người Hà Nội đi dạo quanh hồ Gươm, giữ giữa tim mình những kỷ niệm đẹp nhất của thuở mới biết yêu thương."
+        XCTAssertEqual(apply(cleanInput), cleanExpected)
+    }
+
+    func test_362_long_essay_literature_with_heavy_backspace_edits() {
+        let input = "Haf Nooij muaf<BS>a thu, caay cowm nguooij vafng caay bafng las ddor, nawfm keef been nhau phoos suxwa<BS><BS><BS>xwa nhaf coor mais ngois thaam ddaauf<BS><BS><BS>naau. Khi tooi moiws<BS>is ddeens ddaay, tooi ddax thwr swar laji twfng doofng<BS><BS><BS>ofng chwx vieets tay ddeer luuw gixw<BS>wx trojn venj khoanhr khawcs giao muaf tuyeetj vowif."
+        let expected = "Hà Nội mùa thu, cây cơm nguội vàng cây bàng lá đỏ, nằm kề bên nhau phố xưa nhà cổ mái ngói thâm nâu. Khi tôi mới đến đây, tôi đã thử sửa lại từng dòng chữ viết tay để lưu giữ trọn vẹn khoảnh khắc giao mùa tuyệt vời."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_363_long_essay_software_engineering_and_devops() {
+        let input = "Trong heej thoongs phaan tiasn<BS><BS><BS>ans hiejn ddaij, mooix<BS>ix server vaf service ddeeuf chayj trong container cuar docker, ketes noois qua router vaf kieemr tra tokens trong header. Khi monitor phats hiejn number luwowjng request tawng cao, author vaf member trong nhosm sex mowr<BS>owr editor hoawcj terminal ddeer swar code swift, caapj nhaatj version moiws vaf push leen github."
+        let expected = "Trong hệ thống phân tán hiện đại, mỗi server và service đều chạy trong container của docker, kết nối qua router và kiểm tra tokens trong header. Khi monitor phát hiện number lượng request tăng cao, author và member trong nhóm sẽ mở editor hoặc terminal để sửa code swift, cập nhật version mới và push lên github."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_364_long_essay_software_engineering_with_backspace_edits() {
+        let input = "Chusng tooi suwr dujng pattern moiws<BS>is ddeer toosi uuw<BS>u buffer trong terminal: khi nguoiwf dufng gox nhaafm<BS><BS>aafm hoawcj nhaans backspace lieen tucj, heej thoongs vaanx<BS>nx gixw nguyeen trangj thais<BS>is chisnh<BS><BS>nh xacs mafn<BS> khoong bij looxi font hay nhary chwx."
+        let expected = "Chúng tôi sử dụng pattern mới để tối ưu buffer trong terminal: khi người dùng gõ nhầm hoặc nhấn backspace liên tục, hệ thống vẫn giữ nguyên trạng thái chính xác mà không bị lỗi font hay nhảy chữ."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_365_long_essay_journalism_economy_and_society() {
+        let input = "Nawm 2026, neefn kinh tees Vieetj Nam ghi nhaanj buwowcs chuyeenr mifnh manhj mex vowis toocs ddooj tawng truwongwr aasn tuwowngj. Nhieefu duwj asn haj taafng giao thoong trojng ddieemr, twf dduongwf cao toocs Bawcs Nam ddeens saan bay quoocs tees, ddax dduwocj trieenr khai ddoofng booj, gops phaafn naang cao ddoiwf soongs cuar hafng trieeuj nguoiwf daan."
+        let expected = "Năm 2026, nền kinh tế Việt Nam ghi nhận bước chuyển mình mạnh mẽ với tốc độ tăng trưởng ấn tượng. Nhiều dự án hạ tầng giao thông trọng điểm, từ đường cao tốc Bắc Nam đến sân bay quốc tế, đã được triển khai đồng bộ, góp phần nâng cao đời sống của hàng triệu người dân."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_366_long_essay_journalism_with_backspace_edits() {
+        let input = "Theo baos caos moiws nhaats<BS>ts, tyr leej chuyeenr ddooir soos taij cacs doanh nghieepj vwaf vaf nhor ddax vuowjt muwcs 85%. Nguoiwf lao ddoojng ngayf cafng chur<BS>ur ddoojng hocj hoir cacs<BS>cs kyx nawng moiws ddeer thichs uwngs vowis<BS>is suwj thay ddooir nhanh chongs cuar thij truwongwf."
+        let expected = "Theo báo cáo mới nhất, tỷ lệ chuyển đổi số tại các doanh nghiệp vừa và nhỏ đã vượt mức 85%. Người lao động ngày càng chủ động học hỏi các kỹ năng mới để thích ứng với sự thay đổi nhanh chóng của thị trường."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_367_long_dialogue_multiline_conversation() {
+        let input = "- Chaof banj, dajo nayf coong vieecj owr truwongwf thees nafo rooif?\n- Camr own banj, mifnh vaanx<BS>nx ddang baanj hoafn thieenj duwj asn VietFlow cho heej ddieeuf hafnh macos.\n- Tuyeejt<BS>tj vowif quas! Mifnh vwaf taiwr<BS><BS>r version moiws veef dufng thwr, gox tieengs Vieetj mwowtj maf vaf swar looxi backspace cuwcj kyf chuanra!"
+        let expected = "- Chào bạn, dạo này công việc ở trường thế nào rồi?\n- Cảm ơn bạn, mình vẫn đang bận hoàn thiện dự án VietFlow cho hệ điều hành macos.\n- Tuyệt vời quá! Mình vừa tải version mới về dùng thử, gõ tiếng Việt mượt mà và sửa lỗi backspace cực kỳ chuẩn!"
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_368_long_essay_vni_mixed_orders_and_numbers() {
+        let input = "Ha2 No6i5 mu2a thu, ca6y co7m nguo6i5 va2ng ca6y ba2ng la1 d9o3. Ngu7o7i2<BS>i2 Ha2 No6i5 luo6n giu74 trong tim nhu7ng4 ky3 nie6m5 d9e5p nha6t1 cu3a thuo73 mo7i1<BS>i1 bu7o7c1 va2o tru7o7ng2."
+        let expected = "Hà Nội mùa thu, cây cơm nguội vàng cây bàng lá đỏ. Người Hà Nội luôn giữ trong tim những kỷ niệm đẹp nhất của thuở mới bước vào trường."
+        XCTAssertEqual(apply(input, engine: vniEngine), expected)
+    }
+
+    func test_369_long_essay_traditional_tone_style() {
+        let tradEngine = makeEngine(inputMethod: .telex, tonePlacement: .traditional)
+        let input = "Giwax khuoong<BS>n vieen truwongwf hocj, nhwngx canhf<BS><BS>nhf hoa phuwowngj ddor rwcj hoaf cufng asnh nawsng muaf hef, mang laji baauf khoong khis vui ver, khoer khoawsn vaf trafn ddaafy suwcs soongs."
+        let expected = "Giữa khuôn viên trường học, những cành hoa phượng đỏ rực hoà cùng ánh nắng mùa hè, mang lại bầu không khí vui vẻ, khoẻ khoắn và tràn đầy sức sống."
+        XCTAssertEqual(apply(input, engine: tradEngine), expected)
+    }
+
+    func test_370_long_essay_simple_telex_mode() {
+        let simpleEngine = makeEngine(inputMethod: .simpleTelex, tonePlacement: .modern)
+        let input = "Ngayf<BS>yf xa xuwa<BS>a khi tooi moiws buowcs vafo truwongwf, tooi ddax gapwj nhuwngx nguoiwf banj thaajt tuyeetj vowif beenk<BS> khung cuwra soor."
+        let expected = "Ngày xa xưa khi tôi mới bước vào trường, tôi đã gặp những người bạn thật tuyệt vời bên khung cửa sổ."
+        XCTAssertEqual(apply(input, engine: simpleEngine), expected)
+    }
+
+    // =========================================================================
+    // MARK: - Section 20: Long-Essay & Code Review Batch 2 (15 Tests)
+    // =========================================================================
+
+    func test_371_howacj_xowans_khowan_early_w_after_o_before_a() {
+        let input = "howacj howajc hojwac xowans xowasn xoswan khowan ngowatj ngowajt ngojwat thowats thowast"
+        let expected = "hoặc hoặc hoặc xoắn xoắn xoắn khoăn ngoặt ngoặt ngoặt thoắt thoắt"
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_372_single_syllable_english_invalid_coda_auto_restore() {
+        let input = "card hard yard ward bird girl curl world work fork pork dark mark park bark"
+        let expected = "card hard yard ward bird girl curl world work fork pork dark mark park bark"
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_373_double_vowel_english_invalid_coda_auto_restore() {
+        let input = "good mood wood hood book look took cook hook tool pool cool feel heel need seed week seek"
+        let expected = "good mood wood hood book look took cook hook tool pool cool feel heel need seed week seek"
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_374_english_coda_k_and_b_and_f_auto_restore() {
+        let input = "desk mask task risk disk ask bank tank rank link sink pink verb herb curb surf turf"
+        let expected = "desk mask task risk disk ask bank tank rank link sink pink verb herb curb surf turf"
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_375_dak_lak_valid_vietnamese_coda_k_preserved() {
+        let input = "DDawks Lawks ddawks lawks"
+        let expected = "Đắk Lắk đắk lắk"
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_376_long_essay_history_and_culture_viet_nam() {
+        let input = "Trari qua hafng nghifn nawm lijch swr dwjng nuwowsc vaf gixw nuwowsc, twf thuowr cacs vua Hufng dwjng nuwowsc Vawn Lang cho ddeens thoiwf ddaij moiws ngayf nay, nguoiwf Vieetj Nam luoon gixw gifn banr sawcs vawn hoas truyeenf thoosng toots ddejp. Nhwngx caau chuyeenj coor tichs, nhwngx lafn ddieeju daan ca quan hoj muwowtj maf, tieengs ddafn baauf ngaan nga giwax ddeem trawng thanh bifnh hay hifnh anhr mais ddifnh, beesn nuwowsc, caay dda ddaauf lafng ddax in saau vafo taam khamr cuar bieets bao thees heej nguoiwf con ddaats Vieetj."
+        let expected = "Trải qua hàng nghìn năm lịch sử dựng nước và giữ nước, từ thuở các vua Hùng dựng nước Văn Lang cho đến thời đại mới ngày nay, người Việt Nam luôn giữ gìn bản sắc văn hóa truyền thống tốt đẹp. Những câu chuyện cổ tích, những làn điệu dân ca quan họ mượt mà, tiếng đàn bầu ngân nga giữa đêm trăng thanh bình hay hình ảnh mái đình, bến nước, cây đa đầu làng đã in sâu vào tâm khảm của biết bao thế hệ người con đất Việt."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_377_long_essay_history_and_culture_with_heavy_backspace() {
+        let input = "Trari qua hafng nghifn nawm lijch swr dwjng nuwowsc vaf gixw<BS>wx nuwowsc, twf thuowx<BS>owr cacs vua Hufng dwjng nuwowsc Vawn Lang cho ddeens thoiwf ddaij moiws<BS>i ngayf nay, nguoiwf Vieetj Nam luoon gixw gifn banr sawcs vawn hoas truyeenf<BS>n thoosng toots ddejp."
+        let expected = "Trải qua hàng nghìn năm lịch sử dựng nước và giữ nước, từ thuở các vua Hùng dựng nước Văn Lang cho đến thời đại mới ngày nay, người Việt Nam luôn giữ gìn bản sắc văn hóa truyền thống tốt đẹp."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_378_long_essay_fullstack_engineering_code_switching() {
+        let input = "Khi lamf work hard treen desk, developer caafn kieemr tra task, risk vaf card thanh toasn qua bank. Neeus server gawpj looxi, hayx dufng tool ddeer xem log trong book, look vafo pool ketes noois, giri<BS><BS>wri link baos caos cho team trong week nayf."
+        let expected = "Khi làm work hard trên desk, developer cần kiểm tra task, risk và card thanh toán qua bank. Nếu server gặp lỗi, hãy dùng tool để xem log trong book, look vào pool kết nối, gửi link báo cáo cho team trong week này."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_379_long_essay_fullstack_engineering_with_backspace() {
+        let input = "Khi lamf work<BS><BS>rk hard treen desk, developer caafn kieemr tra task, risk vaf card thanh toasn qua bank. Neeus<BS>u server gawpj looxi, hayx dufng tool<BS>l ddeer xem log trong book<BS>k, look vafo pool ketes<BS>t noois vaf swar<BS>a ngay trong week nayf."
+        let expected = "Khi làm work hard trên desk, developer cần kiểm tra task, risk và card thanh toán qua bank. Nếu server gặp lỗi, hãy dùng tool để xem log trong book, look vào pool kết nối và sửa ngay trong week này."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_380_long_essay_parentheses_brackets_quotes_urls_emails() {
+        let input = "Duwj asn \"VietFlow\" (booj gox tieengs Vieetj toocs ddooj cao [macOS]) cos kho max nguoofn taij https://github.com/nhanqv-ai/VietFlow; moij thawsng<BS><BS>cs mawcs xin gwir veef support@vietflow.vn howacj truy caapj portal/header-center."
+        let expected = "Dự án \"VietFlow\" (bộ gõ tiếng Việt tốc độ cao [macOS]) có kho mã nguồn tại https://github.com/nhanqv-ai/VietFlow; mọi thắc mắc xin gửi về support@vietflow.vn hoặc truy cập portal/header-center."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_381_long_essay_uppercase_headings_and_mixed_case() {
+        let input = "CHUWOWNG MOOJT: HAFNH TRIFNH DDOOIR MOIWS VAF PHAST TRIEERN BEENF VWXNG CUAR DDAATS NUWOWSC VIEETJ NAM TRONG KYR NGUYEEN SOOS HOAS"
+        let expected = "CHƯƠNG MỘT: HÀNH TRÌNH ĐỔI MỚI VÀ PHÁT TRIỂN BỀN VỮNG CỦA ĐẤT NƯỚC VIỆT NAM TRONG KỶ NGUYÊN SỐ HÓA"
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_382_long_essay_scientific_medicine_and_environment() {
+        let input = "Con dduongwf khucs khuyur ngoawnf ngoeof daanx qua nhwngx rwfng caay raajm rapj, nowi coong tacs baor toofn ddoojng vaatj hoang dax nhuw huowu sao, khuwous vaf cacs loafi chim quys hieems ddang dduwocj trieenr khai howacj mowr roojng."
+        let expected = "Con đường khúc khuỷu ngoằn ngoèo dẫn qua những rừng cây rậm rạp, nơi công tác bảo tồn động vật hoang dã như hươu sao, khướu và các loài chim quý hiếm đang được triển khai hoặc mở rộng."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_383_long_essay_scientific_with_heavy_backspace() {
+        let input = "Con dduongwf khucs khuyur<BS>u ngoawnf<BS>n ngoeof daanx<BS>n qua nhwngx<BS>g rwfng caay rur<BS>aajm rapj, nowi coong<BS>g tacs baor<BS>o toofn<BS>n ddoojng vaatj hoang dax nhuw huowu<BS>u sao, khuwous<BS>u vaf cacs loafi chim quys<BS>ys hieems ddang dduwocj<BS>c trieenr khai howacj<BS>c mowr roojng."
+        let expected = "Con đường khúc khuỷu ngoằn ngoèo dẫn qua những rừng cây rậm rạp, nơi công tác bảo tồn động vật hoang dã như hươu sao, khướu và các loài chim quý hiếm đang được triển khai hoặc mở rộng."
+        XCTAssertEqual(apply(input), expected)
+    }
+
+    func test_384_long_essay_vni_complex_mixed_english_and_numbers() {
+        let input = "Na8m 2026, 100% he65 tho6ng1 server tre6n macos d9a4 d9u7o75c na6ng ca6p1 le6n 64GB RAM va2 ma2n hi2nh 120Hz, giu1p ngu7o7i2 du2ng go4 tie6ng1 Vie6t5 mu7o75t ma2 tu72 thuo73 mo7i1<BS>i1 ba8t1 d9a6u2."
+        let expected = "Năm 2026, 100% hệ thống server trên macos đã được nâng cấp lên 64GB RAM và màn hình 120Hz, giúp người dùng gõ tiếng Việt mượt mà từ thuở mới bắt đầu."
+        XCTAssertEqual(apply(input, engine: vniEngine), expected)
+    }
+
+    func test_385_stress_test_delete_entire_paragraph_and_retype() {
+        let firstSentence = "Muaf thu Haf Nooij ddejp diju dafng vowis huowng cooms moiws."
+        let firstExpected = "Mùa thu Hà Nội đẹp dịu dàng với hương cốm mới."
+        XCTAssertEqual(apply(firstSentence), firstExpected)
+        let bsCount = firstExpected.count
+        let backspaces = String(repeating: "<BS>", count: bsCount)
+        let secondSentence = "Nguoiwf Vieetj Nam twj hafo veef truyeenf thoosng vawn hoas ngafn nawm vawn hieens."
+        let secondExpected = "Người Việt Nam tự hào về truyền thống văn hóa ngàn năm văn hiến."
+        XCTAssertEqual(apply(firstSentence + backspaces + secondSentence), secondExpected)
+    }
     
-    // MARK: - Test Registry (355 Tests)
+    // MARK: - Test Registry (385 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -1701,6 +1889,40 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_353_full_line_delete_and_retype_across_multiple_words", test_353_full_line_delete_and_retype_across_multiple_words),
             ("test_354_multi_sentence_backspace_stress_test", test_354_multi_sentence_backspace_stress_test),
             ("test_355_sentence_real_world_batch10", test_355_sentence_real_world_batch10),
+
+            // Section 19: Long-Essay & Code Review Batch 1 (15 tests)
+            ("test_356_gi_early_tone_before_shorthand_w", test_356_gi_early_tone_before_shorthand_w),
+            ("test_357_multi_syllable_english_auto_restore_er_or_en", test_357_multi_syllable_english_auto_restore_er_or_en),
+            ("test_358_multi_syllable_english_auto_restore_first_syllable_tone", test_358_multi_syllable_english_auto_restore_first_syllable_tone),
+            ("test_359_multi_syllable_english_auto_restore_diacritic_suffix", test_359_multi_syllable_english_auto_restore_diacritic_suffix),
+            ("test_360_double_press_undo_vs_non_adjacent_absorption", test_360_double_press_undo_vs_non_adjacent_absorption),
+            ("test_361_long_essay_literature_ha_noi_mua_thu_full", test_361_long_essay_literature_ha_noi_mua_thu_full),
+            ("test_362_long_essay_literature_with_heavy_backspace_edits", test_362_long_essay_literature_with_heavy_backspace_edits),
+            ("test_363_long_essay_software_engineering_and_devops", test_363_long_essay_software_engineering_and_devops),
+            ("test_364_long_essay_software_engineering_with_backspace_edits", test_364_long_essay_software_engineering_with_backspace_edits),
+            ("test_365_long_essay_journalism_economy_and_society", test_365_long_essay_journalism_economy_and_society),
+            ("test_366_long_essay_journalism_with_backspace_edits", test_366_long_essay_journalism_with_backspace_edits),
+            ("test_367_long_dialogue_multiline_conversation", test_367_long_dialogue_multiline_conversation),
+            ("test_368_long_essay_vni_mixed_orders_and_numbers", test_368_long_essay_vni_mixed_orders_and_numbers),
+            ("test_369_long_essay_traditional_tone_style", test_369_long_essay_traditional_tone_style),
+            ("test_370_long_essay_simple_telex_mode", test_370_long_essay_simple_telex_mode),
+
+            // Section 20: Long-Essay & Code Review Batch 2 (15 tests)
+            ("test_371_howacj_xowans_khowan_early_w_after_o_before_a", test_371_howacj_xowans_khowan_early_w_after_o_before_a),
+            ("test_372_single_syllable_english_invalid_coda_auto_restore", test_372_single_syllable_english_invalid_coda_auto_restore),
+            ("test_373_double_vowel_english_invalid_coda_auto_restore", test_373_double_vowel_english_invalid_coda_auto_restore),
+            ("test_374_english_coda_k_and_b_and_f_auto_restore", test_374_english_coda_k_and_b_and_f_auto_restore),
+            ("test_375_dak_lak_valid_vietnamese_coda_k_preserved", test_375_dak_lak_valid_vietnamese_coda_k_preserved),
+            ("test_376_long_essay_history_and_culture_viet_nam", test_376_long_essay_history_and_culture_viet_nam),
+            ("test_377_long_essay_history_and_culture_with_heavy_backspace", test_377_long_essay_history_and_culture_with_heavy_backspace),
+            ("test_378_long_essay_fullstack_engineering_code_switching", test_378_long_essay_fullstack_engineering_code_switching),
+            ("test_379_long_essay_fullstack_engineering_with_backspace", test_379_long_essay_fullstack_engineering_with_backspace),
+            ("test_380_long_essay_parentheses_brackets_quotes_urls_emails", test_380_long_essay_parentheses_brackets_quotes_urls_emails),
+            ("test_381_long_essay_uppercase_headings_and_mixed_case", test_381_long_essay_uppercase_headings_and_mixed_case),
+            ("test_382_long_essay_scientific_medicine_and_environment", test_382_long_essay_scientific_medicine_and_environment),
+            ("test_383_long_essay_scientific_with_heavy_backspace", test_383_long_essay_scientific_with_heavy_backspace),
+            ("test_384_long_essay_vni_complex_mixed_english_and_numbers", test_384_long_essay_vni_complex_mixed_english_and_numbers),
+            ("test_385_stress_test_delete_entire_paragraph_and_retype", test_385_stress_test_delete_entire_paragraph_and_retype),
         ]
     }
 }

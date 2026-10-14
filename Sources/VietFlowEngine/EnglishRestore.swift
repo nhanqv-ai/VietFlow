@@ -59,7 +59,9 @@ public enum EnglishKeywords {
         "mkdir", "curl", "tar", "ssh", "user", "cargo", "origin", "nano", "wifi", "water", "cat", "macos",
         "word", "warning", "report", "localhost",
         "pattern", "letter", "button", "better", "common", "matter",
-        "swim", "swing", "sweet", "swap", "fix"
+        "swim", "swing", "sweet", "swap", "fix",
+        "server", "service", "version", "person",
+        "surf", "turf", "toward", "towards", "coward"
     ]
 }
 
