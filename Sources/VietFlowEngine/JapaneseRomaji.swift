@@ -167,7 +167,19 @@ public enum JapaneseRomajiLexicon {
         "kono", "sono", "ano", "dono", "mono", "hono",
         "puro", "puraza", "garasu", "gacha", "guree", "guru", "buru", "puru",
         "bara", "bata", "pata", "pasa", "para", "poro", "boro", "basa",
-        "gara", "goro", "gasa", "gata", "dara"
+        "gara", "goro", "gasa", "gata", "dara",
+
+        // Unambiguous 2-mora -ru/-re/-su/-se/-ji/-wa/-fu & -oi adjectives (Cycle 13)
+        "taru", "baru", "paru", "garu", "daru", "piru", "seru", "meru", "beru", "peru",
+        "muru", "duru", "ruru", "huru",
+        "pura", "nure", "mure", "bure", "gure", "dure", "rure", "ure", "puri", "pora",
+        "pasu", "pisu", "hesu", "sesu", "mesu", "tesu", "besu", "pesu", "gesu", "resu", "esu",
+        "nusu", "susu", "busu", "pusu", "gusu", "dusu", "rusu", "usu",
+        "nuse", "suse", "buse", "puse", "guse", "duse", "ruse", "posa",
+        "paji", "poji", "puji", "giji",
+        "nowa", "sowa", "towa", "rowa", "owa",
+        "pafu", "kefu", "mefu", "nefu", "hefu", "sefu", "tefu", "defu", "befu", "pefu", "gefu", "refu", "efu",
+        "moroi", "noroi"
     ]
 }
 
