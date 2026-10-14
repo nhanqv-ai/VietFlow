@@ -169,14 +169,16 @@ public enum JapaneseRomajiLexicon {
         "bara", "bata", "pata", "pasa", "para", "poro", "boro", "basa",
         "gara", "goro", "gasa", "gata", "dara",
 
-        // Unambiguous 2-mora -ru/-re/-su/-se/-ji/-wa/-fu & -oi adjectives (Cycle 13)
+        // Unambiguous 2-mora -ru/-ro/-re/-su/-so/-se/-ji/-jo/-wa/-fu & -oi adjectives (Cycle 13 & 14)
         "taru", "baru", "paru", "garu", "daru", "piru", "seru", "meru", "beru", "peru",
         "muru", "duru", "ruru", "huru",
+        "nuro", "suro", "muro", "buro", "guro", "duro", "ruro", "uro",
         "pura", "nure", "mure", "bure", "gure", "dure", "rure", "ure", "puri", "pora",
         "pasu", "pisu", "hesu", "sesu", "mesu", "tesu", "besu", "pesu", "gesu", "resu", "esu",
         "nusu", "susu", "busu", "pusu", "gusu", "dusu", "rusu", "usu",
+        "nuso", "suso", "muso", "buso", "puso", "guso", "duso", "ruso",
         "nuse", "suse", "buse", "puse", "guse", "duse", "ruse", "posa",
-        "paji", "poji", "puji", "giji",
+        "paji", "poji", "puji", "giji", "mujo", "sujo", "bujo",
         "nowa", "sowa", "towa", "rowa", "owa",
         "pafu", "kefu", "mefu", "nefu", "hefu", "sefu", "tefu", "defu", "befu", "pefu", "gefu", "refu", "efu",
         "moroi", "noroi"
@@ -206,6 +208,7 @@ public enum JapaneseRomajiDetector {
     /// 1. Adjective suffix '-shii' (minimum length 5: e.g. oishii, tanoshii, subarashii)
     /// 2. Polite verb/copula suffixes ('-masu', '-mashita', '-masen', '-deshita', '-gozaimasu')
     /// 3. Japanese medial geminates and sibilant/affricate clusters ('kka', 'ppa', 'tcha', 'sha', 'shi', 'shu', 'tsu')
+    /// 4. Japanese long-vowel '-urou', '-usou', '-ujou' endings (e.g. musou, busou, mujou, kurou, furou, rurou)
     public static func hasRomajiStructuralPattern(_ word: String) -> Bool {
         let lower = word.lowercased()
         guard lower.count >= 4 else { return false }
@@ -231,6 +234,11 @@ public enum JapaneseRomajiDetector {
             if lower.contains(pattern) {
                 return true
             }
+        }
+
+        // Rule 4: Japanese -urou / -usou / -ujou long-vowel endings
+        if lower.hasSuffix("urou") || lower.hasSuffix("usou") || lower.hasSuffix("ujou") {
+            return true
         }
 
         return false

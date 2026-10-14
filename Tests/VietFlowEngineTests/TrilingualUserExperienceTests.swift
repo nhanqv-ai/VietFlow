@@ -1083,7 +1083,39 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (184 Tests)
+    // MARK: - Cycle 14: C/G/NG Orthography, -urou/-usou/-ujou Romaji, Cu(r/s/j)o Unlatch & AI/ML Tech Terms (5 Tests)
+    // =========================================================================
+
+    func test_tier4_185_japanese_urou_usou_ujou_long_vowel_and_uro_uso_ujo_disambiguation() {
+        let input = "nuro suro muro buro guro duro ruro uro nuso suso muso buso puso guso duso ruso mujo sujo bujo kurou furou murou burou rurou surou nurou gurou purou durou fusou nusou susou kusou yusou zusou pusou gusou dusou rusou usou musou busou kujou mujou nujou fujou sujou yujou gujou bujou pujou dujou rujou ujou nusowc musoon busowm mujowt"
+        let expected = "nuro suro muro buro guro duro ruro uro nuso suso muso buso puso guso duso ruso mujo sujo bujo kurou furou murou burou rurou surou nurou gurou purou durou fusou nusou susou kusou yusou zusou pusou gusou dusou rusou usou musou busou kujou mujou nujou fujou sujou yujou gujou bujou pujou dujou rujou ujou nước muốn bướm mượt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_186_english_c_g_ng_front_vowel_orthography_and_laws_raws_saws_unlatch() {
+        let input = "gems gets gels germs genes gents gees geeks cents cells celts cedes cites laws raws saws lawss rawss sawss gawk gawks bawk bawks mohawk mohawks tomahawk tomahawks sass sassy brass glass grass class lawsc rawsn sawsc sawsp sawst"
+        let expected = "gems gets gels germs genes gents gees geeks cents cells celts cedes cites laws raws saws laws raws saws gawk gawks bawk bawks mohawk mohawks tomahawk tomahawks sass sassy brass glass grass class lắc rắn sắc sắp sắt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_187_ai_ml_cloud_devops_and_nnx_dnn_nnl_nns_clusters() {
+        let input = "onnx cudnn lora qlora gguf tensor tensors tensorflow pytorch keras numpy scipy pandas matplotlib jupyter transformer transformers tokenizer tokenizers embedding embeddings inference prompt prompts finetune finetuning dataset datasets checkpoint checkpoints gradient gradients epoch epochs dropout softmax sigmoid perplexity latency throughput quantize quantization distill distillation vllm ollama langchain pinecone milvus qdrant pgvector thinly cleanly inns finns banns"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_188_japanese_rei_sei_kei_and_ou_vocabulary() {
+        let input = "kirei hirei shirei girei jirei irei korei torei borei dorei orei murei burei gurei purei urei kasei hasei tasei wasei yasei basei dasei kisei misei nisei hisei bisei gisei jisei risei isei kosei hosei sosei tosei yosei gosei bosei dosei musei fusei yusei jusei rikei fukei wakei reizouko undou boushi houhou jouhou ryokou gakkou ginkou kuukou kenkou seikou saikou tarou jirou saburou gorou ichirou satou katou itou saitou gotou kondou andou endou sudou kudou"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_189_scenario23_trilingual_ai_llm_inference_and_japanese_bathhouse_relax_chat() {
+        let input = "Sau khi finetune mô hình lora và xuất file onnx chạy trên cudnn, chúng ta đã sửa hết bugs trong gems và sass theo đúng laws của dự án; tối nay cả nhóm sẽ ngâm buro thư giãn, ăn mì tại yokocho mà không còn kurou hay musou nữa, ai cũng muốn (musoon) uống nước (nusowc) mát!"
+        let expected = "Sau khi finetune mô hình lora và xuất file onnx chạy trên cudnn, chúng ta đã sửa hết bugs trong gems và sass theo đúng laws của dự án; tối nay cả nhóm sẽ ngâm buro thư giãn, ăn mì tại yokocho mà không còn kurou hay musou nữa, ai cũng muốn (muốn) uống nước (nước) mát!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (189 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1279,6 +1311,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_182_japanese_two_mora_ru_ro_re_su_so_se_ji_jo_wa_fu_and_oi_adjectives", test_tier4_182_japanese_two_mora_ru_ro_re_su_so_se_ji_jo_wa_fu_and_oi_adjectives),
             ("test_tier4_183_english_greek_latin_prefixes_co_re_pre_de_micro_crypto_thermo", test_tier4_183_english_greek_latin_prefixes_co_re_pre_de_micro_crypto_thermo),
             ("test_tier4_184_scenario22_trilingual_photography_workshop_and_dojo_training_chat", test_tier4_184_scenario22_trilingual_photography_workshop_and_dojo_training_chat),
+            ("test_tier4_185_japanese_urou_usou_ujou_long_vowel_and_uro_uso_ujo_disambiguation", test_tier4_185_japanese_urou_usou_ujou_long_vowel_and_uro_uso_ujo_disambiguation),
+            ("test_tier4_186_english_c_g_ng_front_vowel_orthography_and_laws_raws_saws_unlatch", test_tier4_186_english_c_g_ng_front_vowel_orthography_and_laws_raws_saws_unlatch),
+            ("test_tier4_187_ai_ml_cloud_devops_and_nnx_dnn_nnl_nns_clusters", test_tier4_187_ai_ml_cloud_devops_and_nnx_dnn_nnl_nns_clusters),
+            ("test_tier4_188_japanese_rei_sei_kei_and_ou_vocabulary", test_tier4_188_japanese_rei_sei_kei_and_ou_vocabulary),
+            ("test_tier4_189_scenario23_trilingual_ai_llm_inference_and_japanese_bathhouse_relax_chat", test_tier4_189_scenario23_trilingual_ai_llm_inference_and_japanese_bathhouse_relax_chat),
         ]
     }
 }
