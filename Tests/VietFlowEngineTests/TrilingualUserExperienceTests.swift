@@ -723,8 +723,34 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer("moo tar chi tieets veef booj gox VietFlow treen macOS taij osaka vaf tokyo", equals: "mô tả chi tiết về bộ gõ VietFlow trên macOS tại osaka và tokyo")
     }
 
+    func test_tier4_120_japanese_brse_workplace_and_business_vocabulary() {
+        let input = "hourensou houkoku renraku soudan kaigi shiryou kakunin shounin mitsumori nouki shimekiri tantousha okyakusama keiyaku seikyuusho shiyousho sekkei kaihatsu kenshuu shucchou zangyou yuukyuu teishutsu shuusei shinchoku"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_121_japanese_polite_verbs_copulas_and_conversational_expressions() {
+        let input = "desu deshita mashita masen gozaimasu arigatougozaimasu ohayougozaimasu otsukaresamadeshita yoroshikuonegaishimasu wakarimashita kashikomarimashita sumimasendeshita naruhodo yappari kekkou zettai ippai chotto matte kudasai onegai"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_122_japanese_demonstratives_pronouns_colors_verbs_and_names() {
+        let input = "kore sore dore koko soko asoko doko watashi anata kanojo kare minasan tomodachi kazoku kuro kuroi shiro shiroi suru kuru miru neru hajimaru naruto sasuke haruka misaki chisato tanaka hayashi kaisha"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_123_english_ss_consonant_and_ct_coda_technical_words() {
+        let input = "password passwords passcode passport passkey crossword classroom lexer parser compiler queue reject project subject select connect protect expect inspect respect"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_124_scenario10_brse_slack_standup_trilingual_with_backspace() {
+        let input = "Ohayougozaimasu Tanaka-san, hoom nay team ddax kakunin xong shiryou vaf update password, queue, lexer trong project. Xin guwir houkoku shinchoku truwowcs shimekiri, yoroshikuonegaishimasu!"
+        let expected = "Ohayougozaimasu Tanaka-san, hôm nay team đã kakunin xong shiryou và update password, queue, lexer trong project. Xin gửi houkoku shinchoku trước shimekiri, yoroshikuonegaishimasu!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (119 Tests)
+    // MARK: - Test Registration (124 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -843,7 +869,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (11 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (16 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -855,6 +881,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_117_scenario8_complex_multistep_editing_backspace_stress", test_tier4_117_scenario8_complex_multistep_editing_backspace_stress),
             ("test_tier4_118_scenario9_throughput_and_unicode_nfc_benchmark", test_tier4_118_scenario9_throughput_and_unicode_nfc_benchmark),
             ("test_tier4_119_multiword_vietnamese_phrases_mo_ta_dac_ta_dien_ta_ta_thuc", test_tier4_119_multiword_vietnamese_phrases_mo_ta_dac_ta_dien_ta_ta_thuc),
+            ("test_tier4_120_japanese_brse_workplace_and_business_vocabulary", test_tier4_120_japanese_brse_workplace_and_business_vocabulary),
+            ("test_tier4_121_japanese_polite_verbs_copulas_and_conversational_expressions", test_tier4_121_japanese_polite_verbs_copulas_and_conversational_expressions),
+            ("test_tier4_122_japanese_demonstratives_pronouns_colors_verbs_and_names", test_tier4_122_japanese_demonstratives_pronouns_colors_verbs_and_names),
+            ("test_tier4_123_english_ss_consonant_and_ct_coda_technical_words", test_tier4_123_english_ss_consonant_and_ct_coda_technical_words),
+            ("test_tier4_124_scenario10_brse_slack_standup_trilingual_with_backspace", test_tier4_124_scenario10_brse_slack_standup_trilingual_with_backspace),
         ]
     }
 }

@@ -421,11 +421,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 )
                 let lowerOnset = parsed.onset.lowercased()
                 let isTransientQu = (lowerOnset == "q" && lowerNuc.hasPrefix("u"))
+                let isInvalidKOrthography = (lowerOnset == "k" && !lowerNuc.isEmpty && !"ieêy".contains(lowerNuc.first!))
                 let hasInvalidTransformedOnset = isTransformed
                     && !candidateState.isBypassed
                     && !lowerOnset.isEmpty
                     && !isTransientQu
-                    && PhonotacticsMatrix.lookupFC(lowerOnset, isComplete: false).isEmpty
+                    && (PhonotacticsMatrix.lookupFC(lowerOnset, isComplete: false).isEmpty || isInvalidKOrthography)
                 let hasInvalidTransformedNucleus = isTransformed
                     && parsed.nucleus.count >= 2
                     && PhonotacticsMatrix.lookupVO(lowerNuc).isEmpty
@@ -701,10 +702,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             return false
         }
 
+        // Do not split if the user is typing a foreign 'sh' digraph (e.g. kaisha, raishuu, hayashi)
+        if activeRawKeys.last?.lowercased() == "s" && lowerNext == "h" {
+            return false
+        }
+
         // Do not split if the syllable started with standalone 'w' (e.g. 'wi...', 'wa...', 'wou...' in English words like 'with', 'wide', 'want', 'walk', 'would')
         if parsed.onset.isEmpty && activeRawKeys.first?.lowercased() == "w" {
             return false
         }
+
+        let lastRawIsVowel = activeRawKeys.last.map { PhonotacticsMatrix.isVowelChar($0) } ?? false
 
         // Case 1: Nucleus is an off-glide (cannot take any coda)
         let offGlides: Set<String> = [
@@ -714,12 +722,23 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         ]
         let lowerNuc = parsed.nucleus.lowercased()
         if offGlides.contains(lowerNuc) {
+            // Do not split if a tone key was typed between the two vowels (e.g. 'n-a-r-u' in 'naruto', 'm-i-s-a' in 'misaki', 'a-s-o' in 'asoko')
+            if parsed.tone != .none && lastRawIsVowel {
+                return false
+            }
             return true
         }
 
         // Case 2: Syllable already has a valid coda, and nextChar is a valid onset that cannot extend the coda
         if !parsed.coda.isEmpty && PhonotacticsMatrix.isValidCoda(parsed.coda) {
+            // Do not split if a non-adjacent vowel jumped across the coda (e.g. 't-a-n-a' in 'tanaka', 'a-n-a' in 'anata')
+            if lastRawIsVowel {
+                return false
+            }
             let candidateCoda = parsed.coda + String(nextChar)
+            if EnglishRestoreDetector.hasInvalidCodaCluster(candidateCoda.lowercased()) {
+                return false
+            }
             if !PhonotacticsMatrix.isValidCoda(candidateCoda) && !PhonotacticsMatrix.lookupFC(String(nextChar)).isEmpty {
                 return true
             }
