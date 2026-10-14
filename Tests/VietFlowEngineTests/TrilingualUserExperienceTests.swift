@@ -965,8 +965,34 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_165_japanese_katakana_long_vowel_aafu_aasu_aaru_eefu_eesu_eeru() {
+        let input = "puran buranchi kuranchi burando gurando haafu saafu taafu naasu paasu baasu daasu gaaru paaru seefu peesu supeesu reeru beeru seeru teeru neeru sukeeru"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_166_english_x_family_and_multitone_rf_er_words() {
+        let input = "nerf serf kerf miser boxes boxer boxers mixes mixer mixers vexes hexes sexes lexus oxen vixen thorax xerox prefix prefixes suffix suffixes matrix matrices paradox orthodox equinox detox"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_167_english_lk_lm_lv_rb_rp_rg_rv_rch_coda_clusters() {
+        let input = "walk walks talked chalk stalk folk yolk silk milk bulk calm palm balm psalm realm helm film bulb valve solve resolve dissolve evolve involve revolve shelves wolves halves calves curb herb verb suburb disturb absorb harp sharp warp urge purge surge merge forge large charge curve carve starve nerve serve reserve preserve observe march arch search torch porch church"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_168_japanese_katakana_it_loanwords_in_romaji() {
+        let input = "furoo fairu foruda fureemu fureemuwaaku furonto furontoendo bakkuendo saabaa saabisu shisutemu tesuto deeta deetabeesu nettowaaku sekyuriti purojekuto puroguramu purosesu purotokoru apurikeeshon apuri akaunto akusesu intaanetto intaafeesu enjinia maneejaa riidaa menbaa yuuzaa kuraianto burauza sukuriin sukejuuru tasuku chiketto bagu ririisu depuroi rebyuu maaji komitto ripojitori dokyumento fiidobakku miitingu imeeji peeji messeeji eraa suteetasu pafoomansu resuponsu rikuesuto roguin roguauto pasuwaado"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_169_scenario19_git_branch_workflow_and_katakana_it_standup() {
+        let input = "Sáng nay enjinia team tạo buranchi mới từ ripojitori để maaji tính năng supeesu vaf sukeeru. Chusng ta cần check kĩ puran, tránh để nerf pafoomansu của mixer service hoặc gây eraa trên baasu hệ thống!"
+        let expected = "Sáng nay enjinia team tạo buranchi mới từ ripojitori để maaji tính năng supeesu và sukeeru. Chúng ta cần check kĩ puran, tránh để nerf pafoomansu của mixer service hoặc gây eraa trên baasu hệ thống!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (164 Tests)
+    // MARK: - Test Registration (169 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1085,7 +1111,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (56 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (61 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1142,6 +1168,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_162_japanese_two_mora_nouns_names_and_sha_sho_structural_patterns", test_tier4_162_japanese_two_mora_nouns_names_and_sha_sho_structural_patterns),
             ("test_tier4_163_japanese_passive_causative_potential_and_compound_inflections", test_tier4_163_japanese_passive_causative_potential_and_compound_inflections),
             ("test_tier4_164_scenario18_trilingual_hospitality_and_software_release_celebration", test_tier4_164_scenario18_trilingual_hospitality_and_software_release_celebration),
+            ("test_tier4_165_japanese_katakana_long_vowel_aafu_aasu_aaru_eefu_eesu_eeru", test_tier4_165_japanese_katakana_long_vowel_aafu_aasu_aaru_eefu_eesu_eeru),
+            ("test_tier4_166_english_x_family_and_multitone_rf_er_words", test_tier4_166_english_x_family_and_multitone_rf_er_words),
+            ("test_tier4_167_english_lk_lm_lv_rb_rp_rg_rv_rch_coda_clusters", test_tier4_167_english_lk_lm_lv_rb_rp_rg_rv_rch_coda_clusters),
+            ("test_tier4_168_japanese_katakana_it_loanwords_in_romaji", test_tier4_168_japanese_katakana_it_loanwords_in_romaji),
+            ("test_tier4_169_scenario19_git_branch_workflow_and_katakana_it_standup", test_tier4_169_scenario19_git_branch_workflow_and_katakana_it_standup),
         ]
     }
 }

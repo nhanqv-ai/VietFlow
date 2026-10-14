@@ -199,7 +199,10 @@ public enum EnglishKeywords {
         "hairs", "chairs", "lairs", "choirs", "moors", "boors", "boar", "boars", "soar",
         "lore", "ore", "ores", "pore", "pores",
         "chefs", "refs", "reefs", "beefs", "hoofs", "nerfs", "serfs",
-        "gulf", "gulfs", "golf", "golfs", "wolf", "wolfs"
+        "gulf", "gulfs", "golf", "golfs", "wolf", "wolfs",
+        "nerf", "serf", "kerf", "miser",
+        "boxes", "boxer", "boxers", "mixes", "mixer", "mixers",
+        "vexes", "hexes", "sexes", "lexus", "oxen", "vixen", "thorax", "xerox"
     ]
 }
 
