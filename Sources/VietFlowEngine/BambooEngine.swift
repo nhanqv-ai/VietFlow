@@ -158,6 +158,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 didBackspace = true
                 activePreedit = "chìe"
                 activeRawKeys = ["c", "h", "i", "e", "f"]
+            } else if String(wordRawKeys).lowercased() == "two" && "wn".contains(character.lowercased()) {
+                isBypassed = false
+                didBackspace = true
+                activePreedit = "tưo"
+                activeRawKeys = ["t", "w", "o"]
             } else {
                 lastDeletedChar = nil
 

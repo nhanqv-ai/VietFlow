@@ -189,7 +189,11 @@ public enum EnglishKeywords {
         "keep", "keeps", "peep", "peeps", "troop", "troops", "poop",
         "roast", "roasts", "roasted", "boast", "boasts", "coast", "coasts", "coastal",
         "boats", "coats", "goats", "soaps", "rooms", "booms", "moons",
-        "roar", "roars", "soars", "oars", "roofs"
+        "roar", "roars", "soars", "oars", "roofs",
+        "two", "twos", "twofold", "pair", "pairs",
+        "chairman", "chairmen", "chairwoman", "chairperson", "armchair", "armchairs", "wheelchair", "wheelchairs",
+        "aura", "auras", "austere", "austerity",
+        "dues", "hues", "cues", "sues", "rues", "guest", "guests"
     ]
 }
 
@@ -263,9 +267,10 @@ public enum EnglishRestoreDetector {
         "ssw", "ssc", "ssp", "ssk", "ssr", "ssh", "ssl", "ssm", "ssn"
     ]
 
-    /// English 'sw-' prefixes that are not valid Vietnamese 'sư-' syllables in Telex.
+    /// English 'sw-' and 'tw-' prefixes that are not valid Vietnamese 'sư-' / 'tư-' syllables in Telex.
     public static let invalidTelexSwPrefixes: [String] = [
-        "swi", "swe", "swap", "swan", "swat", "swam", "swag"
+        "swi", "swe", "swap", "swan", "swat", "swam", "swag",
+        "twi", "twe"
     ]
 
     /// Voiceless stop codas that can ONLY take Acute (sắc) or Dot (nặng) tones.

@@ -141,7 +141,13 @@ public enum JapaneseRomajiLexicon {
         "osoreru", "osorete", "osoreta", "osorenai",
         "dekakeru", "dekakete", "dekaketa", "dekakenai",
         "ireru", "irete", "ireta", "irenai",
-        "inoru", "inotte", "inotta", "inoranai"
+        "inoru", "inotte", "inotta", "inoranai",
+
+        // Counters, kinship & workplace terms (Cycle 8)
+        "gosai", "kaigishitsu", "uketsuke", "jimusho", "eigyoubu", "kaihatsubu", "kikakubu",
+        "torishimariyaku", "kabunushi", "ryoushuusho", "mitsumorisho", "hacchuusho", "nouhinsho",
+        "keiyakusho", "houkokusho", "sekkeisho", "teiansho", "kikakusho", "rirekisho",
+        "jikoshoukai", "uchiawase", "bounenkai", "shinnenkai", "kangeikai", "soubetsukai"
     ]
 }
 
