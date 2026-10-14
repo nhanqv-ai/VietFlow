@@ -744,8 +744,43 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         let expected = "hà nội mùa thu, tôi gõ thử pattern và từ đó đề xuất cách fix tối ưu nhất"
         XCTAssertEqual(apply(input), expected)
     }
+
+    // =========================================================================
+    // MARK: - Section 8: Multi-Order Permutations for "mới" & Single-'w' "ươ" (10 tests)
+    // =========================================================================
+
+    func test_196_moi_moiws() {
+        XCTAssertEqual(apply("moiws"), "mới")
+    }
+    func test_197_moi_mowis() {
+        XCTAssertEqual(apply("mowis"), "mới")
+    }
+    func test_198_moi_mowsi() {
+        XCTAssertEqual(apply("mowsi"), "mới")
+    }
+    func test_199_moi_moisw() {
+        XCTAssertEqual(apply("moisw"), "mới")
+    }
+    func test_200_moi_mosiw() {
+        XCTAssertEqual(apply("mosiw"), "mới")
+    }
+    func test_201_moi_moswi() {
+        XCTAssertEqual(apply("moswi"), "mới")
+    }
+    func test_202_sentence_ngay_xa_xua_moiws() {
+        XCTAssertEqual(apply("ngayf xa xuwa khi tooi moiws"), "ngày xa xưa khi tôi mới")
+    }
+    func test_203_single_w_nguwoif() {
+        XCTAssertEqual(apply("nguwoif"), "người")
+    }
+    func test_204_single_w_truwongf() {
+        XCTAssertEqual(apply("truwongf"), "trường")
+    }
+    func test_205_single_w_dduwocj() {
+        XCTAssertEqual(apply("dduwocj"), "được")
+    }
     
-    // MARK: - Test Registry (195 Tests)
+    // MARK: - Test Registry (205 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -957,6 +992,18 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_193_benchmark_p2_typos_vni", test_193_benchmark_p2_typos_vni),
             ("test_194_benchmark_combined_clean_telex", test_194_benchmark_combined_clean_telex),
             ("test_195_benchmark_combined_typos_telex", test_195_benchmark_combined_typos_telex),
+
+            // Section 8: Multi-Order Permutations for "mới" & Single-'w' "ươ" (10 tests)
+            ("test_196_moi_moiws", test_196_moi_moiws),
+            ("test_197_moi_mowis", test_197_moi_mowis),
+            ("test_198_moi_mowsi", test_198_moi_mowsi),
+            ("test_199_moi_moisw", test_199_moi_moisw),
+            ("test_200_moi_mosiw", test_200_moi_mosiw),
+            ("test_201_moi_moswi", test_201_moi_moswi),
+            ("test_202_sentence_ngay_xa_xua_moiws", test_202_sentence_ngay_xa_xua_moiws),
+            ("test_203_single_w_nguwoif", test_203_single_w_nguwoif),
+            ("test_204_single_w_truwongf", test_204_single_w_truwongf),
+            ("test_205_single_w_dduwocj", test_205_single_w_dduwocj),
         ]
     }
 }

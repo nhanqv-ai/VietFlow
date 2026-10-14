@@ -26,6 +26,7 @@ STAGE_ARM64="$BUILD_DIR/arm64"
 STAGE_X86_64="$BUILD_DIR/x86_64"
 APP_DIR="$BUILD_DIR/VietFlow.app"
 
+rm -rf "$STAGE_ARM64" "$STAGE_X86_64" "$BUILD_DIR/universal"
 mkdir -p "$STAGE_ARM64" "$STAGE_X86_64"
 
 echo "================================================================================"
@@ -48,7 +49,7 @@ build_arch() {
     echo "==> [${ARCH}] Step 2: Compiling VietFlowState..."
     swiftc $SDK_FLAG -target "$TARGET" -O -emit-library -static \
         -module-name VietFlowState \
-        -I "$OUT_DIR" -L "$OUT_DIR" -lVietFlowEngine \
+        -I "$OUT_DIR" \
         -emit-module -emit-module-path "$OUT_DIR/VietFlowState.swiftmodule" \
         Sources/VietFlowState/*.swift \
         -o "$OUT_DIR/libVietFlowState.a"
@@ -56,15 +57,17 @@ build_arch() {
     echo "==> [${ARCH}] Step 3: Compiling VietFlowEventTap..."
     swiftc $SDK_FLAG -target "$TARGET" -O -emit-library -static \
         -module-name VietFlowEventTap \
-        -I "$OUT_DIR" -L "$OUT_DIR" -lVietFlowEngine -lVietFlowState \
+        -I "$OUT_DIR" \
         -emit-module -emit-module-path "$OUT_DIR/VietFlowEventTap.swiftmodule" \
         Sources/VietFlowEventTap/*.swift \
         -o "$OUT_DIR/libVietFlowEventTap.a"
 
     echo "==> [${ARCH}] Step 4: Compiling VietFlow App Binary..."
     swiftc $SDK_FLAG -target "$TARGET" -O \
-        -I "$OUT_DIR" -L "$OUT_DIR" \
-        -lVietFlowEngine -lVietFlowState -lVietFlowEventTap \
+        -I "$OUT_DIR" \
+        "$OUT_DIR/libVietFlowEngine.a" \
+        "$OUT_DIR/libVietFlowState.a" \
+        "$OUT_DIR/libVietFlowEventTap.a" \
         Sources/VietFlowApp/*.swift \
         -o "$OUT_DIR/VietFlow"
 }

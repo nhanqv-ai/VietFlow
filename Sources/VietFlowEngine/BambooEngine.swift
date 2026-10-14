@@ -874,21 +874,61 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             }
         }
 
-        // MARK: Vowel Append to Syllable with Existing Tone (e.g. sũ + a -> sữa, mù + a -> mùa)
+        // MARK: Vowel Append to Syllable with Existing Tone (e.g. sũ + a -> sữa, mù + a -> mùa, mó + i -> mói)
         if PhonotacticsMatrix.isVowelChar(inputChar) && hasTone(in: previousDisplay) {
             let candidateDisplay = previousDisplay + String(inputChar)
-            if let parsed = Syllable.parse(from: candidateDisplay),
+            if var parsed = Syllable.parse(from: candidateDisplay),
                parsed.coda.isEmpty,
-               parsed.tone != .none,
-               !PhonotacticsMatrix.lookupVO(parsed.nucleus.lowercased()).isEmpty {
-                let recomposed = TonePlacement.composeSyllable(
-                    vowels: Array(parsed.nucleus),
-                    onset: parsed.onset,
-                    coda: parsed.coda,
-                    tone: parsed.tone,
-                    style: toneStyle
-                )
-                return (parsed.applyCasing(recomposed), true)
+               parsed.tone != .none {
+                let lowerNuc = parsed.nucleus.lowercased()
+                let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
+                if lowerNuc == "ưoi" {
+                    parsed.nucleus = isUpperNuc ? "ƯƠI" : "ươi"
+                } else if lowerNuc == "ưou" {
+                    parsed.nucleus = isUpperNuc ? "ƯƠU" : "ươu"
+                }
+                let transitionalNuclei: Set<String> = ["ie", "uye", "ye", "uo", "uoi", "uou", "ưo", "ưoi", "ưou"]
+                let finalLowerNuc = parsed.nucleus.lowercased()
+                if !PhonotacticsMatrix.lookupVO(finalLowerNuc).isEmpty || transitionalNuclei.contains(finalLowerNuc) {
+                    let recomposed = TonePlacement.composeSyllable(
+                        vowels: Array(parsed.nucleus),
+                        onset: parsed.onset,
+                        coda: parsed.coda,
+                        tone: parsed.tone,
+                        style: toneStyle
+                    )
+                    return (parsed.applyCasing(recomposed), true)
+                }
+            }
+        }
+
+        // MARK: Auto-complete 'ưo' + off-glide ('i', 'u') or coda ('c', 'm', 'n', 'ng', 'p', 't') -> 'ươ'
+        do {
+            let candidateDisplay = previousDisplay + String(inputChar)
+            if var parsed = Syllable.parse(from: candidateDisplay) {
+                let lowerNuc = parsed.nucleus.lowercased()
+                let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
+                var didNormalize = false
+                if lowerNuc == "ưoi" && parsed.coda.isEmpty {
+                    parsed.nucleus = isUpperNuc ? "ƯƠI" : "ươi"
+                    didNormalize = true
+                } else if lowerNuc == "ưou" && parsed.coda.isEmpty {
+                    parsed.nucleus = isUpperNuc ? "ƯƠU" : "ươu"
+                    didNormalize = true
+                } else if lowerNuc == "ưo" && !parsed.coda.isEmpty && PhonotacticsMatrix.isValidCoda(parsed.coda) {
+                    parsed.nucleus = isUpperNuc ? "ƯƠ" : "ươ"
+                    didNormalize = true
+                }
+                if didNormalize {
+                    let recomposed = TonePlacement.composeSyllable(
+                        vowels: Array(parsed.nucleus),
+                        onset: parsed.onset,
+                        coda: parsed.coda,
+                        tone: parsed.tone,
+                        style: toneStyle
+                    )
+                    return (parsed.applyCasing(recomposed), true)
+                }
             }
         }
 
@@ -900,12 +940,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                parsed.tone != .none {
                 var modifiedParsed = parsed
                 let lowerNuc = parsed.nucleus.lowercased()
+                let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
                 if lowerNuc == "ie" {
-                    let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
                     modifiedParsed.nucleus = isUpperNuc ? "IÊ" : "iê"
                 } else if lowerNuc == "uye" {
-                    let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
                     modifiedParsed.nucleus = isUpperNuc ? "UYÊ" : "uyê"
+                } else if lowerNuc == "ưo" {
+                    modifiedParsed.nucleus = isUpperNuc ? "ƯƠ" : "ươ"
                 }
                 let recomposed = TonePlacement.composeSyllable(
                     vowels: Array(modifiedParsed.nucleus),
@@ -949,13 +990,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         // Parse into CVC syllable structure
         if var parsed = Syllable.parse(from: string) {
             let lowerNuc = parsed.nucleus.lowercased()
+            let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
             if !parsed.coda.isEmpty && lowerNuc == "ie" {
-                let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
                 parsed.nucleus = isUpperNuc ? "IÊ" : "iê"
-            }
-            if !parsed.coda.isEmpty && lowerNuc == "uye" {
-                let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
+            } else if !parsed.coda.isEmpty && lowerNuc == "uye" {
                 parsed.nucleus = isUpperNuc ? "UYÊ" : "uyê"
+            } else if !parsed.coda.isEmpty && lowerNuc == "ưo" {
+                parsed.nucleus = isUpperNuc ? "ƯƠ" : "ươ"
+            } else if parsed.coda.isEmpty && lowerNuc == "ưoi" {
+                parsed.nucleus = isUpperNuc ? "ƯƠI" : "ươi"
+            } else if parsed.coda.isEmpty && lowerNuc == "ưou" {
+                parsed.nucleus = isUpperNuc ? "ƯƠU" : "ươu"
             }
             let composed = TonePlacement.composeSyllable(
                 vowels: Array(parsed.nucleus),
