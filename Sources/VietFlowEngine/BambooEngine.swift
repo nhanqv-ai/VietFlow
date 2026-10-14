@@ -918,8 +918,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
 
         // MARK: Ignore duplicate consonant coda to prevent invalid clusters (e.g. truon + n -> truon)
-        if (previousDisplay.lowercased().hasSuffix("n") && inputChar.lowercased() == "n")
-            || (previousDisplay.lowercased().hasSuffix("c") && inputChar.lowercased() == "c") {
+        if let lastRaw = rawHistory.last,
+           lastRaw.lowercased() == inputChar.lowercased(),
+           ((previousDisplay.lowercased().hasSuffix("n") && inputChar.lowercased() == "n")
+            || (previousDisplay.lowercased().hasSuffix("c") && inputChar.lowercased() == "c")) {
             return (previousDisplay, true)
         }
 
@@ -1113,6 +1115,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     // Special case for 'dadj' -> 'đạt'
                     if rawHistory.map({ String($0) }).joined().lowercased() == "dad" && (inputChar == "j" || inputChar == "J") {
                         state.lastToneKey = inputChar
+                        state.lastDiacriticKey = nil
                         return (inputChar.isUppercase ? "ĐẠT" : "đạt", true)
                     }
                     // Handle 'ddwcj' / 'duowcj' -> 'được'
@@ -1123,6 +1126,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         parsed.onset = parsed.onset.first?.isUppercase == true ? "Đ" : "đ"
                         parsed.nucleus = parsed.nucleus.allSatisfy { $0.isUppercase } ? "ƯƠ" : "ươ"
                         state.lastToneKey = inputChar
+                        state.lastDiacriticKey = nil
                         let tuned = TonePlacement.composeSyllable(
                             vowels: Array(parsed.nucleus),
                             onset: parsed.onset,
@@ -1133,6 +1137,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         return (parsed.applyCasing(tuned), true)
                     }
                     state.lastToneKey = inputChar
+                    state.lastDiacriticKey = nil
                     let tuned = applyTone(tone, to: previousDisplay, style: toneStyle)
                     return (tuned, true)
                 }

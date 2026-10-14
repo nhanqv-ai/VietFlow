@@ -857,8 +857,34 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_145_japanese_reduplications_mimetics_and_cvncvn_adverbs() {
+        let input = "dandan zenzen sanzan tantan banban ranran gangan dondon ponpon konkon nonbiri runrun sorosoro boroboro gorogoro noronoro torotoro poroporo moromoro korokoro barabara parapara sarasara zarazara karakara garagara harahara daradara perapera pikapika nikoniko dokidoki wakuwaku girigiri baribari batabata fuwafuwa sowasowa"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_146_japanese_medial_nn_and_cc_geminates_and_daily_nouns() {
+        let input = "sennen shinnen zannen honne konna sonna anna donna minna annai mannaka tenno tennou onnanoko kocchi socchi acchi docchi maccha icchi micchaku bocchan isu uso hosoi hoso soto moto momo kesa konya konban maiasa maiban mainichi maishuu maitsuki maitoshi"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_147_japanese_katakana_long_vowel_loanwords_in_romaji() {
+        let input = "meeru beesu keesu reesu keeki seetaa teeburu suteeki karee geemu peeji imeeji suteeji maneejaa pureeyaa deeta deetabeesu koohii kooto nooto booto soosu koosu supootsu suupu ruuru puuru tsuuru guruupu suupaa yuuzaa menyuu kaaten kaado paatii maaketto saabisu paatonaa apaato depaato sumaato sutaato sukaato"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_148_english_prefixes_dis_mis_un_in_sub_sup_ex_en_em_and_nn_cc_words() {
+        let input = "discover discovery discuss discussion disconnect discount discourse disclose dismiss dispose dispute disrupt distribute disturb diverse divide divorce mistake misunderstand misuse uncover undergo understand undertake uniform unique universal university include increase indicate inform information infrastructure initial inject inquire insert inspect inspire install instruct integrate interact interface interfere interpret interrupt interview introduce investigate succeed success successful suggest supervise support suppose suppress surprise surround survive suspect suspend sustain exceed except exchange exclude excuse execute exercise exist expand expect experience experiment expert explain explore export expose express extend extract enable encounter encourage endorse endure enforce engage enhance ensure enter enterprise entertain entire environment embark embarrass embed embrace emerge employ empower seem seems seemed seeming seemingly sofa sofas connect channel tunnel banner manner dinner winner inner runner scanner annual announce account accept access accident accurate accuse occur occupy"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_149_scenario15_japanese_office_daily_life_and_english_project_planning() {
+        let input = "Kesa minna ddax check meeru vaf annai lịch họp konban. Dự án dandan ổn định, sorosoro team sẽ connect qua channel Slack để discuss phương án support account access cho khách hàng!"
+        let expected = "Kesa minna đã check meeru và annai lịch họp konban. Dự án dandan ổn định, sorosoro team sẽ connect qua channel Slack để discuss phương án support account access cho khách hàng!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (144 Tests)
+    // MARK: - Test Registration (149 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1014,6 +1040,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_142_japanese_dictionary_form_verbs_ru_su_bu_mu_tsu", test_tier4_142_japanese_dictionary_form_verbs_ru_su_bu_mu_tsu),
             ("test_tier4_143_english_nce_ncy_nch_nse_nge_words", test_tier4_143_english_nce_ncy_nch_nse_nge_words),
             ("test_tier4_144_scenario14_software_architecture_refactoring_and_japanese_qa_review", test_tier4_144_scenario14_software_architecture_refactoring_and_japanese_qa_review),
+            ("test_tier4_145_japanese_reduplications_mimetics_and_cvncvn_adverbs", test_tier4_145_japanese_reduplications_mimetics_and_cvncvn_adverbs),
+            ("test_tier4_146_japanese_medial_nn_and_cc_geminates_and_daily_nouns", test_tier4_146_japanese_medial_nn_and_cc_geminates_and_daily_nouns),
+            ("test_tier4_147_japanese_katakana_long_vowel_loanwords_in_romaji", test_tier4_147_japanese_katakana_long_vowel_loanwords_in_romaji),
+            ("test_tier4_148_english_prefixes_dis_mis_un_in_sub_sup_ex_en_em_and_nn_cc_words", test_tier4_148_english_prefixes_dis_mis_un_in_sub_sup_ex_en_em_and_nn_cc_words),
+            ("test_tier4_149_scenario15_japanese_office_daily_life_and_english_project_planning", test_tier4_149_scenario15_japanese_office_daily_life_and_english_project_planning),
         ]
     }
 }

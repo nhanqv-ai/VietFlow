@@ -182,7 +182,8 @@ public enum EnglishKeywords {
         "referral", "reset", "resets", "resetting", "resort", "resorts", "reform",
         "reforms", "reformed", "deform", "deformed", "defrost", "defence", "defences",
         "defend", "defends", "defended", "defending", "defender", "defendant",
-        "deed", "deeds", "deem", "deemed", "deems"
+        "deed", "deeds", "deem", "deemed", "deems",
+        "seem", "seems", "seemed", "seeming", "seemingly", "sofa", "sofas"
     ]
 }
 
@@ -249,6 +250,8 @@ public enum EnglishRestoreDetector {
         "bba", "bbe", "bbi", "bbo", "bbu", "bby",
         "ffa", "ffe", "ffi", "ffo", "ffu", "ffy", "ffl", "ffs", "ffh", "ffr",
         "mma", "mme", "mmi", "mmo", "mmu", "mmy",
+        "nna", "nne", "nni", "nno", "nnu", "nny",
+        "cca", "cce", "cci", "cco", "ccu", "ccy", "cch",
         "rra", "rre", "rri", "rro", "rru", "rry",
         "ssa", "sse", "ssi", "sso", "ssu", "ssy",
         "ssw", "ssc", "ssp", "ssk", "ssr", "ssh", "ssl", "ssm", "ssn"

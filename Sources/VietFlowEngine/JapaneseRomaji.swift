@@ -126,7 +126,14 @@ public enum JapaneseRomajiLexicon {
         "akeru", "shimeru", "tsukeru", "kakeru", "makeru", "yakeru", "wakeru",
         "sakeru", "todokeru", "tsuzukeru", "mitsukeru", "tasukeru", "azukeru",
         "katazukeru", "hajimeru", "kimeru", "atsumeru", "tomeru", "yameru",
-        "homeru", "semeru", "shiraberu", "kuraberu", "naraberu", "noberu", "shaberu"
+        "homeru", "semeru", "shiraberu", "kuraberu", "naraberu", "noberu", "shaberu",
+
+        // Daily nouns, Katakana loanwords & mimetics/adverbs (Cycle 6)
+        "isu", "uso", "hosoi", "hoso", "soto", "moto", "momo",
+        "meeru", "beesu", "keesu", "reesu",
+        "kesa", "konya", "konban", "maiasa", "maiban", "mainichi", "maishuu", "maitsuki", "maitoshi",
+        "sorosoro", "boroboro", "gorogoro", "noronoro", "torotoro", "poroporo", "moromoro", "korokoro",
+        "dandan", "zenzen", "sanzan", "tantan", "banban", "ranran", "gangan", "dondon", "ponpon", "konkon", "nonbiri", "runrun"
     ]
 }
 
