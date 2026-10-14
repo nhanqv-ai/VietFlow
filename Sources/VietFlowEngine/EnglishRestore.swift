@@ -250,7 +250,8 @@ public enum EnglishKeywords {
         "curs", "burs", "vers", "fers", "oofs", "goof",
         "caws", "maws", "haws", "sere",
         "won", "wow", "wows", "yens", "kern",
-        "hex", "nix", "tux", "dux"
+        "hex", "nix", "tux", "dux",
+        "ufo", "ufos", "nasa", "taxa"
     ]
 }
 

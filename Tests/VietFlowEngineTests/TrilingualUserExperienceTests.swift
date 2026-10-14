@@ -1359,8 +1359,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_230_english_and_romaji_ufo_ufos_nasa_sasa_hasa_tasa_dasa_rasa_and_unlatch() {
+        let input = "ufo ufos nasa hasa sasa tasa dasa rasa tasam tasan tasat nasau hasap dasau rasat"
+        let expected = "ufo ufos nasa hasa sasa tasa dasa rasa tấm tấn tất nấu hấp dấu rất"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_231_english_and_romaji_taxa_maxa_naxa_haxa_saxa_baxa_gaxa_daxa_raxa_and_unlatch() {
+        let input = "taxa maxa naxa haxa saxa baxa gaxa daxa raxa maxau haxay gaxay baxay daxay"
+        let expected = "taxa maxa naxa haxa saxa baxa gaxa daxa raxa mẫu hẫy gẫy bẫy dẫy"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_232_romaji_mafa_nafa_hafa_safa_tafa_bafa_gafa_dafa_rafa_and_unlatch() {
+        let input = "mafa nafa hafa safa tafa bafa gafa dafa rafa mafam nafan hafau tafan bafau dafau"
+        let expected = "mafa nafa hafa safa tafa bafa gafa dafa rafa mầm nần hầu tần bầu dầu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_233_romaji_mofo_nofo_hofo_sofo_tofo_bofo_gofo_dofo_rofo_and_unlatch() {
+        let input = "mofo nofo hofo sofo tofo bofo gofo dofo rofo hofoi mofoi nofoi tofoi bofoi dofoi rofoi hofon bofon tofon"
+        let expected = "mofo nofo hofo sofo tofo bofo gofo dofo rofo hồi mồi nồi tồi bồi dồi rồi hồn bồn tồn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_234_scenario32_trilingual_nasa_ufo_taxa_sasa_and_rasa_chatbot_chat() {
+        let input = "Dữ liệu vệ tinh nasa vừa công bố báo cáo về ufo và phân loại các loài thực vật taxa bao gồm trúc sasa Nhật Bản; nhóm kỹ sư dùng framework rasa để huấn luyện mô hình phân tích mẫu (maxau) vật, tránh bẫy (baxay) nhiễu và kiểm tra rất (rasat) kĩ dấu (dasau) hiệu phản hồi (hofoi) trước khi nấu (nasau) bữa tối bên nồi (nofoi) lẩu tofu!"
+        let expected = "Dữ liệu vệ tinh nasa vừa công bố báo cáo về ufo và phân loại các loài thực vật taxa bao gồm trúc sasa Nhật Bản; nhóm kỹ sư dùng framework rasa để huấn luyện mô hình phân tích mẫu (mẫu) vật, tránh bẫy (bẫy) nhiễu và kiểm tra rất (rất) kĩ dấu (dấu) hiệu phản hồi (hồi) trước khi nấu (nấu) bữa tối bên nồi (nồi) lẩu tofu!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (229 Tests)
+    // MARK: - Test Registration (234 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1601,6 +1631,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_227_japanese_maja_naja_haja_saja_taja_baja_gaja_daja_raja_and_vietnamese_unlatch", test_tier4_227_japanese_maja_naja_haja_saja_taja_baja_gaja_daja_raja_and_vietnamese_unlatch),
             ("test_tier4_228_japanese_nojo_hojo_sojo_tojo_bojo_gojo_nujo_hujo_tujo_gujo_dujo_rujo_and_unlatch", test_tier4_228_japanese_nojo_hojo_sojo_tojo_bojo_gojo_nujo_hujo_tujo_gujo_dujo_rujo_and_unlatch),
             ("test_tier4_229_scenario31_trilingual_gojo_hojo_hex_nix_tux_and_dowa_chat", test_tier4_229_scenario31_trilingual_gojo_hojo_hex_nix_tux_and_dowa_chat),
+            ("test_tier4_230_english_and_romaji_ufo_ufos_nasa_sasa_hasa_tasa_dasa_rasa_and_unlatch", test_tier4_230_english_and_romaji_ufo_ufos_nasa_sasa_hasa_tasa_dasa_rasa_and_unlatch),
+            ("test_tier4_231_english_and_romaji_taxa_maxa_naxa_haxa_saxa_baxa_gaxa_daxa_raxa_and_unlatch", test_tier4_231_english_and_romaji_taxa_maxa_naxa_haxa_saxa_baxa_gaxa_daxa_raxa_and_unlatch),
+            ("test_tier4_232_romaji_mafa_nafa_hafa_safa_tafa_bafa_gafa_dafa_rafa_and_unlatch", test_tier4_232_romaji_mafa_nafa_hafa_safa_tafa_bafa_gafa_dafa_rafa_and_unlatch),
+            ("test_tier4_233_romaji_mofo_nofo_hofo_sofo_tofo_bofo_gofo_dofo_rofo_and_unlatch", test_tier4_233_romaji_mofo_nofo_hofo_sofo_tofo_bofo_gofo_dofo_rofo_and_unlatch),
+            ("test_tier4_234_scenario32_trilingual_nasa_ufo_taxa_sasa_and_rasa_chatbot_chat", test_tier4_234_scenario32_trilingual_nasa_ufo_taxa_sasa_and_rasa_chatbot_chat),
         ]
     }
 }
