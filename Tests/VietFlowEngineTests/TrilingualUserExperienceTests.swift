@@ -1053,7 +1053,37 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (179 Tests)
+    // MARK: - Cycle 13: -rrh/-ffd Clusters, -ooing Words, Photo/Poem/Boost & 2-Mora Romaji (5 Tests)
+    // =========================================================================
+
+    func test_tier4_180_english_rrh_ffd_medial_clusters_and_ooing_words() {
+        let input = "diarrhea cirrhosis myrrh arrhythmia pyrrhic hemorrhage hemorrhoid gonorrhea catarrh purrs purred burrs errs erred cuffed puffed muffed stuffed bluffed scuffed snuffed riffed tiffed miffed biffed chaffed quaffed doffed scoffed booing cooing mooing wooing shooing"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_181_english_photo_poem_poet_duet_boost_roost_dojo_and_ire_use_words() {
+        let input = "photo photos photon photons photograph photographs photographer photography photoshop photocopy chair lair sire sires sired mire mires mired muse muses mused musing ruse ruses goer goers doer doers poem poems poet poets poetic poetry duet duets homo phono exo moron morons loco coco dojo dojos mojo boost boosts boosted booster roost roosts rooster goofs swops bias biases biased"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_182_japanese_two_mora_ru_ro_re_su_so_se_ji_jo_wa_fu_and_oi_adjectives() {
+        let input = "taru baru paru garu daru piru seru meru beru peru muru duru ruru huru pura nure mure bure gure dure rure ure puri pora pasu pisu hesu sesu mesu tesu besu pesu gesu resu esu nusu susu busu pusu gusu dusu rusu usu nuse suse buse puse guse duse ruse posa paji poji puji giji nowa sowa towa rowa owa pafu kefu mefu nefu hefu sefu tefu defu befu pefu gefu refu efu moroi noroi"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_183_english_greek_latin_prefixes_co_re_pre_de_micro_crypto_thermo() {
+        let input = "cooperate cooperation cooperative coordinate coordinates coordinated coordinating coordination coordinator coexist coexistence coincide coincident coincidence zoology zoological zoologist reopen reopened reorganize reorganized reenter reentry reelect reexamine reestablish reevaluate reinforce preapprove preoccupy preorder deodorant"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_184_scenario22_trilingual_photography_workshop_and_dojo_training_chat() {
+        let input = "Chiều nay tại dojo ở peru, các poet vaf doer mang theo nhiều photos chụp trên chair cạnh taru để boost cảm hứng; dù mạng hơi noroi và thiết bị khá moroi nhưng không hề có bias, mỗi poem hay duet đều khiến khán giả cooing mà không ai booing cả!"
+        let expected = "Chiều nay tại dojo ở peru, các poet và doer mang theo nhiều photos chụp trên chair cạnh taru để boost cảm hứng; dù mạng hơi noroi và thiết bị khá moroi nhưng không hề có bias, mỗi poem hay duet đều khiến khán giả cooing mà không ai booing cả!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (184 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1244,6 +1274,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_177_japanese_ko_so_a_do_adnominals_mono_and_katakana_p_b_g_d_words", test_tier4_177_japanese_ko_so_a_do_adnominals_mono_and_katakana_p_b_g_d_words),
             ("test_tier4_178_english_ai_oi_ou_digraph_families", test_tier4_178_english_ai_oi_ou_digraph_families),
             ("test_tier4_179_scenario21_trilingual_game_dev_gacha_and_airline_booking_chat", test_tier4_179_scenario21_trilingual_game_dev_gacha_and_airline_booking_chat),
+            ("test_tier4_180_english_rrh_ffd_medial_clusters_and_ooing_words", test_tier4_180_english_rrh_ffd_medial_clusters_and_ooing_words),
+            ("test_tier4_181_english_photo_poem_poet_duet_boost_roost_dojo_and_ire_use_words", test_tier4_181_english_photo_poem_poet_duet_boost_roost_dojo_and_ire_use_words),
+            ("test_tier4_182_japanese_two_mora_ru_ro_re_su_so_se_ji_jo_wa_fu_and_oi_adjectives", test_tier4_182_japanese_two_mora_ru_ro_re_su_so_se_ji_jo_wa_fu_and_oi_adjectives),
+            ("test_tier4_183_english_greek_latin_prefixes_co_re_pre_de_micro_crypto_thermo", test_tier4_183_english_greek_latin_prefixes_co_re_pre_de_micro_crypto_thermo),
+            ("test_tier4_184_scenario22_trilingual_photography_workshop_and_dojo_training_chat", test_tier4_184_scenario22_trilingual_photography_workshop_and_dojo_training_chat),
         ]
     }
 }

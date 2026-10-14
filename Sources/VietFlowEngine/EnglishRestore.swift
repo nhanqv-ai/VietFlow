@@ -221,7 +221,12 @@ public enum EnglishKeywords {
         "moats", "moans", "roams", "coax", "coaxes", "coaxed",
         "doom", "dooms", "loom", "looms", "goop", "goops", "goons", "loons",
         "teems", "teens", "queens", "keen", "keens", "keenly", "cheep", "cheeps",
-        "airs", "haircut", "haircuts", "hairpin", "hairpins", "hairnet", "hairless", "airless"
+        "airs", "haircut", "haircuts", "hairpin", "hairpins", "hairnet", "hairless", "airless",
+        "chair", "lair", "sire", "sires", "sired", "mire", "mires", "mired",
+        "muse", "muses", "mused", "musing", "ruse", "ruses",
+        "goer", "goers", "doer", "doers", "poem", "poems", "poet", "poets", "duet", "duets",
+        "photo", "photos", "homo", "phono", "exo", "moron", "morons", "loco", "coco",
+        "dojo", "dojos", "mojo", "boost", "roost", "goofs", "swops", "bias"
     ]
 }
 
@@ -288,10 +293,11 @@ public enum EnglishRestoreDetector {
         "ppa", "ppe", "ppi", "ppo", "ppu", "ppy",
         "bba", "bbe", "bbi", "bbo", "bbu", "bby",
         "ffa", "ffe", "ffi", "ffo", "ffu", "ffy", "ffl", "ffs", "ffh", "ffr",
+        "ffb", "ffc", "ffd", "ffg", "ffk", "ffm", "ffn", "ffp", "fft", "ffv", "ffw",
         "mma", "mme", "mmi", "mmo", "mmu", "mmy",
         "nna", "nne", "nni", "nno", "nnu", "nny",
         "cca", "cce", "cci", "cco", "ccu", "ccy", "cch",
-        "rra", "rre", "rri", "rro", "rru", "rry",
+        "rra", "rre", "rri", "rro", "rru", "rry", "rrh", "rrs",
         "ssa", "sse", "ssi", "sso", "ssu", "ssy",
         "ssw", "ssc", "ssp", "ssk", "ssr", "ssh", "ssl", "ssm", "ssn",
         "ssb", "ssd", "ssf", "ssg", "sst", "ssv"
