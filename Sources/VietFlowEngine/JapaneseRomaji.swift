@@ -161,7 +161,13 @@ public enum JapaneseRomajiLexicon {
 
         // Everyday -au/-aru/-iru/-eru verbs & nouns (Cycle 11)
         "arau", "harau", "sarau", "tarau", "sasaru", "nasaru", "masaru", "tasaru", "hasaru", "asaru",
-        "chiru", "biru", "ieru", "mieru", "asa", "masa", "doro", "oto"
+        "chiru", "biru", "ieru", "mieru", "asa", "masa", "doro", "oto",
+
+        // Ko-so-a-do adnominals, mono, and p-/b-/g-/d- Katakana & mimetic roots (Cycle 12)
+        "kono", "sono", "ano", "dono", "mono", "hono",
+        "puro", "puraza", "garasu", "gacha", "guree", "guru", "buru", "puru",
+        "bara", "bata", "pata", "pasa", "para", "poro", "boro", "basa",
+        "gara", "goro", "gasa", "gata", "dara"
     ]
 }
 
