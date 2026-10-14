@@ -176,7 +176,13 @@ public enum EnglishKeywords {
         "piece", "pieces", "niece", "nieces", "chose", "refuse", "refused", "refuses",
         "refusing", "refusal", "peruse", "perused", "peruses", "purse", "purses",
         "curse", "curses", "cursed", "cursing", "emerge", "emerged", "emerges",
-        "emerging", "emergency", "emergencies", "vue", "o2o"
+        "emerging", "emergency", "emergencies", "vue", "o2o",
+        "mere", "dire", "rise", "rises", "risen", "rising", "reuse", "reused",
+        "reuses", "reusing", "reusable", "refer", "refers", "referred", "referring",
+        "referral", "reset", "resets", "resetting", "resort", "resorts", "reform",
+        "reforms", "reformed", "deform", "deformed", "defrost", "defence", "defences",
+        "defend", "defends", "defended", "defending", "defender", "defendant",
+        "deed", "deeds", "deem", "deemed", "deems"
     ]
 }
 

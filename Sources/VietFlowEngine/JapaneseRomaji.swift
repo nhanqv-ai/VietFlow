@@ -112,7 +112,21 @@ public enum JapaneseRomajiLexicon {
         "ressha", "hassha", "kesshite", "asshuku", "sesshu", "kesshou", "nisshi",
         "busshi", "sasshi", "hitori", "futari", "minna", "zenbu", "hanbun", "sukoshi",
         "takusan", "amari", "totemo", "sugoku", "meccha", "kawaii", "kakkoii",
-        "suzushii", "atatakai", "ookii", "chiisai"
+        "suzushii", "atatakai", "ookii", "chiisai",
+
+        // Dictionary-form Japanese verbs (-ru, -su, -bu, -mu, -tsu) (Cycle 5)
+        "uru", "deru", "kesu", "osu", "motsu", "tatsu", "matsu", "katsu", "utsu",
+        "sodatsu", "kaesu", "naosu", "nokosu", "okosu", "orosu", "otosu", "watasu",
+        "damasu", "kogasu", "nagasu", "hanasu", "sagasu", "hakobu", "erabu",
+        "narabu", "manabu", "yobu", "tobu", "korobu", "yorokobu", "asobu", "musubu",
+        "susumu", "tsutsumu", "tanomu", "konomu", "umareru", "tsukareru", "wakareru",
+        "wasureru", "taoreru", "kakureru", "arawareru", "abiru", "ochiru", "oriru",
+        "kariru", "tariru", "ikiru", "shinjiru", "kanjiru", "kinjiru", "tojiru",
+        "oujiru", "tsutaeru", "kangaeru", "oshieru", "oboeru", "kotaeru", "ukeru",
+        "akeru", "shimeru", "tsukeru", "kakeru", "makeru", "yakeru", "wakeru",
+        "sakeru", "todokeru", "tsuzukeru", "mitsukeru", "tasukeru", "azukeru",
+        "katazukeru", "hajimeru", "kimeru", "atsumeru", "tomeru", "yameru",
+        "homeru", "semeru", "shiraberu", "kuraberu", "naraberu", "noberu", "shaberu"
     ]
 }
 
