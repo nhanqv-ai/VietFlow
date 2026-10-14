@@ -201,7 +201,11 @@ public enum JapaneseRomajiLexicon {
         "sura", "suri", "turo", "tura", "ture", "turi", "nura", "nuri", "bura", "buri", "gura", "guri",
         "kire", "nire", "bire", "gire", "giro", "hore",
         "mara", "hara", "sara", "tara",
-        "kieru", "kiete", "miete", "uete", "suete"
+        "kieru", "kiete", "miete", "uete", "suete",
+        "horo", "moro", "moso", "toro", "toso", "soro", "noro", "noso",
+        "tere", "kere", "nere", "bere", "dere",
+        "tese", "kese", "mese", "nese", "hese", "sese", "bese", "dese", "nesu",
+        "suwa", "guwa", "buwa"
     ]
 }
 

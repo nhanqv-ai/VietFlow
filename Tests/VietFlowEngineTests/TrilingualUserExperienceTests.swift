@@ -1299,8 +1299,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_220_japanese_uwa_non_split_uwagi_uwaki_uwabe_uwate_and_suwa_guwa_buwa_unlatch() {
+        let input = "uwagi uwaki uwabe uwate uwagaki uwanose suwa guwa buwa uwa uwas uwaf suwar suwax buwaf buwax guwaf"
+        let expected = "uwagi uwaki uwabe uwate uwagaki uwanose suwa guwa buwa ưa ứa ừa sửa sữa bừa bữa gừa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_221_english_won_wow_wows_yens_kern_and_vietnamese_wong_wonx_yense_unlatch() {
+        let input = "won wow wows yens kern kerns wong wonx wonf yense"
+        let expected = "won wow wows yens kern kerns ương ưỡn ườn yến"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_222_japanese_horo_moro_moso_toro_toso_soro_noro_noso_and_vietnamese_unlatch() {
+        let input = "horo moro moso toro toso soro noro noso moroi noroi soroi moron morons toron toson tosot mosot nosot tosoi mosoi nosoi"
+        let expected = "horo moro moso toro toso soro noro noso moroi noroi soroi moron morons tổn tốn tốt mốt nốt tối mối nối"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_223_japanese_tere_kere_nere_bere_dere_tese_kese_mese_nese_hese_sese_bese_dese_nesu_and_unlatch() {
+        let input = "tere kere nere bere dere tese kese mese nese hese sese bese dese nesu kesech keset teset heset mesen nesen besen nesue mesue tesue"
+        let expected = "tere kere nere bere dere tese kese mese nese hese sese bese dese nesu kếch kết tết hết mến nến bến nếu mếu tếu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_224_scenario30_trilingual_suwa_trip_uwagi_toro_sushi_and_won_wow_chat() {
+        let input = "Chuyến đi hồ suwa mùa thu se lạnh nên mọi người đều mặc thêm áo khoác uwagi ấm áp, thưởng thức bữa (buwax) tối (tosoi) với sushi cá ngừ béo toro chỉ vài nghìn yens; cả nhóm đều thốt lên wow khi đội nhà won giải đấu vaf nếu (nesue) sửa (suwar) xong lỗi kern font cũng như kese sạch cache cũ thì kết (keset) quả sẽ tốt (tosot) hơn nữa!"
+        let expected = "Chuyến đi hồ suwa mùa thu se lạnh nên mọi người đều mặc thêm áo khoác uwagi ấm áp, thưởng thức bữa (bữa) tối (tối) với sushi cá ngừ béo toro chỉ vài nghìn yens; cả nhóm đều thốt lên wow khi đội nhà won giải đấu và nếu (nếu) sửa (sửa) xong lỗi kern font cũng như kese sạch cache cũ thì kết (kết) quả sẽ tốt (tốt) hơn nữa!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (219 Tests)
+    // MARK: - Test Registration (224 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1531,6 +1561,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_217_japanese_mara_hara_sara_tara_and_vietnamese_maran_haram_saram_taram_unlatch", test_tier4_217_japanese_mara_hara_sara_tara_and_vietnamese_maran_haram_saram_taram_unlatch),
             ("test_tier4_218_japanese_kire_nire_bire_gire_giro_hore_kieru_kiete_miete_uete_suete_and_unlatch", test_tier4_218_japanese_kire_nire_bire_gire_giro_hore_kieru_kiete_miete_uete_suete_and_unlatch),
             ("test_tier4_219_scenario29_trilingual_ramen_sara_kire_and_kieru_bug_chat", test_tier4_219_scenario29_trilingual_sara_kire_sushi_and_kieru_bug_chat),
+            ("test_tier4_220_japanese_uwa_non_split_uwagi_uwaki_uwabe_uwate_and_suwa_guwa_buwa_unlatch", test_tier4_220_japanese_uwa_non_split_uwagi_uwaki_uwabe_uwate_and_suwa_guwa_buwa_unlatch),
+            ("test_tier4_221_english_won_wow_wows_yens_kern_and_vietnamese_wong_wonx_yense_unlatch", test_tier4_221_english_won_wow_wows_yens_kern_and_vietnamese_wong_wonx_yense_unlatch),
+            ("test_tier4_222_japanese_horo_moro_moso_toro_toso_soro_noro_noso_and_vietnamese_unlatch", test_tier4_222_japanese_horo_moro_moso_toro_toso_soro_noro_noso_and_vietnamese_unlatch),
+            ("test_tier4_223_japanese_tere_kere_nere_bere_dere_tese_kese_mese_nese_hese_sese_bese_dese_nesu_and_unlatch", test_tier4_223_japanese_tere_kere_nere_bere_dere_tese_kese_mese_nese_hese_sese_bese_dese_nesu_and_unlatch),
+            ("test_tier4_224_scenario30_trilingual_suwa_trip_uwagi_toro_sushi_and_won_wow_chat", test_tier4_224_scenario30_trilingual_suwa_trip_uwagi_toro_sushi_and_won_wow_chat),
         ]
     }
 }
