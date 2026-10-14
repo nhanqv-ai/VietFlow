@@ -169,7 +169,7 @@ public final class AccessibilityService: ObservableObject, @unchecked Sendable {
     /// Computes a unique signature for the current executable binary (modification timestamp + size + version)
     /// so ad-hoc re-signed builds are reliably detected even when CFBundleVersion stays constant.
     public static func currentBinarySignature() -> String {
-        let version = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1.0.0"
+        let version = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1.1.0"
         if let execURL = Bundle.main.executableURL,
            let attrs = try? FileManager.default.attributesOfItem(atPath: execURL.path) {
             let mtime = (attrs[.modificationDate] as? Date)?.timeIntervalSince1970 ?? 0

@@ -136,6 +136,125 @@ public final class EnglishRestoreTests: VietFlowTestCase {
     func test_bypass_word_rust() { assertRestore("rust", "rust") }
     func test_bypass_word_golang() { assertRestore("golang", "golang") }
     
+    // MARK: - Strict Vietnamese Preservation: Multi-Word Phrases with 'tả'
+    func test_vietnamese_preservation_mo_ta() {
+        assertRestore("moo tar", "mô tả")
+    }
+    
+    func test_vietnamese_preservation_dac_ta() {
+        assertRestore("ddawcj tar", "đặc tả")
+    }
+    
+    func test_vietnamese_preservation_dien_ta() {
+        assertRestore("dieenx tar", "diễn tả")
+    }
+    
+    func test_vietnamese_preservation_ta_thuc() {
+        assertRestore("tar thuwjc", "tả thực")
+    }
+    
+    // MARK: - Strict Vietnamese Single-Syllable Preservation (R1 Line 16)
+    func test_vietnamese_preservation_car_bar_tar_her_sir() {
+        assertRestore("car bar tar her sir", "cả bả tả hẻ sỉ")
+    }
+    
+    func test_vietnamese_preservation_bus_gas_box_tax_max() {
+        assertRestore("bus gas box tax max", "bú gá bõ tã mã")
+    }
+    
+    func test_vietnamese_preservation_mix_six_sex_now_how() {
+        assertRestore("mix six sex now how", "mĩ sĩ sẽ nơ hơ")
+    }
+    
+    func test_vietnamese_preservation_low_row_cow_raw_law_saw_hair() {
+        assertRestore("low row cow raw law saw hair", "lơ rơ cơ ră lă să hải")
+    }
+    
+    // MARK: - Double-Key Escape Restoring English Words
+    func test_double_key_escape_car_bar_tar_her_sir() {
+        assertRestore("carr barr tarr herr sirr", "car bar tar her sir")
+    }
+    
+    func test_double_key_escape_bus_gas_box_tax_max() {
+        assertRestore("buss gass boxx taxx maxx", "bus gas box tax max")
+    }
+    
+    func test_double_key_escape_mix_six_sex_now_how() {
+        assertRestore("mixx sixx sexx noww howw", "mix six sex now how")
+    }
+    
+    func test_double_key_escape_low_row_cow_raw_law_saw_hair() {
+        assertRestore("loww roww coww raww laww saww hairr", "low row cow raw law saw hair")
+    }
+    
+    // MARK: - CamelCase / PascalCase Identifiers
+    func test_camelcase_apple_platforms() {
+        assertRestore("macOS iOS watchOS tvOS", "macOS iOS watchOS tvOS")
+    }
+    
+    func test_camelcase_react_hooks_and_ui() {
+        assertRestore("useState useEffect onClick viewModel", "useState useEffect onClick viewModel")
+    }
+    
+    func test_camelcase_brand_and_languages() {
+        assertRestore("VietFlow SuperClip SwiftUI TypeScript GraphQL", "VietFlow SuperClip SwiftUI TypeScript GraphQL")
+    }
+    
+    // MARK: - Technical Domains, URLs & Extensions
+    func test_technical_domains_and_extensions() {
+        assertRestore("nhk.or.jp yahoo.co.jp example.us amazon.es shopee.tw", "nhk.or.jp yahoo.co.jp example.us amazon.es shopee.tw")
+    }
+    
+    func test_code_extensions() {
+        assertRestore("readme.md index.ts app.rs style.css file.sh config.aw main.swift package.json v1.0.0", "readme.md index.ts app.rs style.css file.sh config.aw main.swift package.json v1.0.0")
+    }
+    
+    func test_urls_and_git_protocols() {
+        assertRestore("https://github.com/react/core git@github.com:vietflow/core.git", "https://github.com/react/core git@github.com:vietflow/core.git")
+    }
+    
+    // MARK: - Expanded English Keywords (including suffix edge case)
+    func test_expanded_english_keywords_batch1() {
+        assertRestore("yes use user users used case base phase chase", "yes use user users used case base phase chase")
+    }
+    
+    func test_expanded_english_keywords_batch2() {
+        assertRestore("rose pose nose lose dose hose house mouse", "rose pose nose lose dose hose house mouse")
+    }
+    
+    func test_expanded_english_keywords_batch3() {
+        assertRestore("suffix prefix next text context index syntax linux unix nginx tmux redux", "suffix prefix next text context index syntax linux unix nginx tmux redux")
+    }
+    
+    func test_expanded_english_keywords_batch4() {
+        assertRestore("core deep git http https", "core deep git http https")
+    }
+    
+    // MARK: - Download (1 'w' and 2 'w's) & Similar 'w' / Double-Key Escape Words
+    func test_download_single_w_and_double_ww() {
+        assertRestore("download dowwnload downloads dowwnloads downloaded dowwnloaded downloading dowwnloading", "download download downloads downloads downloaded downloaded downloading downloading")
+    }
+    
+    func test_down_compound_words_single_and_double_w() {
+        assertRestore("dropdown dropdowwn markdown markdowwn shutdown shutdowwn countdown lockdown", "dropdown dropdown markdown markdown shutdown shutdown countdown lockdown")
+    }
+    
+    func test_ow_aw_uw_words_single_and_double_w() {
+        assertRestore("power powwer tower towwer flower flowwer shower showwer lower lowwer follow followw", "power power tower tower flower flower shower shower lower lower follow follow")
+    }
+    
+    func test_more_w_words_single_and_double_w() {
+        assertRestore("lawyer lawwyer hawk hawwk water wwater window wwindow switch swwitch hardware hardwware forward forwward", "lawyer lawyer hawk hawk water water window window switch switch hardware hardware forward forward")
+    }
+    
+    func test_standalone_w_english_words_with_and_want_and_would() {
+        assertRestore("with within without width wide widow wife wild will win wind wine wing winter wise wish wire want walk wall warm warn ward ware wash waste watch wave wake would wound", "with within without width wide widow wife wild will win wind wine wing winter wise wish wire want walk wall warm warn ward ware wash waste watch wave wake would wound")
+    }
+    
+    func test_multi_syllable_and_r_s_f_english_words() {
+        assertRestore("barcode target tarrget carpet carrpet garden carbon partner margin harvest harbor normal formal morning corner border order short sport storm form born corn horn torn pork fork lord cord sword first worst burst thirst moist hoist", "barcode target target carpet carpet garden carbon partner margin harvest harbor normal formal morning corner border order short sport storm form born corn horn torn pork fork lord cord sword first worst burst thirst moist hoist")
+    }
+    
     // MARK: - Registration of all tests
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -222,6 +341,41 @@ public final class EnglishRestoreTests: VietFlowTestCase {
             ("test_bypass_word_docker", test_bypass_word_docker),
             ("test_bypass_word_rust", test_bypass_word_rust),
             ("test_bypass_word_golang", test_bypass_word_golang),
+            
+            ("test_vietnamese_preservation_mo_ta", test_vietnamese_preservation_mo_ta),
+            ("test_vietnamese_preservation_dac_ta", test_vietnamese_preservation_dac_ta),
+            ("test_vietnamese_preservation_dien_ta", test_vietnamese_preservation_dien_ta),
+            ("test_vietnamese_preservation_ta_thuc", test_vietnamese_preservation_ta_thuc),
+            
+            ("test_vietnamese_preservation_car_bar_tar_her_sir", test_vietnamese_preservation_car_bar_tar_her_sir),
+            ("test_vietnamese_preservation_bus_gas_box_tax_max", test_vietnamese_preservation_bus_gas_box_tax_max),
+            ("test_vietnamese_preservation_mix_six_sex_now_how", test_vietnamese_preservation_mix_six_sex_now_how),
+            ("test_vietnamese_preservation_low_row_cow_raw_law_saw_hair", test_vietnamese_preservation_low_row_cow_raw_law_saw_hair),
+            
+            ("test_double_key_escape_car_bar_tar_her_sir", test_double_key_escape_car_bar_tar_her_sir),
+            ("test_double_key_escape_bus_gas_box_tax_max", test_double_key_escape_bus_gas_box_tax_max),
+            ("test_double_key_escape_mix_six_sex_now_how", test_double_key_escape_mix_six_sex_now_how),
+            ("test_double_key_escape_low_row_cow_raw_law_saw_hair", test_double_key_escape_low_row_cow_raw_law_saw_hair),
+            
+            ("test_camelcase_apple_platforms", test_camelcase_apple_platforms),
+            ("test_camelcase_react_hooks_and_ui", test_camelcase_react_hooks_and_ui),
+            ("test_camelcase_brand_and_languages", test_camelcase_brand_and_languages),
+            
+            ("test_technical_domains_and_extensions", test_technical_domains_and_extensions),
+            ("test_code_extensions", test_code_extensions),
+            ("test_urls_and_git_protocols", test_urls_and_git_protocols),
+            
+            ("test_expanded_english_keywords_batch1", test_expanded_english_keywords_batch1),
+            ("test_expanded_english_keywords_batch2", test_expanded_english_keywords_batch2),
+            ("test_expanded_english_keywords_batch3", test_expanded_english_keywords_batch3),
+            ("test_expanded_english_keywords_batch4", test_expanded_english_keywords_batch4),
+            
+            ("test_download_single_w_and_double_ww", test_download_single_w_and_double_ww),
+            ("test_down_compound_words_single_and_double_w", test_down_compound_words_single_and_double_w),
+            ("test_ow_aw_uw_words_single_and_double_w", test_ow_aw_uw_words_single_and_double_w),
+            ("test_more_w_words_single_and_double_w", test_more_w_words_single_and_double_w),
+            ("test_standalone_w_english_words_with_and_want_and_would", test_standalone_w_english_words_with_and_want_and_would),
+            ("test_multi_syllable_and_r_s_f_english_words", test_multi_syllable_and_r_s_f_english_words),
         ]
     }
 }

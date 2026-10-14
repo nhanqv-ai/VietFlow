@@ -82,7 +82,7 @@ swiftc $SDK_FLAG \
     -emit-library \
     -emit-module \
     -module-name VietFlowEngineTests \
-    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState -lVietFlowApp \
     -emit-module-path "$BUILD_DIR/VietFlowEngineTests.swiftmodule" \
     Tests/VietFlowEngineTests/TestFramework.swift \
     Tests/VietFlowEngineTests/BasicTelexTests.swift \
@@ -95,6 +95,7 @@ swiftc $SDK_FLAG \
     Tests/VietFlowEngineTests/MinimalDiffTests.swift \
     Tests/VietFlowEngineTests/ModeToggleBufferResetTests.swift \
     Tests/VietFlowEngineTests/RealWorldTypingAndBackspaceTests.swift \
+    Tests/VietFlowEngineTests/TrilingualUserExperienceTests.swift \
     -o "$BUILD_DIR/libVietFlowEngineTests.dylib"
 
 echo "==> Step 5: Compiling VietFlowTerminalBufferTests module..."

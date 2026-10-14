@@ -12,8 +12,8 @@ import VietFlowEngine
 import VietFlowState
 
 public final class StatusBarController: NSObject {
-    private var statusItem: NSStatusItem!
-    private let stateManager: AppStateManager
+    public private(set) var statusItem: NSStatusItem!
+    public let stateManager: AppStateManager
     private var cancellables = Set<AnyCancellable>()
     
     public init(stateManager: AppStateManager = .shared) {
@@ -37,20 +37,27 @@ public final class StatusBarController: NSObject {
     }
     
     private func observeState() {
-        stateManager.$currentInputMode
+        Publishers.CombineLatest(stateManager.$currentInputMode, stateManager.$isSuspendedByForeignIME)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.updateIcon()
+            .sink { [weak self] mode, isSuspended in
+                self?.updateStatus(mode: mode, isSuspended: isSuspended)
             }
             .store(in: &cancellables)
     }
     
-    private func updateIcon() {
+    public func updateIcon() {
+        updateStatus(mode: stateManager.currentInputMode, isSuspended: stateManager.isSuspendedByForeignIME)
+    }
+    
+    private func updateStatus(mode: InputMode, isSuspended: Bool) {
         guard let button = statusItem.button else { return }
-        let mode = stateManager.currentInputMode
         let image = renderVectorStatusIcon(mode: mode)
         button.image = image
-        button.toolTip = "VietFlow — \(mode.title) (Click trái để chuyển, Click phải để mở menu)"
+        if isSuspended {
+            button.toolTip = "VietFlow — Chế độ: Tạm ngưng — Đang nhường bộ gõ Ngoại ngữ [E] (Click để kích hoạt Tiếng Việt)"
+        } else {
+            button.toolTip = "VietFlow — \(mode.title) (Click trái để chuyển, Click phải để mở menu)"
+        }
     }
     
     // MARK: - Vector Status Glyphs (Large Tactile Keycap Squircle)
@@ -170,7 +177,7 @@ public final class StatusBarController: NSObject {
         }
     }
     
-    private func showContextMenu() {
+    public func buildContextMenu() -> NSMenu {
         let menu = NSMenu(title: "VietFlow Menu")
         
         if !AccessibilityService.shared.isAccessibilityTrusted {
@@ -185,8 +192,14 @@ public final class StatusBarController: NSObject {
         }
         
         // Mode header
+        let modeHeaderTitle: String
+        if stateManager.isSuspendedByForeignIME {
+            modeHeaderTitle = "Chế độ: Tạm ngưng — Đang nhường bộ gõ Ngoại ngữ [E]"
+        } else {
+            modeHeaderTitle = "Chế độ: \(stateManager.currentInputMode.title) [\(stateManager.currentInputMode.rawValue)] — \(activeShortcutLabel)"
+        }
         let modeItem = NSMenuItem(
-            title: "Chế độ: \(stateManager.currentInputMode.title) [\(stateManager.currentInputMode.rawValue)] — \(activeShortcutLabel)",
+            title: modeHeaderTitle,
             action: #selector(toggleModeMenuAction),
             keyEquivalent: ""
         )
@@ -252,6 +265,11 @@ public final class StatusBarController: NSObject {
         quitItem.target = self
         menu.addItem(quitItem)
         
+        return menu
+    }
+    
+    private func showContextMenu() {
+        let menu = buildContextMenu()
         statusItem.menu = menu
         statusItem.button?.performClick(nil)
         statusItem.menu = nil // Restore click detection

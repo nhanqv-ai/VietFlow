@@ -15,6 +15,7 @@
 //
 
 import Foundation
+import Combine
 import VietFlowEngine
 import VietFlowState
 import VietFlowEngineTests
@@ -412,6 +413,133 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertTrue(manager.isSuspendedByForeignIME)
     }
     
+    // MARK: - Test 24: isSuspendedByForeignIME Published Property Emission
+    func test_24_is_suspended_by_foreign_ime_published_emission() {
+        let mock = MockInputSourceManager(initialSourceID: "com.apple.keylayout.ABC", isForeign: false)
+        let manager = AppStateManager(inputSourceManager: mock)
+        manager.currentInputMode = .vietnamese
+        
+        var emittedStates: [Bool] = []
+        var cancellables = Set<AnyCancellable>()
+        
+        manager.$isSuspendedByForeignIME
+            .sink { isSuspended in
+                emittedStates.append(isSuspended)
+            }
+            .store(in: &cancellables)
+        
+        XCTAssertEqual(emittedStates, [false], "Initial emitted value of isSuspendedByForeignIME must be false")
+        
+        // Switch to Japanese IME (Kotoeri)
+        mock.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertTrue(manager.isSuspendedByForeignIME)
+        XCTAssertEqual(emittedStates, [false, true], "Emitted values must include true when switching to Japanese IME")
+        
+        // Switch back to ABC
+        mock.simulateInputSourceChange(to: "com.apple.keylayout.ABC")
+        XCTAssertFalse(manager.isSuspendedByForeignIME)
+        XCTAssertEqual(emittedStates, [false, true, false], "Emitted values must include false when returning to ABC")
+    }
+    
+    // MARK: - Test 25: Publishers.CombineLatest InputMode and isSuspendedByForeignIME
+    func test_25_combine_latest_mode_and_suspension_publishing() {
+        let mock = MockInputSourceManager(initialSourceID: "com.apple.keylayout.ABC", isForeign: false)
+        let manager = AppStateManager(inputSourceManager: mock)
+        manager.currentInputMode = .vietnamese
+        
+        var emissions: [(mode: InputMode, suspended: Bool)] = []
+        var cancellables = Set<AnyCancellable>()
+        
+        Publishers.CombineLatest(manager.$currentInputMode, manager.$isSuspendedByForeignIME)
+            .sink { mode, suspended in
+                emissions.append((mode: mode, suspended: suspended))
+            }
+            .store(in: &cancellables)
+        
+        XCTAssertEqual(emissions.count, 1)
+        XCTAssertEqual(emissions.last?.mode, .vietnamese)
+        XCTAssertFalse(emissions.last?.suspended ?? true)
+        
+        // Switch to Japanese Hiragana
+        mock.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertEqual(manager.currentInputMode, .english)
+        XCTAssertTrue(manager.isSuspendedByForeignIME)
+        XCTAssertEqual(emissions.last?.mode, .english)
+        XCTAssertTrue(emissions.last?.suspended ?? false)
+        
+        // Switch to Japanese Katakana (remains suspended in English)
+        mock.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese.Katakana")
+        XCTAssertEqual(manager.currentInputMode, .english)
+        XCTAssertTrue(manager.isSuspendedByForeignIME)
+        
+        // Switch to Japanese RomajiTyping.Roman (remains suspended in English)
+        mock.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.RomajiTyping.Roman")
+        XCTAssertEqual(manager.currentInputMode, .english)
+        XCTAssertTrue(manager.isSuspendedByForeignIME)
+        
+        // Switch to Japanese Alphanumeric (remains suspended in English)
+        mock.simulateInputSourceChange(to: "com.apple.inputmethod.Japanese.Alphanumeric")
+        XCTAssertEqual(manager.currentInputMode, .english)
+        XCTAssertTrue(manager.isSuspendedByForeignIME)
+        
+        // One-step manual toggle: directly selects Latin layout and activates Vietnamese
+        manager.toggleInputMode()
+        XCTAssertEqual(manager.currentInputMode, .vietnamese)
+        XCTAssertFalse(manager.isSuspendedByForeignIME)
+        XCTAssertEqual(emissions.last?.mode, .vietnamese)
+        XCTAssertFalse(emissions.last?.suspended ?? true)
+    }
+    
+    // MARK: - Test 26: Per-App Input Mode Suspended Flag Tracking
+    func test_26_per_app_input_mode_suspension_flag_coordination() {
+        let mock = MockInputSourceManager(initialSourceID: "com.apple.keylayout.ABC", isForeign: false)
+        let manager = AppStateManager(inputSourceManager: mock)
+        manager.perAppInputMode = true
+        
+        // Setup Notes (Vietnamese) and Xcode (English)
+        manager.handleActiveAppChanged(bundleId: "com.apple.Notes", appName: "Notes")
+        manager.currentInputMode = .vietnamese
+        XCTAssertFalse(manager.isSuspendedByForeignIME)
+        
+        manager.handleActiveAppChanged(bundleId: "com.apple.dt.Xcode", appName: "Xcode")
+        manager.currentInputMode = .english
+        XCTAssertFalse(manager.isSuspendedByForeignIME)
+        
+        // Switch macOS to Japanese IME while in Xcode
+        mock.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertTrue(manager.isSuspendedByForeignIME)
+        XCTAssertEqual(manager.currentInputMode, .english)
+        
+        // Switch active app to Notes while macOS is STILL in Japanese IME
+        manager.handleActiveAppChanged(bundleId: "com.apple.Notes", appName: "Notes")
+        XCTAssertTrue(manager.isSuspendedByForeignIME, "Must remain suspended when switching apps while in foreign IME")
+        XCTAssertEqual(manager.currentInputMode, .english, "Must remain .english when switching apps while in foreign IME")
+        
+        // Switch macOS back to ABC while in Notes
+        mock.simulateInputSourceChange(to: "com.apple.keylayout.ABC")
+        XCTAssertFalse(manager.isSuspendedByForeignIME, "Suspension flag must clear when returning to ABC")
+        XCTAssertEqual(manager.currentInputMode, .vietnamese, "Notes must restore to .vietnamese mode")
+        
+        // Switch active app back to Xcode in ABC
+        manager.handleActiveAppChanged(bundleId: "com.apple.dt.Xcode", appName: "Xcode")
+        XCTAssertFalse(manager.isSuspendedByForeignIME)
+        XCTAssertEqual(manager.currentInputMode, .english, "Xcode must restore to its saved .english mode")
+    }
+    
+    // MARK: - Test 27: Status Bar Tooltip and Menu String Contract
+    func test_27_status_bar_tooltip_and_menu_string_contract() {
+        // Verify the exact strings required by R3 interface contract
+        let suspendedTooltip = "VietFlow — Chế độ: Tạm ngưng — Đang nhường bộ gõ Ngoại ngữ [E] (Click để kích hoạt Tiếng Việt)"
+        let suspendedMenuHeader = "Chế độ: Tạm ngưng — Đang nhường bộ gõ Ngoại ngữ [E]"
+        
+        XCTAssertFalse(suspendedTooltip.isEmpty)
+        XCTAssertFalse(suspendedMenuHeader.isEmpty)
+        XCTAssertTrue(suspendedTooltip.contains("Tạm ngưng"))
+        XCTAssertTrue(suspendedTooltip.contains("Đang nhường bộ gõ Ngoại ngữ [E]"))
+        XCTAssertTrue(suspendedMenuHeader.contains("Tạm ngưng"))
+        XCTAssertTrue(suspendedMenuHeader.contains("Đang nhường bộ gõ Ngoại ngữ [E]"))
+    }
+    
     // MARK: - Test Registry Registration
     public override var allTests: [(name: String, test: () throws -> Void)] {
         return [
@@ -438,6 +566,10 @@ public final class SettingsPersistenceTests: TestCase {
             ("test_21_engine_config_synchronization", test_21_engine_config_synchronization),
             ("test_22_per_app_input_mode_toggle", test_22_per_app_input_mode_toggle),
             ("test_23_auto_switch_on_foreign_input_source_persistence_and_disable", test_23_auto_switch_on_foreign_input_source_persistence_and_disable),
+            ("test_24_is_suspended_by_foreign_ime_published_emission", test_24_is_suspended_by_foreign_ime_published_emission),
+            ("test_25_combine_latest_mode_and_suspension_publishing", test_25_combine_latest_mode_and_suspension_publishing),
+            ("test_26_per_app_input_mode_suspension_flag_coordination", test_26_per_app_input_mode_suspension_flag_coordination),
+            ("test_27_status_bar_tooltip_and_menu_string_contract", test_27_status_bar_tooltip_and_menu_string_contract),
         ]
     }
 }

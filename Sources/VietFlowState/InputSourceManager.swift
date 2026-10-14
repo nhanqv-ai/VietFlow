@@ -121,6 +121,10 @@ public protocol InputSourceManaging: AnyObject, Sendable {
     @discardableResult
     func selectLatinInputSource() -> Bool
     
+    /// Programmatically select an input source by its unique ID (e.g. "com.apple.inputmethod.Kotoeri.Japanese")
+    @discardableResult
+    func selectInputSource(byID sourceID: String) -> Bool
+    
     /// Synchronously check and refresh the current input source from the system
     @discardableResult
     func refreshCurrentInputSource() -> (sourceID: String, isForeign: Bool)
@@ -299,6 +303,71 @@ public final class SystemInputSourceManager: InputSourceManaging, @unchecked Sen
         }
         return false
     }
+    
+    @discardableResult
+    public func selectInputSource(byID sourceID: String) -> Bool {
+        guard !sourceID.isEmpty else { return false }
+        
+        func findTarget(in list: [TISInputSource]) -> (exact: TISInputSource?, fallback: TISInputSource?) {
+            var exact: TISInputSource?
+            var fallback: TISInputSource?
+            let isJapaneseRequested = sourceID.contains("Japanese") || sourceID.contains("Kotoeri")
+            
+            for source in list {
+                if let capPtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceIsSelectCapable) {
+                    let isCap = CFBooleanGetValue(Unmanaged<CFBoolean>.fromOpaque(capPtr).takeUnretainedValue())
+                    if !isCap { continue }
+                }
+                if let catPtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceCategory) {
+                    let cat = Unmanaged<CFString>.fromOpaque(catPtr).takeUnretainedValue() as String
+                    if !cat.isEmpty && cat != (kTISCategoryKeyboardInputSource as String) {
+                        continue
+                    }
+                }
+                guard let idPtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceID) else { continue }
+                let id = Unmanaged<CFString>.fromOpaque(idPtr).takeUnretainedValue() as String
+                
+                if id == sourceID {
+                    exact = source
+                    break
+                }
+                if isJapaneseRequested && fallback == nil {
+                    if id.contains("Japanese") || id.contains("Kotoeri") {
+                        fallback = source
+                    }
+                }
+            }
+            return (exact, fallback)
+        }
+        
+        var target: TISInputSource?
+        
+        if let list = TISCreateInputSourceList(nil, false)?.takeRetainedValue() as? [TISInputSource] {
+            let (exact, fallback) = findTarget(in: list)
+            target = exact ?? fallback
+        }
+        
+        if target == nil, let listAll = TISCreateInputSourceList(nil, true)?.takeRetainedValue() as? [TISInputSource] {
+            let (exact, fallback) = findTarget(in: listAll)
+            target = exact ?? fallback
+        }
+        
+        guard let finalTarget = target else {
+            return false
+        }
+        
+        var status = TISSelectInputSource(finalTarget)
+        if status != noErr {
+            TISEnableInputSource(finalTarget)
+            status = TISSelectInputSource(finalTarget)
+        }
+        
+        if status == noErr {
+            _ = refreshCurrentInputSource()
+            return true
+        }
+        return false
+    }
 }
 
 public final class MockInputSourceManager: InputSourceManaging, @unchecked Sendable {
@@ -306,6 +375,7 @@ public final class MockInputSourceManager: InputSourceManaging, @unchecked Senda
     public var currentInputSourceType: String
     public var isCurrentSourceForeign: Bool
     public var shouldSelectLatinSucceed: Bool = true
+    public var shouldSelectForeignSucceed: Bool = true
     
     public var isCurrentSourceLatin: Bool {
         return !isCurrentSourceForeign
@@ -314,6 +384,8 @@ public final class MockInputSourceManager: InputSourceManaging, @unchecked Senda
     public var onInputSourceChanged: ((_ newSourceID: String, _ isForeign: Bool) -> Void)?
     public var selectLatinCalled: Bool = false
     public var selectLatinCallCount: Int = 0
+    public var selectInputSourceCalledWithID: String? = nil
+    public var selectInputSourceCallCount: Int = 0
     
     public init(
         initialSourceID: String = "com.apple.keylayout.ABC",
@@ -342,6 +414,18 @@ public final class MockInputSourceManager: InputSourceManaging, @unchecked Senda
             return false
         }
         simulateInputSourceChange(to: "com.apple.keylayout.ABC", sourceType: "TISTypeKeyboardLayout")
+        return true
+    }
+    
+    @discardableResult
+    public func selectInputSource(byID sourceID: String) -> Bool {
+        selectInputSourceCalledWithID = sourceID
+        selectInputSourceCallCount += 1
+        guard shouldSelectForeignSucceed else {
+            return false
+        }
+        let type = sourceID.contains("keylayout") ? "TISTypeKeyboardLayout" : "TISTypeKeyboardInputMode"
+        simulateInputSourceChange(to: sourceID, sourceType: type)
         return true
     }
     

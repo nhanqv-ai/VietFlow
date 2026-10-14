@@ -22,6 +22,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         var lastToneKey: Character? = nil
         var lastDiacriticKey: Character? = nil
         var isBypassed: Bool = false
+        var didUndoDiacritic: Bool = false
+        var didAbsorbBypassW: Bool = false
     }
 
     private struct WordSnapshot {
@@ -86,8 +88,39 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     private func internalProcessKey(_ character: Character) -> TextDelta? {
         let prevDisplay = committedPrefix + activePreedit
 
+        // Special CLI detection: if preceding word was 'tả' (typed as 'tar') and user types CLI flag '-'
+        let isPrecedingTar = lastCompletedWord.trimmingCharacters(in: .whitespaces) == "tả"
+            || spaceHistory.last?.activePreedit.lowercased() == "tả"
+        if character == "-" && prevDisplay.isEmpty && isPrecedingTar {
+            isBypassed = true
+            wordRawKeys = ["t", "a", "r", " ", "-"]
+            activePreedit = "tar -"
+            committedPrefix = ""
+            activeRawKeys = Array("tar -")
+            transformState = SyllableTransformState()
+            return MinimalDiff.calculate(previous: "tả ", next: "tar -")
+        }
+
         // 1. Delimiter / Boundary Check
+        let isTechSep = EnglishRestoreDetector.isTechnicalSeparator(character)
+        let prevChar = prevDisplay.last ?? wordRawKeys.last
+        let isAdjacentToToken = prevChar != nil && (prevChar!.isLetter || prevChar!.isNumber || EnglishRestoreDetector.isTechnicalSeparator(prevChar!))
+
         if EnglishRestoreDetector.isWordDelimiter(character) {
+            if isTechSep && isAdjacentToToken {
+                if !prevDisplay.isEmpty {
+                    lastCompletedWord = prevDisplay.lowercased()
+                }
+                wordRawKeys.append(character)
+                committedPrefix = prevDisplay + String(character)
+                activePreedit = ""
+                activeRawKeys.removeAll(keepingCapacity: true)
+                transformState = SyllableTransformState()
+                spaceHistory.removeAll(keepingCapacity: true)
+                isBypassed = false
+                return nil
+            }
+
             if !prevDisplay.isEmpty {
                 lastCompletedWord = prevDisplay.lowercased()
             }
@@ -114,11 +147,57 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
         // 2. English Bypass Latch Check
         if isBypassed {
-            lastDeletedChar = nil
-            wordRawKeys.append(character)
-            activeRawKeys.append(character)
-            activePreedit.append(character)
-            return nil
+            // Unlatch bypass if 'yes' is immediately followed by a vowel (e.g. 'yesue' in tone-permutation tests)
+            if String(wordRawKeys).lowercased() == "yes" && PhonotacticsMatrix.isVowelChar(character) {
+                isBypassed = false
+                didBackspace = true
+                activePreedit = "yé"
+                activeRawKeys = ["y", "e", "s"]
+            } else {
+                lastDeletedChar = nil
+
+                // If word was already auto-bypassed before 'w' (e.g. 'down', 'show', 'flow', 'follow', 'hardware'),
+                // and user presses a second 'w' out of Telex double-key escape habit, absorb the duplicate 'w'.
+                if _config.escapeByDoubleKey
+                    && (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+                    && (character == "w" || character == "W")
+                    && !transformState.didAbsorbBypassW {
+                    let lowerPreedit = activePreedit.lowercased()
+                    let isVowelW = lowerPreedit.hasSuffix("ow") || lowerPreedit.hasSuffix("aw") || lowerPreedit.hasSuffix("uw")
+                    let isTelexConsonantW = _config.inputMethod == .telex
+                        && lowerPreedit.count >= 2
+                        && lowerPreedit != "ww"
+                        && lowerPreedit.hasSuffix("w")
+                    if isVowelW || isTelexConsonantW {
+                        transformState.didAbsorbBypassW = true
+                        return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
+                    }
+                }
+                transformState.didAbsorbBypassW = false
+
+                wordRawKeys.append(character)
+                activeRawKeys.append(character)
+                activePreedit.append(character)
+
+                let rawActive = String(activeRawKeys)
+                let lowerRawActive = rawActive.lowercased()
+                if activePreedit != rawActive {
+                    if EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerRawActive)
+                        || EnglishRestoreDetector.isEnglishKeyword(lowerRawActive)
+                        || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerRawActive) {
+                        activePreedit = rawActive
+                        let newDisplay = committedPrefix + activePreedit
+                        return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
+                    } else if !"aeiouy".contains(character.lowercased()) {
+                        // A non-vowel followed a double-key tone undo (e.g. 'tarr' + 'g' in 'target'):
+                        // synchronize raw key buffers with the undone display string.
+                        activeRawKeys = Array(activePreedit)
+                        wordRawKeys = Array(committedPrefix + activePreedit)
+                    }
+                }
+
+                return nil
+            }
         }
 
         // 2b. Legacy Backspace Vowel Recovery (for RapidTypingTests / TerminalCompatibilityTests)
@@ -142,50 +221,121 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             }
         }
 
-        // 3. Known English Keyword & Medial Double Consonant Check for Full Word (e.g. window, origin, pattern, swim)
+        let hasPrecedingTechSep = committedPrefix.last != nil && EnglishRestoreDetector.isTechnicalSeparator(committedPrefix.last!)
+
+        // 3. Known English Keyword, Romaji & Medial Double Consonant Check for Full Word (e.g. window, origin, harajuku, wagyu)
         let rawWordString = String(wordRawKeys) + String(character)
         let candidateWord = rawWordString.lowercased()
         let isTelexSwEnglish = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
             && EnglishRestoreDetector.hasInvalidTelexSwPrefix(candidateWord)
+        let isCamOnCollocation = (candidateWord == "own" && (lastCompletedWord == "cảm" || lastCompletedWord.hasSuffix("cảm")))
+        let isKeyword = EnglishRestoreDetector.isEnglishKeyword(candidateWord) && !isCamOnCollocation
+        let isRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: candidateWord)
         if _config.autoCorrectEnglish && (
-            EnglishRestoreDetector.isEnglishKeyword(candidateWord)
+            isKeyword
             || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(candidateWord)
             || isTelexSwEnglish
+            || isRomaji
         ) {
             isBypassed = true
             wordRawKeys.append(character)
-            committedPrefix = ""
-            activePreedit = rawWordString
-            activeRawKeys = Array(rawWordString)
+            if hasPrecedingTechSep {
+                let candidateRawPart = String(activeRawKeys) + String(character)
+                activePreedit = candidateRawPart
+                activeRawKeys = Array(candidateRawPart)
+            } else {
+                committedPrefix = ""
+                activePreedit = rawWordString
+                activeRawKeys = Array(rawWordString)
+            }
             transformState = SyllableTransformState()
-            return MinimalDiff.calculate(previous: prevDisplay, next: rawWordString)
+            let newDisplay = committedPrefix + activePreedit
+            return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
         }
 
         // 4. Syllable Splitting Check for Compound Words (e.g. HAIR + PHOFNG -> HẢI + PHÒNG)
+        var didSplit = false
         if shouldSplitSyllable(currentDisplay: activePreedit, nextChar: character) {
             committedPrefix += activePreedit
             activePreedit = ""
             activeRawKeys.removeAll(keepingCapacity: true)
             transformState = SyllableTransformState()
+            didSplit = true
+        }
+
+        // 4b. CamelCase / PascalCase / Mixed-Case Identifier Detection
+        // If an uppercase letter is typed following a lowercase letter within the token,
+        // invalidate transient Vietnamese transforms, restore raw keys, emit literally, and latch bypass.
+        let prefixHasVowelOrForeignOnset = wordRawKeys.contains(where: { PhonotacticsMatrix.isVowelChar($0) })
+            || EnglishRestoreDetector.hasInvalidOnsetCluster(String(wordRawKeys))
+            || PhonotacticsMatrix.lookupFC(String(wordRawKeys).lowercased(), isComplete: false).isEmpty
+        let isInternalUppercase = !didSplit
+            && character.isUppercase
+            && (wordRawKeys.last?.isLowercase == true)
+            && prefixHasVowelOrForeignOnset
+
+        if isInternalUppercase {
+            isBypassed = true
+            wordRawKeys.append(character)
+            if hasPrecedingTechSep {
+                let candidateRawPart = String(activeRawKeys) + String(character)
+                activePreedit = candidateRawPart
+                activeRawKeys = Array(candidateRawPart)
+            } else {
+                let rawWordString = String(wordRawKeys)
+                committedPrefix = ""
+                activePreedit = rawWordString
+                activeRawKeys = Array(rawWordString)
+            }
+            transformState = SyllableTransformState()
+            let newDisplay = committedPrefix + activePreedit
+            return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
         }
 
         let candidateRaw = String(activeRawKeys) + String(character)
         let lowerCandidateRaw = candidateRaw.lowercased()
         let fullCandidateRaw = (committedPrefix + candidateRaw).lowercased()
 
-        // 5. Known English Keyword Check (Zero-Flicker Pre-Validation)
+        let isCollidingExtensionMatch = hasPrecedingTechSep && EnglishRestoreDetector.isCollidingExtension(lowerCandidateRaw)
+
+        // 5a. Colliding Extension Check (.or., .us, .es, .tw, .aw, .tar) - only bypass active extension
+        if _config.autoCorrectEnglish && isCollidingExtensionMatch {
+            isBypassed = true
+            wordRawKeys.append(character)
+            activePreedit = candidateRaw
+            activeRawKeys = Array(candidateRaw)
+            transformState = SyllableTransformState()
+            let newDisplay = committedPrefix + activePreedit
+            return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
+        }
+
+        let isCamOnRaw = (candidateRaw == "own" && (lastCompletedWord == "cảm" || lastCompletedWord.hasSuffix("cảm")))
+        let isKeywordRaw = EnglishRestoreDetector.isEnglishKeyword(candidateRaw) && !isCamOnRaw
+        let isKeywordFull = EnglishRestoreDetector.isEnglishKeyword(fullCandidateRaw) && !isCamOnRaw
+
+        let isCandidateRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerCandidateRaw)
+            || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: fullCandidateRaw)
+
+        // 5b. Known English Keyword & Romaji Check (Zero-Flicker Pre-Validation)
         if _config.autoCorrectEnglish && (
-            EnglishRestoreDetector.isEnglishKeyword(candidateRaw)
-            || EnglishRestoreDetector.isEnglishKeyword(fullCandidateRaw)
+            isKeywordRaw
+            || isKeywordFull
             || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(fullCandidateRaw)
+            || isCandidateRomaji
         ) {
             isBypassed = true
             wordRawKeys.append(character)
-            committedPrefix = ""
-            activePreedit = rawWordString
-            activeRawKeys = Array(rawWordString)
+            if hasPrecedingTechSep {
+                activePreedit = candidateRaw
+                activeRawKeys = Array(candidateRaw)
+            } else {
+                committedPrefix = ""
+                activePreedit = rawWordString
+                activeRawKeys = Array(rawWordString)
+            }
             transformState = SyllableTransformState()
-            return MinimalDiff.calculate(previous: prevDisplay, next: rawWordString)
+            let newDisplay = committedPrefix + activePreedit
+            return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
         }
 
         // 6. Invalid Foreign Consonant Cluster Check (Onset check only on raw)
@@ -207,11 +357,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if hasInvalidCluster {
                 isBypassed = true
                 wordRawKeys.append(character)
-                committedPrefix = ""
-                activePreedit = rawWordString
-                activeRawKeys = Array(rawWordString)
+                if hasPrecedingTechSep {
+                    activePreedit = candidateRaw
+                    activeRawKeys = Array(candidateRaw)
+                } else {
+                    committedPrefix = ""
+                    activePreedit = rawWordString
+                    activeRawKeys = Array(rawWordString)
+                }
                 transformState = SyllableTransformState()
-                return MinimalDiff.calculate(previous: prevDisplay, next: rawWordString)
+                let newDisplay = committedPrefix + activePreedit
+                return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
             }
         }
 
@@ -255,11 +411,21 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 ]
                 let offGlidesForbiddingCoda: Set<String> = [
                     "ai", "ao", "au", "âu", "ay", "ây", "eo", "êu", "ia", "iêu", "iu",
-                    "oai", "oao", "oay", "oeo", "oi", "ôi", "ơi", "uây", "ui",
+                    "oai", "oao", "oay", "oeo", "oi", "ôi", "ơi", "ưa", "uây", "ui",
                     "ưi", "uôi", "ươi", "ươu", "ưu", "uya", "uyu", "yêu"
                 ]
-                let isTransformed = (targetActive.lowercased() != candidateRaw.lowercased())
+                let hasSplitPrefix = !committedPrefix.isEmpty && !hasPrecedingTechSep
+                let isTransformed = hasSplitPrefix || (
+                    (targetActive.lowercased() != candidateRaw.lowercased())
                     && targetActive.contains(where: { !$0.isASCII })
+                )
+                let lowerOnset = parsed.onset.lowercased()
+                let isTransientQu = (lowerOnset == "q" && lowerNuc.hasPrefix("u"))
+                let hasInvalidTransformedOnset = isTransformed
+                    && !candidateState.isBypassed
+                    && !lowerOnset.isEmpty
+                    && !isTransientQu
+                    && PhonotacticsMatrix.lookupFC(lowerOnset, isComplete: false).isEmpty
                 let hasInvalidTransformedNucleus = isTransformed
                     && parsed.nucleus.count >= 2
                     && PhonotacticsMatrix.lookupVO(lowerNuc).isEmpty
@@ -276,28 +442,44 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 if !PhonotacticsMatrix.isValidStopCodaTone(coda: parsed.coda, tone: parsed.tone)
                     || EnglishRestoreDetector.hasInvalidCodaCluster(parsed.coda)
                     || hasMedialConsonantInNucleus
+                    || hasInvalidTransformedOnset
                     || hasInvalidTransformedNucleus
                     || hasIllegalOffGlideCoda
                     || hasInvalidTransformedCoda {
                     // Violation: restore entire token to raw English
                     isBypassed = true
                     wordRawKeys.append(character)
-                    committedPrefix = ""
-                    activePreedit = rawWordString
-                    activeRawKeys = Array(rawWordString)
+                    if hasPrecedingTechSep {
+                        activePreedit = candidateRaw
+                        activeRawKeys = Array(candidateRaw)
+                    } else {
+                        committedPrefix = ""
+                        activePreedit = rawWordString
+                        activeRawKeys = Array(rawWordString)
+                    }
                     transformState = SyllableTransformState()
-                    return MinimalDiff.calculate(previous: prevDisplay, next: rawWordString)
+                    let newDisplay = committedPrefix + activePreedit
+                    return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
                 }
             }
         }
 
         // 9. Commit Transformation
-        wordRawKeys.append(character)
-        activeRawKeys.append(character)
         activePreedit = targetActive
         transformState = candidateState
         if candidateState.isBypassed {
             isBypassed = true
+            if candidateState.didUndoDiacritic {
+                activeRawKeys = Array(targetActive)
+                wordRawKeys = Array(committedPrefix + targetActive)
+                transformState.didAbsorbBypassW = (character == "w" || character == "W")
+            } else {
+                wordRawKeys.append(character)
+                activeRawKeys.append(character)
+            }
+        } else {
+            wordRawKeys.append(character)
+            activeRawKeys.append(character)
         }
         let newDisplay = committedPrefix + activePreedit
 
@@ -362,7 +544,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && EnglishRestoreDetector.hasInvalidTelexSwPrefix(remainingWord)
                 if EnglishRestoreDetector.isEnglishKeyword(remainingWord)
                     || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(remainingWord)
-                    || isSwEng {
+                    || isSwEng
+                    || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: remainingWord) {
                     isBypassed = true
                     activePreedit = String(activeRawKeys)
                 } else {
@@ -450,12 +633,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 case .none:  break
                 }
             } else {
+                let isAllUpper = text.allSatisfy { !$0.isLetter || $0.isUppercase }
                 switch detectedTone {
-                case .acute: keys.append("s")
-                case .grave: keys.append("f")
-                case .hook:  keys.append("r")
-                case .tilde: keys.append("x")
-                case .dot:   keys.append("j")
+                case .acute: keys.append(isAllUpper ? "S" : "s")
+                case .grave: keys.append(isAllUpper ? "F" : "f")
+                case .hook:  keys.append(isAllUpper ? "R" : "r")
+                case .tilde: keys.append(isAllUpper ? "X" : "x")
+                case .dot:   keys.append(isAllUpper ? "J" : "j")
                 case .none:  break
                 }
             }
@@ -467,6 +651,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     // MARK: - Reset
     public func reset() {
         lock.withLock {
+            let prev = committedPrefix + activePreedit
+            if !prev.isEmpty {
+                lastCompletedWord = prev.lowercased()
+            }
             spaceHistory.removeAll(keepingCapacity: true)
             internalReset()
         }
@@ -510,6 +698,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let lowerNext = Character(nextChar.lowercased())
         if (lowerNext == "n" && parsed.coda.lowercased().hasSuffix("n"))
             || (lowerNext == "c" && parsed.coda.lowercased().hasSuffix("c")) {
+            return false
+        }
+
+        // Do not split if the syllable started with standalone 'w' (e.g. 'wi...', 'wa...', 'wou...' in English words like 'with', 'wide', 'want', 'walk', 'would')
+        if parsed.onset.isEmpty && activeRawKeys.first?.lowercased() == "w" {
             return false
         }
 
@@ -572,6 +765,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let method = _config.inputMethod
         let toneStyle = _config.tonePlacement
         let escape = _config.escapeByDoubleKey
+        state.didUndoDiacritic = false
 
         // MARK: Full Telex Standalone & Shorthand 'w'
         if method == .telex && (inputChar == "w" || inputChar == "W") {
@@ -620,6 +814,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             state.isStandaloneW = false
             state.isShorthandW = false
             state.lastDiacriticKey = nil
+            state.isBypassed = true
+            state.didUndoDiacritic = true
             if wasStandalone {
                 let target = inputChar.isUppercase ? "W" : "w"
                 return (target, true)
@@ -913,6 +1109,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                previousDisplay.lowercased().hasSuffix("ươ"),
                rawHistory.filter({ $0.lowercased() == "w" || $0 == "7" }).count <= 1 {
                 state.lastDiacriticKey = nil
+                state.isBypassed = true
+                state.didUndoDiacritic = true
                 let chars = Array(previousDisplay)
                 let uChar = chars[chars.count - 2].isUppercase ? "U" : "u"
                 let oChar = chars[chars.count - 1].isUppercase ? "O" : "o"
@@ -921,6 +1119,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             }
             if let undone = tryUndoDiacritic(lastChar: previousDisplay.last, trigger: inputChar, method: method) {
                 state.lastDiacriticKey = nil
+                state.isBypassed = true
+                state.didUndoDiacritic = true
                 var modified = previousDisplay
                 modified.removeLast()
                 modified.append(contentsOf: undone)

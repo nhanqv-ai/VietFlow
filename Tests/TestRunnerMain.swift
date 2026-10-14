@@ -38,9 +38,15 @@ struct TestRunnerMain {
         registry.register(name: "ModeToggleBufferResetTests") { ModeToggleBufferResetTests() }
         registry.register(name: "SettingsLayoutTests") { SettingsLayoutTests() }
         registry.register(name: "RealWorldTypingAndBackspaceTests") { RealWorldTypingAndBackspaceTests() }
+        registry.register(name: "TrilingualUserExperienceTests") { TrilingualUserExperienceTests() }
         
         let args = CommandLine.arguments
         let verbose = args.contains("--verbose") || args.contains("-v")
+        
+        if let suiteIndex = args.firstIndex(of: "--suite"), suiteIndex + 1 < args.count {
+            let filterName = args[suiteIndex + 1]
+            registry.suites = registry.suites.filter { $0.name == filterName }
+        }
         
         let success = registry.runAll(verbose: verbose)
         exit(success ? 0 : 1)

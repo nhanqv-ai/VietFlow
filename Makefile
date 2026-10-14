@@ -3,13 +3,13 @@
 
 SHELL := /bin/bash
 BUILD_DIR := .build
-VERSION ?= 1.0.0
+VERSION ?= 1.1.0
 
 .PHONY: all test app package install clean help
 
 all: test app
 
-## test: Compile and execute the full 1,317 test suite across 15 suites
+## test: Compile and execute the full 1,473 test suite across 16 suites
 test:
 	@chmod +x Scripts/run_tests.sh
 	@./Scripts/run_tests.sh $(ARGS)
@@ -42,7 +42,7 @@ clean:
 ## help: Display this help message
 help:
 	@echo "VietFlow Build & Test Targets:"
-	@echo "  make test      - Compile and run 1,317 test cases across 15 suites"
+	@echo "  make test      - Compile and run 1,473 test cases across 16 suites"
 	@echo "  make app       - Build Universal 2 VietFlow.app bundle (arm64 + x86_64)"
 	@echo "  make package   - Package Universal 2 VietFlow-v$(VERSION).zip release archive"
 	@echo "  make install   - Build and install VietFlow.app into /Applications"

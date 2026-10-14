@@ -56,16 +56,129 @@ public enum EnglishKeywords {
         "operator", "precedencegroup", "mutating", "nonmutating",
         "override", "convenience", "required", "dynamic", "optional", "lazy",
         "weak", "unowned", "isolated", "nonisolated", "viewing", "viewer", "views",
-        "mkdir", "curl", "tar", "ssh", "user", "cargo", "origin", "nano", "wifi", "water", "cat", "macos",
+        "mkdir", "curl", "ssh", "git", "http", "https", "core", "deep", "user", "cargo", "origin", "nano", "wifi", "water", "cat", "macos",
         "word", "warning", "report", "localhost",
         "pattern", "letter", "button", "better", "common", "matter",
         "swim", "swing", "sweet", "swap", "fix",
         "server", "service", "version", "person",
-        "surf", "turf", "toward", "towards", "coward"
+        "surf", "turf", "toward", "towards", "coward",
+
+        // Common English words without valid Vietnamese collisions (Requirement R1)
+        "yes", "use", "users", "used", "base", "phase", "chase",
+        "rose", "pose", "nose", "lose", "dose", "hose", "house", "mouse",
+        "pause", "cause", "course", "source", "force", "horse", "nurse", "parse",
+        "sense", "dense", "tense", "pulse", "verse", "focus", "virus",
+        "bonus", "minus", "campus", "lotus", "nexus", "next", "context",
+        "index", "prefix", "suffix", "matrix", "syntax", "regex", "complex", "relax",
+        "linux", "unix", "nginx", "tmux", "redux", "pixel", "proxy", "axios",
+        "year", "hear", "near", "dear", "bear", "pear", "gear", "wear", "tear", "fear",
+        "appear", "career", "engineer", "our", "hour", "four", "pour", "sour", "tour", "your",
+        "door", "floor", "poor", "beer", "deer", "peer", "new", "news",
+        "review", "preview", "interview", "overview", "webview",
+        "down", "downs", "download", "downloads", "downloaded", "downloading", "downloader",
+        "upload", "uploads", "uploaded", "uploading", "uploader",
+        "dropdown", "markdown", "shutdown", "countdown", "breakdown", "lockdown",
+        "slowdown", "showdown", "touchdown", "downtown", "downward", "downwards",
+        "downgrade", "downstream", "downsize", "downtime", "downfall", "downhill",
+        "town", "towns", "brown", "crown", "crowns", "gown", "gowns", "clown", "frown", "drown",
+        "own", "owns", "owned", "owning", "owner", "owners", "ownership",
+        "shown", "known", "grown", "thrown", "blown", "flown",
+        "dawn", "dawns", "lawn", "lawns", "pawn", "pawns", "fawn", "yawn", "spawn", "prawn",
+        "power", "powers", "powered", "powerful", "tower", "towers",
+        "flower", "flowers", "shower", "showers", "lower", "lowers", "lowered", "lowest",
+        "slower", "slowest", "follow", "follows", "followed", "following", "follower", "followers",
+        "yellow", "pillow", "hollow", "willow", "fellow", "mellow", "swallow", "shallow",
+        "shadow", "shadows", "window", "windows", "meadow", "widow", "elbow", "rainbow",
+        "borrow", "tomorrow", "sorrow", "narrow", "arrow", "arrows", "sparrow",
+        "allow", "allows", "allowed", "allowing",
+        "vowel", "vowels", "towel", "towels", "bowel", "bowl", "bowls", "owl", "owls", "howl",
+        "powder", "browser", "browsers", "crowd", "crowds", "crowded",
+        "lawyer", "lawyers", "lawsuit", "lawful", "drawer", "drawers", "hawk", "hawks",
+        "awesome", "awful", "awkward", "award", "awards", "aware", "away", "awake", "awaken",
+        "jaw", "jaws", "paw", "paws",
+        "hardware", "software", "firmware", "malware", "middleware", "warehouse",
+        "network", "networks", "framework", "frameworks", "homework", "teamwork", "artwork",
+        "work", "works", "worked", "working", "worker", "workers",
+        "workflow", "workload", "workout", "workshop", "workspace", "workstation",
+        "words", "password", "passwords", "keyword", "keywords", "world", "worlds",
+        "worm", "worms", "worn", "worse", "worst", "worth", "worthy", "worship",
+        "warm", "warms", "warn", "warns", "warned", "warnings", "ward", "wards", "ware", "wares",
+        "want", "wants", "walk", "walks", "wall", "walls", "wallet", "wash", "waste", "watch",
+        "way", "ways", "wait", "wake", "wave", "waves", "warrior", "warrant", "warranty",
+        "with", "within", "without", "witness", "witch", "width", "wide", "wider", "widest",
+        "widget", "widgets", "wife", "wild", "will", "win", "wins", "winner", "winners",
+        "wind", "winds", "wine", "wing", "wings", "winter", "wire", "wires", "wireless",
+        "wise", "wisdom", "wish", "wizard", "would", "wound", "wood", "wool", "wonder", "worry",
+        "web", "website", "websites", "webhook", "webpack", "websocket", "welcome", "well", "west",
+        "week", "weeks", "weekend", "weight", "weird",
+        "barcode", "unicode", "hardcode", "encode", "decode", "vscode", "xcode", "passcode",
+        "target", "targets", "market", "markets", "carpet", "basket", "blanket", "jacket",
+        "packet", "pocket", "rocket", "socket", "ticket", "bucket", "bracket", "helmet",
+        "planet", "closet", "bullet", "tablet", "toilet", "outlet", "budget", "gadget",
+        "garden", "gardens", "carbon", "carton", "cartoon", "pardon", "jargon",
+        "margin", "margins", "virgin", "bargain", "captain", "certain", "curtain",
+        "fountain", "mountain", "domain", "remain", "contain", "obtain", "maintain", "explain",
+        "partner", "partners", "parcel", "partial", "particle", "particular", "partition", "party",
+        "depart", "department", "apartment", "marble", "marvel", "marker", "markers", "markup",
+        "harvest", "harmony", "harbor", "harder", "hardest", "hardly", "hazard",
+        "normal", "formal", "formula", "former", "perform", "inform", "confirm", "transform", "platform",
+        "morning", "corner", "corners", "border", "borders", "order", "orders", "ordered", "ordering",
+        "record", "records", "accord", "afford", "lord", "cord", "sword", "discord",
+        "forward", "forwards", "backward", "backwards", "upward", "outward", "inward", "reward",
+        "short", "shorter", "shortest", "shortcut", "sport", "sports", "sort", "sorts",
+        "port", "ports", "portal", "portable", "portion", "portrait", "fort", "fortune",
+        "foreign", "forest", "forever", "forget", "forgive", "fork", "form", "forms",
+        "storm", "storms", "born", "corn", "horn", "horns", "torn", "pork", "cork", "york",
+        "norm", "norms", "dorm", "organ", "organize", "organization", "orbit", "ordinary",
+        "servers", "services", "versions", "persons", "personal", "percent", "perfect", "period", "permit",
+        "number", "numbers", "member", "members", "remember", "center", "centers", "central",
+        "enter", "enters", "pointer", "pointers", "counter", "master", "masters", "faster", "fastest",
+        "poster", "cluster", "register", "sister", "chapter", "quarter", "reporter", "character",
+        "filters", "shelter", "writer", "meter", "parameter", "computer", "router", "routers",
+        "editor", "editors", "monitor", "monitors", "visitor", "operator", "generator",
+        "factor", "factors", "factory", "actor", "doctor", "vector", "sector", "director",
+        "mentor", "investor", "motor", "author", "authors", "major", "minor", "senior", "junior",
+        "prior", "priority", "behavior", "favor", "favorite", "labor", "neighbor", "humor",
+        "mirror", "error", "errors", "cursor", "sensor", "processor", "color", "colors", "vendor", "tailor",
+        "render", "sender", "tender", "gender", "under", "understand", "elder", "older",
+        "folder", "folders", "holder", "shoulder", "builder", "spider", "provider",
+        "leader", "reader", "header", "headers", "loader", "shader", "modern", "intern",
+        "journal", "journey", "turn", "turns", "return", "returns", "burn", "burns",
+        "earn", "learn", "concern", "govern", "government", "term", "terms", "firm", "firms",
+        "first", "burst", "thirst", "moist", "hoist"
     ]
 }
 
 public enum EnglishRestoreDetector {
+    
+    /// Technical separators connecting sub-tokens in URLs, domains, paths, and identifiers.
+    public static let technicalSeparators: Set<Character> = [".", "/", "@", "-", "_"]
+
+    /// Known technical extensions, TLDs, and segments following separators that must not transform to Vietnamese.
+    public static let technicalExtensions: Set<String> = [
+        "or", "us", "es", "tw", "aw",
+        "md", "ts", "rs", "css", "sh", "swift", "json",
+        "co", "jp", "vn", "com", "org", "net", "edu", "gov", "io", "ai",
+        "js", "py", "rb", "go", "cpp", "yaml", "yml", "toml", "xml", "html",
+        "sql", "txt", "log", "tar", "gz", "zip", "app", "dev", "me", "cc"
+    ]
+
+    /// Specific segments immediately following technical separators that collide with Vietnamese syllables.
+    public static let collidingExtensions: Set<String> = [
+        "or", "us", "es", "tw", "aw", "tar"
+    ]
+
+    public static func isTechnicalSeparator(_ char: Character) -> Bool {
+        technicalSeparators.contains(char)
+    }
+
+    public static func isTechnicalExtension(_ ext: String) -> Bool {
+        technicalExtensions.contains(ext.lowercased())
+    }
+
+    public static func isCollidingExtension(_ ext: String) -> Bool {
+        collidingExtensions.contains(ext.lowercased())
+    }
     
     /// Delimiter characters that terminate a word and reset English bypass.
     public static let wordDelimiters: Set<Character> = [
@@ -80,7 +193,8 @@ public enum EnglishRestoreDetector {
     public static let invalidOnsetClusters: Set<String> = [
         "br", "cr", "dr", "fr", "gr", "pr", "str",
         "sc", "sk", "sl", "sm", "sn", "sp", "st", "sw",
-        "fl", "gl", "cl", "bl", "pl", "kn", "gn", "wr", "wh"
+        "fl", "gl", "cl", "bl", "pl", "kn", "gn", "wr", "wh",
+        "sh", "ts"
     ]
 
     /// Invalid coda consonant clusters in Vietnamese (English-only codas).

@@ -573,6 +573,135 @@ public final class InputSourceSynchronizationTests: TestCase {
         XCTAssertEqual(refreshedID, initialID)
     }
 
+    // MARK: - Test 22: Bidirectional Foreign IME Memory Toggle Ping-Pong
+    func test_22_bidirectional_foreign_ime_memory_toggle_ping_pong() {
+        // Start in Japanese IME: auto-suspended to [E]
+        mockSourceManager.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+        
+        // 1st toggle: from Japanese [E] -> ABC [V]
+        stateManager.toggleInputMode()
+        
+        XCTAssertTrue(mockSourceManager.selectLatinCalled)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+        XCTAssertFalse(mockSourceManager.isCurrentSourceForeign)
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertFalse(stateManager.isSuspendedByForeignIME)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, "com.apple.inputmethod.Kotoeri.Japanese")
+        
+        // 2nd toggle: from ABC [V] -> restores Japanese [E]
+        stateManager.toggleInputMode()
+        
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertEqual(mockSourceManager.selectInputSourceCallCount, 1)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertTrue(mockSourceManager.isCurrentSourceForeign)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertEqual(stateManager.savedPreForeignMode, .vietnamese)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+        
+        // 3rd toggle: from Japanese [E] -> ABC [V] (infinite ping-pong)
+        stateManager.toggleInputMode()
+        
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+        XCTAssertFalse(mockSourceManager.isCurrentSourceForeign)
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertFalse(stateManager.isSuspendedByForeignIME)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, "com.apple.inputmethod.Kotoeri.Japanese")
+        
+        // 4th toggle: from ABC [V] -> restores Japanese [E] again
+        stateManager.toggleInputMode()
+        
+        XCTAssertEqual(mockSourceManager.selectInputSourceCallCount, 2)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 23: Normal ABC Toggle Unaffected When No Foreign Source Remembered
+    func test_23_normal_abc_toggle_unaffected_when_no_foreign_source_remembered() {
+        // Start in standard ABC Latin layout
+        mockSourceManager.simulateInputSourceChange(to: "com.apple.keylayout.ABC")
+        stateManager.currentInputMode = .vietnamese
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+        
+        // Toggle OFF Vietnamese -> switches to English
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertFalse(stateManager.isSuspendedByForeignIME)
+        XCTAssertEqual(mockSourceManager.selectInputSourceCallCount, 0, "selectInputSource must not be called when no foreign source is remembered")
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+        
+        // Toggle ON Vietnamese -> switches to Vietnamese
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertFalse(stateManager.isSuspendedByForeignIME)
+        XCTAssertEqual(mockSourceManager.selectInputSourceCallCount, 0)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+    }
+
+    // MARK: - Test 24: Manual Input Source Change Outside Toggle Clears Remembered Foreign Source
+    func test_24_manual_input_source_change_outside_toggle_clears_remembered_foreign_source() {
+        // Switch to Japanese, then toggle to Vietnamese
+        mockSourceManager.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese")
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, "com.apple.inputmethod.Kotoeri.Japanese")
+        
+        // User manually changes input source in macOS outside of toggle (e.g. to US layout)
+        mockSourceManager.simulateInputSourceChange(to: "com.apple.keylayout.US")
+        
+        // Remembered foreign source must be cleared
+        XCTAssertNil(stateManager.rememberedForeignSourceID, "Manual input source change outside toggle must clear rememberedForeignSourceID")
+        
+        // Subsequent toggle now performs normal Vietnamese -> English toggle
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertEqual(mockSourceManager.selectInputSourceCallCount, 0)
+    }
+
+    // MARK: - Test 25: Foreign Restore Failure Falls Back to Standard English Mode
+    func test_25_foreign_restore_failure_falls_back_to_standard_english_mode() {
+        mockSourceManager.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese")
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, "com.apple.inputmethod.Kotoeri.Japanese")
+        
+        // Simulate failure in selecting foreign input source
+        mockSourceManager.shouldSelectForeignSucceed = false
+        
+        // Toggle OFF Vietnamese
+        stateManager.toggleInputMode()
+        
+        // Must call selectInputSource, fail, and gracefully fall back to English
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 26: EventTapManager Synchronous Ping-Pong Toggle
+    func test_26_event_tap_manager_synchronous_ping_pong_toggle() {
+        mockSourceManager.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        
+        // Trigger toggle via EventTapManager
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, "com.apple.inputmethod.Kotoeri.Japanese")
+        
+        // Trigger toggle again via EventTapManager
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
     // MARK: - Test Registry Registration
     public override var allTests: [(name: String, test: () throws -> Void)] {
         return [
@@ -597,6 +726,11 @@ public final class InputSourceSynchronizationTests: TestCase {
             ("test_19_switching_between_two_foreign_imes_preserves_saved_mode", test_19_switching_between_two_foreign_imes_preserves_saved_mode),
             ("test_20_extended_non_latin_layouts_and_third_party_imes_classifier", test_20_extended_non_latin_layouts_and_third_party_imes_classifier),
             ("test_21_transient_nil_source_does_not_clear_cached_source_id", test_21_transient_nil_source_does_not_clear_cached_source_id),
+            ("test_22_bidirectional_foreign_ime_memory_toggle_ping_pong", test_22_bidirectional_foreign_ime_memory_toggle_ping_pong),
+            ("test_23_normal_abc_toggle_unaffected_when_no_foreign_source_remembered", test_23_normal_abc_toggle_unaffected_when_no_foreign_source_remembered),
+            ("test_24_manual_input_source_change_outside_toggle_clears_remembered_foreign_source", test_24_manual_input_source_change_outside_toggle_clears_remembered_foreign_source),
+            ("test_25_foreign_restore_failure_falls_back_to_standard_english_mode", test_25_foreign_restore_failure_falls_back_to_standard_english_mode),
+            ("test_26_event_tap_manager_synchronous_ping_pong_toggle", test_26_event_tap_manager_synchronous_ping_pong_toggle),
         ]
     }
 }

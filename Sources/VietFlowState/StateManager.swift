@@ -334,8 +334,10 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             checkInitialInputSource()
         }
     }
-    public private(set) var isSuspendedByForeignIME: Bool = false
+    @Published public private(set) var isSuspendedByForeignIME: Bool = false
     public private(set) var savedPreForeignMode: InputMode = .vietnamese
+    public private(set) var rememberedForeignSourceID: String? = nil
+    private var isProgrammaticSwitch: Bool = false
     
     private let userDefaults = UserDefaults.standard
     private var perAppModes: [String: InputMode] = [:]
@@ -398,6 +400,9 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             }
         } else {
             // Auto-Restore on Returning to Latin Layout (Japanese -> ABC)
+            if !isProgrammaticSwitch && !isSuspendedByForeignIME {
+                rememberedForeignSourceID = nil
+            }
             if isSuspendedByForeignIME {
                 isSuspendedByForeignIME = false
                 engine?.reset()
@@ -428,15 +433,23 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             _ = inputSourceManager.refreshCurrentInputSource()
         }
         if autoSwitchOnForeignInputSource && inputSourceManager.isCurrentSourceForeign {
-            // R2: One-Step Direct Switching from Foreign IME to Vietnamese
+            // R3 Extension: Remember active foreign IME ID and switch to Vietnamese
+            let activeID = inputSourceManager.currentInputSourceID
+            rememberedForeignSourceID = !activeID.isEmpty ? activeID : "com.apple.inputmethod.Kotoeri.Japanese"
+            
+            isProgrammaticSwitch = true
             isSuspendedByForeignIME = false
             savedPreForeignMode = .vietnamese
             currentInputMode = .vietnamese
             saveCurrentModeForActiveApp()
             saveSettings()
             engine?.reset()
+            
             let selected = inputSourceManager.selectLatinInputSource()
+            isProgrammaticSwitch = false
+            
             if !selected {
+                rememberedForeignSourceID = nil
                 isSuspendedByForeignIME = true
                 currentInputMode = .english
                 saveCurrentModeForActiveApp()
@@ -445,6 +458,30 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             }
             onToggleInputMode?()
             return
+        }
+        
+        // R3 Extension: Restore remembered foreign IME when toggling OFF Vietnamese
+        if autoSwitchOnForeignInputSource && currentInputMode == .vietnamese,
+           let foreignID = rememberedForeignSourceID, !foreignID.isEmpty {
+            rememberedForeignSourceID = nil
+            isProgrammaticSwitch = true
+            let success = inputSourceManager.selectInputSource(byID: foreignID)
+            isProgrammaticSwitch = false
+            
+            if success {
+                isSuspendedByForeignIME = true
+                savedPreForeignMode = .vietnamese
+                currentInputMode = .english
+                saveCurrentModeForActiveApp()
+                engine?.reset()
+                onToggleInputMode?()
+                return
+            } else {
+                currentInputMode = .english
+                engine?.reset()
+                onToggleInputMode?()
+                return
+            }
         }
         
         let newMode: InputMode = (currentInputMode == .vietnamese) ? .english : .vietnamese
@@ -678,6 +715,8 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         perAppModes.removeAll()
         isVietFlowUIActive = false
         settings.resetToDefaults()
+        rememberedForeignSourceID = nil
+        isProgrammaticSwitch = false
         isSuspendedByForeignIME = false
         currentInputMode = settings.inputMode
         savedPreForeignMode = settings.inputMode

@@ -878,7 +878,7 @@ public struct SettingsView: View {
                                 .font(.system(size: 15, weight: .bold))
                                 .foregroundColor(.primary)
 
-                            Text("v1.0.0 (Build 2026.10)")
+                            Text("v1.1.0 (Build 2026.10)")
                                 .font(.system(size: 10.5, weight: .medium))
                                 .foregroundColor(.secondary)
                                 .padding(.horizontal, 6)
