@@ -180,11 +180,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["moso", "toso", "noso", "nojo", "hojo", "sojo", "tojo", "bojo", "gojo"].contains(String(wordRawKeys).lowercased()) && "cmnpti".contains(character.lowercased()) {
+            } else if ["moso", "toso", "noso", "nojo", "hojo", "sojo", "tojo", "bojo", "gojo", "mofo", "nofo", "hofo", "sofo", "tofo", "bofo", "gofo", "dofo", "rofo"].contains(String(wordRawKeys).lowercased()) && "cmnpti".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["maja", "naja", "haja", "saja", "taja", "baja", "gaja", "daja", "raja"].contains(String(wordRawKeys).lowercased()) && "cmnptuy".contains(character.lowercased()) {
+            } else if wordRawKeys.count == 4
+                && wordRawKeys[1].lowercased() == "a"
+                && "sfjx".contains(wordRawKeys[2].lowercased())
+                && wordRawKeys[3].lowercased() == "a"
+                && "cmnptuy".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
