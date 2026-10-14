@@ -145,7 +145,21 @@ public enum EnglishKeywords {
         "leader", "reader", "header", "headers", "loader", "shader", "modern", "intern",
         "journal", "journey", "turn", "turns", "return", "returns", "burn", "burns",
         "earn", "learn", "concern", "govern", "government", "term", "terms", "firm", "firms",
-        "first", "burst", "thirst", "moist", "hoist"
+        "first", "burst", "thirst", "moist", "hoist",
+        "lexer", "parser", "compiler", "interpreter", "debugger", "profiler", "logger",
+        "adapter", "wrapper", "mapper", "helper", "handler", "listener", "observer",
+        "subscriber", "publisher", "consumer", "producer", "dispatcher", "controller",
+        "manager", "component", "container", "database", "storage", "session", "cookie",
+        "token", "refresh", "access", "request", "response", "payload", "endpoint",
+        "stream", "channel", "queue", "queues", "queued", "thread", "threads", "process",
+        "runtime", "memory", "reference", "instance", "object", "objects", "reject",
+        "rejects", "rejected", "project", "projects", "subject", "subjects", "select",
+        "selects", "selected", "connect", "connects", "connected", "protect", "protected",
+        "expect", "expected", "inspect", "respect", "direct", "correct", "effect",
+        "effects", "detect", "detected", "collect", "reflect", "conflict", "predict",
+        "strict", "district", "contact", "contract", "extract", "impact", "compact",
+        "product", "products", "conduct", "construct", "instruct", "passport",
+        "passports", "passkey", "passkeys", "crossword", "classroom"
     ]
 }
 
@@ -204,7 +218,7 @@ public enum EnglishRestoreDetector {
         "bb", "gg"
     ]
 
-    /// English medial double-consonant + vowel sequences that never occur in valid Vietnamese words.
+    /// English medial double-consonant + vowel/consonant sequences that never occur in valid Vietnamese words.
     public static let invalidMedialDoubleConsonants: [String] = [
         "tta", "tte", "tti", "tto", "ttu", "tty",
         "lla", "lle", "lli", "llo", "llu", "lly",
@@ -213,7 +227,8 @@ public enum EnglishRestoreDetector {
         "ffa", "ffe", "ffi", "ffo", "ffu", "ffy",
         "mma", "mme", "mmi", "mmo", "mmu", "mmy",
         "rra", "rre", "rri", "rro", "rru", "rry",
-        "ssa", "sse", "ssi", "sso", "ssu", "ssy"
+        "ssa", "sse", "ssi", "sso", "ssu", "ssy",
+        "ssw", "ssc", "ssp", "ssk", "ssr"
     ]
 
     /// English 'sw-' prefixes that are not valid Vietnamese 'sư-' syllables in Telex.

@@ -210,6 +210,12 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             settings.autoSwitchOnForeignInputSource = autoSwitchOnForeignInputSource
             saveSettings()
             if !autoSwitchOnForeignInputSource {
+                rememberedForeignSourceID = nil
+                programmaticTargetLatinSourceID = nil
+                programmaticTargetForeignSourceID = nil
+                isLatinSwitchPending = false
+                isForeignSwitchPending = false
+                isLateForeignNotificationGuarded = false
                 if isSuspendedByForeignIME {
                     isSuspendedByForeignIME = false
                     currentInputMode = savedPreForeignMode
@@ -361,7 +367,17 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
     @Published public private(set) var isSuspendedByForeignIME: Bool = false
     public private(set) var savedPreForeignMode: InputMode = .vietnamese
     public private(set) var rememberedForeignSourceID: String? = nil
+    public private(set) var lastHandledInputSourceID: String = ""
+    private var programmaticTargetLatinSourceID: String? = nil
+    private var programmaticTargetForeignSourceID: String? = nil
+    private var isLatinSwitchPending: Bool = false
+    private var isForeignSwitchPending: Bool = false
+    public private(set) var isLateForeignNotificationGuarded: Bool = false
     private var isProgrammaticSwitch: Bool = false
+    
+    public func dismissLateForeignGuard() {
+        isLateForeignNotificationGuarded = false
+    }
     
     private let userDefaults = UserDefaults.standard
     private var perAppModes: [String: InputMode] = [:]
@@ -393,12 +409,29 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
     
     private func checkInitialInputSource() {
         let (sourceID, isForeign) = inputSourceManager.refreshCurrentInputSource()
+        lastHandledInputSourceID = sourceID
         handleInputSourceChanged(newSourceID: sourceID, isForeign: isForeign)
     }
     
     public func checkInputSourceSynchronously() {
         guard autoSwitchOnForeignInputSource else { return }
         let current = inputSourceManager.refreshCurrentInputSource()
+        guard !current.sourceID.isEmpty else { return }
+        
+        // If we are waiting for a programmatic Latin switch, ignore stale foreign source
+        if isLatinSwitchPending && current.isForeign {
+            return
+        }
+        // If we are waiting for a programmatic Foreign switch, ignore stale Latin source
+        if isForeignSwitchPending && !current.isForeign {
+            return
+        }
+        
+        if !isLatinSwitchPending {
+            isLateForeignNotificationGuarded = false
+        }
+        
+        guard current.sourceID != lastHandledInputSourceID else { return }
         handleInputSourceChanged(newSourceID: current.sourceID, isForeign: current.isForeign)
     }
     
@@ -412,7 +445,34 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             return
         }
         
+        guard !newSourceID.isEmpty else { return }
+        
         if isForeign {
+            // If in Vietnamese mode with a remembered foreign source, ignore a stale/late
+            // notification for that remembered foreign source immediately following programmatic toggle.
+            if currentInputMode == .vietnamese, let remembered = rememberedForeignSourceID, newSourceID == remembered {
+                if isLatinSwitchPending || isLateForeignNotificationGuarded {
+                    isLateForeignNotificationGuarded = false
+                    return
+                }
+            }
+            
+            // Foreign source confirmed, clear foreign pending and late guard flags
+            isForeignSwitchPending = false
+            isLateForeignNotificationGuarded = false
+            programmaticTargetForeignSourceID = nil
+            
+            // If user manually switched to different foreign layout outside toggle, clear remembered foreign
+            if !isProgrammaticSwitch {
+                if let remembered = rememberedForeignSourceID, newSourceID != remembered {
+                    rememberedForeignSourceID = nil
+                    programmaticTargetLatinSourceID = nil
+                }
+                isLatinSwitchPending = false
+            }
+            
+            lastHandledInputSourceID = newSourceID
+            
             // Auto-Suspend on Foreign IME (ABC -> Japanese)
             if !isSuspendedByForeignIME {
                 savedPreForeignMode = perAppInputMode ? (perAppModes[activeAppBundleId] ?? currentInputMode) : currentInputMode
@@ -424,11 +484,35 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             }
         } else {
             // Auto-Restore on Returning to Latin Layout (Japanese -> ABC)
-            if !isProgrammaticSwitch && !isSuspendedByForeignIME {
-                rememberedForeignSourceID = nil
+            
+            // If waiting for programmatic Foreign switch (toggle OFF to Japanese), ignore delayed Latin notifications
+            if isForeignSwitchPending {
+                return
             }
+            
+            let isTargetArrivingDuringPendingSwitch = isLatinSwitchPending
+            isLatinSwitchPending = false
+            if isTargetArrivingDuringPendingSwitch {
+                programmaticTargetLatinSourceID = newSourceID
+            }
+            
+            let isSameLayout = (newSourceID == lastHandledInputSourceID)
+            let isProgrammaticTarget = (programmaticTargetLatinSourceID != nil && newSourceID == programmaticTargetLatinSourceID)
+            let isManualDifferentLatin = !isProgrammaticSwitch && !isSuspendedByForeignIME && !isSameLayout && !isProgrammaticTarget
+            
+            if isManualDifferentLatin {
+                rememberedForeignSourceID = nil
+                programmaticTargetLatinSourceID = nil
+            }
+            
+            lastHandledInputSourceID = newSourceID
+            
             if isSuspendedByForeignIME {
                 isSuspendedByForeignIME = false
+                if !isProgrammaticTarget {
+                    rememberedForeignSourceID = nil
+                    programmaticTargetLatinSourceID = nil
+                }
                 engine?.reset()
                 let targetMode = perAppInputMode ? (perAppModes[activeAppBundleId] ?? savedPreForeignMode) : savedPreForeignMode
                 if currentInputMode != targetMode {
@@ -460,6 +544,14 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             // R3 Extension: Remember active foreign IME ID and switch to Vietnamese
             let activeID = inputSourceManager.currentInputSourceID
             rememberedForeignSourceID = !activeID.isEmpty ? activeID : "com.apple.inputmethod.Kotoeri.Japanese"
+            programmaticTargetForeignSourceID = nil
+            isForeignSwitchPending = false
+            isLatinSwitchPending = true
+            isLateForeignNotificationGuarded = true
+            
+            let expectedLatinID = "com.apple.keylayout.ABC"
+            programmaticTargetLatinSourceID = expectedLatinID
+            lastHandledInputSourceID = expectedLatinID
             
             isProgrammaticSwitch = true
             isSuspendedByForeignIME = false
@@ -474,12 +566,24 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             
             if !selected {
                 rememberedForeignSourceID = nil
+                programmaticTargetLatinSourceID = nil
+                isLatinSwitchPending = false
+                isLateForeignNotificationGuarded = false
                 isSuspendedByForeignIME = true
                 currentInputMode = .english
                 saveCurrentModeForActiveApp()
                 saveSettings()
                 return
             }
+            
+            let actualLatinID = inputSourceManager.currentInputSourceID
+            let finalLatinID: String
+            if !actualLatinID.isEmpty && !InputSourceClassifier.isForeignInputSource(sourceID: actualLatinID, sourceType: inputSourceManager.currentInputSourceType) {
+                finalLatinID = actualLatinID
+                programmaticTargetLatinSourceID = finalLatinID
+                lastHandledInputSourceID = finalLatinID
+            }
+            
             onToggleInputMode?()
             return
         }
@@ -487,9 +591,16 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         // R3 Extension: Restore remembered foreign IME when toggling OFF Vietnamese
         if autoSwitchOnForeignInputSource && currentInputMode == .vietnamese,
            let foreignID = rememberedForeignSourceID, !foreignID.isEmpty {
+            let targetForeign = foreignID
             rememberedForeignSourceID = nil
+            programmaticTargetLatinSourceID = nil
+            programmaticTargetForeignSourceID = targetForeign
+            lastHandledInputSourceID = targetForeign
+            isLatinSwitchPending = false
+            isForeignSwitchPending = true
+            isLateForeignNotificationGuarded = false
             isProgrammaticSwitch = true
-            let success = inputSourceManager.selectInputSource(byID: foreignID)
+            let success = inputSourceManager.selectInputSource(byID: targetForeign)
             isProgrammaticSwitch = false
             
             if success {
@@ -501,6 +612,9 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
                 onToggleInputMode?()
                 return
             } else {
+                isForeignSwitchPending = false
+                programmaticTargetForeignSourceID = nil
+                lastHandledInputSourceID = inputSourceManager.currentInputSourceID
                 currentInputMode = .english
                 engine?.reset()
                 onToggleInputMode?()
@@ -570,7 +684,10 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         self.checkInputSourceSynchronously()
         self.engine?.reset()
         
-        if autoSwitchOnForeignInputSource && inputSourceManager.isCurrentSourceForeign {
+        let isStaleForeignDuringVietnamese = (isLatinSwitchPending || isLateForeignNotificationGuarded) && (currentInputMode == .vietnamese && rememberedForeignSourceID != nil && inputSourceManager.currentInputSourceID == rememberedForeignSourceID)
+        let isForeignEffective = isForeignSwitchPending || (inputSourceManager.isCurrentSourceForeign && !isStaleForeignDuringVietnamese && !isLatinSwitchPending)
+        
+        if autoSwitchOnForeignInputSource && isForeignEffective {
             // System is currently using a foreign IME (e.g. Japanese)
             isSuspendedByForeignIME = true
             if perAppInputMode {
@@ -754,6 +871,12 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         isVietFlowUIActive = false
         settings.resetToDefaults()
         rememberedForeignSourceID = nil
+        programmaticTargetLatinSourceID = nil
+        programmaticTargetForeignSourceID = nil
+        isLatinSwitchPending = false
+        isForeignSwitchPending = false
+        isLateForeignNotificationGuarded = false
+        lastHandledInputSourceID = ""
         isProgrammaticSwitch = false
         isSuspendedByForeignIME = false
         currentInputMode = settings.inputMode

@@ -238,51 +238,61 @@ public final class SystemInputSourceManager: InputSourceManaging, @unchecked Sen
     
     @discardableResult
     public func selectLatinInputSource() -> Bool {
-        guard let list = TISCreateInputSourceList(nil, false)?.takeRetainedValue() as? [TISInputSource] else {
-            return false
-        }
-        
-        var selectedSource: TISInputSource?
-        var fallbackSource: TISInputSource?
-        
-        for source in list {
-            if let capPtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceIsSelectCapable) {
-                let isCap = CFBooleanGetValue(Unmanaged<CFBoolean>.fromOpaque(capPtr).takeUnretainedValue())
-                if !isCap { continue }
-            }
-            if let catPtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceCategory) {
-                let cat = Unmanaged<CFString>.fromOpaque(catPtr).takeUnretainedValue() as String
-                if !cat.isEmpty && cat != (kTISCategoryKeyboardInputSource as String) {
+        func findLatin(in list: [TISInputSource]) -> (selected: TISInputSource?, fallback: TISInputSource?) {
+            var selectedSource: TISInputSource?
+            var fallbackSource: TISInputSource?
+            
+            for source in list {
+                if let capPtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceIsSelectCapable) {
+                    let isCap = CFBooleanGetValue(Unmanaged<CFBoolean>.fromOpaque(capPtr).takeUnretainedValue())
+                    if !isCap { continue }
+                }
+                if let catPtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceCategory) {
+                    let cat = Unmanaged<CFString>.fromOpaque(catPtr).takeUnretainedValue() as String
+                    if !cat.isEmpty && cat != (kTISCategoryKeyboardInputSource as String) {
+                        continue
+                    }
+                }
+                
+                guard let idPtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceID) else { continue }
+                let id = Unmanaged<CFString>.fromOpaque(idPtr).takeUnretainedValue() as String
+                
+                // Priority 1: com.apple.keylayout.ABC
+                if id == "com.apple.keylayout.ABC" {
+                    selectedSource = source
+                    break
+                }
+                // Priority 2: com.apple.keylayout.US
+                if id == "com.apple.keylayout.US" {
+                    if selectedSource == nil {
+                        selectedSource = source
+                    }
                     continue
                 }
-            }
-            
-            guard let idPtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceID) else { continue }
-            let id = Unmanaged<CFString>.fromOpaque(idPtr).takeUnretainedValue() as String
-            
-            // Priority 1: com.apple.keylayout.ABC
-            if id == "com.apple.keylayout.ABC" {
-                selectedSource = source
-                break
-            }
-            // Priority 2: com.apple.keylayout.US
-            if id == "com.apple.keylayout.US" {
-                if selectedSource == nil {
-                    selectedSource = source
+                // Fallback: Any selectable Latin layout
+                var type = ""
+                if let typePtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceType) {
+                    type = Unmanaged<CFString>.fromOpaque(typePtr).takeUnretainedValue() as String
                 }
-                continue
+                if fallbackSource == nil && InputSourceClassifier.isLatinKeyboardLayout(sourceID: id, sourceType: type) {
+                    fallbackSource = source
+                }
             }
-            // Fallback: Any selectable Latin layout
-            var type = ""
-            if let typePtr = TISGetInputSourceProperty(source, kTISPropertyInputSourceType) {
-                type = Unmanaged<CFString>.fromOpaque(typePtr).takeUnretainedValue() as String
-            }
-            if fallbackSource == nil && InputSourceClassifier.isLatinKeyboardLayout(sourceID: id, sourceType: type) {
-                fallbackSource = source
-            }
+            return (selectedSource, fallbackSource)
         }
         
-        var target = selectedSource ?? fallbackSource
+        var target: TISInputSource?
+        
+        if let list = TISCreateInputSourceList(nil, false)?.takeRetainedValue() as? [TISInputSource] {
+            let (selected, fallback) = findLatin(in: list)
+            target = selected ?? fallback
+        }
+        
+        if target == nil, let listAll = TISCreateInputSourceList(nil, true)?.takeRetainedValue() as? [TISInputSource] {
+            let (selected, fallback) = findLatin(in: listAll)
+            target = selected ?? fallback
+        }
+        
         if target == nil, let enSource = TISCopyInputSourceForLanguage("en" as CFString)?.takeRetainedValue() {
             TISEnableInputSource(enSource)
             target = enSource
@@ -292,13 +302,42 @@ public final class SystemInputSourceManager: InputSourceManaging, @unchecked Sen
             return false
         }
         
+        if let bundleIDPtr = TISGetInputSourceProperty(finalTarget, kTISPropertyBundleID) {
+            let bundleID = Unmanaged<CFString>.fromOpaque(bundleIDPtr).takeUnretainedValue() as String
+            if !bundleID.isEmpty, let parentList = TISCreateInputSourceList([kTISPropertyBundleID as String: bundleID] as CFDictionary, true)?.takeRetainedValue() as? [TISInputSource] {
+                for parent in parentList {
+                    TISEnableInputSource(parent)
+                }
+            }
+        }
+        TISEnableInputSource(finalTarget)
         var status = TISSelectInputSource(finalTarget)
         if status != noErr {
             TISEnableInputSource(finalTarget)
             status = TISSelectInputSource(finalTarget)
         }
         if status == noErr {
-            _ = refreshCurrentInputSource()
+            var targetID = ""
+            var targetType = ""
+            if let idPtr = TISGetInputSourceProperty(finalTarget, kTISPropertyInputSourceID) {
+                targetID = Unmanaged<CFString>.fromOpaque(idPtr).takeUnretainedValue() as String
+            }
+            if let typePtr = TISGetInputSourceProperty(finalTarget, kTISPropertyInputSourceType) {
+                targetType = Unmanaged<CFString>.fromOpaque(typePtr).takeUnretainedValue() as String
+            }
+            if targetID.isEmpty {
+                targetID = "com.apple.keylayout.ABC"
+            }
+            let foreign = InputSourceClassifier.isForeignInputSource(sourceID: targetID, sourceType: targetType)
+            lock.lock()
+            let changed = (targetID != currentInputSourceID || foreign != isCurrentSourceForeign)
+            currentInputSourceID = targetID
+            currentInputSourceType = targetType
+            isCurrentSourceForeign = foreign
+            lock.unlock()
+            if changed {
+                onInputSourceChanged?(targetID, foreign)
+            }
             return true
         }
         return false
@@ -356,6 +395,15 @@ public final class SystemInputSourceManager: InputSourceManaging, @unchecked Sen
             return false
         }
         
+        if let bundleIDPtr = TISGetInputSourceProperty(finalTarget, kTISPropertyBundleID) {
+            let bundleID = Unmanaged<CFString>.fromOpaque(bundleIDPtr).takeUnretainedValue() as String
+            if !bundleID.isEmpty, let parentList = TISCreateInputSourceList([kTISPropertyBundleID as String: bundleID] as CFDictionary, true)?.takeRetainedValue() as? [TISInputSource] {
+                for parent in parentList {
+                    TISEnableInputSource(parent)
+                }
+            }
+        }
+        TISEnableInputSource(finalTarget)
         var status = TISSelectInputSource(finalTarget)
         if status != noErr {
             TISEnableInputSource(finalTarget)
@@ -363,7 +411,24 @@ public final class SystemInputSourceManager: InputSourceManaging, @unchecked Sen
         }
         
         if status == noErr {
-            _ = refreshCurrentInputSource()
+            var targetID = sourceID
+            var targetType = ""
+            if let idPtr = TISGetInputSourceProperty(finalTarget, kTISPropertyInputSourceID) {
+                targetID = Unmanaged<CFString>.fromOpaque(idPtr).takeUnretainedValue() as String
+            }
+            if let typePtr = TISGetInputSourceProperty(finalTarget, kTISPropertyInputSourceType) {
+                targetType = Unmanaged<CFString>.fromOpaque(typePtr).takeUnretainedValue() as String
+            }
+            let foreign = InputSourceClassifier.isForeignInputSource(sourceID: targetID, sourceType: targetType)
+            lock.lock()
+            let changed = (targetID != currentInputSourceID || foreign != isCurrentSourceForeign)
+            currentInputSourceID = targetID
+            currentInputSourceType = targetType
+            isCurrentSourceForeign = foreign
+            lock.unlock()
+            if changed {
+                onInputSourceChanged?(targetID, foreign)
+            }
             return true
         }
         return false
@@ -376,6 +441,9 @@ public final class MockInputSourceManager: InputSourceManaging, @unchecked Senda
     public var isCurrentSourceForeign: Bool
     public var shouldSelectLatinSucceed: Bool = true
     public var shouldSelectForeignSucceed: Bool = true
+    public var defaultLatinSourceID: String = "com.apple.keylayout.ABC"
+    public var simulateAsyncSelectionDelay: Bool = false
+    public var pendingSourceID: String? = nil
     
     public var isCurrentSourceLatin: Bool {
         return !isCurrentSourceForeign
@@ -406,6 +474,14 @@ public final class MockInputSourceManager: InputSourceManaging, @unchecked Senda
         onInputSourceChanged?(sourceID, foreign)
     }
     
+    public func flushPendingInputSourceChange() {
+        if let pending = pendingSourceID {
+            pendingSourceID = nil
+            let type = pending.contains("keylayout") ? "TISTypeKeyboardLayout" : "TISTypeKeyboardInputMode"
+            simulateInputSourceChange(to: pending, sourceType: type)
+        }
+    }
+    
     @discardableResult
     public func selectLatinInputSource() -> Bool {
         selectLatinCalled = true
@@ -413,7 +489,11 @@ public final class MockInputSourceManager: InputSourceManaging, @unchecked Senda
         guard shouldSelectLatinSucceed else {
             return false
         }
-        simulateInputSourceChange(to: "com.apple.keylayout.ABC", sourceType: "TISTypeKeyboardLayout")
+        if simulateAsyncSelectionDelay {
+            pendingSourceID = defaultLatinSourceID
+            return true
+        }
+        simulateInputSourceChange(to: defaultLatinSourceID, sourceType: "TISTypeKeyboardLayout")
         return true
     }
     
@@ -423,6 +503,10 @@ public final class MockInputSourceManager: InputSourceManaging, @unchecked Senda
         selectInputSourceCallCount += 1
         guard shouldSelectForeignSucceed else {
             return false
+        }
+        if simulateAsyncSelectionDelay {
+            pendingSourceID = sourceID
+            return true
         }
         let type = sourceID.contains("keylayout") ? "TISTypeKeyboardLayout" : "TISTypeKeyboardInputMode"
         simulateInputSourceChange(to: sourceID, sourceType: type)

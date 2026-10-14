@@ -45,7 +45,36 @@ public enum JapaneseRomajiLexicon {
         "yukata", "tatami", "futon", "onsen", "ryokan", "torii", "jinja", "matsuri",
         "sakura", "momiji", "hikari", "kokoro", "mirai", "hoshi", "tsuki",
         "chibi", "waifu", "shoujo", "shounen", "seinen", "doujinshi", "isekai",
-        "ippon", "shashin"
+        "ippon", "shashin",
+
+        // Workplace, BrSE & Business Terms
+        "hourensou", "houkoku", "renraku", "soudan", "kaigi", "shiryou", "kakunin",
+        "shounin", "mitsumori", "nouki", "shimekiri", "tantousha", "okyakusama",
+        "keiyaku", "seikyuusho", "shiyousho", "sekkei", "kaihatsu", "kenshuu",
+        "shucchou", "zangyou", "yuukyuu", "teishutsu", "shuusei", "shinchoku",
+        "kadai", "mondai", "taisaku", "genba", "genbutsu", "genjitsu", "hansei",
+        "chousa", "kentou", "renkei", "kyouryoku", "shitsumon", "kaitou", "iraisho",
+        "anken", "koumoku", "gamen", "shori", "dousa",
+
+        // Conversational, Pronouns, Time, Verbs & Common Names
+        "desu", "deshita", "mashita", "masen", "gozaimasu", "arigatougozaimasu",
+        "ohayougozaimasu", "otsukaresamadeshita", "yoroshikuonegaishimasu",
+        "wakarimashita", "kashikomarimashita", "sumimasendeshita", "naruhodo",
+        "yappari", "kekkou", "zettai", "ippai", "chotto", "matte", "kudasai",
+        "onegai", "kore", "sore", "dore", "koko", "soko", "asoko", "doko",
+        "watashi", "anata", "kanojo", "kare", "minasan", "tomodachi", "kazoku",
+        "haru", "natsu", "fuyu", "hiru", "yoru", "ashita", "kinou", "kyou",
+        "raishuu", "konshuu", "senshuu", "raigetsu", "kongetsu", "sengetsu",
+        "kuro", "kuroi", "shiro", "shiroi", "akai", "kiiroi", "midori",
+        "suru", "kuru", "miru", "neru", "taberu", "nomu", "kaeru", "wakaru",
+        "dekiru", "owaru", "hajimaru", "kawaru", "tomaru", "kimaru",
+        "kuruma", "densha", "hikouki", "jitensha", "kuukou", "byouin", "ginkou",
+        "daigaku", "gakkou", "kaisha", "shigoto", "benkyou", "ryokou", "ryugaku",
+        "seikatsu", "naruto", "sasuke", "kakashi", "itachi", "hinata", "jiraiya",
+        "tsunade", "haruka", "misaki", "chisato", "hisashi", "musashi", "suzuki",
+        "tanaka", "yamamoto", "watanabe", "takahashi", "itou", "satou", "kobayashi",
+        "nakamura", "katou", "yoshida", "yamada", "sasaki", "yamaguchi", "matsumoto",
+        "inoue", "kimura", "hayashi", "shimizu"
     ]
 }
 
@@ -54,7 +83,10 @@ public enum JapaneseRomajiDetector {
     public static let invalidMedialClusters: [String] = [
         "kka", "kke", "kki", "kko", "kku",
         "ppa", "ppe", "ppi", "ppo", "ppu",
-        "tcha", "tche", "tchi", "tcho", "tchu"
+        "tcha", "tche", "tchi", "tcho", "tchu",
+        "ccha", "cche", "cchi", "ccho", "cchu",
+        "ssha", "sshe", "sshi", "ssho", "sshu",
+        "shi", "shu", "tsu"
     ]
 
     /// Unambiguous Japanese-only onset prefixes (zero collision with Vietnamese phonotactics).
@@ -67,7 +99,8 @@ public enum JapaneseRomajiDetector {
 
     /// Checks if a word matches unambiguous Japanese structural patterns:
     /// 1. Adjective suffix '-shii' (minimum length 5: e.g. oishii, tanoshii, subarashii)
-    /// 2. Japanese medial geminates ('kka', 'ppa', 'tcha')
+    /// 2. Polite verb/copula suffixes ('-masu', '-mashita', '-masen', '-deshita', '-gozaimasu')
+    /// 3. Japanese medial geminates and sibilant/affricate clusters ('kka', 'ppa', 'tcha', 'sha', 'shi', 'shu', 'tsu')
     public static func hasRomajiStructuralPattern(_ word: String) -> Bool {
         let lower = word.lowercased()
         guard lower.count >= 4 else { return false }
@@ -77,7 +110,18 @@ public enum JapaneseRomajiDetector {
             return true
         }
 
-        // Rule 2: Japanese medial geminates
+        // Rule 2: Polite verb/copula inflections (min length 6)
+        if lower.count >= 6 && (
+            lower.hasSuffix("masu")
+            || lower.hasSuffix("mashita")
+            || lower.hasSuffix("masen")
+            || lower.hasSuffix("deshita")
+            || lower.hasSuffix("gozaimasu")
+        ) {
+            return true
+        }
+
+        // Rule 3: Japanese medial geminates & unambiguous Hepburn clusters
         for pattern in invalidMedialClusters {
             if lower.contains(pattern) {
                 return true

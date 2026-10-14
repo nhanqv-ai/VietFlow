@@ -59,6 +59,11 @@ public final class InputSourceSynchronizationTests: TestCase {
         return event
     }
     
+    private func createBackspaceEvent() -> CGEvent {
+        let event = CGEvent(keyboardEventSource: nil, virtualKey: 51, keyDown: true)!
+        return event
+    }
+    
     // MARK: - Test 1: ABC [V] -> Japanese Auto-Suspend & Romaji Pass-Through
     func test_01_abc_v_to_japanese_auto_switches_to_english_and_passes_romaji_keystrokes_untouched() {
         // Initial state: ABC Latin layout, VietFlow in Vietnamese mode [V]
@@ -702,6 +707,662 @@ public final class InputSourceSynchronizationTests: TestCase {
         XCTAssertNil(stateManager.rememberedForeignSourceID)
     }
 
+    // MARK: - Test 27: Japanese Romaji Typing Toggle, Typing Words Preserves Foreign Source and Restores Japanese
+    func test_27_japanese_romaji_typing_toggle_typing_words_preserves_foreign_source_and_restores_japanese() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+        
+        // --- Cycle 1 ---
+        // 1. Toggle ON: switches to ABC and [V] and remembers Japanese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertTrue(mockSourceManager.selectLatinCalled)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertFalse(stateManager.isSuspendedByForeignIME)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // 2. Late/duplicate notification from macOS RunLoop must not clear rememberedForeignSourceID
+        mockSourceManager.onInputSourceChanged?("com.apple.keylayout.ABC", false)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        
+        // 3. Type Vietnamese words "xin chào các bạn " through EventTapManager.handleEvent
+        // In Telex: x-i-n-space, c-h-a-o-f-space, c-a-c-s-space, b-a-n-j-space
+        let wordsKeystrokes = "xin chaof cacs banj "
+        for ch in wordsKeystrokes {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                           "Typing character '\(ch)' must preserve rememberedForeignSourceID")
+            XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        }
+        
+        // 4. Press Backspace multiple times
+        for _ in 0..<3 {
+            let backspaceEvent = createBackspaceEvent()
+            _ = eventTapManager.handleEvent(type: .keyDown, event: backspaceEvent)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                           "Backspace must preserve rememberedForeignSourceID")
+        }
+        
+        // 5. Switching active applications must preserve rememberedForeignSourceID
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Safari", appName: "Safari")
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                       "App switch to Safari must preserve rememberedForeignSourceID")
+        
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Notes", appName: "Notes")
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                       "App switch to Notes must preserve rememberedForeignSourceID")
+        
+        // 6. Type another word in Notes
+        let moreKeystrokes = "vieetj "
+        for ch in moreKeystrokes {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        }
+        
+        // 7. Toggle OFF: reliably restores Japanese input source
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertTrue(mockSourceManager.isCurrentSourceForeign)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+        
+        // --- Cycle 2 ---
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        let cycle2Keys = "thaafnh coong "
+        for ch in cycle2Keys {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        }
+        
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+        
+        // --- Cycle 3 ---
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        stateManager.handleActiveAppChanged(bundleId: "com.google.Chrome", appName: "Chrome")
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 28: Delayed TIS Notification Does Not Clear Remembered Foreign Source or Revert Mode
+    func test_28_delayed_tis_notification_does_not_clear_remembered_foreign_source_or_revert_mode() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        
+        // Toggle ON to Vietnamese
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Simulate repeated delayed/duplicate TIS notifications on main RunLoop
+        for _ in 0..<5 {
+            mockSourceManager.onInputSourceChanged?("com.apple.keylayout.ABC", false)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                           "Delayed notification for ABC must not clear rememberedForeignSourceID")
+            XCTAssertEqual(stateManager.currentInputMode, .vietnamese,
+                           "Delayed notification for ABC must not revert input mode")
+        }
+        
+        // Synchronous polling must also be a safe no-op
+        for _ in 0..<5 {
+            stateManager.checkInputSourceSynchronously()
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                           "Synchronous polling must not clear rememberedForeignSourceID")
+            XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        }
+        
+        // Toggle OFF successfully restores Japanese
+        stateManager.toggleInputMode()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 29: Manual Different Latin Switch Clears Remembered Foreign Source Even After Typing
+    func test_29_manual_different_latin_switch_clears_remembered_foreign_source_even_after_typing() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        
+        // Toggle ON to Vietnamese
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Type some words
+        let keys = "xinchao "
+        for ch in keys {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        }
+        
+        let selectCountBefore = mockSourceManager.selectInputSourceCallCount
+        
+        // User manually switches to a different Latin layout (e.g. US) outside of toggle
+        mockSourceManager.simulateInputSourceChange(to: "com.apple.keylayout.US")
+        
+        // Remembered foreign source MUST be cleared
+        XCTAssertNil(stateManager.rememberedForeignSourceID,
+                     "Manual switch to different Latin layout US must clear rememberedForeignSourceID")
+        
+        // Subsequent toggle now performs standard Vietnamese -> English toggle (no Japanese restore)
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertEqual(mockSourceManager.selectInputSourceCallCount, selectCountBefore,
+                       "selectInputSource must not be called when foreign source was cleared")
+    }
+
+    // MARK: - Test 30: Per-App Mode With Foreign IME Restore and Cross-App Typing
+    func test_30_per_app_mode_with_foreign_ime_restore_and_cross_app_typing() {
+        stateManager.perAppInputMode = true
+        let japaneseID = "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        
+        // Active in Safari
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Safari", appName: "Safari")
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+        
+        // Toggle ON to Vietnamese in Safari
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+        
+        // Type in Safari
+        let safariKeys = "xinchao "
+        for ch in safariKeys {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        }
+        
+        // Switch to Notes
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Notes", appName: "Notes")
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        
+        // Type in Notes
+        let notesKeys = "vietflow "
+        for ch in notesKeys {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        }
+        
+        // Switch back to Safari
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Safari", appName: "Safari")
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        
+        // Toggle OFF in Safari: restores Japanese!
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertTrue(mockSourceManager.isCurrentSourceForeign)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 31: Multiple Foreign IMEs and Non-Latin Layouts Bidirectional Restore
+    func test_31_multiple_foreign_imes_and_non_latin_layouts_bidirectional_restore() {
+        // 1. Russian Cyrillic physical keyboard layout
+        let russianID = "com.apple.keylayout.Russian"
+        mockSourceManager.simulateInputSourceChange(to: russianID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, russianID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+        
+        let keys1 = "tiengviet "
+        for ch in keys1 {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, russianID)
+        }
+        
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, russianID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, russianID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+        
+        // 2. Korean 2-Set Hangul IME
+        let koreanID = "com.apple.inputmethod.Korean.2SetKorean"
+        mockSourceManager.simulateInputSourceChange(to: koreanID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, koreanID)
+        
+        let keys2 = "hanoi "
+        for ch in keys2 {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, koreanID)
+        }
+        
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, koreanID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, koreanID)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+        
+        // 3. Traditional Chinese Zhuyin IME
+        let tcimID = "com.apple.inputmethod.TCIM.Zhuyin"
+        mockSourceManager.simulateInputSourceChange(to: tcimID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, tcimID)
+        
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, tcimID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, tcimID)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 32: Rapid Toggle Interleaved With Typing and Delayed TIS Notifications
+    func test_32_rapid_toggle_interleaved_with_typing_and_delayed_tis_notifications() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        
+        for _ in 0..<5 {
+            // Rapid toggle ON
+            eventTapManager.toggleModeSynchronously()
+            XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+            
+            // Late notification for ABC
+            mockSourceManager.onInputSourceChanged?("com.apple.keylayout.ABC", false)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+            XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+            
+            // Keystroke
+            let event1 = createKeyDownEvent(character: "a")
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event1)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+            
+            // Rapid toggle OFF
+            eventTapManager.toggleModeSynchronously()
+            XCTAssertEqual(stateManager.currentInputMode, .english)
+            XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+            XCTAssertNil(stateManager.rememberedForeignSourceID)
+            
+            // Late notification for Japanese
+            mockSourceManager.onInputSourceChanged?(japaneseID, true)
+            XCTAssertEqual(stateManager.currentInputMode, .english)
+            XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+            XCTAssertNil(stateManager.rememberedForeignSourceID)
+        }
+    }
+
+    // MARK: - Test 33: Non-ABC Target Latin Layout (US Layout) Preserves Foreign Source
+    func test_33_non_abc_target_latin_layout_preserves_foreign_source() {
+        mockSourceManager.defaultLatinSourceID = "com.apple.keylayout.US"
+        let japaneseID = "com.apple.inputmethod.Kotoeri.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        
+        // Toggle ON: selects US layout instead of ABC
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.US")
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Delayed notification for US layout must not clear rememberedForeignSourceID
+        mockSourceManager.onInputSourceChanged?("com.apple.keylayout.US", false)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        
+        // Keystrokes must preserve rememberedForeignSourceID
+        let keys = "vietnam "
+        for ch in keys {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        }
+        
+        // Toggle OFF: restores Japanese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 34: Setting autoSwitchOnForeignInputSource to False Clears Remembered Foreign Source
+    func test_34_setting_auto_switch_on_foreign_input_source_to_false_clears_remembered_foreign_source() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        
+        // Toggle ON to Vietnamese
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // User turns OFF autoSwitchOnForeignInputSource in settings
+        stateManager.autoSwitchOnForeignInputSource = false
+        XCTAssertNil(stateManager.rememberedForeignSourceID,
+                     "Disabling autoSwitchOnForeignInputSource must clear rememberedForeignSourceID")
+        
+        // Subsequent toggle performs standard Vietnamese -> English toggle without restoring Japanese
+        let countBefore = mockSourceManager.selectInputSourceCallCount
+        stateManager.toggleInputMode()
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertEqual(mockSourceManager.selectInputSourceCallCount, countBefore,
+                       "selectInputSource must not be called when auto-switch is disabled")
+    }
+
+    // MARK: - Test 35: Asynchronous Selection Delay Where System Temporarily Returns Japanese Before ABC
+    func test_35_asynchronous_delay_where_system_temporarily_returns_japanese_before_abc_typing_words_preserves_foreign_memory() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        
+        // Enable asynchronous delay simulation: selectLatinInputSource succeeds but does NOT immediately update mock's source ID
+        mockSourceManager.simulateAsyncSelectionDelay = true
+        
+        // Toggle ON to Vietnamese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        // System source is still Japanese during the delay window
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        
+        // User types words while system source still temporarily reports Japanese
+        // EventTapManager calls checkInputSourceSynchronously on every keystroke
+        let words = "xin chaof "
+        for ch in words {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                           "Synchronous check while system still reports Japanese must NOT clear rememberedForeignSourceID")
+            XCTAssertEqual(stateManager.currentInputMode, .vietnamese,
+                           "Typing character '\(ch)' must stay in Vietnamese mode")
+        }
+        
+        // macOS finally finishes switching to ABC
+        mockSourceManager.flushPendingInputSourceChange()
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+        
+        // Delayed TIS notification for ABC arrives
+        mockSourceManager.onInputSourceChanged?("com.apple.keylayout.ABC", false)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        
+        // Type more words in ABC mode
+        let moreWords = "cacs banj "
+        for ch in moreWords {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        }
+        
+        // Backspace
+        let bs = createBackspaceEvent()
+        _ = eventTapManager.handleEvent(type: .keyDown, event: bs)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Toggle OFF: restores Japanese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        
+        // Delayed notification for ABC arriving after toggle OFF must NOT revert mode back to Vietnamese
+        mockSourceManager.onInputSourceChanged?("com.apple.keylayout.ABC", false)
+        XCTAssertEqual(stateManager.currentInputMode, .english,
+                       "Delayed Latin notification after toggle OFF must not re-activate Vietnamese")
+        
+        // Flush pending Japanese selection
+        mockSourceManager.flushPendingInputSourceChange()
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 36: Late Foreign Notification Arriving After Toggle Does Not Suspend Or Wipe Memory
+    func test_36_late_foreign_notification_arriving_after_toggle_does_not_suspend_or_wipe_memory() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        
+        // Toggle ON to Vietnamese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Stale late notification for Japanese arriving on main RunLoop after toggle
+        mockSourceManager.onInputSourceChanged?(japaneseID, true)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                       "Late Japanese notification must not clear rememberedForeignSourceID")
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese,
+                       "Late Japanese notification must not revert input mode to English")
+        XCTAssertFalse(stateManager.isSuspendedByForeignIME)
+        
+        // Typing works and preserves memory
+        let event = createKeyDownEvent(character: "a")
+        _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Toggle OFF restores Japanese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 37: Cross-App Switching With Async Selection Delay Preserves Foreign Memory
+    func test_37_cross_app_switching_with_async_delay_preserves_foreign_memory() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        mockSourceManager.simulateAsyncSelectionDelay = true
+        
+        // Toggle ON to Vietnamese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // App switch to Safari while system source is still temporarily reported as Japanese
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Safari", appName: "Safari")
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                       "App switch during async delay must preserve rememberedForeignSourceID")
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese,
+                       "App switch during async delay must stay in Vietnamese")
+        
+        // App switch to Notes
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Notes", appName: "Notes")
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        
+        // Flush pending switch to ABC
+        mockSourceManager.flushPendingInputSourceChange()
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, "com.apple.keylayout.ABC")
+        
+        // Toggle OFF restores Japanese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        mockSourceManager.flushPendingInputSourceChange()
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 38: Non-ABC Latin Layout With Async Delay Preserves Foreign Memory
+    func test_38_non_abc_latin_layout_with_async_delay_preserves_foreign_memory() {
+        let usLayoutID = "com.apple.keylayout.US"
+        let japaneseID = "com.apple.inputmethod.Kotoeri.Japanese"
+        mockSourceManager.defaultLatinSourceID = usLayoutID
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        mockSourceManager.simulateAsyncSelectionDelay = true
+        
+        // Toggle ON: initiates async switch to US layout
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Keystroke during async delay while system still reports Japanese
+        let eventA = createKeyDownEvent(character: "a")
+        _ = eventTapManager.handleEvent(type: .keyDown, event: eventA)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        
+        // WindowServer completes switch to US layout
+        mockSourceManager.flushPendingInputSourceChange()
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, usLayoutID)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID,
+                       "Completion of async switch to non-ABC Latin layout must preserve rememberedForeignSourceID")
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        
+        // Type words on US layout
+        let words = "xin chaof "
+        for ch in words {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        }
+        
+        // Toggle OFF: restores Japanese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        mockSourceManager.flushPendingInputSourceChange()
+        XCTAssertEqual(mockSourceManager.currentInputSourceID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 39: Manual Switch To Same Foreign IME After Typing Suspends VietFlow
+    func test_39_manual_switch_to_same_foreign_ime_after_typing_suspends_vietflow() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        
+        // Toggle ON to Vietnamese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Type Vietnamese word
+        let keys = "chao "
+        for ch in keys {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+            XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+            XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        }
+        
+        // User manually switches back to Japanese via macOS menu bar outside VietFlow toggle
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        
+        // VietFlow must suspend to English so Japanese IME is not corrupted
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME,
+                      "Manual switch to Japanese after typing must suspend VietFlow")
+        XCTAssertEqual(stateManager.currentInputMode, .english,
+                      "Input mode must switch to English when foreign IME is manually selected")
+        
+        // Keystroke in Japanese mode must remain unintercepted
+        let jpKey = createKeyDownEvent(character: "k")
+        _ = eventTapManager.handleEvent(type: .keyDown, event: jpKey)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        
+        // User toggles ON again: switches to ABC and activates Vietnamese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        XCTAssertFalse(stateManager.isSuspendedByForeignIME)
+        
+        // User toggles OFF: restores Japanese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
+    // MARK: - Test 40: App Switch To Foreign IME App After Typing Suspends VietFlow
+    func test_40_app_switch_to_foreign_ime_app_after_typing_suspends_vietflow() {
+        let japaneseID = "com.apple.inputmethod.Kotoeri.Japanese"
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        
+        // Toggle ON in Safari
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Safari", appName: "Safari")
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Type in Safari
+        let keys = "viet "
+        for ch in keys {
+            let event = createKeyDownEvent(character: ch)
+            _ = eventTapManager.handleEvent(type: .keyDown, event: event)
+        }
+        
+        // Switch to Dictionary app where macOS input source is Japanese
+        mockSourceManager.simulateInputSourceChange(to: japaneseID)
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Dictionary", appName: "Dictionary")
+        
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME,
+                      "Switching to app with active Japanese IME must suspend VietFlow")
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        
+        // Switch back to Safari where macOS input source is ABC
+        mockSourceManager.simulateInputSourceChange(to: "com.apple.keylayout.ABC")
+        stateManager.handleActiveAppChanged(bundleId: "com.apple.Safari", appName: "Safari")
+        
+        XCTAssertFalse(stateManager.isSuspendedByForeignIME,
+                       "Switching back to Safari on ABC must un-suspend VietFlow")
+        XCTAssertEqual(stateManager.currentInputMode, .vietnamese)
+        XCTAssertEqual(stateManager.rememberedForeignSourceID, japaneseID)
+        
+        // Toggle OFF in Safari restores Japanese
+        eventTapManager.toggleModeSynchronously()
+        XCTAssertEqual(mockSourceManager.selectInputSourceCalledWithID, japaneseID)
+        XCTAssertEqual(stateManager.currentInputMode, .english)
+        XCTAssertTrue(stateManager.isSuspendedByForeignIME)
+        XCTAssertNil(stateManager.rememberedForeignSourceID)
+    }
+
     // MARK: - Test Registry Registration
     public override var allTests: [(name: String, test: () throws -> Void)] {
         return [
@@ -731,6 +1392,20 @@ public final class InputSourceSynchronizationTests: TestCase {
             ("test_24_manual_input_source_change_outside_toggle_clears_remembered_foreign_source", test_24_manual_input_source_change_outside_toggle_clears_remembered_foreign_source),
             ("test_25_foreign_restore_failure_falls_back_to_standard_english_mode", test_25_foreign_restore_failure_falls_back_to_standard_english_mode),
             ("test_26_event_tap_manager_synchronous_ping_pong_toggle", test_26_event_tap_manager_synchronous_ping_pong_toggle),
+            ("test_27_japanese_romaji_typing_toggle_typing_words_preserves_foreign_source_and_restores_japanese", test_27_japanese_romaji_typing_toggle_typing_words_preserves_foreign_source_and_restores_japanese),
+            ("test_28_delayed_tis_notification_does_not_clear_remembered_foreign_source_or_revert_mode", test_28_delayed_tis_notification_does_not_clear_remembered_foreign_source_or_revert_mode),
+            ("test_29_manual_different_latin_switch_clears_remembered_foreign_source_even_after_typing", test_29_manual_different_latin_switch_clears_remembered_foreign_source_even_after_typing),
+            ("test_30_per_app_mode_with_foreign_ime_restore_and_cross_app_typing", test_30_per_app_mode_with_foreign_ime_restore_and_cross_app_typing),
+            ("test_31_multiple_foreign_imes_and_non_latin_layouts_bidirectional_restore", test_31_multiple_foreign_imes_and_non_latin_layouts_bidirectional_restore),
+            ("test_32_rapid_toggle_interleaved_with_typing_and_delayed_tis_notifications", test_32_rapid_toggle_interleaved_with_typing_and_delayed_tis_notifications),
+            ("test_33_non_abc_target_latin_layout_preserves_foreign_source", test_33_non_abc_target_latin_layout_preserves_foreign_source),
+            ("test_34_setting_auto_switch_on_foreign_input_source_to_false_clears_remembered_foreign_source", test_34_setting_auto_switch_on_foreign_input_source_to_false_clears_remembered_foreign_source),
+            ("test_35_asynchronous_delay_where_system_temporarily_returns_japanese_before_abc_typing_words_preserves_foreign_memory", test_35_asynchronous_delay_where_system_temporarily_returns_japanese_before_abc_typing_words_preserves_foreign_memory),
+            ("test_36_late_foreign_notification_arriving_after_toggle_does_not_suspend_or_wipe_memory", test_36_late_foreign_notification_arriving_after_toggle_does_not_suspend_or_wipe_memory),
+            ("test_37_cross_app_switching_with_async_delay_preserves_foreign_memory", test_37_cross_app_switching_with_async_delay_preserves_foreign_memory),
+            ("test_38_non_abc_latin_layout_with_async_delay_preserves_foreign_memory", test_38_non_abc_latin_layout_with_async_delay_preserves_foreign_memory),
+            ("test_39_manual_switch_to_same_foreign_ime_after_typing_suspends_vietflow", test_39_manual_switch_to_same_foreign_ime_after_typing_suspends_vietflow),
+            ("test_40_app_switch_to_foreign_ime_app_after_typing_suspends_vietflow", test_40_app_switch_to_foreign_ime_app_after_typing_suspends_vietflow),
         ]
     }
 }
