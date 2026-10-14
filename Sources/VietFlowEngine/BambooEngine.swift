@@ -181,11 +181,23 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
                 let rawActive = String(activeRawKeys)
                 let lowerRawActive = rawActive.lowercased()
-                if activePreedit != rawActive {
-                    if EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerRawActive)
+                let hasPrecedingSepInBypass = committedPrefix.last != nil && EnglishRestoreDetector.isTechnicalSeparator(committedPrefix.last!)
+                let fullRawWord = String(wordRawKeys)
+                let lowerFullRawWord = fullRawWord.lowercased()
+                if activePreedit != rawActive || (!hasPrecedingSepInBypass && !committedPrefix.isEmpty) {
+                    if EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerFullRawWord)
+                        || EnglishRestoreDetector.isEnglishKeyword(lowerFullRawWord)
+                        || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerFullRawWord)
+                        || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerRawActive)
                         || EnglishRestoreDetector.isEnglishKeyword(lowerRawActive)
                         || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerRawActive) {
-                        activePreedit = rawActive
+                        if hasPrecedingSepInBypass {
+                            activePreedit = rawActive
+                        } else {
+                            committedPrefix = ""
+                            activePreedit = fullRawWord
+                            activeRawKeys = Array(fullRawWord)
+                        }
                         let newDisplay = committedPrefix + activePreedit
                         return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
                     } else if !"aeiouy".contains(character.lowercased()) {
@@ -733,7 +745,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         // Case 2: Syllable already has a valid coda, and nextChar is a valid onset that cannot extend the coda
         if !parsed.coda.isEmpty && PhonotacticsMatrix.isValidCoda(parsed.coda) {
             // Do not split if a non-adjacent vowel jumped across the coda (e.g. 't-a-n-a' in 'tanaka', 'a-n-a' in 'anata')
-            if lastRawIsVowel {
+            // or if the last raw key was 's' forming a foreign medial cluster (e.g. 'trans-' in 'transmit'/'transmission', 'boots-' in 'bootstrap')
+            if lastRawIsVowel || activeRawKeys.last?.lowercased() == "s" {
                 return false
             }
             let candidateCoda = parsed.coda + String(nextChar)
