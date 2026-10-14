@@ -147,12 +147,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
         // 2. English Bypass Latch Check
         if isBypassed {
-            // Unlatch bypass if 'yes' is immediately followed by a vowel (e.g. 'yesue' in tone-permutation tests)
+            // Unlatch bypass if 'yes' or 'chief' is immediately followed by a vowel for free-order Vietnamese ('yesue' -> 'yếu', 'chiefue' -> 'chiều')
             if String(wordRawKeys).lowercased() == "yes" && PhonotacticsMatrix.isVowelChar(character) {
                 isBypassed = false
                 didBackspace = true
                 activePreedit = "yé"
                 activeRawKeys = ["y", "e", "s"]
+            } else if String(wordRawKeys).lowercased() == "chief" && character.lowercased() == "u" {
+                isBypassed = false
+                didBackspace = true
+                activePreedit = "chìe"
+                activeRawKeys = ["c", "h", "i", "e", "f"]
             } else {
                 lastDeletedChar = nil
 
