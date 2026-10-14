@@ -543,10 +543,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 state.lastDiacriticKey = inputChar
                 let target = inputChar.isUppercase ? "Ư" : "ư"
                 return (target, true)
-            } else if !previousDisplay.contains(where: { PhonotacticsMatrix.isVowelChar($0) }) {
+            } else if !previousDisplay.contains(where: { PhonotacticsMatrix.isVowelChar($0) }) || previousDisplay.lowercased() == "gi" {
                 let lowerOnset = previousDisplay.lowercased()
                 let validOnsets: Set<String> = [
-                    "b", "c", "ch", "d", "đ", "g", "gh", "h", "k", "kh",
+                    "b", "c", "ch", "d", "đ", "g", "gh", "gi", "h", "k", "kh",
                     "l", "m", "n", "ng", "ngh", "nh", "p", "ph", "r", "s",
                     "t", "th", "tr", "v", "x"
                 ]
@@ -643,7 +643,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         if isDelayedD || isDelayedVniD {
             if let parsed = Syllable.parse(from: previousDisplay),
                !parsed.nucleus.isEmpty,
-               parsed.onset.lowercased() == "d" {
+               (parsed.onset.lowercased() == "d"
+                || (parsed.onset.lowercased() == "đ" && rawHistory.filter({ $0.lowercased() == "d" }).count <= 1)) {
                 let isUpperOnset = parsed.onset.first?.isUppercase ?? false
                 let newOnset = isUpperOnset ? "Đ" : "đ"
                 var newNuc = parsed.nucleus
@@ -678,6 +679,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         newNucleus = isUpperNuc ? "ƯƠI" : "ươi"
                     } else if lowerNuc == "uou" || lowerNuc == "ưou" {
                         newNucleus = isUpperNuc ? "ƯƠU" : "ươu"
+                    } else if (lowerNuc == "ươ" || lowerNuc == "ươi" || lowerNuc == "ươu" || lowerNuc == "ưu")
+                        && rawHistory.filter({ $0.lowercased() == "w" }).count <= 1 {
+                        newNucleus = isUpperNuc ? lowerNuc.uppercased() : lowerNuc
+                    } else if lowerNuc == "uu" {
+                        newNucleus = isUpperNuc ? "ƯU" : "ưu"
                     } else if lowerNuc == "ua" {
                         newNucleus = isUpperNuc ? "ƯA" : "ưa"
                     } else if lowerNuc == "oi" {
@@ -694,6 +700,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 if newNucleus == nil && isBreveKey {
                     if lowerNuc == "a" && (!parsed.coda.isEmpty || method == .vni) {
                         newNucleus = isUpperNuc ? "Ă" : "ă"
+                    } else if lowerNuc == "oa" && (!parsed.coda.isEmpty || method == .vni) {
+                        newNucleus = isUpperNuc ? "OĂ" : "oă"
                     }
                 }
 
@@ -749,6 +757,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         newNucleus = isUpperNuc ? "IÊ" : "iê"
                     } else if lowerNuc == "ye" {
                         newNucleus = isUpperNuc ? "YÊ" : "yê"
+                    } else if lowerNuc == "ieu" {
+                        newNucleus = isUpperNuc ? "IÊU" : "iêu"
+                    } else if lowerNuc == "yeu" {
+                        newNucleus = isUpperNuc ? "YÊU" : "yêu"
+                    } else if lowerNuc == "eu" {
+                        newNucleus = isUpperNuc ? "ÊU" : "êu"
+                    } else if lowerNuc == "ue" {
+                        newNucleus = isUpperNuc ? "UÊ" : "uê"
+                    } else if (lowerNuc == "iê" || lowerNuc == "uyê" || lowerNuc == "yê")
+                        && rawHistory.filter({ $0.lowercased() == "e" }).count <= 1 {
+                        newNucleus = isUpperNuc ? lowerNuc.uppercased() : lowerNuc
                     } else if lowerNuc == "e" && !parsed.coda.isEmpty {
                         newNucleus = isUpperNuc ? "Ê" : "ê"
                     }
@@ -757,6 +776,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 if newNucleus == nil && checkA {
                     if lowerNuc == "ua" {
                         newNucleus = isUpperNuc ? "UÂ" : "uâ"
+                    } else if lowerNuc == "uay" {
+                        newNucleus = isUpperNuc ? "UÂY" : "uây"
                     } else if lowerNuc == "ay" {
                         newNucleus = isUpperNuc ? "ÂY" : "ây"
                     } else if lowerNuc == "au" {
@@ -887,7 +908,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 } else if lowerNuc == "ưou" {
                     parsed.nucleus = isUpperNuc ? "ƯƠU" : "ươu"
                 }
-                let transitionalNuclei: Set<String> = ["ie", "uye", "ye", "uo", "uoi", "uou", "ưo", "ưoi", "ưou"]
+                let transitionalNuclei: Set<String> = [
+                    "ie", "uye", "ye", "uo", "uoi", "uou", "ưo", "ưoi", "ưou",
+                    "ieu", "yeu", "eu", "uay", "uu"
+                ]
                 let finalLowerNuc = parsed.nucleus.lowercased()
                 if !PhonotacticsMatrix.lookupVO(finalLowerNuc).isEmpty || transitionalNuclei.contains(finalLowerNuc) {
                     let recomposed = TonePlacement.composeSyllable(
