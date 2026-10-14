@@ -172,7 +172,27 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["mara", "hara", "sara", "tara"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
+            } else if ["mara", "hara", "sara", "tara", "horo", "moro", "toro", "soro", "noro"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["moso", "toso", "noso"].contains(String(wordRawKeys).lowercased()) && "cmnpti".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["tere", "kere", "nere", "bere", "dere", "tese", "kese", "mese", "nese", "hese", "sese", "bese", "dese"].contains(String(wordRawKeys).lowercased()) && "cmnptu".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["suwa", "guwa", "buwa"].contains(String(wordRawKeys).lowercased()) && "sfrxj".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "won" && "gxfsrxj".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "yens" && character.lowercased() == "e" {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -200,6 +220,14 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && wordRawKeys[1].lowercased() == "i"
                 && "rsfj".contains(wordRawKeys[2].lowercased())
                 && wordRawKeys[3].lowercased() == "e"
+                && character.lowercased() == "e" {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if wordRawKeys.count == 4
+                && wordRawKeys[1].lowercased() == "e"
+                && "rsfj".contains(wordRawKeys[2].lowercased())
+                && wordRawKeys[3].lowercased() == "u"
                 && character.lowercased() == "e" {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -821,6 +849,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             let lowerActiveRaw = String(activeRawKeys).lowercased()
             let isForeignSCluster = activeRawKeys.last?.lowercased() == "s" && "tkmplc".contains(lowerNext)
             if lowerActiveRaw == "air"
+                || lowerActiveRaw == "uwa"
                 || lowerActiveRaw.hasSuffix("ooi")
                 || lowerActiveRaw.hasSuffix("owi")
                 || isForeignSCluster
