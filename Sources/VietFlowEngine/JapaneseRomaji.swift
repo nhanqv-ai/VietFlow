@@ -183,7 +183,10 @@ public enum JapaneseRomajiLexicon {
         "pafu", "kefu", "mefu", "nefu", "hefu", "sefu", "tefu", "defu", "befu", "pefu", "gefu", "refu", "efu",
         "moroi", "noroi", "soroi", "sosori",
         "girai", "horai", "torai", "gisai", "hosai", "sosai", "tosai",
-        "girui", "gisui", "urana", "uraya", "urayama", "urayasu", "uragiri", "uragiru", "uraguchi", "uraniwa", "uragawa"
+        "girui", "gisui", "urana", "uraya", "urayama", "urayasu", "uragiri", "uragiru", "uraguchi", "uraniwa", "uragawa",
+        "kifu", "hifu", "gifu", "rufu", "kufu", "mufu", "nufu", "fufu", "sufu", "yufu", "gufu", "bufu", "dufu", "pufu",
+        "kiju", "miju", "niju", "hiju", "biju", "giju", "riju",
+        "kuju", "muju", "nuju", "fuju", "suju", "yuju", "guju", "buju", "puju", "duju", "ruju"
     ]
 }
 

@@ -172,10 +172,14 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "life" && "emnug".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if wordRawKeys.count == 4
                 && wordRawKeys[1].lowercased() == "u"
-                && "rsj".contains(wordRawKeys[2].lowercased())
-                && wordRawKeys[3].lowercased() == "o"
+                && "rsfj".contains(wordRawKeys[2].lowercased())
+                && "ou".contains(wordRawKeys[3].lowercased())
                 && "wo".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -485,6 +489,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && !candidateState.isBypassed
                     && !parsed.coda.isEmpty
                     && (!PhonotacticsMatrix.isValidCoda(parsed.coda)
+                        || (lowerNuc == "y" && lowerOnset != "qu")
                         || (parsed.coda.lowercased() == "k" && lowerNuc != "ă"))
 
                 if !PhonotacticsMatrix.isValidStopCodaTone(coda: parsed.coda, tone: parsed.tone)
@@ -776,6 +781,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             let isForeignSCluster = activeRawKeys.last?.lowercased() == "s" && "tkmplc".contains(lowerNext)
             if lowerActiveRaw == "air"
                 || lowerActiveRaw.hasSuffix("ooi")
+                || lowerActiveRaw.hasSuffix("owi")
                 || isForeignSCluster
                 || (parsed.tone != .none && (lastRawIsVowel || toneKeyCount >= 2)) {
                 return false
