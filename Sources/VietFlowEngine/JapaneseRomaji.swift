@@ -194,7 +194,10 @@ public enum JapaneseRomajiLexicon {
         "rara", "rari", "raru", "rira", "riru", "rura", "ruri",
         "kisa", "misa", "hisa", "chisa", "kisu", "misu", "nisu", "hisu", "risu", "aisu", "naisu",
         "husu", "tusu", "kusu", "yusu", "huse", "tuse", "yuse", "huso", "tuso", "kuso", "yuso",
-        "keso", "meso", "neso", "heso", "teso", "deso", "beso", "geso"
+        "keso", "meso", "neso", "heso", "teso", "deso", "beso", "geso",
+        "yasa", "yase", "yoso", "yose", "kase", "kaso", "mase", "maso", "nase", "hase",
+        "sase", "saso", "sasu", "tase", "dase", "gase", "kosa", "kose", "gosa", "dosa",
+        "sosa", "soso", "tosa", "hura", "hure", "huri", "huro"
     ]
 }
 

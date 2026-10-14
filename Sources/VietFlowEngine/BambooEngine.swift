@@ -494,13 +494,16 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let lowerOnset = parsed.onset.lowercased()
                 let isTransientQu = (lowerOnset == "q" && lowerNuc.hasPrefix("u"))
                 let firstNuc = lowerNuc.first
-                let invalidOaiOnsets: Set<String> = ["b", "m", "p", "ph", "v", "n", "g", "gh", "d", "r"]
-                let invalidOeOnsets: Set<String> = ["b", "c", "d", "đ", "g", "gh", "m", "n", "p", "ph", "r", "s", "v"]
+                let invalidOaiOnsets: Set<String> = ["b", "m", "p", "ph", "v", "n", "g", "gh", "d", "r", "tr"]
+                let invalidOeOnsets: Set<String> = ["b", "c", "d", "đ", "g", "gh", "m", "n", "p", "ph", "r", "s", "tr", "v"]
+                let invalidOaOnsets: Set<String> = ["b", "m", "n", "p", "ph", "r", "tr"]
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!))
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!))
                     || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc))
                     || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe")
+                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc))
+                    || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y"))
                     || (lowerOnset == "z")
                 let hasInvalidTransformedOnset = isTransformed
                     && !candidateState.isBypassed

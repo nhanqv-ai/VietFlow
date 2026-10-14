@@ -1206,8 +1206,37 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // --- Cycle 18: Non-'qu' 'y+' Nucleus Orthography, Invalid 'oa' Onsets, '-mb-' Coda Cluster & Romaji/English Lexicon (Tests 205-209) ---
+
+    func test_tier4_205_english_non_qu_y_nucleus_orthography_pyre_tyre_lyre_byre_gyre() {
+        let input = "pyre pyres pyrex pyrite pyro pyramid pyramids tyre tyres tyrant tyrants tyranny tyro tyros lyre lyres lyric lyrics lyrical byre byres byron gyre gyres gyro gyros gyrate gyrates quyenef quyeets yeues"
+        let expected = "pyre pyres pyrex pyrite pyro pyramid pyramids tyre tyres tyrant tyrants tyranny tyro tyros lyre lyres lyric lyrics lyrical byre byres byron gyre gyres gyro gyros gyrate gyrates quyền quyết yếu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_206_invalid_oa_onsets_trojan_borax_mosa_nosa_bosa_rora() {
+        let input = "trojan trojans borax mosa nosa bosa rora moan moans roan roans roam roams boar boars roar roars"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_207_english_mb_coda_cluster_boombox_catacomb_and_ajax_taxi_luxe() {
+        let input = "boombox bomb bombs bomber comb combs combine combat combo tomb tombs womb climb climbs thumb thumbs crumb crumbs humble rumble stumble tumble symbol symbols rife ajar ajax maxi maxis taxi trex tuxes luxe"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_208_japanese_yasa_yoso_kase_mase_sase_kosa_soso_hura_vocabulary() {
+        let input = "yasa yase yoso yose kase kaso mase maso nase hase sase saso sasu tase dase gase kosa kose gosa dosa sosa soso tosa hura hure huri huro"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_209_scenario27_trilingual_security_trojan_ajax_and_tosa_trip_chat() {
+        let input = "Đội bảo mật vừa phát hiện mã độc trojan ẩn trong request ajax nên đã rà soát toàn bộ module pyrex; cuối tuần này cả nhóm sẽ bắt taxi ra sân bay đi vùng tosa ngắm cảnh soso vaf mang theo loa boombox nghe nhạc!"
+        let expected = "Đội bảo mật vừa phát hiện mã độc trojan ẩn trong request ajax nên đã rà soát toàn bộ module pyrex; cuối tuần này cả nhóm sẽ bắt taxi ra sân bay đi vùng tosa ngắm cảnh soso và mang theo loa boombox nghe nhạc!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (204 Tests)
+    // MARK: - Test Registration (209 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1326,7 +1355,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (96 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (101 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1423,6 +1452,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_202_invalid_oe_onsets_and_axis_thaw_hero_vocabulary", test_tier4_202_invalid_oe_onsets_and_axis_thaw_hero_vocabulary),
             ("test_tier4_203_japanese_ise_isu_isa_eso_seru_reru_and_i_e_unlatch", test_tier4_203_japanese_ise_isu_isa_eso_seru_reru_and_i_e_unlatch),
             ("test_tier4_204_scenario26_trilingual_horizon_store_mise_and_heroic_refactor_chat", test_tier4_204_scenario26_trilingual_horizon_store_mise_and_heroic_refactor_chat),
+            ("test_tier4_205_english_non_qu_y_nucleus_orthography_pyre_tyre_lyre_byre_gyre", test_tier4_205_english_non_qu_y_nucleus_orthography_pyre_tyre_lyre_byre_gyre),
+            ("test_tier4_206_invalid_oa_onsets_trojan_borax_mosa_nosa_bosa_rora", test_tier4_206_invalid_oa_onsets_trojan_borax_mosa_nosa_bosa_rora),
+            ("test_tier4_207_english_mb_coda_cluster_boombox_catacomb_and_ajax_taxi_luxe", test_tier4_207_english_mb_coda_cluster_boombox_catacomb_and_ajax_taxi_luxe),
+            ("test_tier4_208_japanese_yasa_yoso_kase_mase_sase_kosa_soso_hura_vocabulary", test_tier4_208_japanese_yasa_yoso_kase_mase_sase_kosa_soso_hura_vocabulary),
+            ("test_tier4_209_scenario27_trilingual_security_trojan_ajax_and_tosa_trip_chat", test_tier4_209_scenario27_trilingual_security_trojan_ajax_and_tosa_trip_chat),
         ]
     }
 }

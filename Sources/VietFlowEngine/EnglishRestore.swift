@@ -242,7 +242,8 @@ public enum EnglishKeywords {
         "thaw", "thaws", "thawed", "thawing",
         "hero", "heroes", "heroic", "heroin", "heroine", "heroism", "nero",
         "morn", "corm", "porn", "loris",
-        "pars", "irs", "sirs", "dirs", "ors", "urs", "ers", "roots", "harz"
+        "pars", "irs", "sirs", "dirs", "ors", "urs", "ers", "roots", "harz",
+        "rife", "ajar", "ajax", "maxi", "maxis", "taxi", "trex", "tuxes", "luxe"
     ]
 }
 
@@ -297,7 +298,7 @@ public enum EnglishRestoreDetector {
     /// Invalid coda consonant clusters in Vietnamese (English-only codas).
     public static let invalidCodaClusters: Set<String> = [
         "st", "nd", "nt", "rt", "rd", "ld", "rk", "rm", "rn",
-        "lp", "lt", "lf", "mp", "ct", "ft", "ck", "ll",
+        "lp", "lt", "lf", "mp", "mb", "ct", "ft", "ck", "ll",
         "bb", "gg", "th", "sh", "ph", "gh", "kh",
         "tl", "cl", "pl", "nl", "ml"
     ]
