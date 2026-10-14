@@ -172,7 +172,11 @@ public enum EnglishKeywords {
         "lecture", "mixture", "moisture", "posture", "texture", "adventure", "creature",
         "furniture", "literature", "signature", "temperature", "measure", "pleasure",
         "treasure", "pressure", "exposure", "closure", "leisure", "figure",
-        "configure", "failure", "procedure", "gatsby", "bootstrap", "zoom", "zero", "zone"
+        "configure", "failure", "procedure", "gatsby", "bootstrap", "zoom", "zero", "zone",
+        "piece", "pieces", "niece", "nieces", "chose", "refuse", "refused", "refuses",
+        "refusing", "refusal", "peruse", "perused", "peruses", "purse", "purses",
+        "curse", "curses", "cursed", "cursing", "emerge", "emerged", "emerges",
+        "emerging", "emergency", "emergencies", "vue", "o2o"
     ]
 }
 
@@ -241,7 +245,7 @@ public enum EnglishRestoreDetector {
         "mma", "mme", "mmi", "mmo", "mmu", "mmy",
         "rra", "rre", "rri", "rro", "rru", "rry",
         "ssa", "sse", "ssi", "sso", "ssu", "ssy",
-        "ssw", "ssc", "ssp", "ssk", "ssr"
+        "ssw", "ssc", "ssp", "ssk", "ssr", "ssh", "ssl", "ssm", "ssn"
     ]
 
     /// English 'sw-' prefixes that are not valid Vietnamese 'sư-' syllables in Telex.

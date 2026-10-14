@@ -10,10 +10,10 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
 # 1. Select proper macOS SDK
-if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk" ]; then
-    SDK_PATH="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
-elif [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk" ]; then
+if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk" ]; then
     SDK_PATH="/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk"
+elif [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk" ]; then
+    SDK_PATH="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
 else
     SDK_PATH="$(xcrun --show-sdk-path 2>/dev/null || true)"
 fi
@@ -89,7 +89,6 @@ echo "==> Verifying Universal Binary architectures:"
 lipo -info "$BUILD_DIR/universal/VietFlow"
 
 echo "==> Packaging VietFlow.app bundle..."
-killall VietFlow 2>/dev/null || true
 rm -rf "$APP_DIR"
 mkdir -p "$APP_DIR/Contents/MacOS"
 mkdir -p "$APP_DIR/Contents/Resources"
@@ -109,7 +108,6 @@ fi
 cp "$REPO_ROOT/AppIcon.icns" "$APP_DIR/Contents/Resources/AppIcon.icns"
 
 echo "==> Signing VietFlow.app bundle (ad-hoc)..."
-killall VietFlow 2>/dev/null || true
 codesign --force --deep --sign - "$APP_DIR"
 
 echo "================================================================================"
