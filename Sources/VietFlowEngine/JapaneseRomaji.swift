@@ -186,7 +186,15 @@ public enum JapaneseRomajiLexicon {
         "girui", "gisui", "urana", "uraya", "urayama", "urayasu", "uragiri", "uragiru", "uraguchi", "uraniwa", "uragawa",
         "kifu", "hifu", "gifu", "rufu", "kufu", "mufu", "nufu", "fufu", "sufu", "yufu", "gufu", "bufu", "dufu", "pufu",
         "kiju", "miju", "niju", "hiju", "biju", "giju", "riju",
-        "kuju", "muju", "nuju", "fuju", "suju", "yuju", "guju", "buju", "puju", "duju", "ruju"
+        "kuju", "muju", "nuju", "fuju", "suju", "yuju", "guju", "buju", "puju", "duju", "ruju",
+        "mise", "nise", "kise", "hise", "bise", "gise", "tise", "dise", "sise", "rire",
+        "kiseru", "hiseru", "niseru", "saseru", "kaseru", "maseru", "naseru", "haseru",
+        "taseru", "daseru", "yaseru", "noseru", "koseru", "moseru", "yoseru", "rareru",
+        "reru", "rero", "rere", "rora", "rori", "roro", "rore",
+        "rara", "rari", "raru", "rira", "riru", "rura", "ruri",
+        "kisa", "misa", "hisa", "chisa", "kisu", "misu", "nisu", "hisu", "risu", "aisu", "naisu",
+        "husu", "tusu", "kusu", "yusu", "huse", "tuse", "yuse", "huso", "tuso", "kuso", "yuso",
+        "keso", "meso", "neso", "heso", "teso", "deso", "beso", "geso"
     ]
 }
 

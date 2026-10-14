@@ -1176,8 +1176,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // --- Cycle 17: Mid-Word Tone Clusters, Mid-Word 'z' After Tone, 'oe' Onset Orthography & '-ise' Unlatch (Tests 200-204) ---
+
+    func test_tier4_200_english_mid_word_tone_clusters_rs_rj_rf_sf_sr() {
+        let input = "terse terser tersest tersely corset corsets corsage borscht gorse morse torso torsos torsion perjure perjures perjured perjury surfer surfers surfing surface surfaces surfaced surfeit surfboard turfed serfdom perfume perforate curfew parfait forfeit satisfy satisfies satisfied satisfaction misfit misfits misfire misfortune disfigure disrupt disrupts disrupted disruption disregard disrespect misread misrule"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_201_mid_word_z_after_tone_and_end_of_word_z_clear_preservation() {
+        let input = "horizon horizons horizontal horizontally misuzu isuzu kanarazu kisarazu mirza forza tarzan marzipan harz toansz moiwsz yeusez"
+        let expected = "horizon horizons horizontal horizontally misuzu isuzu kanarazu kisarazu mirza forza tarzan marzipan harz toan mơi yêu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_202_invalid_oe_onsets_and_axis_thaw_hero_vocabulary() {
+        let input = "gore gores gored sore sores sorely cores bores pores mores sose sosei sosen mose bose bosei gose gosei rore axis axes axon axons axiom axioms thaw thaws thawed thawing hero heroes heroic heroin heroine heroism nero morn corm porn loris pars irs sirs dirs ors urs ers roots"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_203_japanese_ise_isu_isa_eso_seru_reru_and_i_e_unlatch() {
+        let input = "mise nise kise hise bise gise tise dise sise rire kiseru hiseru niseru saseru kaseru maseru naseru haseru taseru daseru yaseru noseru koseru moseru yoseru rareru reru rero rere rora rori roro rore rara rari raru rira riru rura ruri kisa misa hisa chisa kisu misu nisu hisu risu aisu naisu husu tusu kusu yusu huse tuse yuse huso tuso kuso yuso keso meso neso heso teso deso beso geso tiseeng giseeng miseen kiseem hiseen"
+        let expected = "mise nise kise hise bise gise tise dise sise rire kiseru hiseru niseru saseru kaseru maseru naseru haseru taseru daseru yaseru noseru koseru moseru yoseru rareru reru rero rere rora rori roro rore rara rari raru rira riru rura ruri kisa misa hisa chisa kisu misu nisu hisu risu aisu naisu husu tusu kusu yusu huse tuse yuse huso tuso kuso yuso keso meso neso heso teso deso beso geso tiếng giếng miến kiếm hiến"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_204_scenario26_trilingual_horizon_store_mise_and_heroic_refactor_chat() {
+        let input = "Sau khi dạo quanh các cửa hàng mise cổ kính ở kisarazu vaf thưởng thức kem aisu vị marzipan cùng súp borscht nóng hổi, đội ngũ heroic engineers đã ngắm đường chân trời horizon tuyệt đẹp, đồng thời viết tài liệu concise & terse để cải thiện tiến (tiseeng) độ dự án!"
+        let expected = "Sau khi dạo quanh các cửa hàng mise cổ kính ở kisarazu và thưởng thức kem aisu vị marzipan cùng súp borscht nóng hổi, đội ngũ heroic engineers đã ngắm đường chân trời horizon tuyệt đẹp, đồng thời viết tài liệu concise & terse để cải thiện tiến (tiếng) độ dự án!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (199 Tests)
+    // MARK: - Test Registration (204 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1296,7 +1326,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (91 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (96 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1388,6 +1418,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_197_japanese_ifu_ufu_iju_uju_and_cuuw_unlatch", test_tier4_197_japanese_ifu_ufu_iju_uju_and_cuuw_unlatch),
             ("test_tier4_198_japanese_wa_za_ze_zo_zu_and_oru_ori_vocabulary", test_tier4_198_japanese_wa_za_ze_zo_zu_and_oru_ori_vocabulary),
             ("test_tier4_199_scenario25_trilingual_gifu_wildlife_expedition_and_rowing_lifestyle_chat", test_tier4_199_scenario25_trilingual_gifu_wildlife_expedition_and_rowing_lifestyle_chat),
+            ("test_tier4_200_english_mid_word_tone_clusters_rs_rj_rf_sf_sr", test_tier4_200_english_mid_word_tone_clusters_rs_rj_rf_sf_sr),
+            ("test_tier4_201_mid_word_z_after_tone_and_end_of_word_z_clear_preservation", test_tier4_201_mid_word_z_after_tone_and_end_of_word_z_clear_preservation),
+            ("test_tier4_202_invalid_oe_onsets_and_axis_thaw_hero_vocabulary", test_tier4_202_invalid_oe_onsets_and_axis_thaw_hero_vocabulary),
+            ("test_tier4_203_japanese_ise_isu_isa_eso_seru_reru_and_i_e_unlatch", test_tier4_203_japanese_ise_isu_isa_eso_seru_reru_and_i_e_unlatch),
+            ("test_tier4_204_scenario26_trilingual_horizon_store_mise_and_heroic_refactor_chat", test_tier4_204_scenario26_trilingual_horizon_store_mise_and_heroic_refactor_chat),
         ]
     }
 }
