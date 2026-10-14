@@ -226,7 +226,10 @@ public enum EnglishKeywords {
         "muse", "muses", "mused", "musing", "ruse", "ruses",
         "goer", "goers", "doer", "doers", "poem", "poems", "poet", "poets", "duet", "duets",
         "photo", "photos", "homo", "phono", "exo", "moron", "morons", "loco", "coco",
-        "dojo", "dojos", "mojo", "boost", "roost", "goofs", "swops", "bias"
+        "dojo", "dojos", "mojo", "boost", "roost", "goofs", "swops", "bias",
+        "sass", "sassy", "brass", "glass", "grass", "class",
+        "laws", "raws", "saws", "gawk", "gawks", "bawk", "bawks",
+        "mohawk", "mohawks", "tomahawk", "tomahawks", "lora", "qlora"
     ]
 }
 
@@ -295,7 +298,7 @@ public enum EnglishRestoreDetector {
         "ffa", "ffe", "ffi", "ffo", "ffu", "ffy", "ffl", "ffs", "ffh", "ffr",
         "ffb", "ffc", "ffd", "ffg", "ffk", "ffm", "ffn", "ffp", "fft", "ffv", "ffw",
         "mma", "mme", "mmi", "mmo", "mmu", "mmy",
-        "nna", "nne", "nni", "nno", "nnu", "nny",
+        "nna", "nne", "nni", "nno", "nnu", "nny", "nnx", "dnn", "nnl", "nns",
         "cca", "cce", "cci", "cco", "ccu", "ccy", "cch",
         "rra", "rre", "rri", "rro", "rru", "rry", "rrh", "rrs",
         "ssa", "sse", "ssi", "sso", "ssu", "ssy",

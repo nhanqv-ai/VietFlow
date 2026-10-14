@@ -168,7 +168,19 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 didBackspace = true
                 activePreedit = "tíe"
                 activeRawKeys = ["t", "i", "e", "s"]
-            } else if _config.escapeByDoubleKey && String(wordRawKeys).lowercased() == "ties" && character.lowercased() == "s" {
+            } else if ["laws", "raws", "saws"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if wordRawKeys.count == 4
+                && wordRawKeys[1].lowercased() == "u"
+                && "rsj".contains(wordRawKeys[2].lowercased())
+                && wordRawKeys[3].lowercased() == "o"
+                && "wo".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
                 return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
             } else {
                 lastDeletedChar = nil
@@ -450,7 +462,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 )
                 let lowerOnset = parsed.onset.lowercased()
                 let isTransientQu = (lowerOnset == "q" && lowerNuc.hasPrefix("u"))
-                let isInvalidKOrZOrthography = (lowerOnset == "k" && !lowerNuc.isEmpty && !"ieêy".contains(lowerNuc.first!))
+                let firstNuc = lowerNuc.first
+                let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!))
+                    || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
+                    || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!))
                     || (lowerOnset == "z")
                 let hasInvalidTransformedOnset = isTransformed
                     && !candidateState.isBypassed
