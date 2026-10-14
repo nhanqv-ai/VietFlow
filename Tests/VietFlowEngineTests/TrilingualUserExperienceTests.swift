@@ -938,8 +938,35 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_160_english_sw_dw_thw_prefixes_and_vietnamese_shorthand_preservation() {
+        let input = "sword swords swordfish swore sworn swung swum swarm swarms swarmed dwell dweller dwelling dwindle dwindled dwarf dwarfs dwarves thwart thwarted thwarts swar dwa thwa thwr"
+        let expected = "sword swords swordfish swore sworn swung swum swarm swarms swarmed dwell dweller dwelling dwindle dwindled dwarf dwarfs dwarves thwart thwarted thwarts sửa dưa thưa thử"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_161_english_plural_rs_fs_lf_coda_and_ore_eer_oar_words() {
+        let input = "bars cars mars tars wars honors donors hers cheers cheered cheering cheerful veers veered hairs chairs lairs choirs moors boors boar boars soar lore ore ores pore pores chefs refs reefs beefs hoofs nerfs serfs gulf gulfs golf golfs wolf wolfs"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_162_japanese_two_mora_nouns_names_and_sha_sho_structural_patterns() {
+        let input = "sora nora dora mura nori toori muri pari maru gero basu gasu nasu tasu dasu hana kana nana mana sana kama nama hama kawa sawa nawa Hana-chan Kana-san Nana-chan shoubousho shiyakusho keisatsusho zeimusho basho jisho"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_163_japanese_passive_causative_potential_and_compound_inflections() {
+        let input = "taberareru taberareta taberarenai mirareru korareru homerarera okorareru tanomareru tabesaseru tabesaseta misaseru yomaseru kakaseru tabesugiru nomisugiru takasugiru yomiyasui kakiyasui yominikui kakinikui tabenagara arukinagara tabenakatta ikanakatta"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_164_scenario18_trilingual_hospitality_and_software_release_celebration() {
+        let input = "Sau khi hoàn thành sửa lỗi (swar) vaf vượt qua mọi rào cản thwart tiến độ, team cheers cùng các chefs tại izakaya trên con đường Chuo-toori! Dù lịch trình chotto muri, Hana-chan vẫn đặt basu cho cả đoàn ngắm sora vaf hana bên dòng kawa."
+        let expected = "Sau khi hoàn thành sửa lỗi (sửa) và vượt qua mọi rào cản thwart tiến độ, team cheers cùng các chefs tại izakaya trên con đường Chuo-toori! Dù lịch trình chotto muri, Hana-chan vẫn đặt basu cho cả đoàn ngắm sora và hana bên dòng kawa."
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (159 Tests)
+    // MARK: - Test Registration (164 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1058,7 +1085,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (36 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (56 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1110,6 +1137,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_157_japanese_counters_numbers_time_and_kinship_vocabulary", test_tier4_157_japanese_counters_numbers_time_and_kinship_vocabulary),
             ("test_tier4_158_japanese_corporate_departments_and_business_documents", test_tier4_158_japanese_corporate_departments_and_business_documents),
             ("test_tier4_159_scenario17_quarterly_business_review_and_japanese_contract_signing", test_tier4_159_scenario17_quarterly_business_review_and_japanese_contract_signing),
+            ("test_tier4_160_english_sw_dw_thw_prefixes_and_vietnamese_shorthand_preservation", test_tier4_160_english_sw_dw_thw_prefixes_and_vietnamese_shorthand_preservation),
+            ("test_tier4_161_english_plural_rs_fs_lf_coda_and_ore_eer_oar_words", test_tier4_161_english_plural_rs_fs_lf_coda_and_ore_eer_oar_words),
+            ("test_tier4_162_japanese_two_mora_nouns_names_and_sha_sho_structural_patterns", test_tier4_162_japanese_two_mora_nouns_names_and_sha_sho_structural_patterns),
+            ("test_tier4_163_japanese_passive_causative_potential_and_compound_inflections", test_tier4_163_japanese_passive_causative_potential_and_compound_inflections),
+            ("test_tier4_164_scenario18_trilingual_hospitality_and_software_release_celebration", test_tier4_164_scenario18_trilingual_hospitality_and_software_release_celebration),
         ]
     }
 }

@@ -193,7 +193,13 @@ public enum EnglishKeywords {
         "two", "twos", "twofold", "pair", "pairs",
         "chairman", "chairmen", "chairwoman", "chairperson", "armchair", "armchairs", "wheelchair", "wheelchairs",
         "aura", "auras", "austere", "austerity",
-        "dues", "hues", "cues", "sues", "rues", "guest", "guests"
+        "dues", "hues", "cues", "sues", "rues", "guest", "guests",
+        "bars", "cars", "mars", "tars", "wars", "honors", "donors", "hers",
+        "cheers", "cheered", "cheering", "cheerful", "veers", "veered", "veering",
+        "hairs", "chairs", "lairs", "choirs", "moors", "boors", "boar", "boars", "soar",
+        "lore", "ore", "ores", "pore", "pores",
+        "chefs", "refs", "reefs", "beefs", "hoofs", "nerfs", "serfs",
+        "gulf", "gulfs", "golf", "golfs", "wolf", "wolfs"
     ]
 }
 
@@ -248,7 +254,7 @@ public enum EnglishRestoreDetector {
     /// Invalid coda consonant clusters in Vietnamese (English-only codas).
     public static let invalidCodaClusters: Set<String> = [
         "st", "nd", "nt", "rt", "rd", "ld", "rk", "rm", "rn",
-        "lp", "lt", "mp", "ct", "ft", "ck", "ll",
+        "lp", "lt", "lf", "mp", "ct", "ft", "ck", "ll",
         "bb", "gg", "th", "sh", "ph", "gh", "kh"
     ]
 
@@ -267,10 +273,12 @@ public enum EnglishRestoreDetector {
         "ssw", "ssc", "ssp", "ssk", "ssr", "ssh", "ssl", "ssm", "ssn"
     ]
 
-    /// English 'sw-' and 'tw-' prefixes that are not valid Vietnamese 'sư-' / 'tư-' syllables in Telex.
+    /// English 'sw-', 'tw-', 'dw-', and 'thw-' prefixes that are not valid Vietnamese 'sư-' / 'tư-' / 'dư-' / 'thư-' syllables in Telex.
     public static let invalidTelexSwPrefixes: [String] = [
-        "swi", "swe", "swap", "swan", "swat", "swam", "swag",
-        "twi", "twe"
+        "swi", "swe", "swap", "swan", "swat", "swam", "swag", "swor", "swu", "swarm",
+        "twi", "twe",
+        "dwi", "dwe", "dwarf", "dwarv",
+        "thwart"
     ]
 
     /// Voiceless stop codas that can ONLY take Acute (sắc) or Dot (nặng) tones.

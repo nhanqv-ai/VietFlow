@@ -916,7 +916,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
 
         // MARK: Non-Vowel Tone Key Override (e.g. nugr + f -> nugf)
-        if method == .telex, let _ = toneRes.tone {
+        if method == .telex, !_config.autoCorrectEnglish, let _ = toneRes.tone {
             if previousDisplay.contains(where: { PhonotacticsMatrix.isVowelChar($0) }) {
                 if let last = previousDisplay.last, "sfrxjSFRXJ".contains(last) {
                     var modified = previousDisplay

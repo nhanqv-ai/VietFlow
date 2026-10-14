@@ -147,7 +147,12 @@ public enum JapaneseRomajiLexicon {
         "gosai", "kaigishitsu", "uketsuke", "jimusho", "eigyoubu", "kaihatsubu", "kikakubu",
         "torishimariyaku", "kabunushi", "ryoushuusho", "mitsumorisho", "hacchuusho", "nouhinsho",
         "keiyakusho", "houkokusho", "sekkeisho", "teiansho", "kikakusho", "rirekisho",
-        "jikoshoukai", "uchiawase", "bounenkai", "shinnenkai", "kangeikai", "soubetsukai"
+        "jikoshoukai", "uchiawase", "bounenkai", "shinnenkai", "kangeikai", "soubetsukai",
+
+        // Unambiguous 2-mora nouns, names & verbs (Cycle 9)
+        "sora", "nora", "dora", "mura", "nori", "toori", "muri", "pari", "maru", "gero",
+        "basu", "gasu", "nasu", "tasu", "dasu",
+        "hana", "kana", "nana", "mana", "sana", "kama", "nama", "hama", "kawa", "sawa", "nawa"
     ]
 }
 
@@ -159,7 +164,7 @@ public enum JapaneseRomajiDetector {
         "tcha", "tche", "tchi", "tcho", "tchu",
         "ccha", "cche", "cchi", "ccho", "cchu",
         "ssha", "sshe", "sshi", "ssho", "sshu",
-        "shi", "shu", "tsu"
+        "sha", "shi", "sho", "shu", "tsu"
     ]
 
     /// Unambiguous Japanese-only onset prefixes (zero collision with Vietnamese phonotactics).
