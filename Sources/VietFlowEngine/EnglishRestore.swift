@@ -211,7 +211,17 @@ public enum EnglishKeywords {
         "diet", "diets", "dieted", "dieting", "quiet", "quiets", "quieted", "quieter", "quietest", "quietly",
         "goes", "does", "foes", "woes", "roes", "noes", "toes", "hoes",
         "trees", "sees", "buys", "guys", "pays", "puts", "taxis", "sixes",
-        "pasta", "pastas", "rasta", "basta", "lisp", "lisps", "gasp", "gasps", "rasp", "rasps", "cusp", "cusps"
+        "pasta", "pastas", "rasta", "basta", "lisp", "lisps", "gasp", "gasps", "rasp", "rasps", "cusp", "cusps",
+        "pass", "mass", "lass", "less", "mess", "guess", "chess",
+        "kiss", "miss", "hiss", "piss", "boss", "loss", "moss", "toss",
+        "cuss", "muss", "puss", "truss",
+        "chaff", "quaff", "cheff", "tiff", "biff", "miff", "riff",
+        "off", "doff", "toff", "cuff", "puff", "muff", "ruff", "tuff",
+        "purr", "burr", "curr", "err",
+        "moats", "moans", "roams", "coax", "coaxes", "coaxed",
+        "doom", "dooms", "loom", "looms", "goop", "goops", "goons", "loons",
+        "teems", "teens", "queens", "keen", "keens", "keenly", "cheep", "cheeps",
+        "airs", "haircut", "haircuts", "hairpin", "hairpins", "hairnet", "hairless", "airless"
     ]
 }
 
@@ -268,7 +278,7 @@ public enum EnglishRestoreDetector {
         "st", "nd", "nt", "rt", "rd", "ld", "rk", "rm", "rn",
         "lp", "lt", "lf", "mp", "ct", "ft", "ck", "ll",
         "bb", "gg", "th", "sh", "ph", "gh", "kh",
-        "tl", "cl", "pl"
+        "tl", "cl", "pl", "nl", "ml"
     ]
 
     /// English medial double-consonant + vowel/consonant sequences that never occur in valid Vietnamese words.

@@ -1023,7 +1023,37 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (174 Tests)
+    // MARK: - Cycle 12: -ss/-ff/-rr Finals, -nl/-ml Codas, Air- Compounds & Ko-So-A-Do Adnominals (5 Tests)
+    // =========================================================================
+
+    func test_tier4_175_english_double_final_ss_ff_rr_words_and_less_ness_suffixes() {
+        let input = "pass mass lass less mess guess chess kiss miss hiss piss boss loss moss toss cuss muss puss truss chaff quaff cheff tiff biff miff riff off spin-off doff toff cuff puff cream-puff muff ruff tuff purr burr curr err harmless armless moonless hairless airless wireless serverless stateless lossless"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_176_english_nl_ml_coda_clusters_air_compounds_and_oa_oo_ee_words() {
+        let input = "keen keens keenly only mainly plainly suddenly openly evenly commonly certainly airs airman airmen airgun airbus airline airport airplane aircraft haircut haircuts hairpin hairpins hairnet moats moans roams coax coaxes coaxed doom dooms loom looms goop goops goons loons teems teens queens cheep cheeps"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_177_japanese_ko_so_a_do_adnominals_mono_and_katakana_p_b_g_d_words() {
+        let input = "kono sono ano dono mono hono puro puraza garasu gacha guree guru buru puru bara bata pata pasa para poro boro basa gara goro gasa gata dara"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_178_english_ai_oi_ou_digraph_families() {
+        let input = "mail emails fail failure detail retail domain remain contain obtain maintain entertain sustain retain pain gain bargain rain brain train drain grain strain stain chain blockchain plain explain complain campaign wait await trait portrait paid raid maid afraid claim oil boil coil foil soil spoil toilet coin bitcoin join point endpoint checkpoint appoint void avoid android voice invoice choice noise out about shout scout workout checkout layout logout timeout loud cloud icloud proud found sound round around surround background ground bound pound compound wound count account discount mount amount mountain fountain"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_179_scenario21_trilingual_game_dev_gacha_and_airline_booking_chat() {
+        let input = "Trong kono bản spin-off mới của dự án gacha, sono hiệu ứng garasu màu guree tại puraza đã pass toàn bộ QA mà không gây loss hay mess; team puro đang keenly theo dõi chuyến airbus trước khi off đi cắt haircut cuối tuần!"
+        let expected = "Trong kono bản spin-off mới của dự án gacha, sono hiệu ứng garasu màu guree tại puraza đã pass toàn bộ QA mà không gây loss hay mess; team puro đang keenly theo dõi chuyến airbus trước khi off đi cắt haircut cuối tuần!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (179 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1142,7 +1172,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (66 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (71 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1209,6 +1239,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_172_japanese_au_aru_iru_eru_verbs_and_daily_nouns", test_tier4_172_japanese_au_aru_iru_eru_verbs_and_daily_nouns),
             ("test_tier4_173_japanese_verb_conjugations_mashou_tai_nakatta_teiru_rareru_saseru_tara_reba", test_tier4_173_japanese_verb_conjugations_mashou_tai_nakatta_teiru_rareru_saseru_tara_reba),
             ("test_tier4_174_scenario20_trilingual_ui_display_debug_and_japanese_payment_workflow", test_tier4_174_scenario20_trilingual_ui_display_debug_and_japanese_payment_workflow),
+            ("test_tier4_175_english_double_final_ss_ff_rr_words_and_less_ness_suffixes", test_tier4_175_english_double_final_ss_ff_rr_words_and_less_ness_suffixes),
+            ("test_tier4_176_english_nl_ml_coda_clusters_air_compounds_and_oa_oo_ee_words", test_tier4_176_english_nl_ml_coda_clusters_air_compounds_and_oa_oo_ee_words),
+            ("test_tier4_177_japanese_ko_so_a_do_adnominals_mono_and_katakana_p_b_g_d_words", test_tier4_177_japanese_ko_so_a_do_adnominals_mono_and_katakana_p_b_g_d_words),
+            ("test_tier4_178_english_ai_oi_ou_digraph_families", test_tier4_178_english_ai_oi_ou_digraph_families),
+            ("test_tier4_179_scenario21_trilingual_game_dev_gacha_and_airline_booking_chat", test_tier4_179_scenario21_trilingual_game_dev_gacha_and_airline_booking_chat),
         ]
     }
 }
