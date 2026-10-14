@@ -183,7 +183,13 @@ public enum EnglishKeywords {
         "reforms", "reformed", "deform", "deformed", "defrost", "defence", "defences",
         "defend", "defends", "defended", "defending", "defender", "defendant",
         "deed", "deeds", "deem", "deemed", "deems",
-        "seem", "seems", "seemed", "seeming", "seemingly", "sofa", "sofas"
+        "seem", "seems", "seemed", "seeming", "seemingly", "sofa", "sofas",
+        "chief", "chiefs", "chiefly", "thief", "thieves", "tier", "tiers", "pier", "piers",
+        "siege", "besiege", "liege", "fiend", "fiends", "diesel",
+        "keep", "keeps", "peep", "peeps", "troop", "troops", "poop",
+        "roast", "roasts", "roasted", "boast", "boasts", "coast", "coasts", "coastal",
+        "boats", "coats", "goats", "soaps", "rooms", "booms", "moons",
+        "roar", "roars", "soars", "oars", "roofs"
     ]
 }
 

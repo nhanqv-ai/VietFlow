@@ -133,7 +133,15 @@ public enum JapaneseRomajiLexicon {
         "meeru", "beesu", "keesu", "reesu",
         "kesa", "konya", "konban", "maiasa", "maiban", "mainichi", "maishuu", "maitsuki", "maitoshi",
         "sorosoro", "boroboro", "gorogoro", "noronoro", "torotoro", "poroporo", "moromoro", "korokoro",
-        "dandan", "zenzen", "sanzan", "tantan", "banban", "ranran", "gangan", "dondon", "ponpon", "konkon", "nonbiri", "runrun"
+        "dandan", "zenzen", "sanzan", "tantan", "banban", "ranran", "gangan", "dondon", "ponpon", "konkon", "nonbiri", "runrun",
+
+        // 2-mora verbs & conjugations (Cycle 7)
+        "aru", "iru", "eru", "kiru", "niru", "heru", "teru", "keru", "naru", "saru", "nuru", "musu",
+        "dete", "deta", "nete", "neta",
+        "osoreru", "osorete", "osoreta", "osorenai",
+        "dekakeru", "dekakete", "dekaketa", "dekakenai",
+        "ireru", "irete", "ireta", "irenai",
+        "inoru", "inotte", "inotta", "inoranai"
     ]
 }
 

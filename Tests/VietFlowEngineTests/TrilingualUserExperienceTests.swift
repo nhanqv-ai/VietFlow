@@ -883,8 +883,36 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_150_english_ief_ier_eep_oa_oo_words_and_chiefue_disambiguation() {
+        let input = "chief chiefs chiefly thief thieves tier tiers pier piers siege besiege liege fiend fiends diesel keep keeps peep peeps troop troops poop roast roasts roasted boast boasts coast coasts coastal boats coats goats soaps rooms booms moons roar roars soars oars roofs chiefue"
+        let expected = "chief chiefs chiefly thief thieves tier tiers pier piers siege besiege liege fiend fiends diesel keep keeps peep peeps troop troops poop roast roasts roasted boast boasts coast coasts coastal boats coats goats soaps rooms booms moons roar roars soars oars roofs chiều"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_151_japanese_short_verbs_and_teiru_nagara_tara_reba_yasui_nikui_sugiru() {
+        let input = "aru iru eru kiru niru heru teru keru naru saru nuru musu dete deta nete neta osoreru osorete dekakeru dekakete ireru irete inoru inotte tabeteiru hataraiteiru hanashinagara tabetara tabereba tabenakereba wakariyasui tsukaiyasui wakarinikui tsukainikui muzukashisugiru omoshirosugiru keredomo soredemo shitagatte tatoeba chinamini tokorode"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_152_mid_word_backspace_typos_in_english_and_romaji_words() {
+        let input = "meeri<BS>u meeru<BS>u resot<BS>rt refom<BS>rm defom<BS>rm resorr<BS>t reforr<BS>m deforr<BS>m chieff<BS> thieff<BS> sorosor<BS>ro dandann<BS>"
+        let expected = "meeru meeru resort reform deform resort reform deform chief thief sorosoro dandan"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_153_english_scientific_and_ious_eous_uous_adjectives() {
+        let input = "brief grief relief belief cashier frontier premier souvenir barrier carrier courier warrior supplier identifier modifier qualifier verifier field yield shield wield fierce pierce friend client science scientific scientist patient ancient efficient sufficient gradient ingredient orient convenient audience experience conscious precious delicious suspicious ambitious cautious various serious curious furious mysterious obvious previous generous dangerous numerous enormous anonymous continuous ambiguous"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_154_scenario16_trilingual_product_launch_and_japanese_stakeholder_sync() {
+        let input = "Tatoeba khi chief architect thiết kế free tier, chusng ta cần keep giao diện wakariyasui vaf tsukaiyasui. Chinamini chiều nay (chiefue) team sẽ dekakeru gặp khách hàng để báo cáo continuous experience!"
+        let expected = "Tatoeba khi chief architect thiết kế free tier, chúng ta cần keep giao diện wakariyasui và tsukaiyasui. Chinamini chiều nay (chiều) team sẽ dekakeru gặp khách hàng để báo cáo continuous experience!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (149 Tests)
+    // MARK: - Test Registration (154 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1045,6 +1073,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_147_japanese_katakana_long_vowel_loanwords_in_romaji", test_tier4_147_japanese_katakana_long_vowel_loanwords_in_romaji),
             ("test_tier4_148_english_prefixes_dis_mis_un_in_sub_sup_ex_en_em_and_nn_cc_words", test_tier4_148_english_prefixes_dis_mis_un_in_sub_sup_ex_en_em_and_nn_cc_words),
             ("test_tier4_149_scenario15_japanese_office_daily_life_and_english_project_planning", test_tier4_149_scenario15_japanese_office_daily_life_and_english_project_planning),
+            ("test_tier4_150_english_ief_ier_eep_oa_oo_words_and_chiefue_disambiguation", test_tier4_150_english_ief_ier_eep_oa_oo_words_and_chiefue_disambiguation),
+            ("test_tier4_151_japanese_short_verbs_and_teiru_nagara_tara_reba_yasui_nikui_sugiru", test_tier4_151_japanese_short_verbs_and_teiru_nagara_tara_reba_yasui_nikui_sugiru),
+            ("test_tier4_152_mid_word_backspace_typos_in_english_and_romaji_words", test_tier4_152_mid_word_backspace_typos_in_english_and_romaji_words),
+            ("test_tier4_153_english_scientific_and_ious_eous_uous_adjectives", test_tier4_153_english_scientific_and_ious_eous_uous_adjectives),
+            ("test_tier4_154_scenario16_trilingual_product_launch_and_japanese_stakeholder_sync", test_tier4_154_scenario16_trilingual_product_launch_and_japanese_stakeholder_sync),
         ]
     }
 }
