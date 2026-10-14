@@ -237,7 +237,12 @@ public enum EnglishKeywords {
         "disc", "discs", "tues", "duos",
         "life", "lifelong", "lifestyle", "lifetime", "lifespan", "lifeguard",
         "lifeline", "lifeless", "wildlife", "afterlife", "nightlife", "midlife",
-        "minx", "minxes", "manx", "bronx", "spanx", "sans"
+        "minx", "minxes", "manx", "bronx", "spanx", "sans",
+        "axis", "axes", "axon", "axons", "axiom", "axioms",
+        "thaw", "thaws", "thawed", "thawing",
+        "hero", "heroes", "heroic", "heroin", "heroine", "heroism", "nero",
+        "morn", "corm", "porn", "loris",
+        "pars", "irs", "sirs", "dirs", "ors", "urs", "ers", "roots", "harz"
     ]
 }
 

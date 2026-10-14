@@ -168,7 +168,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 didBackspace = true
                 activePreedit = "tíe"
                 activeRawKeys = ["t", "i", "e", "s"]
-            } else if ["laws", "raws", "saws"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
+            } else if ["laws", "raws", "saws", "thaws"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "thaw" && "cmnptfjrx".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -184,7 +188,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
+            } else if wordRawKeys.count == 4
+                && wordRawKeys[1].lowercased() == "i"
+                && "rsfj".contains(wordRawKeys[2].lowercased())
+                && wordRawKeys[3].lowercased() == "e"
+                && character.lowercased() == "e" {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws", "thaws"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
                 return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
             } else {
                 lastDeletedChar = nil
@@ -361,12 +373,27 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let isCandidateRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerCandidateRaw)
             || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: fullCandidateRaw)
 
+        let strippedActivePreedit = TonePlacement.stripTone(from: activePreedit).lowercased()
+        let hasMidWordToneCluster = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+            && activeRawKeys.count >= 3
+            && "rs".contains(activeRawKeys[activeRawKeys.count - 2].lowercased())
+            && "sfrxj".contains(activeRawKeys[activeRawKeys.count - 1].lowercased())
+            && !strippedActivePreedit.contains(where: { "ăâêôơưđ".contains($0) })
+            && !"sfrxjz".contains(character.lowercased())
+
+        let hasMidWordZAfterTone = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+            && activeRawKeys.last?.lowercased() == "z"
+            && activeRawKeys.dropLast().contains(where: { "sfrxj".contains($0.lowercased()) })
+            && character.isLetter
+
         // 5b. Known English Keyword & Romaji Check (Zero-Flicker Pre-Validation)
         if _config.autoCorrectEnglish && (
             isKeywordRaw
             || isKeywordFull
             || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(fullCandidateRaw)
             || isCandidateRomaji
+            || hasMidWordToneCluster
+            || hasMidWordZAfterTone
         ) {
             isBypassed = true
             wordRawKeys.append(character)
@@ -468,10 +495,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let isTransientQu = (lowerOnset == "q" && lowerNuc.hasPrefix("u"))
                 let firstNuc = lowerNuc.first
                 let invalidOaiOnsets: Set<String> = ["b", "m", "p", "ph", "v", "n", "g", "gh", "d", "r"]
+                let invalidOeOnsets: Set<String> = ["b", "c", "d", "đ", "g", "gh", "m", "n", "p", "ph", "r", "s", "v"]
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!))
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!))
                     || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc))
+                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe")
                     || (lowerOnset == "z")
                 let hasInvalidTransformedOnset = isTransformed
                     && !candidateState.isBypassed
