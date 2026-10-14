@@ -911,8 +911,35 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_155_english_tw_prefixes_two_disambiguation_and_calendar_numbers() {
+        let input = "two twos twofold twice twin twins twist twisted twisting twig twigs twilight twinkle twitter twelve twenty twentieth tweet tweets tweeted tweak tweaks tweaked tweed tuesday tuesdays wednesday thursday friday saturday sunday monday january february august september october november december twowng twongr"
+        let expected = "two twos twofold twice twin twins twist twisted twisting twig twigs twilight twinkle twitter twelve twenty twentieth tweet tweets tweeted tweak tweaks tweaked tweed tuesday tuesdays wednesday thursday friday saturday sunday monday january february august september october november december tương tưởng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_156_english_ai_au_ou_oi_oy_eu_ew_ui_ue_que_gue_words() {
+        let input = "pair pairs chairman chairmen chairwoman chairperson armchair armchairs wheelchair wheelchairs aura auras austere austerity dues hues cues sues rues guest guests venue venues avenue avenues revenue revenues continue continues value values argue argues rescue rescues colleague colleagues dialogue catalogue technique techniques unique critique boutique"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_157_japanese_counters_numbers_time_and_kinship_vocabulary() {
+        let input = "ichiban niban sanban hitori futari sannin hitotsu futatsu mittsu yottsu itsutsu muttsu nanatsu yattsu kokonotsu ippon nihon sanbon ippai nihai sanbai ikkai nikai sankai issai nisai sansai yonsai gosai rokusai hatachi isshuukan nishuukan ikkagetsu nikagetsu kazoku ryoushin otousan okaasan oniisan oneesan otouto imouto musuko musume tomodachi senpai kouhai douryou joushi buka"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_158_japanese_corporate_departments_and_business_documents() {
+        let input = "kaigishitsu uketsuke jimusho eigyoubu kaihatsubu kikakubu torishimariyaku kabunushi ryoushuusho mitsumorisho hacchuusho nouhinsho keiyakusho houkokusho sekkeisho teiansho kikakusho rirekisho jikoshoukai uchiawase bounenkai shinnenkai kangeikai soubetsukai"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_159_scenario17_quarterly_business_review_and_japanese_contract_signing() {
+        let input = "Thứ Ba (tuesday), chairman vaf two guests từ Tokyo sẽ có buổi uchiawase tại kaigishitsu cùng twenty colleagues. Chusng ta cần kiểm tra twice bản mitsumorisho, keiyakusho vaf nouhinsho để đạt mục tiêu revenue tương tưởng (twowng twongr)!"
+        let expected = "Thứ Ba (tuesday), chairman và two guests từ Tokyo sẽ có buổi uchiawase tại kaigishitsu cùng twenty colleagues. Chúng ta cần kiểm tra twice bản mitsumorisho, keiyakusho và nouhinsho để đạt mục tiêu revenue tương tưởng (tương tưởng)!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (154 Tests)
+    // MARK: - Test Registration (159 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1078,6 +1105,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_152_mid_word_backspace_typos_in_english_and_romaji_words", test_tier4_152_mid_word_backspace_typos_in_english_and_romaji_words),
             ("test_tier4_153_english_scientific_and_ious_eous_uous_adjectives", test_tier4_153_english_scientific_and_ious_eous_uous_adjectives),
             ("test_tier4_154_scenario16_trilingual_product_launch_and_japanese_stakeholder_sync", test_tier4_154_scenario16_trilingual_product_launch_and_japanese_stakeholder_sync),
+            ("test_tier4_155_english_tw_prefixes_two_disambiguation_and_calendar_numbers", test_tier4_155_english_tw_prefixes_two_disambiguation_and_calendar_numbers),
+            ("test_tier4_156_english_ai_au_ou_oi_oy_eu_ew_ui_ue_que_gue_words", test_tier4_156_english_ai_au_ou_oi_oy_eu_ew_ui_ue_que_gue_words),
+            ("test_tier4_157_japanese_counters_numbers_time_and_kinship_vocabulary", test_tier4_157_japanese_counters_numbers_time_and_kinship_vocabulary),
+            ("test_tier4_158_japanese_corporate_departments_and_business_documents", test_tier4_158_japanese_corporate_departments_and_business_documents),
+            ("test_tier4_159_scenario17_quarterly_business_review_and_japanese_contract_signing", test_tier4_159_scenario17_quarterly_business_review_and_japanese_contract_signing),
         ]
     }
 }
