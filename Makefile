@@ -3,12 +3,13 @@
 
 SHELL := /bin/bash
 BUILD_DIR := .build
+VERSION ?= 1.0.0
 
-.PHONY: all test app install clean help
+.PHONY: all test app package install clean help
 
 all: test app
 
-## test: Compile and execute the full 840 test suite and terminal simulator
+## test: Compile and execute the full 1,317 test suite across 15 suites
 test:
 	@chmod +x Scripts/run_tests.sh
 	@./Scripts/run_tests.sh $(ARGS)
@@ -18,9 +19,13 @@ app:
 	@chmod +x Scripts/build_app.sh
 	@./Scripts/build_app.sh
 
-## demo: Launch interactive Terminal real-time typing demo
-demo:
-	@./build/vietflow_cli
+## package: Package Universal 2 VietFlow.app into distributable zip archive
+package: app
+	@echo "==> Packaging VietFlow-v$(VERSION).zip..."
+	@rm -f build/VietFlow-v$(VERSION).zip
+	@ditto -c -k --sequesterRsrc --keepParent build/VietFlow.app build/VietFlow-v$(VERSION).zip
+	@ls -lh build/VietFlow-v$(VERSION).zip
+	@shasum -a 256 build/VietFlow-v$(VERSION).zip
 
 ## install: Install VietFlow.app into /Applications
 install: app
@@ -37,8 +42,9 @@ clean:
 ## help: Display this help message
 help:
 	@echo "VietFlow Build & Test Targets:"
-	@echo "  make test      - Compile and run 840 test cases via CLI test runner"
+	@echo "  make test      - Compile and run 1,317 test cases across 15 suites"
 	@echo "  make app       - Build Universal 2 VietFlow.app bundle (arm64 + x86_64)"
+	@echo "  make package   - Package Universal 2 VietFlow-v$(VERSION).zip release archive"
 	@echo "  make install   - Build and install VietFlow.app into /Applications"
 	@echo "  make clean     - Clean build directories"
 	@echo "  make help      - Show this help message"
