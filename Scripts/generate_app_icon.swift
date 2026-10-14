@@ -458,15 +458,6 @@ public final class CapsuleIconRenderer {
             try pngData.write(to: fileURL)
         }
         
-        // Also save master 1024x1024 preview PNG
-        let master = render(size: 1024)
-        if let tiff = master.tiffRepresentation,
-           let rep = NSBitmapImageRep(data: tiff),
-           let pngData = rep.representation(using: .png, properties: [:]) {
-            let previewURL = outputDirectory.appendingPathComponent("AppIcon_preview.png")
-            try? pngData.write(to: previewURL)
-        }
-        
         let icnsURL = outputDirectory.appendingPathComponent("AppIcon.icns")
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/iconutil")

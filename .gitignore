@@ -1,7 +1,34 @@
+# macOS
+.DS_Store
+
+# Agent internal coordination & scratch
+.agents/
+.icon_scratch/
+ORIGINAL_REQUEST.md
+PROJECT.md
+TEST_INFRA.md
+TEST_READY.md
+*_Showcase*.png
+AppIcon_preview.png
+
+# Swift Package Manager & Build artifacts
 .build/
 build/
-.agents/
-*.iconset/
-.DS_Store
-*.swp
-*~
+.swiftpm/
+Packages/
+Package.resolved
+DerivedData/
+*.xcodeproj
+*.xcworkspace
+*.xcuserstate
+
+# Output App Bundles and Binaries
+*.app/
+*.dSYM/
+*.zip
+AppIcon.iconset/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
