@@ -181,7 +181,9 @@ public enum JapaneseRomajiLexicon {
         "paji", "poji", "puji", "giji", "mujo", "sujo", "bujo",
         "nowa", "sowa", "towa", "rowa", "owa",
         "pafu", "kefu", "mefu", "nefu", "hefu", "sefu", "tefu", "defu", "befu", "pefu", "gefu", "refu", "efu",
-        "moroi", "noroi"
+        "moroi", "noroi", "soroi", "sosori",
+        "girai", "horai", "torai", "gisai", "hosai", "sosai", "tosai",
+        "girui", "gisui", "urana", "uraya", "urayama", "urayasu", "uragiri", "uragiru", "uraguchi", "uraniwa", "uragawa"
     ]
 }
 

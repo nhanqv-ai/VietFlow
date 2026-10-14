@@ -229,7 +229,12 @@ public enum EnglishKeywords {
         "dojo", "dojos", "mojo", "boost", "roost", "goofs", "swops", "bias",
         "sass", "sassy", "brass", "glass", "grass", "class",
         "laws", "raws", "saws", "gawk", "gawks", "bawk", "bawks",
-        "mohawk", "mohawks", "tomahawk", "tomahawks", "lora", "qlora"
+        "mohawk", "mohawks", "tomahawk", "tomahawks", "lora", "qlora",
+        "arms", "harms", "charms", "barns", "darns", "urns", "churns",
+        "thorns", "morns", "terns", "kerns", "berms", "perms", "barfs",
+        "naifs", "coifs", "loafs", "oafs", "liars", "leers", "seers",
+        "queer", "queers", "corsair", "corsairs", "chasm", "chasms",
+        "disc", "discs", "tues", "duos"
     ]
 }
 

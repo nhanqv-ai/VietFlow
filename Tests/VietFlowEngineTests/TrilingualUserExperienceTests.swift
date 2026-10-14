@@ -1115,7 +1115,37 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (189 Tests)
+    // MARK: - Cycle 15: Off-Glide S-Cluster Split Guard, Oai/Oay Onset Orthography, -rms/-rns Plurals & Romaji -ai/-ui (5 Tests)
+    // =========================================================================
+
+    func test_tier4_190_english_offglide_s_clusters_and_chasm_disc_corsair() {
+        let input = "caustic roister miasma cloister cloisters boisterous moisture moisten hoist hoisted foist foisted joist joists oyster oysters disaster disasters acoustic acoustics diagnostic diagnostics chasm chasms spasm spasms plasma plasmas disc discs disk disks corsair corsairs"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_191_english_rms_rns_rfs_fs_rs_plurals_and_ed_ing_forms() {
+        let input = "arms harms charms barns darns urns churns thorns morns terns kerns berms perms barfs armed arming harmed harming charmed charming darned darning churned churning permed barfed barfing naifs coifs loafs oafs liars leers seers queer queers tues duos"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_192_japanese_oai_onset_orthography_and_rai_sai_rui_sui_ura_vocabulary() {
+        let input = "soroi sosori girai morai horai torai gorai borai gisai mosai nosai hosai sosai tosai bosai dosai girui gisui urana uraya urayama urayasu uragiri uragiru uraguchi uraniwa uragawa mosaic mosaics bonsai bonsais prosaic archaic algebraic voltaic photovoltaic formulaic"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_193_english_ism_ist_istic_and_spect_spire_families() {
+        let input = "prism prisms schism altruism egoism heroism tourism terrorism journalism capitalism socialism communism mechanism mechanisms organism organisms metabolism symbolism optimism pessimism criticism mysticism skepticism fascism racism plastic plastics elastic drastic fantastic sarcastic scholastic enthusiastic mystic mystics rustic artistic statistic statistics realistic optimistic pessimistic holistic logistic logistics linguistic linguistics heuristic heuristics domestic majestic aspect aspects prospect prospects respect respects suspect suspects inspect inspects expect expects perspective perspectives"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_194_scenario24_trilingual_disaster_recovery_bosai_and_urayasu_trip_chat() {
+        let input = "Trong buổi diễn tập bosai tại urayasu gần công viên, hệ thống lưu trữ trên discs đã vượt qua bài test chịu tải caustic mà không để xảy ra chasm dữ liệu; mọi thiết bị soroi đầy đủ từ cổng uraguchi đến khu vườn bonsai và bức tường mosaic, giúp giảm thiểu harms cho toàn bộ dự án!"
+        let expected = "Trong buổi diễn tập bosai tại urayasu gần công viên, hệ thống lưu trữ trên discs đã vượt qua bài test chịu tải caustic mà không để xảy ra chasm dữ liệu; mọi thiết bị soroi đầy đủ từ cổng uraguchi đến khu vườn bonsai và bức tường mosaic, giúp giảm thiểu harms cho toàn bộ dự án!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (194 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1234,7 +1264,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (71 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (86 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1316,6 +1346,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_187_ai_ml_cloud_devops_and_nnx_dnn_nnl_nns_clusters", test_tier4_187_ai_ml_cloud_devops_and_nnx_dnn_nnl_nns_clusters),
             ("test_tier4_188_japanese_rei_sei_kei_and_ou_vocabulary", test_tier4_188_japanese_rei_sei_kei_and_ou_vocabulary),
             ("test_tier4_189_scenario23_trilingual_ai_llm_inference_and_japanese_bathhouse_relax_chat", test_tier4_189_scenario23_trilingual_ai_llm_inference_and_japanese_bathhouse_relax_chat),
+            ("test_tier4_190_english_offglide_s_clusters_and_chasm_disc_corsair", test_tier4_190_english_offglide_s_clusters_and_chasm_disc_corsair),
+            ("test_tier4_191_english_rms_rns_rfs_fs_rs_plurals_and_ed_ing_forms", test_tier4_191_english_rms_rns_rfs_fs_rs_plurals_and_ed_ing_forms),
+            ("test_tier4_192_japanese_oai_onset_orthography_and_rai_sai_rui_sui_ura_vocabulary", test_tier4_192_japanese_oai_onset_orthography_and_rai_sai_rui_sui_ura_vocabulary),
+            ("test_tier4_193_english_ism_ist_istic_and_spect_spire_families", test_tier4_193_english_ism_ist_istic_and_spect_spire_families),
+            ("test_tier4_194_scenario24_trilingual_disaster_recovery_bosai_and_urayasu_trip_chat", test_tier4_194_scenario24_trilingual_disaster_recovery_bosai_and_urayasu_trip_chat),
         ]
     }
 }
