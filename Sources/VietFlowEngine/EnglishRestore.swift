@@ -249,7 +249,8 @@ public enum EnglishKeywords {
         "harm", "harms", "charm", "charms", "thorn", "thorns",
         "curs", "burs", "vers", "fers", "oofs", "goof",
         "caws", "maws", "haws", "sere",
-        "won", "wow", "wows", "yens", "kern"
+        "won", "wow", "wows", "yens", "kern",
+        "hex", "nix", "tux", "dux"
     ]
 }
 
