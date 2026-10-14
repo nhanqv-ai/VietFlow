@@ -247,7 +247,8 @@ public enum EnglishKeywords {
         "berm", "berms", "derm", "dermis", "churn", "churns", "urn", "urns", "ire",
         "barn", "barns", "darn", "darns", "tarn", "tarns", "barf", "barfs",
         "harm", "harms", "charm", "charms", "thorn", "thorns",
-        "curs", "burs", "vers", "fers", "oofs", "goof"
+        "curs", "burs", "vers", "fers", "oofs", "goof",
+        "caws", "maws", "haws", "sere"
     ]
 }
 
