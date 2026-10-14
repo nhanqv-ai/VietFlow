@@ -39,6 +39,7 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertEqual(def.tonePlacement, .modern)
         XCTAssertTrue(def.autoRestoreEnglish)
         XCTAssertTrue(def.escapeByDoubleKey)
+        XCTAssertTrue(def.autoSwitchOnForeignInputSource)
         XCTAssertEqual(def.shortcutType, .modifierChord)
         XCTAssertEqual(def.modifierChord, .controlShift)
         XCTAssertEqual(def.customKeyCombo.keyCode, 49)
@@ -72,6 +73,7 @@ public final class SettingsPersistenceTests: TestCase {
             tonePlacement: .traditional,
             autoRestoreEnglish: false,
             escapeByDoubleKey: false,
+            autoSwitchOnForeignInputSource: false,
             shortcutType: .customKeyCombo,
             modifierChord: .commandShift,
             customKeyCombo: customCombo,
@@ -89,6 +91,7 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertEqual(decoded.tonePlacement, .traditional)
         XCTAssertFalse(decoded.autoRestoreEnglish)
         XCTAssertFalse(decoded.escapeByDoubleKey)
+        XCTAssertFalse(decoded.autoSwitchOnForeignInputSource)
         XCTAssertEqual(decoded.shortcutType, .customKeyCombo)
         XCTAssertEqual(decoded.modifierChord, .commandShift)
         XCTAssertEqual(decoded.customKeyCombo.keyCode, 11)
@@ -108,6 +111,7 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertEqual(decoded.tonePlacement, .modern)
         XCTAssertTrue(decoded.autoRestoreEnglish)
         XCTAssertTrue(decoded.escapeByDoubleKey)
+        XCTAssertTrue(decoded.autoSwitchOnForeignInputSource)
         XCTAssertEqual(decoded.shortcutType, .modifierChord)
         XCTAssertEqual(decoded.modifierChord, .controlShift)
         XCTAssertEqual(decoded.customKeyCombo.keyCode, 49)
@@ -280,6 +284,7 @@ public final class SettingsPersistenceTests: TestCase {
         settings.tonePlacement = .traditional
         settings.autoRestoreEnglish = false
         settings.escapeByDoubleKey = false
+        settings.autoSwitchOnForeignInputSource = false
         settings.shortcutType = .customKeyCombo
         settings.modifierChord = .commandShift
         settings.launchAtLogin = true
@@ -300,6 +305,7 @@ public final class SettingsPersistenceTests: TestCase {
         manager.currentTonePlacement = .traditional
         manager.autoRestoreEnglish = false
         manager.escapeByDoubleKey = false
+        manager.autoSwitchOnForeignInputSource = false
         manager.shortcutType = .customKeyCombo
         manager.modifierChord = .commandShift
         manager.perAppInputMode = false
@@ -312,6 +318,7 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertEqual(manager.currentTonePlacement, .modern)
         XCTAssertTrue(manager.autoRestoreEnglish)
         XCTAssertTrue(manager.escapeByDoubleKey)
+        XCTAssertTrue(manager.autoSwitchOnForeignInputSource)
         XCTAssertEqual(manager.shortcutType, .modifierChord)
         XCTAssertEqual(manager.modifierChord, .controlShift)
         XCTAssertEqual(manager.toggleShortcut, .controlShift)
@@ -371,6 +378,40 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertTrue(manager.settings.perAppInputMode)
     }
     
+    // MARK: - Test 23: Auto-Switch On Foreign Input Source Persistence & Toggle
+    func test_23_auto_switch_on_foreign_input_source_persistence_and_disable() {
+        let manager = AppStateManager.shared
+        XCTAssertTrue(manager.autoSwitchOnForeignInputSource)
+        XCTAssertTrue(manager.settings.autoSwitchOnForeignInputSource)
+        
+        // Mutate setting to false
+        manager.autoSwitchOnForeignInputSource = false
+        XCTAssertFalse(manager.autoSwitchOnForeignInputSource)
+        XCTAssertFalse(manager.settings.autoSwitchOnForeignInputSource)
+        
+        // Verify persistence roundtrip
+        manager.saveSettings()
+        manager.loadSettings()
+        XCTAssertFalse(manager.autoSwitchOnForeignInputSource)
+        XCTAssertFalse(manager.settings.autoSwitchOnForeignInputSource)
+        
+        // When disabled, simulating Japanese IME does NOT auto-suspend VietFlow to English
+        let mock = MockInputSourceManager(initialSourceID: "com.apple.keylayout.ABC", isForeign: false)
+        manager.inputSourceManager = mock
+        manager.currentInputMode = .vietnamese
+        
+        mock.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertEqual(manager.currentInputMode, .vietnamese, "Mode must remain .vietnamese when autoSwitchOnForeignInputSource is false")
+        XCTAssertFalse(manager.isSuspendedByForeignIME)
+        
+        // When re-enabled, simulating Japanese IME auto-suspends VietFlow to English
+        manager.autoSwitchOnForeignInputSource = true
+        XCTAssertTrue(manager.autoSwitchOnForeignInputSource)
+        mock.simulateInputSourceChange(to: "com.apple.inputmethod.Kotoeri.Japanese")
+        XCTAssertEqual(manager.currentInputMode, .english, "Mode must auto-switch to .english when autoSwitchOnForeignInputSource is true")
+        XCTAssertTrue(manager.isSuspendedByForeignIME)
+    }
+    
     // MARK: - Test Registry Registration
     public override var allTests: [(name: String, test: () throws -> Void)] {
         return [
@@ -396,6 +437,7 @@ public final class SettingsPersistenceTests: TestCase {
             ("test_20_input_mode_titles", test_20_input_mode_titles),
             ("test_21_engine_config_synchronization", test_21_engine_config_synchronization),
             ("test_22_per_app_input_mode_toggle", test_22_per_app_input_mode_toggle),
+            ("test_23_auto_switch_on_foreign_input_source_persistence_and_disable", test_23_auto_switch_on_foreign_input_source_persistence_and_disable),
         ]
     }
 }

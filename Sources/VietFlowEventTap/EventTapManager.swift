@@ -366,7 +366,7 @@ public final class EventTapManager: @unchecked Sendable {
     }
     
     // MARK: - Event Tap Callback
-    fileprivate func handleEvent(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+    public func handleEvent(proxy: CGEventTapProxy? = nil, type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
         // 1. Reactive Timeout & Disablement Handling
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
             if let port = machPort {
@@ -413,6 +413,9 @@ public final class EventTapManager: @unchecked Sendable {
         
         // Cancel any active modifier chord on intervening key down
         stateMachine.handleKeyDown()
+        
+        // Synchronously verify input source before key interception
+        stateManager.checkInputSourceSynchronously()
         
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
         let flags = event.flags

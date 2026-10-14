@@ -129,6 +129,7 @@ swiftc $SDK_FLAG \
     -I "$BUILD_DIR" -L "$BUILD_DIR" -lVietFlowEngine -lVietFlowState -lVietFlowEventTap -lVietFlowEngineTests \
     -emit-module-path "$BUILD_DIR/VietFlowEventTapTests.swiftmodule" \
     Tests/VietFlowEventTapTests/HotkeyStateMachineTests.swift \
+    Tests/VietFlowEventTapTests/InputSourceSynchronizationTests.swift \
     -o "$BUILD_DIR/libVietFlowEventTapTests.dylib"
 
 echo "==> Step 7b: Compiling SettingsLayoutTests module..."

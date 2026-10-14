@@ -274,6 +274,18 @@ public struct SettingsView: View {
                             .padding(.leading, 18)
                             .fixedSize(horizontal: false, vertical: true)
                     }
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Toggle("Tự động nhường phím khi dùng bộ gõ ngoại ngữ khác (Nhật, Trung, Hàn...)", isOn: $stateManager.autoSwitchOnForeignInputSource)
+                            .toggleStyle(.checkbox)
+                            .font(.system(size: 12))
+
+                        Text("Tự động chuyển sang [E] khi chọn bộ gõ tiếng Nhật trên macOS và khôi phục lại [V] khi quay về bàn phím ABC.")
+                            .font(.system(size: 10.5))
+                            .foregroundColor(.secondary)
+                            .padding(.leading, 18)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
             }
         }

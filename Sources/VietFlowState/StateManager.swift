@@ -92,6 +92,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var tonePlacement: TonePlacementStyle
     public var autoRestoreEnglish: Bool
     public var escapeByDoubleKey: Bool
+    public var autoSwitchOnForeignInputSource: Bool
     public var shortcutType: ShortcutType
     public var modifierChord: ModifierChordShortcut
     public var customKeyCombo: CustomKeyCombo
@@ -107,6 +108,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         tonePlacement: TonePlacementStyle = .modern,
         autoRestoreEnglish: Bool = true,
         escapeByDoubleKey: Bool = true,
+        autoSwitchOnForeignInputSource: Bool = true,
         shortcutType: ShortcutType = .modifierChord,
         modifierChord: ModifierChordShortcut = .controlShift,
         customKeyCombo: CustomKeyCombo = CustomKeyCombo(),
@@ -122,6 +124,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.tonePlacement = tonePlacement
         self.autoRestoreEnglish = autoRestoreEnglish
         self.escapeByDoubleKey = escapeByDoubleKey
+        self.autoSwitchOnForeignInputSource = autoSwitchOnForeignInputSource
         self.shortcutType = shortcutType
         self.modifierChord = modifierChord
         self.customKeyCombo = customKeyCombo
@@ -140,6 +143,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case tonePlacement
         case autoRestoreEnglish
         case escapeByDoubleKey
+        case autoSwitchOnForeignInputSource
         case shortcutType
         case modifierChord
         case customKeyCombo
@@ -155,6 +159,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.tonePlacement = try container.decodeIfPresent(TonePlacementStyle.self, forKey: .tonePlacement) ?? .modern
         self.autoRestoreEnglish = try container.decodeIfPresent(Bool.self, forKey: .autoRestoreEnglish) ?? true
         self.escapeByDoubleKey = try container.decodeIfPresent(Bool.self, forKey: .escapeByDoubleKey) ?? true
+        self.autoSwitchOnForeignInputSource = try container.decodeIfPresent(Bool.self, forKey: .autoSwitchOnForeignInputSource) ?? true
         self.shortcutType = try container.decodeIfPresent(ShortcutType.self, forKey: .shortcutType) ?? .modifierChord
         self.modifierChord = try container.decodeIfPresent(ModifierChordShortcut.self, forKey: .modifierChord) ?? .controlShift
         self.customKeyCombo = try container.decodeIfPresent(CustomKeyCombo.self, forKey: .customKeyCombo) ?? CustomKeyCombo()
@@ -175,14 +180,33 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
     
     @Published public var currentInputMode: InputMode = .vietnamese {
         didSet {
-            settings.inputMode = currentInputMode
-            if isVietFlowUIActive {
-                perAppModes.removeAll()
+            if !isSuspendedByForeignIME {
+                settings.inputMode = currentInputMode
+                savedPreForeignMode = currentInputMode
+                saveCurrentModeForActiveApp()
+                saveSettings()
+                if isVietFlowUIActive && !inputSourceManager.isCurrentSourceForeign {
+                    perAppModes.removeAll()
+                }
             }
-            saveCurrentModeForActiveApp()
-            saveSettings()
             engine?.reset()
             NotificationCenter.default.post(name: .vietFlowInputModeChanged, object: currentInputMode)
+        }
+    }
+    
+    @Published public var autoSwitchOnForeignInputSource: Bool = true {
+        didSet {
+            guard oldValue != autoSwitchOnForeignInputSource else { return }
+            settings.autoSwitchOnForeignInputSource = autoSwitchOnForeignInputSource
+            saveSettings()
+            if !autoSwitchOnForeignInputSource {
+                if isSuspendedByForeignIME {
+                    isSuspendedByForeignIME = false
+                    currentInputMode = savedPreForeignMode
+                }
+            } else {
+                checkInputSourceSynchronously()
+            }
         }
     }
     
@@ -303,21 +327,85 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         }
     }
     
+    // MARK: - Input Source Tracking
+    public var inputSourceManager: InputSourceManaging {
+        didSet {
+            setupInputSourceObservation()
+            checkInitialInputSource()
+        }
+    }
+    public private(set) var isSuspendedByForeignIME: Bool = false
+    public private(set) var savedPreForeignMode: InputMode = .vietnamese
+    
     private let userDefaults = UserDefaults.standard
     private var perAppModes: [String: InputMode] = [:]
     private var isVietFlowUIActive: Bool = false
     private var workspaceObserver: NSObjectProtocol?
     
-    public init() {
+    public init(inputSourceManager: InputSourceManaging = SystemInputSourceManager.shared) {
+        self.inputSourceManager = inputSourceManager
         loadSettings()
+        setupInputSourceObservation()
         setupWorkspaceObserver()
         updateBlacklistCache()
         checkInitialApp()
+        checkInitialInputSource()
     }
     
     deinit {
         if let observer = workspaceObserver {
             NSWorkspace.shared.notificationCenter.removeObserver(observer)
+        }
+    }
+    
+    // MARK: - Input Source Observation & Auto-Suspend
+    private func setupInputSourceObservation() {
+        inputSourceManager.onInputSourceChanged = { [weak self] newSourceID, isForeign in
+            self?.handleInputSourceChanged(newSourceID: newSourceID, isForeign: isForeign)
+        }
+    }
+    
+    private func checkInitialInputSource() {
+        let (sourceID, isForeign) = inputSourceManager.refreshCurrentInputSource()
+        handleInputSourceChanged(newSourceID: sourceID, isForeign: isForeign)
+    }
+    
+    public func checkInputSourceSynchronously() {
+        guard autoSwitchOnForeignInputSource else { return }
+        let current = inputSourceManager.refreshCurrentInputSource()
+        handleInputSourceChanged(newSourceID: current.sourceID, isForeign: current.isForeign)
+    }
+    
+    public func handleInputSourceChanged(newSourceID: String, isForeign: Bool) {
+        guard autoSwitchOnForeignInputSource else { return }
+        
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.handleInputSourceChanged(newSourceID: newSourceID, isForeign: isForeign)
+            }
+            return
+        }
+        
+        if isForeign {
+            // Auto-Suspend on Foreign IME (ABC -> Japanese)
+            if !isSuspendedByForeignIME {
+                savedPreForeignMode = perAppInputMode ? (perAppModes[activeAppBundleId] ?? currentInputMode) : currentInputMode
+                isSuspendedByForeignIME = true
+            }
+            engine?.reset()
+            if currentInputMode != .english {
+                currentInputMode = .english
+            }
+        } else {
+            // Auto-Restore on Returning to Latin Layout (Japanese -> ABC)
+            if isSuspendedByForeignIME {
+                isSuspendedByForeignIME = false
+                engine?.reset()
+                let targetMode = perAppInputMode ? (perAppModes[activeAppBundleId] ?? savedPreForeignMode) : savedPreForeignMode
+                if currentInputMode != targetMode {
+                    currentInputMode = targetMode
+                }
+            }
         }
     }
     
@@ -336,6 +424,29 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
     
     // MARK: - Toggle Input Mode
     public func toggleInputMode() {
+        if autoSwitchOnForeignInputSource {
+            _ = inputSourceManager.refreshCurrentInputSource()
+        }
+        if autoSwitchOnForeignInputSource && inputSourceManager.isCurrentSourceForeign {
+            // R2: One-Step Direct Switching from Foreign IME to Vietnamese
+            isSuspendedByForeignIME = false
+            savedPreForeignMode = .vietnamese
+            currentInputMode = .vietnamese
+            saveCurrentModeForActiveApp()
+            saveSettings()
+            engine?.reset()
+            let selected = inputSourceManager.selectLatinInputSource()
+            if !selected {
+                isSuspendedByForeignIME = true
+                currentInputMode = .english
+                saveCurrentModeForActiveApp()
+                saveSettings()
+                return
+            }
+            onToggleInputMode?()
+            return
+        }
+        
         let newMode: InputMode = (currentInputMode == .vietnamese) ? .english : .vietnamese
         currentInputMode = newMode
         engine?.reset()
@@ -395,21 +506,45 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         self.activeAppBundleId = bundleId
         self.activeAppName = appName.isEmpty ? bundleId : appName
         self.isBlacklistActive = isApplicationBlacklisted(bundleId: bundleId)
+        self.checkInputSourceSynchronously()
         self.engine?.reset()
         
-        if perAppInputMode {
-            if let savedMode = perAppModes[bundleId] {
-                if self.currentInputMode != savedMode {
-                    self.currentInputMode = savedMode
+        if autoSwitchOnForeignInputSource && inputSourceManager.isCurrentSourceForeign {
+            // System is currently using a foreign IME (e.g. Japanese)
+            isSuspendedByForeignIME = true
+            if perAppInputMode {
+                if let savedMode = perAppModes[bundleId] {
+                    savedPreForeignMode = savedMode
+                } else {
+                    perAppModes[bundleId] = savedPreForeignMode
+                }
+            }
+            if currentInputMode != .english {
+                currentInputMode = .english
+            }
+        } else {
+            // System is in a Latin layout (e.g. ABC)
+            isSuspendedByForeignIME = false
+            if perAppInputMode {
+                if let savedMode = perAppModes[bundleId] {
+                    if self.currentInputMode != savedMode {
+                        self.currentInputMode = savedMode
+                    }
+                    savedPreForeignMode = savedMode
+                } else {
+                    perAppModes[bundleId] = self.currentInputMode
+                    savedPreForeignMode = self.currentInputMode
                 }
             } else {
-                perAppModes[bundleId] = self.currentInputMode
+                if currentInputMode != savedPreForeignMode {
+                    currentInputMode = savedPreForeignMode
+                }
             }
         }
     }
     
     private func saveCurrentModeForActiveApp() {
-        guard perAppInputMode, !activeAppBundleId.isEmpty else { return }
+        guard perAppInputMode, !activeAppBundleId.isEmpty, !isSuspendedByForeignIME else { return }
         perAppModes[activeAppBundleId] = currentInputMode
     }
     
@@ -439,6 +574,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         userDefaults.set(currentTonePlacement.rawValue, forKey: "currentTonePlacement")
         userDefaults.set(autoRestoreEnglish, forKey: "autoRestoreEnglish")
         userDefaults.set(escapeByDoubleKey, forKey: "escapeByDoubleKey")
+        userDefaults.set(autoSwitchOnForeignInputSource, forKey: "autoSwitchOnForeignInputSource")
         userDefaults.set(shortcutType.rawValue, forKey: "shortcutType")
         userDefaults.set(modifierChord.rawValue, forKey: "modifierChord")
         userDefaults.set(toggleShortcut.rawValue, forKey: "toggleShortcut")
@@ -463,6 +599,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             self.currentTonePlacement = loaded.tonePlacement
             self.autoRestoreEnglish = loaded.autoRestoreEnglish
             self.escapeByDoubleKey = loaded.escapeByDoubleKey
+            self.autoSwitchOnForeignInputSource = loaded.autoSwitchOnForeignInputSource
             self.shortcutType = loaded.shortcutType
             self.modifierChord = loaded.modifierChord
             self.customKeyCombo = loaded.customKeyCombo
@@ -488,6 +625,9 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             }
             if userDefaults.object(forKey: "escapeByDoubleKey") != nil {
                 escapeByDoubleKey = userDefaults.bool(forKey: "escapeByDoubleKey")
+            }
+            if userDefaults.object(forKey: "autoSwitchOnForeignInputSource") != nil {
+                autoSwitchOnForeignInputSource = userDefaults.bool(forKey: "autoSwitchOnForeignInputSource")
             }
             if let sTypeStr = userDefaults.string(forKey: "shortcutType"),
                let sType = ShortcutType(rawValue: sTypeStr) {
@@ -517,6 +657,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
                 tonePlacement: currentTonePlacement,
                 autoRestoreEnglish: autoRestoreEnglish,
                 escapeByDoubleKey: escapeByDoubleKey,
+                autoSwitchOnForeignInputSource: autoSwitchOnForeignInputSource,
                 shortcutType: shortcutType,
                 modifierChord: modifierChord,
                 customKeyCombo: customKeyCombo,
@@ -537,7 +678,10 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         perAppModes.removeAll()
         isVietFlowUIActive = false
         settings.resetToDefaults()
+        isSuspendedByForeignIME = false
         currentInputMode = settings.inputMode
+        savedPreForeignMode = settings.inputMode
+        autoSwitchOnForeignInputSource = settings.autoSwitchOnForeignInputSource
         currentInputMethod = settings.inputMethod
         currentTonePlacement = settings.tonePlacement
         autoRestoreEnglish = settings.autoRestoreEnglish
@@ -551,6 +695,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         blacklistedBundleIdentifiers = settings.blacklistedBundleIdentifiers
         syncEngineConfig()
         saveSettings()
+        checkInitialInputSource()
     }
 }
 

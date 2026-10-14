@@ -33,6 +33,7 @@ struct TestRunnerMain {
         registry.register(name: "MinimalDiffTests") { MinimalDiffTests() }
         registry.register(name: "TerminalCompatibilityTests") { TerminalCompatibilityTests() }
         registry.register(name: "HotkeyStateMachineTests") { HotkeyStateMachineTests() }
+        registry.register(name: "InputSourceSynchronizationTests") { InputSourceSynchronizationTests() }
         registry.register(name: "SettingsPersistenceTests") { SettingsPersistenceTests() }
         registry.register(name: "ModeToggleBufferResetTests") { ModeToggleBufferResetTests() }
         registry.register(name: "SettingsLayoutTests") { SettingsLayoutTests() }
