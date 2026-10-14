@@ -197,7 +197,8 @@ public enum JapaneseRomajiLexicon {
         "keso", "meso", "neso", "heso", "teso", "deso", "beso", "geso",
         "yasa", "yase", "yoso", "yose", "kase", "kaso", "mase", "maso", "nase", "hase",
         "sase", "saso", "sasu", "tase", "dase", "gase", "kosa", "kose", "gosa", "dosa",
-        "sosa", "soso", "tosa", "hura", "hure", "huri", "huro"
+        "sosa", "soso", "tosa", "hura", "hure", "huri", "huro",
+        "sura", "suri", "turo", "tura", "ture", "turi", "nura", "nuri", "bura", "buri", "gura", "guri"
     ]
 }
 
