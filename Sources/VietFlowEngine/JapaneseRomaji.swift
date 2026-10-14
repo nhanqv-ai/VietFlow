@@ -152,7 +152,12 @@ public enum JapaneseRomajiLexicon {
         // Unambiguous 2-mora nouns, names & verbs (Cycle 9)
         "sora", "nora", "dora", "mura", "nori", "toori", "muri", "pari", "maru", "gero",
         "basu", "gasu", "nasu", "tasu", "dasu",
-        "hana", "kana", "nana", "mana", "sana", "kama", "nama", "hama", "kawa", "sawa", "nawa"
+        "hana", "kana", "nana", "mana", "sana", "kama", "nama", "hama", "kawa", "sawa", "nawa",
+
+        // Katakana long-vowel & IT/lifestyle loanwords (Cycle 10)
+        "puran", "buranchi", "haafu", "saafu", "taafu", "naasu", "paasu", "baasu", "daasu",
+        "gaaru", "paaru", "seefu", "peesu", "supeesu", "reeru", "beeru", "seeru", "teeru",
+        "neeru", "sukeeru"
     ]
 }
 

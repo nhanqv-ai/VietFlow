@@ -759,7 +759,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             // Do not split if a non-adjacent vowel jumped across the coda (e.g. 't-a-n-a' in 'tanaka', 'a-n-a' in 'anata')
             // or if the last raw key was 's' or 'r' forming a foreign medial cluster (e.g. 'trans-' in 'transmission', 'emer-' in 'emerge')
             let lastKeyLower = activeRawKeys.last?.lowercased()
-            if lastRawIsVowel || lastKeyLower == "s" || lastKeyLower == "r" {
+            if lastRawIsVowel || lastKeyLower == "s" || lastKeyLower == "r" || (lowerNuc == "ua" && parsed.onset.lowercased() != "q") {
                 return false
             }
             let candidateCoda = parsed.coda + String(nextChar)
