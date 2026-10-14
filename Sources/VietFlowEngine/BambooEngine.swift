@@ -463,9 +463,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let lowerOnset = parsed.onset.lowercased()
                 let isTransientQu = (lowerOnset == "q" && lowerNuc.hasPrefix("u"))
                 let firstNuc = lowerNuc.first
+                let invalidOaiOnsets: Set<String> = ["b", "m", "p", "ph", "v", "n", "g", "gh", "d", "r"]
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!))
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!))
+                    || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc))
                     || (lowerOnset == "z")
                 let hasInvalidTransformedOnset = isTransformed
                     && !candidateState.isBypassed
@@ -771,7 +773,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             // or if multiple tone keys were typed in the syllable (e.g. 'r-e-f-o-r-m', 'r-e-s-o-r-t', 'd-e-f-o-r-m', 'd-e-f-r-o-s-t')
             let toneKeyCount = activeRawKeys.dropFirst().filter { "sfrxj".contains($0.lowercased()) }.count
             let lowerActiveRaw = String(activeRawKeys).lowercased()
-            if lowerActiveRaw == "air" || lowerActiveRaw.hasSuffix("ooi") || (parsed.tone != .none && (lastRawIsVowel || toneKeyCount >= 2)) {
+            let isForeignSCluster = activeRawKeys.last?.lowercased() == "s" && "tkmplc".contains(lowerNext)
+            if lowerActiveRaw == "air"
+                || lowerActiveRaw.hasSuffix("ooi")
+                || isForeignSCluster
+                || (parsed.tone != .none && (lastRawIsVowel || toneKeyCount >= 2)) {
                 return false
             }
             return true
