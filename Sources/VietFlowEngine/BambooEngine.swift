@@ -183,7 +183,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             } else if wordRawKeys.count == 4
                 && wordRawKeys[1].lowercased() == "u"
                 && "rsfj".contains(wordRawKeys[2].lowercased())
-                && "ou".contains(wordRawKeys[3].lowercased())
+                && "aoui".contains(wordRawKeys[3].lowercased())
                 && "wo".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -504,6 +504,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe")
                     || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc))
                     || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y"))
+                    || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })))
                     || (lowerOnset == "z")
                 let hasInvalidTransformedOnset = isTransformed
                     && !candidateState.isBypassed

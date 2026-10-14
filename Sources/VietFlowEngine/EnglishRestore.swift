@@ -243,7 +243,11 @@ public enum EnglishKeywords {
         "hero", "heroes", "heroic", "heroin", "heroine", "heroism", "nero",
         "morn", "corm", "porn", "loris",
         "pars", "irs", "sirs", "dirs", "ors", "urs", "ers", "roots", "harz",
-        "rife", "ajar", "ajax", "maxi", "maxis", "taxi", "trex", "tuxes", "luxe"
+        "rife", "ajar", "ajax", "maxi", "maxis", "taxi", "trex", "tuxes", "luxe",
+        "berm", "berms", "derm", "dermis", "churn", "churns", "urn", "urns", "ire",
+        "barn", "barns", "darn", "darns", "tarn", "tarns", "barf", "barfs",
+        "harm", "harms", "charm", "charms", "thorn", "thorns",
+        "curs", "burs", "vers", "fers", "oofs", "goof"
     ]
 }
 
@@ -322,7 +326,7 @@ public enum EnglishRestoreDetector {
 
     /// English 'sw-', 'tw-', 'dw-', and 'thw-' prefixes that are not valid Vietnamese 'sư-' / 'tư-' / 'dư-' / 'thư-' syllables in Telex.
     public static let invalidTelexSwPrefixes: [String] = [
-        "swi", "swe", "swap", "swan", "swat", "swam", "swag", "swor", "swu", "swarm",
+        "swi", "swe", "swap", "swan", "swat", "swam", "swag", "swor", "swu", "swarm", "swarth",
         "twi", "twe",
         "dwi", "dwe", "dwarf", "dwarv",
         "thwart"

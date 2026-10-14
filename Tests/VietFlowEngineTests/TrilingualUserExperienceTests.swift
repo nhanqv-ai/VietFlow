@@ -1235,8 +1235,40 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // --- Cycle 19: Single-'p' Onset Tone/Horn Orthography, 'uê' Non-Palatal Coda Rule, 'C+u+r+V' Unlatching & Romaji/English Lexicon (Tests 210-214) ---
+
+    func test_tier4_210_single_p_onset_tone_horn_orthography_and_ph_preservation() {
+        let input = "poof poofs perm perms pers purs pox para pare pares pared pore pores pored pose poses posed peso pesos pisa puro pura puri paza paze pazo purr purrs phoos phowr phuwowngj pin poo pee"
+        let expected = "poof poofs perm perms pers purs pox para pare pares pared pore pores pored pose poses posed peso pesos pisa puro pura puri paza paze pazo purr purrs phố phở phượng pin pô pê"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_211_ue_non_palatal_coda_orthography_tureen_and_vietnamese_ue_preservation() {
+        let input = "tureen tureens careen careens spleen queen queens quene tuyeen tuyeetj huees thuee hueechs khueechs"
+        let expected = "tureen tureens careen careens spleen quên queens quên tuyên tuyệt huế thuê huếch khuếch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_212_english_r_controlled_barn_darn_harm_charm_thorn_churn_urn_swarth() {
+        let input = "berm berms derm dermis churn churns urn urns ire barn barns darn darns tarn tarns barf barfs harm harms charm charms thorn thorns curs burs vers fers oofs goof swarth swarthy swar"
+        let expected = "berm berms derm dermis churn churns urn urns ire barn barns darn darns tarn tarns barf barfs harm harms charm charms thorn thorns curs burs vers fers oofs goof swarth swarthy sửa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_213_japanese_sura_suri_turo_tura_ture_nura_bura_gura_guri_and_vietnamese_unlatch() {
+        let input = "sura suri turo tura ture turi nura nuri bura buri gura guri turooi guriw suraw nuraw buraw"
+        let expected = "sura suri turo tura ture turi nura nuri bura buri gura guri tuổi gửi sửa nửa bửa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_214_scenario28_trilingual_ramen_tureen_gura_stream_and_charm_chat() {
+        let input = "Tối qua cả nhóm vừa xem stream của gura vừa thưởng thức súp trong thố tureen lớn tại quán cổ gần barn ngoại ô; món ăn có sức charm đặc biệt, không gây harm cho sức khoẻ vaf giúp anh em guriw (guriw) trọn niềm vui tuổi (turooi) trẻ!"
+        let expected = "Tối qua cả nhóm vừa xem stream của gura vừa thưởng thức súp trong thố tureen lớn tại quán cổ gần barn ngoại ô; món ăn có sức charm đặc biệt, không gây harm cho sức khoẻ và giúp anh em gửi (gửi) trọn niềm vui tuổi (tuổi) trẻ!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (209 Tests)
+    // MARK: - Test Registration (214 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1355,7 +1387,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (101 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (106 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -1457,6 +1489,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_207_english_mb_coda_cluster_boombox_catacomb_and_ajax_taxi_luxe", test_tier4_207_english_mb_coda_cluster_boombox_catacomb_and_ajax_taxi_luxe),
             ("test_tier4_208_japanese_yasa_yoso_kase_mase_sase_kosa_soso_hura_vocabulary", test_tier4_208_japanese_yasa_yoso_kase_mase_sase_kosa_soso_hura_vocabulary),
             ("test_tier4_209_scenario27_trilingual_security_trojan_ajax_and_tosa_trip_chat", test_tier4_209_scenario27_trilingual_security_trojan_ajax_and_tosa_trip_chat),
+            ("test_tier4_210_single_p_onset_tone_horn_orthography_and_ph_preservation", test_tier4_210_single_p_onset_tone_horn_orthography_and_ph_preservation),
+            ("test_tier4_211_ue_non_palatal_coda_orthography_tureen_and_vietnamese_ue_preservation", test_tier4_211_ue_non_palatal_coda_orthography_tureen_and_vietnamese_ue_preservation),
+            ("test_tier4_212_english_r_controlled_barn_darn_harm_charm_thorn_churn_urn_swarth", test_tier4_212_english_r_controlled_barn_darn_harm_charm_thorn_churn_urn_swarth),
+            ("test_tier4_213_japanese_sura_suri_turo_tura_ture_nura_bura_gura_guri_and_vietnamese_unlatch", test_tier4_213_japanese_sura_suri_turo_tura_ture_nura_bura_gura_guri_and_vietnamese_unlatch),
+            ("test_tier4_214_scenario28_trilingual_ramen_tureen_gura_stream_and_charm_chat", test_tier4_214_scenario28_trilingual_ramen_tureen_gura_stream_and_charm_chat),
         ]
     }
 }
