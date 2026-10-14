@@ -159,7 +159,20 @@ public enum EnglishKeywords {
         "effects", "detect", "detected", "collect", "reflect", "conflict", "predict",
         "strict", "district", "contact", "contract", "extract", "impact", "compact",
         "product", "products", "conduct", "construct", "instruct", "passport",
-        "passports", "passkey", "passkeys", "crossword", "classroom"
+        "passports", "passkey", "passkeys", "crossword", "classroom",
+        "wi", "there", "where", "here", "were", "these", "those", "whose", "chosen",
+        "more", "chore", "bore", "tore", "wore", "shore", "store", "stores", "stored",
+        "score", "scores", "ignore", "ignored", "restore", "restored", "explore",
+        "explorer", "before", "therefore", "hire", "hires", "hired", "tire", "tires",
+        "tired", "entire", "retire", "require", "requires", "required", "inspire",
+        "expire", "desire", "admire", "empire", "pure", "purely", "sure", "surely",
+        "ensure", "insure", "assure", "secure", "security", "cure", "cures", "cured",
+        "lure", "nature", "feature", "features", "future", "picture", "pictures",
+        "structure", "structures", "architecture", "culture", "capture", "gesture",
+        "lecture", "mixture", "moisture", "posture", "texture", "adventure", "creature",
+        "furniture", "literature", "signature", "temperature", "measure", "pleasure",
+        "treasure", "pressure", "exposure", "closure", "leisure", "figure",
+        "configure", "failure", "procedure", "gatsby", "bootstrap", "zoom", "zero", "zone"
     ]
 }
 
@@ -215,7 +228,7 @@ public enum EnglishRestoreDetector {
     public static let invalidCodaClusters: Set<String> = [
         "st", "nd", "nt", "rt", "rd", "ld", "rk", "rm", "rn",
         "lp", "lt", "mp", "ct", "ft", "ck", "ll",
-        "bb", "gg"
+        "bb", "gg", "th", "sh", "ph", "gh", "kh"
     ]
 
     /// English medial double-consonant + vowel/consonant sequences that never occur in valid Vietnamese words.

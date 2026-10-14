@@ -749,8 +749,34 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_125_japanese_hyphenated_honorifics_and_prefectures() {
+        let input = "Tanaka-san Yamada-san Suzuki-san Sato-sama Ito-sensei Nakamura-buchou Kobayashi-kachou Kato-shachou Haruka-chan Naruto-kun Tokyo-to Osaka-fu Kyoto-fu Hokkaido-chou Chiba-ken Saitama-ken Kanagawa-ken Shinjuku-ku Shibuya-ku"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_126_japanese_keigo_verbs_and_jlpt_daily_vocabulary() {
+        let input = "tabemasu nomimasu ikimasu kaerimasu hanashimasu tsukurimasu uchiawase kaigishitsu uketsuke jimusho mitsumorisho ryoushuusho keiyakusho sekkeisho houkokusho shitsureishimasu otsukaresamadesu osewaninarimasu shouchishimashita ryoukaishimashita"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_127_english_th_coda_and_common_re_se_words() {
+        let input = "tooth teeth booth bluetooth smooth there where here were these those whose chosen more chore bore tore wore shore store score ignore restore explore before therefore hire hires tire pure sure cure zoom zero zone"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_128_english_hyphenated_compounds_and_cloud_frameworks() {
+        let input = "wi-fi real-time up-to-date end-to-end check-in check-out log-in log-out sign-in sign-out drop-down pop-up follow-up open-source full-stack front-end back-end auto-update gatsby bootstrap kubernetes terraform"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_129_scenario11_business_email_keigo_and_cloud_architecture() {
+        let input = "Osewaninarimasu Sato-sama, chusng tooi ddax restore database vaf deploy heej thoongs real-time qua wi-fi taij jimusho Tokyo-to. Moij feature trong architecture ddeeuf secure, shouchishimashita!"
+        let expected = "Osewaninarimasu Sato-sama, chúng tôi đã restore database và deploy hệ thống real-time qua wi-fi tại jimusho Tokyo-to. Mọi feature trong architecture đều secure, shouchishimashita!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (124 Tests)
+    // MARK: - Test Registration (129 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -869,7 +895,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (16 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (21 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -886,6 +912,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_122_japanese_demonstratives_pronouns_colors_verbs_and_names", test_tier4_122_japanese_demonstratives_pronouns_colors_verbs_and_names),
             ("test_tier4_123_english_ss_consonant_and_ct_coda_technical_words", test_tier4_123_english_ss_consonant_and_ct_coda_technical_words),
             ("test_tier4_124_scenario10_brse_slack_standup_trilingual_with_backspace", test_tier4_124_scenario10_brse_slack_standup_trilingual_with_backspace),
+            ("test_tier4_125_japanese_hyphenated_honorifics_and_prefectures", test_tier4_125_japanese_hyphenated_honorifics_and_prefectures),
+            ("test_tier4_126_japanese_keigo_verbs_and_jlpt_daily_vocabulary", test_tier4_126_japanese_keigo_verbs_and_jlpt_daily_vocabulary),
+            ("test_tier4_127_english_th_coda_and_common_re_se_words", test_tier4_127_english_th_coda_and_common_re_se_words),
+            ("test_tier4_128_english_hyphenated_compounds_and_cloud_frameworks", test_tier4_128_english_hyphenated_compounds_and_cloud_frameworks),
+            ("test_tier4_129_scenario11_business_email_keigo_and_cloud_architecture", test_tier4_129_scenario11_business_email_keigo_and_cloud_architecture),
         ]
     }
 }
