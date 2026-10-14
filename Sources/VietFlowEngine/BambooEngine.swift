@@ -176,15 +176,31 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["moso", "toso", "noso"].contains(String(wordRawKeys).lowercased()) && "cmnpti".contains(character.lowercased()) {
+            } else if ["howa", "dowa", "nowa", "sowa", "towa", "rowa"].contains(String(wordRawKeys).lowercased()) && "cmnptsfrxj".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["tere", "kere", "nere", "bere", "dere", "tese", "kese", "mese", "nese", "hese", "sese", "bese", "dese"].contains(String(wordRawKeys).lowercased()) && "cmnptu".contains(character.lowercased()) {
+            } else if ["moso", "toso", "noso", "nojo", "hojo", "sojo", "tojo", "bojo", "gojo"].contains(String(wordRawKeys).lowercased()) && "cmnpti".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["suwa", "guwa", "buwa"].contains(String(wordRawKeys).lowercased()) && "sfrxj".contains(character.lowercased()) {
+            } else if ["maja", "naja", "haja", "saja", "taja", "baja", "gaja", "daja", "raja"].contains(String(wordRawKeys).lowercased()) && "cmnptuy".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["tere", "kere", "nere", "bere", "dere", "tese", "kese", "mese", "nese", "hese", "sese", "bese", "dese", "nix"].contains(String(wordRawKeys).lowercased()) && "cmnptu".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["suwa", "guwa", "buwa", "giwa", "huwa", "nuwa", "ruwa"].contains(String(wordRawKeys).lowercased()) && "sfrxj".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["tux", "dux"].contains(String(wordRawKeys).lowercased()) && "cmnptw".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "hex" && "ecmnpt".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)

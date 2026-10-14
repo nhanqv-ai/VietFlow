@@ -1329,8 +1329,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_225_japanese_howa_dowa_giwa_huwa_nuwa_ruwa_and_vietnamese_unlatch() {
+        let input = "howa dowa giwa huwa nuwa ruwa howacj towats giwax huwas nuwar ruwar"
+        let expected = "howa dowa giwa huwa nuwa ruwa hoặc toắt giữa hứa nửa rửa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_226_english_hex_nix_tux_dux_and_vietnamese_hexe_nixu_tuxn_duxng_unlatch() {
+        let input = "hex nix tux dux hexe nixu tuxn tuxm duxng"
+        let expected = "hex nix tux dux hễ nĩu tũn tũm dũng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_227_japanese_maja_naja_haja_saja_taja_baja_gaja_daja_raja_and_vietnamese_unlatch() {
+        let input = "maja naja haja saja taja baja gaja daja raja tajap hajau dajay gajay bajac"
+        let expected = "maja naja haja saja taja baja gaja daja raja tập hậu dậy gậy bậc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_228_japanese_nojo_hojo_sojo_tojo_bojo_gojo_nujo_hujo_tujo_gujo_dujo_rujo_and_unlatch() {
+        let input = "nojo hojo sojo tojo bojo gojo gojou hojou tojou nujo hujo tujo gujo dujo rujo hojoi tojoi bojoi nojoi hojop tojot bojot rujowu"
+        let expected = "nojo hojo sojo tojo bojo gojo gojou hojou tojou nujo hujo tujo gujo dujo rujo hội tội bội nội hộp tột bột rượu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_229_scenario31_trilingual_gojo_hojo_hex_nix_tux_and_dowa_chat() {
+        let input = "Trên máy trạm chạy nix và linux tux, kỹ thuật viên kiểm tra mã màu hex cho nhân vật gojo và gia tộc hojo trong truyện cổ dowa; hễ (hexe) phát hiện lỗi hiển thị giữa (giwax) các khung hình hoặc (howacj) tập (tajap) dữ liệu hội (hojoi) thoại thì hệ thống sẽ tự động hứa (huwas) đồng bộ lại ngay!"
+        let expected = "Trên máy trạm chạy nix và linux tux, kỹ thuật viên kiểm tra mã màu hex cho nhân vật gojo và gia tộc hojo trong truyện cổ dowa; hễ (hễ) phát hiện lỗi hiển thị giữa (giữa) các khung hình hoặc (hoặc) tập (tập) dữ liệu hội (hội) thoại thì hệ thống sẽ tự động hứa (hứa) đồng bộ lại ngay!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (224 Tests)
+    // MARK: - Test Registration (229 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1566,6 +1596,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_222_japanese_horo_moro_moso_toro_toso_soro_noro_noso_and_vietnamese_unlatch", test_tier4_222_japanese_horo_moro_moso_toro_toso_soro_noro_noso_and_vietnamese_unlatch),
             ("test_tier4_223_japanese_tere_kere_nere_bere_dere_tese_kese_mese_nese_hese_sese_bese_dese_nesu_and_unlatch", test_tier4_223_japanese_tere_kere_nere_bere_dere_tese_kese_mese_nese_hese_sese_bese_dese_nesu_and_unlatch),
             ("test_tier4_224_scenario30_trilingual_suwa_trip_uwagi_toro_sushi_and_won_wow_chat", test_tier4_224_scenario30_trilingual_suwa_trip_uwagi_toro_sushi_and_won_wow_chat),
+            ("test_tier4_225_japanese_howa_dowa_giwa_huwa_nuwa_ruwa_and_vietnamese_unlatch", test_tier4_225_japanese_howa_dowa_giwa_huwa_nuwa_ruwa_and_vietnamese_unlatch),
+            ("test_tier4_226_english_hex_nix_tux_dux_and_vietnamese_hexe_nixu_tuxn_duxng_unlatch", test_tier4_226_english_hex_nix_tux_dux_and_vietnamese_hexe_nixu_tuxn_duxng_unlatch),
+            ("test_tier4_227_japanese_maja_naja_haja_saja_taja_baja_gaja_daja_raja_and_vietnamese_unlatch", test_tier4_227_japanese_maja_naja_haja_saja_taja_baja_gaja_daja_raja_and_vietnamese_unlatch),
+            ("test_tier4_228_japanese_nojo_hojo_sojo_tojo_bojo_gojo_nujo_hujo_tujo_gujo_dujo_rujo_and_unlatch", test_tier4_228_japanese_nojo_hojo_sojo_tojo_bojo_gojo_nujo_hujo_tujo_gujo_dujo_rujo_and_unlatch),
+            ("test_tier4_229_scenario31_trilingual_gojo_hojo_hex_nix_tux_and_dowa_chat", test_tier4_229_scenario31_trilingual_gojo_hojo_hex_nix_tux_and_dowa_chat),
         ]
     }
 }

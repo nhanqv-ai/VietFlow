@@ -205,7 +205,10 @@ public enum JapaneseRomajiLexicon {
         "horo", "moro", "moso", "toro", "toso", "soro", "noro", "noso",
         "tere", "kere", "nere", "bere", "dere",
         "tese", "kese", "mese", "nese", "hese", "sese", "bese", "dese", "nesu",
-        "suwa", "guwa", "buwa"
+        "suwa", "guwa", "buwa", "giwa", "huwa", "nuwa", "ruwa", "howa", "dowa",
+        "maja", "naja", "haja", "saja", "taja", "baja", "gaja", "daja", "raja",
+        "nojo", "hojo", "sojo", "tojo", "bojo", "gojo",
+        "nujo", "hujo", "tujo", "gujo", "dujo", "rujo"
     ]
 }
 
