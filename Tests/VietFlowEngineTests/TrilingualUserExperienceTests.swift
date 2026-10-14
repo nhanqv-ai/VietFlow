@@ -830,8 +830,35 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected, inputMethod: .simpleTelex)
     }
 
+    func test_tier4_140_english_re_and_de_prefixed_words_multi_tone_offglide_protection() {
+        let input = "refer refers referred referral reset resets resetting resort resorts reform reforms reformed reuse reused reuses reusable defend defends defended defender defendant defence defences deform deformed defrost deed deeds deem deemed mere dire rise rises risen rising"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_141_english_are_ere_ire_ore_ise_ize_words() {
+        let input = "share care compare prepare declare square spare nightmare welfare sincere sphere atmosphere interfere fier<BS><BS>re firewall firebase wire wireless retire entire require inquire acquire inspire expire desire admire analyze organize recognize realize initialize serialize optimize customize summarize authorize synchronize prioritize"
+        let expected = "share care compare prepare declare square spare nightmare welfare sincere sphere atmosphere interfere fire firewall firebase wire wireless retire entire require inquire acquire inspire expire desire admire analyze organize recognize realize initialize serialize optimize customize summarize authorize synchronize prioritize"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_142_japanese_dictionary_form_verbs_ru_su_bu_mu_tsu() {
+        let input = "uru deru kesu osu motsu tatsu matsu katsu utsu sodatsu kaesu naosu nokosu okosu orosu otosu watasu hanasu sagasu hakobu erabu narabu manabu yobu tobu asobu musubu susumu tanomu wasureru oshieru oboeru kotaeru ukeru akeru shimeru tsukeru kakeru tasukeru hajimeru kimeru shiraberu"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_143_english_nce_ncy_nch_nse_nge_words() {
+        let input = "fence hence since prince convince province chance dance romance finance balance distance instance substance assistance resistance performance importance insurance compliance guidance agency currency frequency tendency efficiency bench branch launch lunch punch trench wrench french pinch inch sense dense tense immense intense expense defense offense license response change range strange arrange exchange challenge orange"
+        assertBuffer(input, equals: input)
+    }
+
+    func test_tier4_144_scenario14_software_architecture_refactoring_and_japanese_qa_review() {
+        let input = "Nakamura-buchou, chusng tooi ddax shiraberu vaf naosu xong bug reset state. Team ddax refactor module defense để reuse component, optimize hiệu năng vaf tasukeru QA team kangaeru test cases!"
+        let expected = "Nakamura-buchou, chúng tôi đã shiraberu và naosu xong bug reset state. Team đã refactor module defense để reuse component, optimize hiệu năng và tasukeru QA team kangaeru test cases!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (139 Tests)
+    // MARK: - Test Registration (144 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -950,7 +977,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier3_107_json_payload_with_vietnamese_and_romaji_values", test_tier3_107_json_payload_with_vietnamese_and_romaji_values),
             ("test_tier3_108_markdown_links_combining_vietnamese_text_and_url", test_tier3_108_markdown_links_combining_vietnamese_text_and_url),
 
-            // Tier 4: Real-World Multilingual Application Scenarios (31 tests)
+            // Tier 4: Real-World Multilingual Application Scenarios (36 tests)
             ("test_tier4_109_scenario1_trilingual_developer_chat", test_tier4_109_scenario1_trilingual_developer_chat),
             ("test_tier4_110_scenario2_pull_request_code_review", test_tier4_110_scenario2_pull_request_code_review),
             ("test_tier4_111_scenario3_japanese_culinary_and_travel_diary", test_tier4_111_scenario3_japanese_culinary_and_travel_diary),
@@ -982,6 +1009,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_137_english_emerge_refuse_piece_purse_curse_and_dge_age_words", test_tier4_137_english_emerge_refuse_piece_purse_curse_and_dge_age_words),
             ("test_tier4_138_vni_alphanumeric_tech_tokens_and_trilingual_sentence", test_tier4_138_vni_alphanumeric_tech_tokens_and_trilingual_sentence),
             ("test_tier4_139_scenario13_simple_telex_trilingual_tokyo_commute_and_incident_response", test_tier4_139_scenario13_simple_telex_trilingual_tokyo_commute_and_incident_response),
+            ("test_tier4_140_english_re_and_de_prefixed_words_multi_tone_offglide_protection", test_tier4_140_english_re_and_de_prefixed_words_multi_tone_offglide_protection),
+            ("test_tier4_141_english_are_ere_ire_ore_ise_ize_words", test_tier4_141_english_are_ere_ire_ore_ise_ize_words),
+            ("test_tier4_142_japanese_dictionary_form_verbs_ru_su_bu_mu_tsu", test_tier4_142_japanese_dictionary_form_verbs_ru_su_bu_mu_tsu),
+            ("test_tier4_143_english_nce_ncy_nch_nse_nge_words", test_tier4_143_english_nce_ncy_nch_nse_nge_words),
+            ("test_tier4_144_scenario14_software_architecture_refactoring_and_japanese_qa_review", test_tier4_144_scenario14_software_architecture_refactoring_and_japanese_qa_review),
         ]
     }
 }

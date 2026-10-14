@@ -736,7 +736,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let lowerNuc = parsed.nucleus.lowercased()
         if offGlides.contains(lowerNuc) {
             // Do not split if a tone key was typed between the two vowels (e.g. 'n-a-r-u' in 'naruto', 'm-i-s-a' in 'misaki', 'a-s-o' in 'asoko')
-            if parsed.tone != .none && lastRawIsVowel {
+            // or if multiple tone keys were typed in the syllable (e.g. 'r-e-f-o-r-m', 'r-e-s-o-r-t', 'd-e-f-o-r-m', 'd-e-f-r-o-s-t')
+            let toneKeyCount = activeRawKeys.dropFirst().filter { "sfrxj".contains($0.lowercased()) }.count
+            if parsed.tone != .none && (lastRawIsVowel || toneKeyCount >= 2) {
                 return false
             }
             return true
