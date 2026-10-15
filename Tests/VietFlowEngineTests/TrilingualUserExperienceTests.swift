@@ -2348,7 +2348,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (379 Tests)
+    // MARK: - Cycle 54: Mid-Word r->s and r->f Tone Override Unlatch on bars/cars/mars/tars/barfs/barf, hers/ers/nerfs/serfs/nerf/serf/kerf/vers, sirs/dirs, and ors/urs/curs/burs/surf/turf
+    // =========================================================================
+
+    func test_tier4_380_english_bars_cars_mars_tars_midword_tone_override_unlatch_and_preservation() {
+        let input = "bars barsn barsm barsng barsc barsp barst barsi barso barsu barsy barsw barswn barswt barsa barsan barsat cars carsn carsm carsng carsc carsp carst carsi carso carsu carsy carsw carswn carswt carsa carsan carsat mars marsn marsm marsng marsc marsp marst marsi marso marsu marsy marsw marswn marswt marsa marsan marsat tars tarsn tarsm tarsng tarsc tarsp tarst tarsi tarso tarsu tarsy tarsw tarswn tarswt tarsa tarsan tarsat"
+        let expected = "bars bán bám báng bác báp bát bái báo báu báy bắ bắn bắt bấ bấn bất cars cán cám cáng các cáp cát cái cáo cáu cáy cắ cắn cắt cấ cấn cất mars mán mám máng mác máp mát mái máo máu máy mắ mắn mắt mấ mấn mất tars tán tám táng tác táp tát tái táo táu táy tắ tắn tắt tấ tấn tất"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_381_english_hers_ers_vers_sirs_dirs_midword_tone_override_unlatch_and_preservation() {
+        let input = "hers herse hersen hersem herset hersep herseu hersn hersm hersc hersp herst herso ers erse ersen erset ersn ersm ersc ersp erst erso vers verse versn versm versc versp verst verso sirs sirsn sirsm sirsc sirsp sirst sirsu dirs dirsd dirsn dirsnd dirsdn dirsm dirsc dirsp dirst dirstd dirsdt dirsu"
+        let expected = "hers hế hến hếm hết hếp hếu hén hém héc hép hét héo ers ế ến ết én ém éc ép ét éo vers verse vén vém véc vép vét véo sirs sín sím síc síp sít síu dirs đí dín đín đín dím díc díp dít đít đít díu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_382_english_ors_urs_curs_burs_midword_tone_override_unlatch_and_preservation() {
+        let input = "ors orsw orswn orswt orso orson orsot orsi orsm orsn orsc orsp orst urs ursw urswn urswt ursi ursuw urswu ursm ursn ursc ursp urst curs curse cursw curswn curswt cursi cursuw curswu cursm cursn cursc cursp curst burs burst bursw burswn burswt bursi bursuw burswu bursm bursn bursc bursp"
+        let expected = "ors ớ ớn ớt ố ốn ốt ói óm ón óc óp ót urs ứ ứn ứt úi ứu ứu úm ún úc úp út curs curse cứ cứn cứt cúi cứu cứu cúm cún cúc cúp cút burs burst bứ bứn bứt búi bứu bứu búm bún búc búp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_383_english_barf_barfs_nerf_nerfs_serf_serfs_kerf_surf_turf_tone_override_unlatch() {
+        let input = "barf barfn barfm barfng barfi barfo barfu barfy barfw barfwn barfwng barfwm barfa barfan barfang barfam barfau barfay barfs barfsn barfst barfsw barfswn barfswt barfsa barfsan barfsat nerf nerfn nerfm nerfo nerfe nerfen nerfem nerfeu nerfs nerfsn nerfsm nerfst nerfsp nerfso nerfse nerfsen nerfsem nerfset nerfsep nerfseu serf serfn serfm serfo serfe serfen serfem serfeu serfs serfsn serfsm serfst serfsp serfso serfse serfsen serfsem serfset serfsep serfseu kerf kerfn kerfm kerfo kerfe kerfen kerfem kerfeu kerfenh surf surfn surfm surfi surfuw surfw surfwa surfwi surfwu surfwn surfwng surfwm turf turfn turfm turfi turfuw turfw turfwa turfwi turfwu turfwn turfwng turfwm"
+        let expected = "barf bàn bàm bàng bài bào bàu bày bằ bằn bằng bằm bầ bần bầng bầm bầu bầy barfs bán bát bắ bắn bắt bấ bấn bất nerf nèn nèm nèo nề nền nềm nều nerfs nén ném nét nép néo nế nến nếm nết nếp nếu serf sèn sèm sèo sề sền sềm sều serfs sén sém sét sép séo sế sến sếm sết sếp sếu kerf kèn kèm kèo kề kền kềm kều kềnh surf sùn sùm sùi sừu sừ sừa sừi sừu sừn sừng sừm turf tùn tùm tùi từu từ từa từi từu từn từng từm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_384_scenario62_trilingual_cars_bars_surf_and_vietnamese_ban_het_cuu_nen_chat() {
+        let input = "Dọc bãi biển nơi du khách đang surf sóng và đỗ xe cars gần các quầy bars, đội cứu (curswu) hộ đã làm việc hết (herset) mình trên nền (nerfen) cát trắng, thắp nến (nerfsen) hướng dẫn tàu thuyền cập bến an toàn và bán (barsn) từng (turfwng) phần nước mát cho mọi người!"
+        let expected = "Dọc bãi biển nơi du khách đang surf sóng và đỗ xe cars gần các quầy bars, đội cứu (cứu) hộ đã làm việc hết (hết) mình trên nền (nền) cát trắng, thắp nến (nến) hướng dẫn tàu thuyền cập bến an toàn và bán (bán) từng (từng) phần nước mát cho mọi người!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (384 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2739,6 +2773,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_377_english_chefs_refs_midword_tone_override_unlatch_and_preservation", test_tier4_377_english_chefs_refs_midword_tone_override_unlatch_and_preservation),
             ("test_tier4_378_english_hoofs_roofs_goofs_unlatch_and_preservation", test_tier4_378_english_hoofs_roofs_goofs_unlatch_and_preservation),
             ("test_tier4_379_scenario61_trilingual_cheers_chefs_roofs_and_vietnamese_keeng_soat_bep_goc_chat", test_tier4_379_scenario61_trilingual_cheers_chefs_roofs_and_vietnamese_keeng_soat_bep_goc_chat),
+            ("test_tier4_380_english_bars_cars_mars_tars_midword_tone_override_unlatch_and_preservation", test_tier4_380_english_bars_cars_mars_tars_midword_tone_override_unlatch_and_preservation),
+            ("test_tier4_381_english_hers_ers_vers_sirs_dirs_midword_tone_override_unlatch_and_preservation", test_tier4_381_english_hers_ers_vers_sirs_dirs_midword_tone_override_unlatch_and_preservation),
+            ("test_tier4_382_english_ors_urs_curs_burs_midword_tone_override_unlatch_and_preservation", test_tier4_382_english_ors_urs_curs_burs_midword_tone_override_unlatch_and_preservation),
+            ("test_tier4_383_english_barf_barfs_nerf_nerfs_serf_serfs_kerf_surf_turf_tone_override_unlatch", test_tier4_383_english_barf_barfs_nerf_nerfs_serf_serfs_kerf_surf_turf_tone_override_unlatch),
+            ("test_tier4_384_scenario62_trilingual_cars_bars_surf_and_vietnamese_ban_het_cuu_nen_chat", test_tier4_384_scenario62_trilingual_cars_bars_surf_and_vietnamese_ban_het_cuu_nen_chat),
         ]
     }
 }
