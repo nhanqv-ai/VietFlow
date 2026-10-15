@@ -3019,6 +3019,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 74: 16 Collocation Entries, uy/uyê/oa/oă/oe Stop-Coda & Tone Override Unlatch, and C-o-c-o-w Unlatch
+
+    func test_tier4_480_vietnamese_collocation_phrases_noops_goops_troops_rojos_gotos_nonos_mamas_nura_rora_raru_taru_garu_daru_seru_meru_cheru() {
+        let input = "noops suwng noops phoongf noops goops nooir gofo goops cais goops troops boopj troops loopj troops rojos mawts rojos looif rojos gotos vair gotos coor gotos nonos boonf nonos coonf nonos mamas naams mamas caay mamas nura nawngs nura chins nura chere treef chere mooi chere raru raauf raru rau raru taru ddaof taru taaur taru garu cais garu mucs garu daru yeeu daru con daru seru chim seru con seru meru moms meru cheru chawtj cheru"
+        let expected = "noops sưng nốp phồng nốp goops nổi gồ gốp cái gốp troops bộp trốp lộp trốp rojos mắt rố lồi rố gotos vải gốt cổ gốt nonos bồn nốn cồn nốn mamas nấm mấm cây mấm nura nắng nủa chín nủa chere trề chể môi chể raru rầu rảu rau rảu taru đào tảu tẩu tảu garu cái gảu múc gảu daru yêu dảu con dảu seru chim sẻu con sẻu meru móm mẻu cheru chặt chẻu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_481_uy_and_uye_coda_tone_override_and_delayed_circumflex_unlatch() {
+        let input = "quyrts quyrtj tuyrts tuyrtj suyrts suyrtj huyrts huyrchs huyrchj khuyrchs khuyrchj buyrts tuyrps uyrchs uyrchj quyretes quyretse quyretej quyretje quyrense quyrenfe quyrenje tuyretes tuyretse tuyretej tuyretje duyretejd duyretjed huyretes huyretej khuyretes thuyretes nguyretej chuyrense chuyrenfe chuyrenje truyrenfe truyrenje nguyrenxe uyretej"
+        let expected = "quýt quỵt tuýt tuỵt suýt suỵt huýt huých huỵch khuých khuỵch buýt tuýp uých uỵch quyết quyết quyệt quyệt quyến quyền quyện tuyết tuyết tuyệt tuyệt đuyệt đuyệt huyết huyệt khuyết thuyết nguyệt chuyến chuyền chuyện truyền truyện nguyễn uyệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_482_oa_oaw_and_oe_stop_coda_tone_override_and_delayed_w_unlatch() {
+        let input = "hoarts horats hoartj horatj thoarts thorats thoartj thoratj khoarcs khoracs khoarts khorats soarts sorats soartj soratj toarts torats loarts lorats hoarchj horachj khoarchs khorachs oarchs orachs oarchj orachj doartjd doratjd hoartws hoartsw horatws horatsw hoartwj hoartjw horatwj horatjw hoarcwj hoarcjw horacwj horacjw ngoartws ngoartsw ngoartwj ngoartjw ngoarcwj ngoarcjw xoartws choartws thoartws loartws oartws oartsw oartwj oartjw oarcws oarcsw oarcwj oarcjw lorets loerts loretj loertj torets toerts toretj toertj horets hoerts horetj hoertj chorets choerts choretj choertj khorets khoerts xorets xoerts xoretj xoertj ngorets ngoerts orets oerts oretj oertj"
+        let expected = "hoát hoát hoạt hoạt thoát thoát thoạt thoạt khoác khoác khoát khoát soát soát soạt soạt toát toát loát loát hoạch hoạch khoách khoách oách oách oạch oạch đoạt đoạt hoắt hoắt hoắt hoắt hoặt hoặt hoặt hoặt hoặc hoặc hoặc hoặc ngoắt ngoắt ngoặt ngoặt ngoặc ngoặc xoắt choắt thoắt loắt oắt oắt oặt oặt oắc oắc oặc oặc loét loét loẹt loẹt toét toét toẹt toẹt hoét hoét hoẹt hoẹt choét choét choẹt choẹt khoét khoét xoét xoét xoẹt xoẹt ngoét ngoét oét oét oẹt oẹt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_483_romaji_moco_toco_soco_doco_boco_hoco_goco_roco_choco_delayed_w_unlatch() {
+        let input = "moco mocos mocoj mocows mocowj toco tocos tocoj tocows tocowj soco socos socoj socows socowj boco bocos bocoj bocows bocowj hoco hocos hocoj hocows hocowj goco gocos gocoj gocows gocowj roco rocos rocoj rocows rocowj choco chocos chocoj chocows chocowj doco docosd docojd docowsd docowjd"
+        let expected = "moco mốc mộc mớc mợc toco tốc tộc tớc tợc soco sốc sộc sớc sợc boco bốc bộc bớc bợc hoco hốc hộc hớc hợc goco gốc gộc gớc gợc roco rốc rộc rớc rợc choco chốc chộc chớc chợc doco đốc độc đớc đợc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_484_scenario82_trilingual_troops_gotos_and_vietnamese_chuyen_truyen_quyet_tam_ke_hoach_chat() {
+        let input = "Trong câu chuyện (chuyrenje) cổ truyền (truyrenfe) của dòng họ Nguyễn (Nguyrenxe), đoàn troops mặc áo cổ gốt (coor gotos) đã quyết (quyretes) tâm lập kế hoạch (hoarchj) kiểm soát (soarts) chặt chẻu (chawtj cheru) từng bước ngoặt (ngoartwj) hoặc (hoarcwj) vết lở loét (lorets) dưới nắng nủa (nawngs nura) để hoàn thành xuất sắc tuyệt (tuyretej) đối!"
+        let expected = "Trong câu chuyện (chuyện) cổ truyền (truyền) của dòng họ Nguyễn (Nguyễn), đoàn troops mặc áo cổ gốt (cổ gốt) đã quyết (quyết) tâm lập kế hoạch (hoạch) kiểm soát (soát) chặt chẻu (chặt chẻu) từng bước ngoặt (ngoặt) hoặc (hoặc) vết lở loét (loét) dưới nắng nủa (nắng nủa) để hoàn thành xuất sắc tuyệt (tuyệt) đối!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3507,6 +3539,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_477_vowel_initial_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch", test_tier4_477_vowel_initial_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch),
             ("test_tier4_478_mixed_diphthong_and_monophthong_stop_coda_backspace_and_retype", test_tier4_478_mixed_diphthong_and_monophthong_stop_coda_backspace_and_retype),
             ("test_tier4_479_scenario81_trilingual_arts_arches_urana_and_vietnamese_con_ken_cho_dom_chau_bau_uoc_mo_chat", test_tier4_479_scenario81_trilingual_arts_arches_urana_and_vietnamese_con_ken_cho_dom_chau_bau_uoc_mo_chat),
+            ("test_tier4_480_vietnamese_collocation_phrases_noops_goops_troops_rojos_gotos_nonos_mamas_nura_rora_raru_taru_garu_daru_seru_meru_cheru", test_tier4_480_vietnamese_collocation_phrases_noops_goops_troops_rojos_gotos_nonos_mamas_nura_rora_raru_taru_garu_daru_seru_meru_cheru),
+            ("test_tier4_481_uy_and_uye_coda_tone_override_and_delayed_circumflex_unlatch", test_tier4_481_uy_and_uye_coda_tone_override_and_delayed_circumflex_unlatch),
+            ("test_tier4_482_oa_oaw_and_oe_stop_coda_tone_override_and_delayed_w_unlatch", test_tier4_482_oa_oaw_and_oe_stop_coda_tone_override_and_delayed_w_unlatch),
+            ("test_tier4_483_romaji_moco_toco_soco_doco_boco_hoco_goco_roco_choco_delayed_w_unlatch", test_tier4_483_romaji_moco_toco_soco_doco_boco_hoco_goco_roco_choco_delayed_w_unlatch),
+            ("test_tier4_484_scenario82_trilingual_troops_gotos_and_vietnamese_chuyen_truyen_quyet_tam_ke_hoach_chat", test_tier4_484_scenario82_trilingual_troops_gotos_and_vietnamese_chuyen_truyen_quyet_tam_ke_hoach_chat),
         ]
     }
 }
