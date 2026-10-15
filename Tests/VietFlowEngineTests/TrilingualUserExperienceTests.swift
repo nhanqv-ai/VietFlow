@@ -1706,7 +1706,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (284 Tests)
+    // MARK: - Cycle 35: Free-Order -ieue, -uo+Coda+w, Delayed-D d[aoe]V & -arau Unlatching
+    // =========================================================================
+
+    func test_tier4_285_vietnamese_free_order_ieue_unlatch_tireue_hireue_chiseue_chifeue_hijeue() {
+        let input = "tireue hireue direue lireue bireue kireue chireue gireue nireue mireue vireue sireue tiseue diseue hiseue liseue biseue kiseue chiseue niseue miseue tifeue difeue hifeue kifeue chifeue mifeue tijeue dijeue hijeue lijeue kijeue chijeue rijeue mijeue"
+        let expected = "tiểu hiểu diểu liểu biểu kiểu chiểu giểu niểu miểu viểu siểu tiếu diếu hiếu liếu biếu kiếu chiếu niếu miếu tiều diều hiều kiều chiều miều tiệu diệu hiệu liệu kiệu chiệu riệu miệu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_286_vietnamese_free_order_uo_coda_w_unlatch_turongw_buroiw_mufoiw_busocw_dujocw() {
+        let input = "turongw hurongw churongw buroiw suroiw guroiw turoiw churoiw tufongw hufongw dufongw nufongw chufongw mufoiw cufoiw sufoiw bufoiw tusongw husongw nusongw chusongw tusoiw dusoiw busomw musopw musotw busocw tusocw rusocw chusocw dujocw chujocw mujonw mujotw sujotw tujongw hujongw duxongw huxongw chuxongw"
+        let expected = "tưởng hưởng chưởng bưởi sưởi gưởi tưởi chưởi tường hường dường nường chường mười cười sười bười tướng hướng nướng chướng tưới dưới bướm mướp mướt bước tước rước chước dược chược mượn mượt sượt tượng hượng dưỡng hưỡng chưỡng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_287_vietnamese_delayed_d_da_do_de_unlatch_dorod_darad_dered_and_dose_preservation() {
+        let input = "dose doses dosed dorod dofod dosod dojod doxod dorodi dosodi dojodi doxodi dofodn dosodn dojodn dosodt dojodt darad dafad dasad dajad daxad darady dafady dasady dajady daxady dafadn dasadm dajadp dasadt dajadt dered defed desed dejed deredu defedu desedu dejedu defedm desedm dejedm defedn desedn"
+        let expected = "dose doses dosed đổ đồ đố độ đỗ đổi đối đội đỗi đồn đốn độn đốt đột đẩ đầ đấ đậ đẫ đẩy đầy đấy đậy đẫy đần đấm đập đất đật để đề đế đệ đểu đều đếu đệu đềm đếm đệm đền đến"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_288_japanese_arau_harau_sarau_tarau_narau_preservation_and_vietnamese_mau_bau_gau_dau_chau_unlatch() {
+        let input = "arau harau sarau tarau narau marau barau garau darau charau"
+        let expected = "arau harau sarau tarau narau mẩu bẩu gẩu dẩu chẩu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_289_scenario43_trilingual_narau_harau_dose_and_vietnamese_tuong_buoc_hieu_chieu_chat() {
+        let input = "Khi học tiếng Nhật (narau) và thanh toán (harau) chi phí cho liều lượng dose thuốc thử nghiệm, cả nhóm tìm hiểu (hireue) từng kiểu (kireue) thiết kế, chuẩn bị buổi chiếu (chiseue) phim lúc chiều (chifeue) tối với hiệu (hijeue) ứng hình ảnh mượt (mujotw) mà, từng bước (busocw) vượt qua bức tường (tufongw) kỹ thuật theo đúng định hướng (husongw) tưởng (turongw) chừng khó đạt được để đẩy (darady) nhanh tiến độ đến (desedn) đích với mẩu (marau) ghi chú nhỏ!"
+        let expected = "Khi học tiếng Nhật (narau) và thanh toán (harau) chi phí cho liều lượng dose thuốc thử nghiệm, cả nhóm tìm hiểu (hiểu) từng kiểu (kiểu) thiết kế, chuẩn bị buổi chiếu (chiếu) phim lúc chiều (chiều) tối với hiệu (hiệu) ứng hình ảnh mượt (mượt) mà, từng bước (bước) vượt qua bức tường (tường) kỹ thuật theo đúng định hướng (hướng) tưởng (tưởng) chừng khó đạt được để đẩy (đẩy) nhanh tiến độ đến (đến) đích với mẩu (mẩu) ghi chú nhỏ!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (289 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2002,6 +2036,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_282_vietnamese_single_e_ie_sonorant_unlatch_kirem_biren_hifen_chifen_chixen", test_tier4_282_vietnamese_single_e_ie_sonorant_unlatch_kirem_biren_hifen_chifen_chixen),
             ("test_tier4_283_vietnamese_single_e_ie_s_j_coda_unlatch_tisen_biset_hijen_dijet_tijec", test_tier4_283_vietnamese_single_e_ie_s_j_coda_unlatch_tisen_biset_hijen_dijet_tijec),
             ("test_tier4_284_scenario42_trilingual_diet_deep_keen_siren_and_vietnamese_doi_kenh_gom_hien_chat", test_tier4_284_scenario42_trilingual_diet_deep_keen_siren_and_vietnamese_doi_kenh_gom_hien_chat),
+            ("test_tier4_285_vietnamese_free_order_ieue_unlatch_tireue_hireue_chiseue_chifeue_hijeue", test_tier4_285_vietnamese_free_order_ieue_unlatch_tireue_hireue_chiseue_chifeue_hijeue),
+            ("test_tier4_286_vietnamese_free_order_uo_coda_w_unlatch_turongw_buroiw_mufoiw_busocw_dujocw", test_tier4_286_vietnamese_free_order_uo_coda_w_unlatch_turongw_buroiw_mufoiw_busocw_dujocw),
+            ("test_tier4_287_vietnamese_delayed_d_da_do_de_unlatch_dorod_darad_dered_and_dose_preservation", test_tier4_287_vietnamese_delayed_d_da_do_de_unlatch_dorod_darad_dered_and_dose_preservation),
+            ("test_tier4_288_japanese_arau_harau_sarau_tarau_narau_preservation_and_vietnamese_mau_bau_gau_dau_chau_unlatch", test_tier4_288_japanese_arau_harau_sarau_tarau_narau_preservation_and_vietnamese_mau_bau_gau_dau_chau_unlatch),
+            ("test_tier4_289_scenario43_trilingual_narau_harau_dose_and_vietnamese_tuong_buoc_hieu_chieu_chat", test_tier4_289_scenario43_trilingual_narau_harau_dose_and_vietnamese_tuong_buoc_hieu_chieu_chat),
         ]
     }
 }
