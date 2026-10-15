@@ -309,7 +309,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "git" && "sj".contains(character.lowercased()))
                 || (["chair", "lair", "hairs", "chairs", "lairs", "airs", "moron", "morons"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "boron" && "sfjx".contains(character.lowercased()))
-                || (["beset", "reset"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j")
+                || (["beset", "reset", "keeps", "deeps", "cheeps", "noops", "goops", "troops", "topos", "gotos", "photos", "datas", "basta", "rasta", "coats", "coast", "toast", "diets", "quiets", "nieces", "sorts", "burst", "worst", "thirst", "swops"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j")
+                || (["booms", "dooms", "looms", "rooms", "goons", "loons", "moons", "nonos", "deems", "seems", "teems", "keens", "teens", "queens", "mamas", "memes", "themes", "donors", "honors", "oxen", "vixen", "vixens", "sirens", "risen", "chosen", "tureens"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
+                || (["siren", "tureen"].contains(String(wordRawKeys).lowercased()) && "fxj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "oxen" && character.lowercased() == "s")
                 || (["manx", "sans"].contains(String(wordRawKeys).lowercased()) && "awgh".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "chasm" && "aw".contains(character.lowercased()))
                 || (["coast", "coats", "cusp", "swops", "soaps", "boron", "moron", "morons", "datas", "gotos", "topos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
@@ -344,7 +347,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors"].contains(String(wordRawKeys).lowercased()) && "wimncpt".contains(character.lowercased()))
                 || (["dadas", "charas"].contains(String(wordRawKeys).lowercased()) && "wuymncpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "deeds" && "umnpt".contains(character.lowercased()))
-                || (["daasu", "datas", "dawns", "downs", "darns", "darnsa", "darnsw", "darnsg", "darnsh", "deems", "deeps", "deers", "deersm", "deersn", "deersc", "deersp", "deerst", "deersu", "dense", "dirs", "dojos", "dooms", "doors", "doorsi", "doorsm", "doorsn", "doorsng", "doorsc", "doorsp", "doorst", "doorsw", "donor", "donors", "dura", "duri", "dorm", "dorms", "dormsw", "dormso", "derm", "dora", "dosa", "diesm", "diesn", "diesc", "diesp", "diest", "diesng"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
+                || (["daasu", "datas", "dawns", "downs", "darns", "darnsa", "darnsw", "darnsg", "darnsh", "deems", "deeps", "deers", "deersm", "deersn", "deersc", "deersp", "deerst", "deersu", "dense", "dirs", "dojos", "dooms", "doors", "doorsi", "doorsm", "doorsn", "doorsng", "doorsc", "doorsp", "doorst", "doorsw", "donor", "donors", "dots", "dust", "dura", "duri", "dorm", "dorms", "dormsw", "dormso", "derm", "dora", "dosa", "diesm", "diesn", "diesc", "diesp", "diest", "diesng"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -640,7 +643,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             && EnglishRestoreDetector.hasInvalidTelexSwPrefix(candidateWord)
         let isVietCollocation = Self.isVietnameseCollocation(candidateWord: candidateWord, lastCompletedWord: lastCompletedWord)
         let isKeyword = EnglishRestoreDetector.isEnglishKeyword(candidateWord) && !isVietCollocation
-        let isRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: candidateWord)
+        let isRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: candidateWord) && !isVietCollocation
         if _config.autoCorrectEnglish && (
             isKeyword
             || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(candidateWord)
@@ -724,8 +727,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let isKeywordRaw = EnglishRestoreDetector.isEnglishKeyword(candidateRaw) && !isVietCollocationRaw
         let isKeywordFull = EnglishRestoreDetector.isEnglishKeyword(fullCandidateRaw) && !isVietCollocationFull
 
-        let isCandidateRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerCandidateRaw)
-            || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: fullCandidateRaw)
+        let isCandidateRomaji = (JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerCandidateRaw) && !isVietCollocationRaw)
+            || (JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: fullCandidateRaw) && !isVietCollocationFull)
 
         let lowerActiveRaw = String(activeRawKeys).lowercased()
         let lowerChar = character.lowercased()
@@ -856,12 +859,22 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let invalidOaiOnsets: Set<String> = ["b", "m", "p", "ph", "v", "n", "g", "gh", "d", "r", "tr"]
                 let invalidOeOnsets: Set<String> = ["b", "c", "d", "đ", "g", "gh", "m", "n", "p", "ph", "r", "s", "tr", "v"]
                 let invalidOaOnsets: Set<String> = ["b", "g", "gh", "m", "n", "p", "ph", "r", "tr", "v"]
+                let isValidVietnameseGoa = lowerOnset == "g"
+                    && lowerNuc == "oa"
+                    && parsed.coda.isEmpty
+                    && parsed.tone == .acute
+                    && lowerCandidateRaw.hasPrefix("goa")
+                let isValidVietnameseNoan = lowerOnset == "n"
+                    && lowerNuc == "oa"
+                    && (parsed.coda.isEmpty || parsed.coda.lowercased() == "n")
+                    && parsed.tone == .tilde
+                    && lowerCandidateRaw.hasPrefix("noa")
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!))
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!))
                     || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc))
                     || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe")
-                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc))
+                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan)
                     || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y"))
                     || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })))
                     || (lowerOnset == "z")
@@ -1843,7 +1856,23 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "toe": ["bắn", "tung", "văng", "nổ", "phun", "cười", "sáng"],
         "toes": ["bắn", "tung", "văng", "nổ", "phun", "cười", "sáng"],
         "hoe": ["đỏ", "vàng"],
-        "hoes": ["đỏ", "vàng"]
+        "hoes": ["đỏ", "vàng"],
+        "suwa": ["say", "gỗ", "cây", "hoa", "dây", "mùa", "xưa"],
+        "nuwa": ["củ", "bột", "cây", "canh", "rau"],
+        "buwa": ["ăn", "no", "chán", "cơm"],
+        "sura": ["chó", "tiếng", "cứ", "đang", "hay"],
+        "rura": ["nguyền", "lời", "chửi", "trù"],
+        "giro": ["cái", "chiếc", "làn", "xách", "đựng", "mua", "đan"],
+        "gire": ["cái", "tấm", "miếng", "khăn", "cuộn"],
+        "gise": ["bông", "lúa", "con", "hạt"],
+        "osoi": ["nước", "túi", "vỡ", "rỉ", "cạn", "đa", "thiểu", "dịch", "gối"],
+        "noroi": ["trôi", "chìm", "nóng", "không", "chịu", "sôi", "làm", "ăn"],
+        "soroi": ["ăn", "muối", "cải", "dưa", "cà"],
+        "down": ["hoa", "lay", "củ", "bó", "cành", "trồng", "cắm", "rau", "cây", "hái", "nộm", "xào", "canh", "lá", "ngọn"],
+        "downs": ["rau", "cây", "hái", "nộm", "xào", "canh", "lá", "ngọn"],
+        "town": ["cơn", "lớn", "hớn", "tơn", "chạy", "nhảy", "cười", "đi", "mừng", "vui"],
+        "towns": ["lớn", "tơn", "chạy", "nhảy", "cười", "đi", "mừng", "vui"],
+        "vary": ["đánh", "cạo", "tróc", "lớp", "cá", "vẩy", "bóc"]
     ]
 
     private static func isVietnameseCollocation(candidateWord: String, lastCompletedWord: String) -> Bool {
