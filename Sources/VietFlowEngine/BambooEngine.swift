@@ -328,7 +328,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "git" && "sj".contains(character.lowercased()))
                 || (["chair", "lair", "moron"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "boron" && "sfjx".contains(character.lowercased()))
-                || (["beset", "reset", "keeps", "deeps", "cheeps", "noops", "goops", "troops", "topos", "gotos", "photos", "datas", "basta", "rasta", "coats", "coast", "toast", "diets", "quiets", "nieces", "sorts", "burst", "worst", "thirst", "swops"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j")
+                || (["beset", "reset", "keeps", "peeps", "deeps", "cheeps", "noops", "goops", "troops", "topos", "gotos", "photos", "datas", "basta", "rasta", "coats", "coast", "toast", "diets", "quiets", "nieces", "sorts", "burst", "worst", "thirst", "swops"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j")
                 || (["hairs", "chairs", "lairs", "airs", "morons", "booms", "dooms", "looms", "rooms", "goons", "loons", "moons", "nonos", "deems", "seems", "teems", "keens", "teens", "queens", "mamas", "memes", "themes", "donors", "honors", "oxen", "vixen", "vixens", "sirens", "risen", "chosen", "tureens", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms", "berms", "terms", "kerns", "terns", "dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors", "dadas", "charas", "leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "trees", "sees", "buys", "guys", "soars", "oars", "loafs", "oafs", "coifs", "choirs", "naifs", "liars"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
                 || (["siren", "tureen", "honor", "donor"].contains(String(wordRawKeys).lowercased()) && "fxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "oxen" && character.lowercased() == "s")
@@ -463,6 +463,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "giro" && "aeowimnsfxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "gifu" && "aowiymnsrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "giju" && "aowiymncptsfrx".contains(character.lowercased()))
+                || (["gifi", "gisi", "giji"].contains(String(wordRawKeys).lowercased()) && "sfrxj".contains(character.lowercased()) && character.lowercased() != r2)
                 || (["gire", "gise"].contains(String(wordRawKeys).lowercased()) && ("osfrxj".contains(character.lowercased()) && character.lowercased() != r2))
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "u"
@@ -662,6 +663,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     character: character
                 )
                 || Self.matchesPreDiacriticStopCodaToneOverrideUnlatch(
+                    wordRawKeys: wordRawKeys,
+                    prefix2: prefix2,
+                    rhymeAfterOnset: rhymeAfterOnset,
+                    character: character
+                )
+                || Self.matchesPostCodaStopToneOverrideUnlatch(
                     wordRawKeys: wordRawKeys,
                     prefix2: prefix2,
                     rhymeAfterOnset: rhymeAfterOnset,
@@ -2021,30 +2028,30 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "rari": ["mưa", "nằm", "mọc", "bố", "hiện", "cư", "rào", "trải"],
         "saso": ["chim", "con", "thổi", "tiếng", "cây", "ống", "khúc", "đàn", "lời", "văn", "chữ", "ăn", "nấu", "bún"],
         "biru": ["dè", "bai", "bỉ", "bị", "hay", "đừng", "trề", "cười", "mặt"],
-        "biju": ["bận", "vướng", "rịn", "rất", "đang", "luôn", "quá", "khá", "hơi"],
-        "niju": ["nũng", "nhẽo", "hay", "thích", "gái", "bé", "cứ", "đang", "giọng"],
-        "riju": ["rầu", "buồn", "mặt", "rũ", "nhàu"],
-        "risu": ["líu", "rộn", "quấn", "vướng", "bận", "kêu"],
-        "nisu": ["bám", "giữ", "cố", "với", "tay", "đừng", "không", "chẳng"],
+        "biju": ["bận", "bịn", "vướng", "rịn", "rất", "đang", "luôn", "quá", "khá", "hơi", "bịu"],
+        "niju": ["nũng", "bịn", "nhẽo", "hay", "thích", "gái", "bé", "cứ", "đang", "giọng", "nịu"],
+        "riju": ["rầu", "buồn", "mệt", "êm", "ngọt", "mặt", "rũ", "nhàu", "rịu"],
+        "risu": ["líu", "róc", "rộn", "quấn", "vướng", "bận", "kêu", "ríu"],
+        "nisu": ["bám", "kéo", "giữ", "cố", "với", "tay", "đừng", "không", "chẳng", "níu"],
         "gosa": ["bà", "phụ", "người", "cảnh", "ở", "chồng", "vợ", "mẹ", "chị", "cô", "dì", "thím", "bác", "mợ"],
         "tosa": ["chạy", "tản", "bay", "bắn", "văng", "vỡ", "bung", "nổ", "tung"],
         "lora": ["tắm", "xõa", "trần", "thân"],
         "bura": ["vây", "giăng", "lưới", "bị", "đang"],
         "tura": ["tua", "mọc", "đâm", "nhọn", "xù", "gai", "ria", "chạy", "kéo"],
-        "kere": ["kể", "chuyện", "nghe", "bất", "đáng", "không", "chẳng", "chưa"],
-        "bere": ["bơi", "xây", "dâu", "bãi", "bốn", "biển"],
-        "nere": ["kính", "trọng", "nể", "vì", "cả", "kiêng", "sợ", "rất", "khá", "hơi"],
+        "kere": ["kể", "chuyện", "nghe", "bất", "đáng", "vô", "không", "chẳng", "chưa"],
+        "bere": ["bơi", "xây", "dâu", "bãi", "bốn", "biển", "vỡ", "nước", "cá", "bể"],
+        "nere": ["kính", "trọng", "nể", "vì", "vị", "cả", "kiêng", "sợ", "rất", "khá", "hơi"],
         "rere": ["con", "chàng", "anh", "em", "làm", "dâu", "nhà", "kén", "chọn"],
-        "horo": ["con", "loài", "chuồng", "rừng", "xấu", "thẹn", "tướng", "mãnh", "cọp"],
-        "toro": ["chim", "ong", "kiến", "tôm", "cúng", "giỗ", "tiên", "dân", "phố", "trưởng", "hợp", "chức"],
-        "soro": ["cuốn", "quyển", "sách", "ghi", "mở", "cửa", "sổ", "mũi", "cúm", "vào", "lên"],
-        "noro": ["cháy", "bùng", "phát", "bom", "đạn", "pháo", "lốp", "bánh", "bỏng", "ngô", "súng", "tiếng", "vụ"],
-        "moro": ["phẫu", "ca", "bàn", "phòng", "dao", "bác", "mổ", "xẻ", "gà", "lợn"],
+        "horo": ["con", "loài", "chuồng", "rừng", "xấu", "thẹn", "tướng", "mãnh", "cọp", "hang", "hổ"],
+        "toro": ["chim", "ong", "kiến", "tôm", "cúng", "giỗ", "tiên", "dân", "phố", "trưởng", "hợp", "chức", "cái", "làm", "xây", "vỡ", "tổ"],
+        "soro": ["cuốn", "quyển", "sách", "ghi", "mở", "khóa", "cửa", "sổ", "mũi", "cúm", "vào", "lên"],
+        "noro": ["cháy", "bùng", "phát", "bom", "đạn", "pháo", "lốp", "bánh", "bỏng", "ngô", "súng", "tiếng", "vụ", "nổ"],
+        "moro": ["phẫu", "ca", "bàn", "phòng", "dao", "bác", "mổ", "xẻ", "gà", "chim", "đập", "lợn"],
         "boro": ["bồi", "thuốc", "món", "tẩm", "rất", "rìu", "củi", "chẻ", "đập", "nhào"],
         "hofo": ["mặt", "bờ", "nước", "đáy", "lòng", "ao", "sông", "tây", "gươm", "xuân", "sen", "đồng"],
         "bofo": ["chim", "câu", "kết", "cặp", "người", "cây", "hòn", "bồ"],
         "tese": ["kinh", "quốc", "thực", "tinh", "y", "cứu", "tử", "cúng", "lễ", "tế"],
-        "kese": ["thiết", "thống", "sinh", "mưu", "hiến", "thừa", "nhiệt", "áp", "ẩm", "liền", "tiếp", "kế"],
+        "kese": ["thiết", "thống", "sinh", "mưu", "hiến", "thừa", "nhiệt", "áp", "ẩm", "liền", "tiếp", "bản", "kế"],
         "bese": ["mẹ", "bà", "ẵm", "bồng", "lễ", "được", "đang", "cấm", "bế"],
         "nefe": ["nặng", "thợ", "nghề", "không", "chẳng", "quản", "nề"],
         "hefe": ["không", "chẳng", "chưa", "chú", "anh", "trò", "làm", "diễn", "hề"],
@@ -2219,7 +2226,22 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "tores": ["bắn", "tung", "nước", "máu", "lửa", "tóe"],
         "lores": ["sáng", "chớp", "tia", "lóe"],
         "chores": ["đỏ", "vàng", "sáng", "chóe"],
-        "hifu": ["hắt", "buồn", "hìu"]
+        "hifu": ["hắt", "buồn", "hìu"],
+        "miju": ["mềm", "êm", "mịu"],
+        "gifu": ["dắt", "nâng", "giù"],
+        "hiru": ["hắt", "buồn", "hỉu"],
+        "kiru": ["cứu", "kêu", "kỉu"],
+        "giru": ["dắt", "nâng", "giủ"],
+        "siru": ["ngất", "xỉu", "sỉu"],
+        "tiru": ["tỉm", "cười", "tỉu"],
+        "diru": ["dắt", "dìu", "dỉu"],
+        "chiju": ["cam", "chấp", "khó", "dễ", "không", "chẳng", "chịu"],
+        "diju": ["êm", "mềm", "nhẹ", "ngọt", "dịu"],
+        "siju": ["mặt", "buồn", "xịu", "sịu"],
+        "tiju": ["nặng", "trĩu", "tịu"],
+        "giju": ["dắt", "nâng", "giụ"],
+        "chisu": ["chim", "kêu", "líu", "chíu"],
+        "gisu": ["bám", "níu", "giú"]
     ]
 
     private static func matchesUyOaOeClusterUnlatch(
@@ -2553,6 +2575,100 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if codas.contains(coda) {
                 return true
             }
+        }
+        return false
+    }
+
+    private static func matchesPostCodaStopToneOverrideUnlatch(
+        wordRawKeys: [Character],
+        prefix2: String,
+        rhymeAfterOnset: [String],
+        character: Character
+    ) -> Bool {
+        guard let firstKey = wordRawKeys.first?.lowercased().first,
+              !"wfjz".contains(firstKey),
+              firstKey != "p" || prefix2 == "ph" else {
+            return false
+        }
+        let c = character.lowercased()
+        let isDOnset = firstKey == "d"
+        let effRhyme = "aeiouy".contains(firstKey) ? wordRawKeys.map({ $0.lowercased() }) : rhymeAfterOnset
+        guard effRhyme.count >= 3, "aeiouy".contains(effRhyme[0]) else {
+            return false
+        }
+        let rawRhyme = effRhyme.joined()
+        let basePatterns: [(base: String, diacritics: Set<String>)] = [
+            ("uyech", ["e"]), ("uyet", ["e"]), ("uyec", ["e"]),
+            ("uoc", ["w", "o", ""]), ("uop", ["w", ""]), ("uot", ["w", "o", ""]),
+            ("uat", ["a", ""]), ("uac", ["a", ""]),
+            ("uech", ["e", ""]), ("uet", ["e", ""]), ("uep", ["e", ""]),
+            ("iet", ["e", ""]), ("iec", ["e", ""]), ("iep", ["e", ""]),
+            ("yet", ["e", ""]), ("yec", ["e", ""]), ("yep", ["e", ""]),
+            ("oach", ["w", ""]), ("oat", ["w", ""]), ("oac", ["w", ""]), ("oap", ["w", ""]),
+            ("oet", [""]), ("oec", [""]), ("oep", [""]),
+            ("uych", [""]), ("uyt", [""]), ("uyp", [""]),
+            ("ych", [""]), ("yt", [""]), ("yp", [""]), ("yc", [""]),
+            ("ach", ["w", "a", ""]), ("ech", ["e", ""]), ("ich", [""]),
+            ("ac", ["w", "a", ""]), ("ap", ["w", "a", ""]), ("at", ["w", "a", ""]),
+            ("ec", ["e", ""]), ("ep", ["e", ""]), ("et", ["e", ""]),
+            ("ic", [""]), ("ip", [""]), ("it", [""]),
+            ("oc", ["o", "w", ""]), ("op", ["o", "w", ""]), ("ot", ["o", "w", ""]),
+            ("uc", ["w", ""]), ("up", [""]), ("ut", ["w", ""])
+        ]
+        for (base, diacritics) in basePatterns where rawRhyme.hasPrefix(base) {
+            if "iey".contains(base.first!) && firstKey == "c" && prefix2 != "ch" {
+                return false
+            }
+            if base.first == "e" && firstKey == "g" && prefix2 != "gh" && prefix2 != "gi" {
+                return false
+            }
+            if !"iey".contains(base.first!) && firstKey == "k" {
+                return false
+            }
+            let tail = String(rawRhyme.dropFirst(base.count))
+            let toneChars = tail.filter { "rfx".contains($0) }
+            guard toneChars.count == 1, let toneChar = toneChars.first,
+                  let toneIdx = tail.firstIndex(of: toneChar) else {
+                continue
+            }
+            var rem = tail
+            rem.remove(at: toneIdx)
+
+            if "sj".contains(c) {
+                if isDOnset, let dIdx = rem.firstIndex(of: "d") {
+                    rem.remove(at: dIdx)
+                } else if rem.contains("d") {
+                    return false
+                }
+                guard diacritics.contains(rem) else { return false }
+                if toneChar == "r" && c == "s" && rem != "w" {
+                    return false
+                }
+                return true
+            }
+
+            if !c.isEmpty && diacritics.contains(c) {
+                if isDOnset, let dIdx = rem.firstIndex(of: "d") {
+                    rem.remove(at: dIdx)
+                } else if rem.contains("d") {
+                    return false
+                }
+                if rem == "j" || (rem == "s" && (toneChar != "r" || c == "w")) {
+                    return true
+                }
+                return false
+            }
+
+            if isDOnset && c == "d" && !rem.contains("d") {
+                if let last = rem.last, "sj".contains(last) {
+                    let diac = String(rem.dropLast())
+                    if diacritics.contains(diac) && (toneChar != "r" || last == "j" || diac == "w") {
+                        return true
+                    }
+                }
+                return false
+            }
+            return false
         }
         return false
     }
