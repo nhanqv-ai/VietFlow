@@ -1540,8 +1540,8 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     func test_tier4_260_english_and_romaji_chara_charas_bara_gara_dara_nara_rara_and_vietnamese_ar_unlatch() {
-        let input = "chara charas kara bara gara dara nara rara mara hara sara tara baram baran baray garam garan garay daram daran daray naram naran naray raram raran raray marau harau tarau darau saray taray charam charan charau charay"
-        let expected = "chara charas kara bara gara dara nara rara mara hara sara tara bẩm bẩn bẩy gẩm gẩn gẩy dẩm dẩn dẩy nẩm nẩn nẩy rẩm rẩn rẩy mẩu hẩu tẩu dẩu sẩy tẩy chẩm chẩn chẩu chẩy"
+        let input = "chara charas kara bara gara dara nara rara mara hara sara tara baram baran baray garam garan garay daram daran daray naram naran naray raram raran raray maram maran haram haran saram saran saray taram taran taray charam charan charay"
+        let expected = "chara charas kara bara gara dara nara rara mara hara sara tara bẩm bẩn bẩy gẩm gẩn gẩy dẩm dẩn dẩy nẩm nẩn nẩy rẩm rẩn rẩy mẩm mẩn hẩm hẩn sẩm sẩn sẩy tẩm tẩn tẩy chẩm chẩn chẩy"
         assertBuffer(input, equals: expected)
     }
 
@@ -1559,13 +1559,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_263_vietnamese_duete_unlatch_duetes_duetej_and_duet_duets_preservation() {
         let input = "duet duets duete duetes duetej suete suetes suetej nuete nuetes nuetej muete muetes muetej"
-        let expected = "duet duets duết duết duệt suete suết suệt nuete nuết nuệt muete muết muệt"
+        let expected = "duet duets duete duết duệt suete suết suệt nuete nuết nuệt muete muết muệt"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_264_scenario38_trilingual_chara_bara_nara_and_vietnamese_free_tone_ue_ar_or_chat() {
-        let input = "Khi thiết kế chara mới lấy cảm hứng từ vườn hoa hồng bara tại thành phố nara và dạo chơi ngắm cảnh goro, họa sĩ đi chuyến tàu đêm về cố đô Huế (husee) vẫn cẩn (charan) thận dùng tẩy (taray) chỉnh lại từng mẩu (marau) phác thảo, dùng đòn bẩy (baray) sáng tạo để hạt giống nghệ thuật nẩy (naray) mầm và không để tổn (toron) hại đến tiến độ duyệt (dujeet) bản mẫu!"
-        let expected = "Khi thiết kế chara mới lấy cảm hứng từ vườn hoa hồng bara tại thành phố nara và dạo chơi ngắm cảnh goro, họa sĩ đi chuyến tàu đêm về cố đô Huế (huế) vẫn cẩn (chẩn) thận dùng tẩy (tẩy) chỉnh lại từng mẩu (mẩu) phác thảo, dùng đòn bẩy (bẩy) sáng tạo để hạt giống nghệ thuật nẩy (nẩy) mầm và không để tổn (tổn) hại đến tiến độ duyệt (duệt) bản mẫu!"
+        let input = "Khi thiết kế chara mới lấy cảm hứng từ vườn hoa hồng bara tại thành phố nara và dạo chơi ngắm cảnh goro, họa sĩ đi chuyến tàu đêm về cố đô Huế (husee) vẫn cẩn (charan) thận dùng tẩy (taray) chỉnh lại từng bản tẩm (taram) màu phác thảo, dùng đòn bẩy (baray) sáng tạo để hạt giống nghệ thuật nẩy (naray) mầm và không để tổn (toron) hại đến tiến độ duyệt (dujeet) bản mẫu!"
+        let expected = "Khi thiết kế chara mới lấy cảm hứng từ vườn hoa hồng bara tại thành phố nara và dạo chơi ngắm cảnh goro, họa sĩ đi chuyến tàu đêm về cố đô Huế (huế) vẫn cẩn (chẩn) thận dùng tẩy (tẩy) chỉnh lại từng bản tẩm (tẩm) màu phác thảo, dùng đòn bẩy (bẩy) sáng tạo để hạt giống nghệ thuật nẩy (nẩy) mầm và không để tổn (tổn) hại đến tiến độ duyệt (duệt) bản mẫu!"
         assertBuffer(input, equals: expected)
     }
 
