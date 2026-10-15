@@ -2178,7 +2178,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (354 Tests)
+    // MARK: - Cycle 49: w Unlatch on Romaji C-o-[rsfjx]-o / C-a-[rsfjx]-a, ô/â -> ơ/ă Across Codas, and siren/risen/vixe/dired/diesd Unlatch
+    // =========================================================================
+
+    func test_tier4_355_romaji_coro_cofo_coso_cojo_w_unlatch_and_preservation() {
+        let input = "moro morow morown morowm horo horow horown horowm toro torow torown torowm soro sorow sorown noro norow norown doro dorow dorowd dorowdn hofo hofow hofown hofowm sofo sofow sofown tofo tofow tofowm mofo mofow mofowm dofo dofow dofowd dofowdm hoso hosow hosown hosowt hosowp toso tosow tosown tosowt tosowp soso sosow sosown sosowm moso mosow mosown mosowm dojo dojow dojowd dojowdn dojowdt dojowdp hojo hojow hojowt hojowp sojo sojow sojowm tojo tojow bojo bojow bojowm bojowp"
+        let expected = "moro mở mởn mởm horo hở hởn hởm toro tở tởn tởm soro sở sởn noro nở nởn doro dở đở đởn hofo hờ hờn hờm sofo sờ sờn tofo tờ tờm mofo mờ mờm dofo dờ đờ đờm hoso hớ hớn hớt hớp toso tớ tớn tớt tớp soso sớ sớn sớm moso mớ mớn mớm dojo dợ đợ đợn đợt đợp hojo hợ hợt hợp sojo sợ sợm tojo tợ bojo bợ bợm bợp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_356_romaji_cara_casa_cafa_caja_w_unlatch_and_preservation() {
+        let input = "mara maraw marawn marawng hara haraw harawn harawng sara saraw sarawn tara taraw tarawn nara naraw narawn dara daraw darawd darawdn chara charaw charawn charawng masa masaw masawn masawng masawt masawc nasa nasaw nasawn nasawng sasa sasaw sasawn sasawt sasawc tasa tasaw tasawt dasa dasawd dasawdn dasawdng dasawdt dafa dafawd dafawdn dafawdng dafawdm maja majawt majawc naja najawng daja dajawd dajawdn dajawdng dajawdt dajawdc dajawdp"
+        let expected = "mara mẳ mẳn mẳng hara hẳ hẳn hẳng sara sẳ sẳn tara tẳ tẳn nara nẳ nẳn dara dẳ đẳ đẳn chara chẳ chẳn chẳng masa mắ mắn mắng mắt mắc nasa nắ nắn nắng sasa sắ sắn sắt sắc tasa tắ tắt dasa đắ đắn đắng đắt dafa đằ đằn đằng đằm maja mặt mặc naja nặng daja đặ đặn đặng đặt đặc đặp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_357_english_and_romaji_boron_moron_datas_gotos_topos_dodos_dadas_and_cvnv_cvmv_w_unlatch() {
+        let input = "boron boronw moron moronw datas datasw dataswd datasdw gotos gotosw topos toposw dodos dodosw dodoswn dodoswt dadas dadasw dadaswn dadaswng dadaswt honowf sonows donowd donowdf donowds hanawf hanaws manawj namawf namaws"
+        let expected = "boron bởn moron mởn datas dắt đắt đắt gotos gớt topos tớp dodos đớ đớn đớt dadas đắ đắn đắng đắt hờn sớn đơn đờn đớn hằn hắn mặn nằm nắm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_358_english_siren_risen_vixen_died_dies_preservation_and_vietnamese_sireng_riseng_vixem_dired_diesd_unlatch() {
+        let input = "siren sirens sireng risen riseng vixen vixens vixem died diredm diredn diredng dies diesdm diesdn diesdng diesdc diesdp diesdt"
+        let expected = "siren sirens siểng risen riếng vixen vixens viễm died điểm điển điểng dies điếm điến điếng điếc điếp điết"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_359_scenario57_trilingual_moron_datas_siren_dojo_and_vietnamese_mo_han_dat_diem_chat() {
+        let input = "Tại võ đường dojo ở vùng nara, khi tiếng còi siren vang lên báo hiệu bộ dữ liệu datas đã sẵn sàng, mọi người đều vui vẻ mỉm cười hớn hở (horow) vì chẳng (charawng) còn ai phải trăn trở mở (morow) lại bản nháp cũ hay lo lắng bị trừ điểm (diredm), cùng nhau nắm (namaws) chặt cơ hội để đặt (dajawdt) mục tiêu cao nhất!"
+        let expected = "Tại võ đường dojo ở vùng nara, khi tiếng còi siren vang lên báo hiệu bộ dữ liệu datas đã sẵn sàng, mọi người đều vui vẻ mỉm cười hớn hở (hở) vì chẳng (chẳng) còn ai phải trăn trở mở (mở) lại bản nháp cũ hay lo lắng bị trừ điểm (điểm), cùng nhau nắm (nắm) chặt cơ hội để đặt (đặt) mục tiêu cao nhất!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (359 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2544,6 +2578,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_352_romaji_and_english_ufong_urong_usong_duos_gifuo_gijuo_unlatch", test_tier4_352_romaji_and_english_ufong_urong_usong_duos_gifuo_gijuo_unlatch),
             ("test_tier4_353_delayed_d_before_coda_before_e_on_di_e_du_e_and_honor_donor_manag_monog_osoi_unlatch", test_tier4_353_delayed_d_before_coda_before_e_on_di_e_du_e_and_honor_donor_manag_monog_osoi_unlatch),
             ("test_tier4_354_scenario56_trilingual_dosai_duos_gifu_manager_and_vietnamese_giuong_uong_doai_chat", test_tier4_354_scenario56_trilingual_dosai_duos_gifu_manager_and_vietnamese_giuong_uong_doai_chat),
+            ("test_tier4_355_romaji_coro_cofo_coso_cojo_w_unlatch_and_preservation", test_tier4_355_romaji_coro_cofo_coso_cojo_w_unlatch_and_preservation),
+            ("test_tier4_356_romaji_cara_casa_cafa_caja_w_unlatch_and_preservation", test_tier4_356_romaji_cara_casa_cafa_caja_w_unlatch_and_preservation),
+            ("test_tier4_357_english_and_romaji_boron_moron_datas_gotos_topos_dodos_dadas_and_cvnv_cvmv_w_unlatch", test_tier4_357_english_and_romaji_boron_moron_datas_gotos_topos_dodos_dadas_and_cvnv_cvmv_w_unlatch),
+            ("test_tier4_358_english_siren_risen_vixen_died_dies_preservation_and_vietnamese_sireng_riseng_vixem_dired_diesd_unlatch", test_tier4_358_english_siren_risen_vixen_died_dies_preservation_and_vietnamese_sireng_riseng_vixem_dired_diesd_unlatch),
+            ("test_tier4_359_scenario57_trilingual_moron_datas_siren_dojo_and_vietnamese_mo_han_dat_diem_chat", test_tier4_359_scenario57_trilingual_moron_datas_siren_dojo_and_vietnamese_mo_han_dat_diem_chat),
         ]
     }
 }
