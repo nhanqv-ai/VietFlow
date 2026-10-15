@@ -257,7 +257,7 @@ public enum EnglishKeywords {
         "noop", "noops", "dadas", "hies", "lire", "lise", "vire", "vise", "vises", "quasar", "quasars", "hangars",
         "loofs", "siete", "data", "goto", "sata", "toto", "loto", "topo", "sapa", "napa", "tapa", "capa", "poco",
         "choco", "quoto", "chara", "charas", "boron", "tureen", "tureens", "siren", "sirens", "bisect", "bisects", "bisected",
-        "tested", "tester", "testers"
+        "tested", "tester", "testers", "termed", "kerned", "kernel", "kernels"
     ]
 }
 

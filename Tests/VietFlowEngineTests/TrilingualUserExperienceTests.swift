@@ -1774,7 +1774,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (294 Tests)
+    // MARK: - Cycle 37: Lose/Hose+t, -arua/-asua, -orio/-oriw, Term/Berm/Derm/Kern+e & -uete/-uenhe/-ueche Unlatching
+    // =========================================================================
+
+    func test_tier4_295_english_lose_hose_preservation_and_vietnamese_loet_hoet_unlatch() {
+        let input = "lose loses loser losers losing loset hose hoses hosed hosing hoset toset khoset"
+        let expected = "lose loses loser losers losing loét hose hoses hosed hosing hoét toét khoét"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_296_japanese_baru_daru_garu_maru_naru_saru_taru_basu_dasu_gasu_preservation_and_vietnamese_au_unlatch() {
+        let input = "baru barua daru darua garu garua haru harua maru marua naru narua saru sarua taru tarua basu basua dasu dasua gasu gasua nasu nasua sasu sasua tasu tasua"
+        let expected = "baru bẩu daru dẩu garu gẩu haru hẩu maru mẩu naru nẩu saru sẩu taru tẩu basu bấu dasu dấu gasu gấu nasu nấu sasu sấu tasu tấu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_297_japanese_nori_rori_and_english_term_berm_derm_kern_preservation_with_vietnamese_unlatch() {
+        let input = "nori norio noriw rori rorio roriw loris term terms termed terme berm berms berme derm dermis derme dermed kern kerns kerned kernel kernels kerne kerneh"
+        let expected = "nori nổi nởi rori rổi rởi loris term terms termed tểm berm berms bểm derm dermis dểm đểm kern kerns kerned kernel kernels kển kểnh"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_298_vietnamese_free_order_uete_uenhe_ueche_unlatch() {
+        let input = "tusete dusete susete chusete tujete dujete sujete chujete husenhe tusenhe chusenhe hufenhe tufenhe chufenhe hurenhe turenhe churenhe huseche tuseche chuseche"
+        let expected = "tuết duết suết chuết tuệt duệt suệt chuệt huếnh tuếnh chuếnh huềnh tuềnh chuềnh huểnh tuểnh chuểnh huếch tuếch chuếch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_299_scenario45_trilingual_nori_naruto_kernel_and_vietnamese_loet_noi_nau_gau_tuet_chat() {
+        let input = "Khi thưởng thức rong biển nori cùng món mì naru trong lúc biên dịch nhân kernel và kiểm tra từng điều khoản term để không bị lose dữ liệu, đầu bếp nấu (nasua) súp gấu (gasua) trúc với dấu (dasua) ấn riêng làm thực khách nổi (norio) hứng phấn khởi, mở rộng khoảng trống hoét (hoset) và loét (loset) sáng rực mà không hề trống huếch (huseche) hay tuềnh (tufenhe) toàng dưới trời tuyết tuết (tusete) rơi!"
+        let expected = "Khi thưởng thức rong biển nori cùng món mì naru trong lúc biên dịch nhân kernel và kiểm tra từng điều khoản term để không bị lose dữ liệu, đầu bếp nấu (nấu) súp gấu (gấu) trúc với dấu (dấu) ấn riêng làm thực khách nổi (nổi) hứng phấn khởi, mở rộng khoảng trống hoét (hoét) và loét (loét) sáng rực mà không hề trống huếch (huếch) hay tuềnh (tuềnh) toàng dưới trời tuyết tuết (tuết) rơi!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (299 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2080,6 +2114,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_292_english_rn_rm_preservation_and_vietnamese_free_tone_rna_rma_unlatch", test_tier4_292_english_rn_rm_preservation_and_vietnamese_free_tone_rna_rma_unlatch),
             ("test_tier4_293_english_rn_rm_preservation_and_vietnamese_free_tone_rno_rmo_unlatch", test_tier4_293_english_rn_rm_preservation_and_vietnamese_free_tone_rno_rmo_unlatch),
             ("test_tier4_294_scenario44_trilingual_cost_most_rust_test_and_vietnamese_cot_mot_tet_ton_chat", test_tier4_294_scenario44_trilingual_cost_most_rust_test_and_vietnamese_cot_mot_tet_ton_chat),
+            ("test_tier4_295_english_lose_hose_preservation_and_vietnamese_loet_hoet_unlatch", test_tier4_295_english_lose_hose_preservation_and_vietnamese_loet_hoet_unlatch),
+            ("test_tier4_296_japanese_baru_daru_garu_maru_naru_saru_taru_basu_dasu_gasu_preservation_and_vietnamese_au_unlatch", test_tier4_296_japanese_baru_daru_garu_maru_naru_saru_taru_basu_dasu_gasu_preservation_and_vietnamese_au_unlatch),
+            ("test_tier4_297_japanese_nori_rori_and_english_term_berm_derm_kern_preservation_with_vietnamese_unlatch", test_tier4_297_japanese_nori_rori_and_english_term_berm_derm_kern_preservation_with_vietnamese_unlatch),
+            ("test_tier4_298_vietnamese_free_order_uete_uenhe_ueche_unlatch", test_tier4_298_vietnamese_free_order_uete_uenhe_ueche_unlatch),
+            ("test_tier4_299_scenario45_trilingual_nori_naruto_kernel_and_vietnamese_loet_noi_nau_gau_tuet_chat", test_tier4_299_scenario45_trilingual_nori_naruto_kernel_and_vietnamese_loet_noi_nau_gau_tuet_chat),
         ]
     }
 }
