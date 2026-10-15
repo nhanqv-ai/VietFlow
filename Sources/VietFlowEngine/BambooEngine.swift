@@ -211,7 +211,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if ["noop", "goop", "troop", "keep", "peep", "cheep", "deep"].contains(String(wordRawKeys).lowercased())
                 && (character.lowercased() == "j"
-                    || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
+                    || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
+                    || (["noop", "goop", "troop"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -449,7 +450,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     "duos", "duoso", "duosw",
                     "duosi", "duosu", "duosm", "duosn", "duosng", "duosc", "duosp", "duost"
                 ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
-                || (["uru", "usu", "girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
+                || (["uru", "usu", "urus", "uruf", "urux", "uruj", "usuf", "usur", "usux", "usuj", "girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (["girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi", "girai", "gisai", "horai", "torai", "hosai", "sosai", "tosai"].contains(String(wordRawKeys).lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys[wordRawKeys.count - 3].lowercased())
@@ -466,18 +467,22 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && rhymeAfterOnset[0] == "u"
                     && "rsfjx".contains(rhymeAfterOnset[1])
                     && rhymeAfterOnset[2] == "o"
-                    && ((["i", "u", "m", "n", "ng", "p", "t", "c", "id", "ud", "md", "nd", "ngd", "pd", "td", "cd"].contains(rhymeAfterOnset[3...].joined())
+                    && ((["i", "u", "m", "n", "ng", "p", "t", "c", "id", "ud", "md", "nd", "ngd", "pd", "td", "cd", "ps", "pj", "ts", "tj", "cs", "cj", "psd", "pjd", "tsd", "tjd", "csd", "cjd", "dps", "dpj", "dts", "dtj", "dcs", "dcj"].contains(rhymeAfterOnset[3...].joined())
                         && "wo".contains(character.lowercased()))
-                        || (["i", "u", "m", "n", "ng", "p", "t", "c"].contains(rhymeAfterOnset[3...].joined())
+                        || (["pw", "po", "tw", "to", "cw", "co", "pwd", "pod", "twd", "tod", "cwd", "cod", "dpw", "dpo", "dtw", "dto", "dcw", "dco"].contains(rhymeAfterOnset[3...].joined())
+                            && "sj".contains(character.lowercased()))
+                        || (["i", "u", "m", "n", "ng", "p", "t", "c", "pws", "pwj", "pos", "poj", "tws", "twj", "tos", "toj", "cws", "cwj", "cos", "coj", "psw", "pjw", "pso", "pjo", "tsw", "tjw", "tso", "tjo", "csw", "cjw", "cso", "cjo"].contains(rhymeAfterOnset[3...].joined())
                             && wordRawKeys[0].lowercased() == "d"
                             && character.lowercased() == "d")))
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "u"
                     && "rsfjx".contains(rhymeAfterOnset[1])
                     && rhymeAfterOnset[2] == "a"
-                    && ((["m", "n", "ng", "y", "t", "c", "md", "nd", "ngd", "yd", "td", "cd"].contains(rhymeAfterOnset[3...].joined())
+                    && ((["m", "n", "ng", "y", "t", "c", "md", "nd", "ngd", "yd", "td", "cd", "ts", "tj", "cs", "cj", "tsd", "tjd", "csd", "cjd", "dts", "dtj", "dcs", "dcj"].contains(rhymeAfterOnset[3...].joined())
                         && character.lowercased() == "a")
-                        || (["m", "n", "ng", "y", "t", "c"].contains(rhymeAfterOnset[3...].joined())
+                        || (["ta", "ca", "tad", "cad", "dta", "dca"].contains(rhymeAfterOnset[3...].joined())
+                            && "sj".contains(character.lowercased()))
+                        || (["m", "n", "ng", "y", "t", "c", "tas", "taj", "cas", "caj", "tsa", "tja", "csa", "cja"].contains(rhymeAfterOnset[3...].joined())
                             && wordRawKeys[0].lowercased() == "d"
                             && character.lowercased() == "d"))) {
                 isBypassed = false
@@ -508,8 +513,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && rhymeAfterOnset[0] == "i"
                     && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
                         || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2])))
-                    && ["d", "u", "ud", "du", "m", "n", "ng", "c", "t", "p", "md", "nd", "ngd", "cd", "td", "pd", "dm", "dn", "dng", "dc", "dt", "dp"].contains(rhymeAfterOnset[3...].joined())
-                    && character.lowercased() == "e")
+                    && ((["d", "u", "ud", "du", "m", "n", "ng", "c", "t", "p", "md", "nd", "ngd", "cd", "td", "pd", "dm", "dn", "dng", "dc", "dt", "dp", "cs", "cj", "ts", "tj", "ps", "pj", "csd", "cjd", "tsd", "tjd", "psd", "pjd", "dcs", "dcj", "dts", "dtj", "dps", "dpj"].contains(rhymeAfterOnset[3...].joined())
+                        && character.lowercased() == "e")
+                        || (["ce", "te", "pe", "ced", "ted", "ped", "dce", "dte", "dpe"].contains(rhymeAfterOnset[3...].joined())
+                            && "sj".contains(character.lowercased()))
+                        || (["ces", "cej", "tes", "tej", "pes", "pej", "cse", "cje", "tse", "tje", "pse", "pje"].contains(rhymeAfterOnset[3...].joined())
+                            && wordRawKeys[0].lowercased() == "d"
+                            && character.lowercased() == "d")))
                 || ([
                     "yesn", "yesm", "yesng", "yest", "yesc", "yesp",
                     "usen", "usem", "usenh", "uset", "usep", "usech",
@@ -523,8 +533,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && rhymeAfterOnset[0] == "u"
                     && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
                         || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2])))
-                    && ["d", "m", "n", "p", "t", "nh", "ch", "md", "nd", "pd", "td", "nhd", "chd", "dm", "dn", "dp", "dt", "dnh", "dch"].contains(rhymeAfterOnset[3...].joined())
-                    && character.lowercased() == "e")
+                    && ((["d", "m", "n", "p", "t", "nh", "ch", "md", "nd", "pd", "td", "nhd", "chd", "dm", "dn", "dp", "dt", "dnh", "dch", "ps", "pj", "ts", "tj", "chs", "chj", "psd", "pjd", "tsd", "tjd", "chsd", "chjd", "dps", "dpj", "dts", "dtj", "dchs", "dchj"].contains(rhymeAfterOnset[3...].joined())
+                        && character.lowercased() == "e")
+                        || (["pe", "te", "che", "ped", "ted", "ched", "dpe", "dte", "dche"].contains(rhymeAfterOnset[3...].joined())
+                            && "sj".contains(character.lowercased()))
+                        || (["pes", "pej", "tes", "tej", "ches", "chej", "pse", "pje", "tse", "tje", "chse", "chje"].contains(rhymeAfterOnset[3...].joined())
+                            && wordRawKeys[0].lowercased() == "d"
+                            && character.lowercased() == "d")))
                 || (String(wordRawKeys).lowercased() == "tureen" && character.lowercased() == "h")
                 || Self.isVietnameseCollocation(candidateWord: (String(wordRawKeys) + String(character)).lowercased(), lastCompletedWord: lastCompletedWord)) {
                 isBypassed = false
@@ -2101,7 +2116,21 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "torai": ["tự", "trải", "toải"],
         "hosai": ["vàng", "hoa", "hoái"],
         "nori": ["nhỏ", "bé", "ít", "nỏi"],
-        "maso": ["máu", "con", "chim", "máo"]
+        "maso": ["máu", "con", "chim", "máo"],
+        "arau": ["làm", "chạy", "nói", "ăn", "viết", "gõ", "tính", "hơi", "quá", "rất", "cực", "lái", "ẩu"],
+        "mojo": ["ngôi", "phần", "bia", "đào", "viếng", "tảo", "lăng", "hâm", "ngưỡng", "ái", "chiêu", "mộ"],
+        "goro": ["gây", "cãi", "ẩu", "gổ"],
+        "doro": ["gây", "cãi", "dổ"],
+        "here": ["cười", "vui", "hả", "hể"],
+        "mere": ["cái", "gà", "tiền", "mể"],
+        "chefe": ["trề", "môi", "mặt", "chề"],
+        "lose": ["sáng", "chớp", "tia", "bừng", "nhấp", "lóe"],
+        "chose": ["đỏ", "vàng", "sáng", "chói", "khóc", "chóe"],
+        "hose": ["đỏ", "vàng"],
+        "keeps": ["bánh", "kếp"],
+        "deeps": ["rau", "cá", "dếp"],
+        "rooms": ["nổi", "bị", "mẩn", "rôm", "rốm"],
+        "gasu": ["cái", "chiếc", "múc", "nước", "gàu", "gáu"]
     ]
 
     private static func isVietnameseCollocation(candidateWord: String, lastCompletedWord: String) -> Bool {

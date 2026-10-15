@@ -2921,6 +2921,40 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // =========================================================================
+    // MARK: - Cycle 71: Collocations (arau/mojo/goro/doro/here/mere/chefe/lose/chose/hose/keeps/deeps/rooms/gasu) & Stop-Coda Delayed Diacritic + Tone Override Unlatch
+    // =========================================================================
+
+    func test_tier4_465_vietnamese_collocation_phrases_arau_mojo_goro_doro_here_mere_chefe_lose_chose_hose_keeps_deeps_rooms_gasu() {
+        let input = "arau lamf arau chayj arau lais arau mojo ngooi mojo haam mojo nguwowngx mojo goro gaay goro caix goro doro gaay doro caix doro here cuwowif here vui here mere cais mere gaf mere chefe treef chefe mooi chefe lose sangs lose chowps lose tia lose chose ddor chose vangf chose sangs chose hose ddor hose vangf hose keeps banhs keeps deeps rau deeps cas deeps rooms nooir rooms rôm rooms gasu cais gasu mucs gasu"
+        let expected = "arau làm ẩu chạy ẩu lái ẩu mojo ngôi mộ hâm mộ ngưỡng mộ goro gây gổ cãi gổ doro gây dổ cãi dổ here cười hể vui hể mere cái mể gà mể chefe trề chề môi chề lose sáng lóe chớp lóe tia lóe chose đỏ chóe vàng chóe sáng chóe hose đỏ hóe vàng hóe keeps bánh kếp deeps rau dếp cá dếp rooms nổi rốm rôm rốm gasu cái gáu múc gáu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_466_romaji_cuo_cua_stop_coda_delayed_diacritic_and_tone_override_unlatch() {
+        let input = "turo turotws turotwj turotsw turotjw turotos turotoj turotso turotjo muro murotws murotwj muropws muropwj churo churocws churocwj duro durotwsd durotwjd durocwjd durocjwd durotojd tura turatas turataj turatsa turatja sura suratas surataj suratsa suratja chura churatas churataj churatsa churatja dura duratasd duratajd duratsad duratjad"
+        let expected = "turo tướt tượt tướt tượt tuốt tuột tuốt tuột muro mướt mượt mướp mượp churo chước chược duro đướt đượt được được đuột tura tuất tuật tuất tuật sura suất suật suất suật chura chuất chuật chuất chuật dura đuất đuật đuất đuật"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_467_romaji_and_english_cie_cue_stop_coda_delayed_circumflex_and_tone_override_unlatch() {
+        let input = "tire tiretes tiretej tiretse tiretje tireces tirecej tirecse tirecje tirepes tirepej tirepse tirepje hire hiretes hiretej kire kiretes kiretej nire niretes niretej bire biretes biretej mire miretes miretej sire siretes siretej dire diretesd diretejd diretsed diretjed direcesd direcejd direpesd direpejd ture turetes turetej turetse turetje hure huretes huretej chure churetes churetej dure duretesd duretejd duretsed duretjed"
+        let expected = "tire tiết tiệt tiết tiệt tiếc tiệc tiếc tiệc tiếp tiệp tiếp tiệp hire hiết hiệt kire kiết kiệt nire niết niệt bire biết biệt mire miết miệt sire siết siệt dire điết điệt điết điệt điếc điệc điếp điệp ture tuết tuệt tuết tuệt hure huết huệt chure chuết chuệt dure đuết đuệt đuết đuệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_468_english_noop_goop_troop_toast_and_romaji_uru_usu_tone_w_unlatch() {
+        let input = "noop noopws noopwj noopjw goop goopws goopwj goopjw troop troopws troopwj troopjw coast coastw coastwj coastjw coats coatsw coatswj coatsjw cusp cuspw cuspwj cuspjw uru urusai urusw urufw uruxw urujw usu usurp usufw usurw usuxw usujw"
+        let expected = "noop nớp nợp nợp goop gớp gợp gợp troop trớp trợp trợp coast coắt coặt coặt coats coắt coặt coặt cusp cứp cựp cựp uru urusai ứu ừu ữu ựu usu usurp ừu ửu ữu ựu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_469_scenario79_trilingual_mojo_toast_urusai_and_vietnamese_ham_mo_banh_kep_sang_loe_chat() {
+        let input = "Những người hâm mộ (haam mojo) vừa thưởng thức bánh kếp (banhs keeps) dọc vùng bờ biển coast vừa trò chuyện vui vẻ mà không hề gây gổ (gaay goro) hay làm ẩu (lamf arau): dưới ánh đèn sáng lóe (sangs lose) và sắc pháo hoa đỏ chóe (ddor chose), ai cũng biết (biretes) trân trọng những điều được (durocwjd) chia sẻ mà chẳng thấy urusai chút nào!"
+        let expected = "Những người hâm mộ (hâm mộ) vừa thưởng thức bánh kếp (bánh kếp) dọc vùng bờ biển coast vừa trò chuyện vui vẻ mà không hề gây gổ (gây gổ) hay làm ẩu (làm ẩu): dưới ánh đèn sáng lóe (sáng lóe) và sắc pháo hoa đỏ chóe (đỏ chóe), ai cũng biết (biết) trân trọng những điều được (được) chia sẻ mà chẳng thấy urusai chút nào!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3394,6 +3428,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_462_vowel_initial_ufo_uro_uso_tone_override_and_wo_unlatch", test_tier4_462_vowel_initial_ufo_uro_uso_tone_override_and_wo_unlatch),
             ("test_tier4_463_vowel_initial_aru_iru_isu_asa_and_roes_noes_tone_override_unlatch", test_tier4_463_vowel_initial_aru_iru_isu_asa_and_roes_noes_tone_override_unlatch),
             ("test_tier4_464_scenario78_trilingual_ufos_beer_deed_and_vietnamese_boi_be_con_de_hoang_de_con_giai_chat", test_tier4_464_scenario78_trilingual_ufos_beer_deed_and_vietnamese_boi_be_con_de_hoang_de_con_giai_chat),
+            ("test_tier4_465_vietnamese_collocation_phrases_arau_mojo_goro_doro_here_mere_chefe_lose_chose_hose_keeps_deeps_rooms_gasu", test_tier4_465_vietnamese_collocation_phrases_arau_mojo_goro_doro_here_mere_chefe_lose_chose_hose_keeps_deeps_rooms_gasu),
+            ("test_tier4_466_romaji_cuo_cua_stop_coda_delayed_diacritic_and_tone_override_unlatch", test_tier4_466_romaji_cuo_cua_stop_coda_delayed_diacritic_and_tone_override_unlatch),
+            ("test_tier4_467_romaji_and_english_cie_cue_stop_coda_delayed_circumflex_and_tone_override_unlatch", test_tier4_467_romaji_and_english_cie_cue_stop_coda_delayed_circumflex_and_tone_override_unlatch),
+            ("test_tier4_468_english_noop_goop_troop_toast_and_romaji_uru_usu_tone_w_unlatch", test_tier4_468_english_noop_goop_troop_toast_and_romaji_uru_usu_tone_w_unlatch),
+            ("test_tier4_469_scenario79_trilingual_mojo_toast_urusai_and_vietnamese_ham_mo_banh_kep_sang_loe_chat", test_tier4_469_scenario79_trilingual_mojo_toast_urusai_and_vietnamese_ham_mo_banh_kep_sang_loe_chat),
         ]
     }
 }
