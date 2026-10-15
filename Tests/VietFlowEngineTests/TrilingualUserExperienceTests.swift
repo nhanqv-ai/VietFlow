@@ -1978,7 +1978,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (324 Tests)
+    // MARK: - Cycle 43: Dawn/Lawn/Down/Gown/Town/Own + Tones/g/d, Barnh/Darnh/Tarnh/Kerng/Borong/Morong, Bura-Family + a/m/n, Queue/Quiet/Buys/Guys & Oao/Delayed-d Unlatching
+    // =========================================================================
+
+    func test_tier4_325_english_dawn_lawn_down_gown_town_own_preservation_and_vietnamese_tones_g_d_unlatch() {
+        let input = "dawn dawns dawnf dawnr dawnx dawnj dawng dawnd dawnds dawndf dawndr dawndx dawndj dawndg dawnsg dawnfg dawnrg dawnxg dawnjg lawn lawns lawnf lawnr lawnx lawnj lawng lawnsg lawnfg lawnrg lawnxg lawnjg down downs downf downr downx downj downg downd downds downdf downdr downdx downdj downsg gown gowns gownf gownr gownx gownj gowng gownsg town towns townf townr townx townj towng townsg own owns ownf ownr ownx ownj owng ownsg"
+        let expected = "dawn dawns dằn dẳn dẵn dặn dăng đăn đắn đằn đẳn đẵn đặn đăng dắng dằng dẳng dẵng dặng lawn lawns lằn lẳn lẵn lặn lăng lắng lằng lẳng lẵng lặng down downs dờn dởn dỡn dợn dơng đơn đớn đờn đởn đỡn đợn dớng gown gowns gờn gởn gỡn gợn gơng gớng town towns tờn tởn tỡn tợn tơng tớng own owns ờn ởn ỡn ợn ơng ớng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_326_english_and_romaji_barn_darn_tarn_kern_boron_moron_goons_loons_moons_nonos_chosen_urana_xanax_unlatch() {
+        let input = "barn barnh darn darnh darnd darnhd tarn tarnh kern kerng boron borong moron morong goons goonsg loons loonsg moons moonsg nonos nonosg chosen choseng urana uranag xanax xanaxg"
+        let expected = "barn bảnh darn dảnh đản đảnh tarn tảnh kern kẻng boron bổng moron mổng goons gống loons lống moons mống nonos nống chosen choéng urana uẩng xanax xẫng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_327_romaji_bura_chura_dura_gura_hura_mura_nura_rura_sura_tura_and_vietnamese_uay_uam_uan_unlatch() {
+        let input = "bura buraa buraay buraam buraan burama burana chura churaa churaay churaam churaan churama churana dura duraa duraay duraam duraan durama durana duraayd duramad duranad gura guraa guraay guraam guraan gurama gurana hura huraa huraay huraam huraan hurama hurana mura muraa muraay muraam muraan murama murana nura nuraa nuraay nuraam nuraan nurama nurana rura ruraa ruraay ruraam ruraan rurama rurana sura suraa suraay suraam suraan surama surana tura turaa turaay turaam turaan turama turana"
+        let expected = "bura buẩ buẩy buẩm buẩn buẩm buẩn chura chuẩ chuẩy chuẩm chuẩn chuẩm chuẩn dura duẩ duẩy duẩm duẩn duẩm duẩn đuẩy đuẩm đuẩn gura guẩ guẩy guẩm guẩn guẩm guẩn hura huẩ huẩy huẩm huẩn huẩm huẩn mura muẩ muẩy muẩm muẩn muẩm muẩn nura nuẩ nuẩy nuẩm nuẩn nuẩm nuẩn rura ruẩ ruẩy ruẩm ruẩn ruẩm ruẩn sura suẩ suẩy suẩm suẩn suẩm suẩn tura tuẩ tuẩy tuẩm tuẩn tuẩm tuẩn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_328_english_and_romaji_queue_quiet_buys_guys_coax_sora_lora_sofa_sosa_tosa_dora_dosa_derm_unlatch() {
+        let input = "queue queues queued queuef queuer queuex queuej quiet quiets quiete quietes quietej buys buysa buysu buysm buysn buysnh buysch buysp buyst guys guysa guysu guysm guysn guysnh guysch guysp guyst coax coaxi sora sorao lora lorao sofa sofao sosa sosao tosa tosao dora dorad dosa dosad derm dermd"
+        let expected = "queue queues queued quều quểu quễu quệu quiet quiets quiêt quiết quiệt buys buýa buýu buým buýn buýnh buých buýp buýt guys guýa guýu guým guýn guýnh guých guýp guýt coax coãi sora soảo lora loảo sofa soào sosa soáo tosa toáo dora đỏa dosa đóa derm đẻm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_329_scenario51_trilingual_dawn_queue_sofa_and_vietnamese_lang_banh_buyt_quiet_bong_chat() {
+        let input = "Từ lúc bình minh dawn, mọi người xếp hàng trong queue ngay ngắn để đón chuyến xe buýt (buyst) đầu ngày, cùng nhau lắng (lawnsg) nghe tiếng chim hót bổng (borong) trầm giữa không gian yên tĩnh quiet và nhiệt huyết không biết mệt mỏi (quietes) để giữ gìn cảnh quan bảnh (barnh) bao, sạch đẹp quanh chiếc ghế sofa ngoài công viên!"
+        let expected = "Từ lúc bình minh dawn, mọi người xếp hàng trong queue ngay ngắn để đón chuyến xe buýt (buýt) đầu ngày, cùng nhau lắng (lắng) nghe tiếng chim hót bổng (bổng) trầm giữa không gian yên tĩnh quiet và nhiệt huyết không biết mệt mỏi (quiết) để giữ gìn cảnh quan bảnh (bảnh) bao, sạch đẹp quanh chiếc ghế sofa ngoài công viên!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (329 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2314,6 +2348,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_322_english_and_romaji_guree_queer_queens_teens_keens_sense_tense_dense_defend_unlatch", test_tier4_322_english_and_romaji_guree_queer_queens_teens_keens_sense_tense_dense_defend_unlatch),
             ("test_tier4_323_english_and_romaji_manga_manx_minx_trex_oxen_vixen_ore_unlatch", test_tier4_323_english_and_romaji_manga_manx_minx_trex_oxen_vixen_ore_unlatch),
             ("test_tier4_324_scenario50_trilingual_manga_dodos_deeds_and_vietnamese_man_manh_tre_tieng_doi_dau_den_chat", test_tier4_324_scenario50_trilingual_manga_dodos_deeds_and_vietnamese_man_manh_tre_tieng_doi_dau_den_chat),
+            ("test_tier4_325_english_dawn_lawn_down_gown_town_own_preservation_and_vietnamese_tones_g_d_unlatch", test_tier4_325_english_dawn_lawn_down_gown_town_own_preservation_and_vietnamese_tones_g_d_unlatch),
+            ("test_tier4_326_english_and_romaji_barn_darn_tarn_kern_boron_moron_goons_loons_moons_nonos_chosen_urana_xanax_unlatch", test_tier4_326_english_and_romaji_barn_darn_tarn_kern_boron_moron_goons_loons_moons_nonos_chosen_urana_xanax_unlatch),
+            ("test_tier4_327_romaji_bura_chura_dura_gura_hura_mura_nura_rura_sura_tura_and_vietnamese_uay_uam_uan_unlatch", test_tier4_327_romaji_bura_chura_dura_gura_hura_mura_nura_rura_sura_tura_and_vietnamese_uay_uam_uan_unlatch),
+            ("test_tier4_328_english_and_romaji_queue_quiet_buys_guys_coax_sora_lora_sofa_sosa_tosa_dora_dosa_derm_unlatch", test_tier4_328_english_and_romaji_queue_quiet_buys_guys_coax_sora_lora_sofa_sosa_tosa_dora_dosa_derm_unlatch),
+            ("test_tier4_329_scenario51_trilingual_dawn_queue_sofa_and_vietnamese_lang_banh_buyt_quiet_bong_chat", test_tier4_329_scenario51_trilingual_dawn_queue_sofa_and_vietnamese_lang_banh_buyt_quiet_bong_chat),
         ]
     }
 }
