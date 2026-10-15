@@ -153,11 +153,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 didBackspace = true
                 activePreedit = "yé"
                 activeRawKeys = ["y", "e", "s"]
-            } else if ["chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier"].contains(String(wordRawKeys).lowercased()) && "eu".contains(character.lowercased()) {
-                isBypassed = false
-                activeRawKeys = wordRawKeys
-                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["kieru", "mieru", "hieru", "nieru"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e" {
+            } else if [
+                "chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier",
+                "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru",
+                "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu"
+            ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e" {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -227,7 +227,23 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["kiete", "miete", "hiete", "niete", "iete", "diete", "uete", "suete"].contains(String(wordRawKeys).lowercased()) && "sj".contains(character.lowercased()) {
+            } else if ([
+                "kiete", "miete", "hiete", "niete", "iete", "diete", "tiete", "biete", "siete", "giete", "riete",
+                "uete", "suete", "nuete", "muete"
+            ].contains(String(wordRawKeys).lowercased())
+                || (wordRawKeys.count == 4
+                    && "aoe".contains(wordRawKeys[1].lowercased())
+                    && wordRawKeys[2].lowercased() == "t"
+                    && wordRawKeys[1].lowercased() == wordRawKeys[3].lowercased()))
+                && "sj".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if wordRawKeys.count == 4
+                && "ao".contains(wordRawKeys[1].lowercased())
+                && "mn".contains(wordRawKeys[2].lowercased())
+                && wordRawKeys[1].lowercased() == wordRawKeys[3].lowercased()
+                && "fjx".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)

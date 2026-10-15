@@ -222,7 +222,10 @@ public enum JapaneseRomajiLexicon {
         "muxu", "nuxu", "huxu", "suxu", "buxu", "guxu", "ruxu",
         "kuxo", "muxo", "nuxo", "huxo", "suxo", "tuxo", "buxo", "guxo", "duxo", "ruxo",
         "kife", "mife", "nife", "hife", "sife", "tife", "bife", "dife",
-        "kije", "mije", "nije", "hije", "sije", "tije", "bije", "dije", "rije"
+        "kije", "mije", "nije", "hije", "sije", "tije", "bije", "dije", "rije",
+        "nuete", "muete", "tieru", "bieru", "sieru", "gieru", "rieru",
+        "tiete", "biete", "siete", "giete", "riete",
+        "kete", "sete", "hete", "mete", "tete", "bete", "rete"
     ]
 }
 
