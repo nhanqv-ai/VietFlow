@@ -168,7 +168,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
                 "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu",
                 "dues", "hues", "sues", "rues", "tues", "cues", "died", "diets", "duets", "guest", "quiet", "quiets",
-                "use", "ure", "ire", "efu", "eru", "esu"
+                "use", "ure", "ire", "efu", "eru", "esu",
+                "ires", "iref", "irex", "irej", "ures", "uref", "urex", "urej", "usef", "usex", "usej",
+                "erus", "eruf", "erux", "eruj", "esuf", "esur", "esux", "esuj", "efus", "efur", "efux", "efuj"
             ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e")
                 || (String(wordRawKeys).lowercased() == "died" && "mncptu".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased().hasPrefix("died") && wordRawKeys.count == 5 && (("mncptu".contains(wordRawKeys[4].lowercased()) && character.lowercased() == "e") || ("sfrxj".contains(wordRawKeys[4].lowercased()) && "mncptue".contains(character.lowercased())))) {
@@ -434,6 +436,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && character.lowercased() != r2)
                 || ([
                     "ufo", "uro", "uso", "duos",
+                    "ufos", "ufor", "ufox", "ufoj",
+                    "uros", "urof", "urox", "uroj",
+                    "usof", "usor", "usox", "usoj",
                     "ufoi", "ufom", "ufon", "ufong", "uroi", "urom", "uron", "urong",
                     "usoi", "usom", "uson", "usong", "usoc", "usop", "usot",
                     "duosi", "duosu", "duosm", "duosn", "duosng", "duosc", "duosp", "duost",
@@ -450,8 +455,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && character.lowercased() != wordRawKeys[wordRawKeys.count - 3].lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
                     && "sfxj".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "aru" && character.lowercased() == "a")
-                || (String(wordRawKeys).lowercased() == "asa" && "cmntuyw".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "aru" && "asfxj".contains(character.lowercased()))
+                || (["iru", "isu"].contains(String(wordRawKeys).lowercased()) && "sfrxj".contains(character.lowercased()) && character.lowercased() != wordRawKeys[1].lowercased())
+                || (String(wordRawKeys).lowercased() == "asa" && "cmntuywfxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "giro" && "aeowimnsfxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "gifu" && "aowiymnsrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "giju" && "aowiymncptsfrx".contains(character.lowercased()))
@@ -2083,7 +2089,19 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "kisu": ["cứu", "kêu", "kíu"],
         "hisu": ["mắt", "cười", "híu"],
         "kisa": ["đằng", "bên", "chỗ", "kìa", "kía"],
-        "chisa": ["mũi", "súng", "chía"]
+        "chisa": ["mũi", "súng", "chía"],
+        "beer": ["bơi", "xây", "dâu", "bãi", "bốn", "biển", "bể"],
+        "deer": ["khinh", "dể"],
+        "sees": ["bóng", "chiều", "xế", "sế"],
+        "deed": ["con", "bờ", "mặt", "chân", "vỡ", "đắp", "đường", "dâu", "hạt", "mê", "tê", "đê"],
+        "deeds": ["hoàng", "thượng", "tiên", "chúa", "bóng", "chân", "gót", "đế"],
+        "booms": ["lúa", "hạt", "nếp", "cốm", "bốm"],
+        "sere": ["chim", "con", "chia", "san", "xẻ", "mổ", "sẻ", "sể"],
+        "gisai": ["con", "em", "chị", "bạn", "cô", "bé", "trai", "nhà", "lấy", "sinh", "đẻ", "phái", "giái"],
+        "torai": ["tự", "trải", "toải"],
+        "hosai": ["vàng", "hoa", "hoái"],
+        "nori": ["nhỏ", "bé", "ít", "nỏi"],
+        "maso": ["máu", "con", "chim", "máo"]
     ]
 
     private static func isVietnameseCollocation(candidateWord: String, lastCompletedWord: String) -> Bool {

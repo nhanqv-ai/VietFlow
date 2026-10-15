@@ -2887,6 +2887,40 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // =========================================================================
+    // MARK: - Cycle 70: Standard-Telex Collocations (beer/deer/sees/deed/deeds/booms/sere/gisai/torai/hosai/nori/maso) & Vowel-Initial 3-Letter Romaji/English Unlatch
+    // =========================================================================
+
+    func test_tier4_460_vietnamese_collocation_phrases_beer_deer_sees_deed_deeds_booms_sere_gisai_torai_hosai_nori_maso() {
+        let input = "beer bowi beer boons beer deer khinh deer sees bongs sees chieeuf sees deed con deed bowf deed mawtj deed deeds hoangf deeds thuwowngj deeds chaan deeds booms luas booms neeps booms sere chim sere chia sere gisai con gisai em gisai coo gisai torai tuwj torai hosai vangf hosai nori nhor nori bes nori maso maus maso chim maso"
+        let expected = "beer bơi bể bốn bể deer khinh dể sees bóng sế chiều sế deed con đê bờ đê mặt đê deeds hoàng đế thượng đế chân đế booms lúa bốm nếp bốm sere chim sể chia sể gisai con giái em giái cô giái torai tự toải hosai vàng hoái nori nhỏ nỏi bé nỏi maso máu máo chim máo"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_461_vowel_initial_romaji_ire_ure_use_eru_esu_efu_tone_override_and_e_unlatch() {
+        let input = "ire irese irefe irexe ireje iresem iresen ireseng ireset iresec iresep ireseu irefem irefen irejem irejen irejet irejec irejep irejeu ure urese urefe urexe ureje uresen uresem uresenh ureset uresech urefen urefem urefenh urejen urejem urejet urejech use user users used uses usefe usexe useje usefen usefem usefenh usejen usejem usejet usejech eru eruse erufe eruxe eruje esu esufe esure esuxe esuje efu efuse efure efuxe efuje ureshii"
+        let expected = "ire iế iề iễ iệ iếm iến iếng iết iếc iếp iếu iềm iền iệm iện iệt iệc iệp iệu ure uế uề uễ uệ uến uếm uếnh uết uếch uền uềm uềnh uện uệm uệt uệch use user users used uses uề uễ uệ uền uềm uềnh uện uệm uệt uệch eru ếu ều ễu ệu esu ều ểu ễu ệu efu ếu ểu ễu ệu ureshii"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_462_vowel_initial_ufo_uro_uso_tone_override_and_wo_unlatch() {
+        let input = "ufo ufos ufosw uforw ufoxw ufojw ufoso uforo ufoxo ufojo ufoswi ufoswm ufoswn ufoswt ufosoi ufoson ufosot uro urosw urofw uroxw urojw uroso urofo uroxo urojo uso usofw usorw usoxw usojw usofo usoro usoxo usojo"
+        let expected = "ufo ufos ướ ưở ưỡ ượ uố uổ uỗ uộ ưới ướm ướn ướt uối uốn uốt uro ướ ườ ưỡ ượ uố uồ uỗ uộ uso ườ ưở ưỡ ượ uồ uổ uỗ uộ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_463_vowel_initial_aru_iru_isu_asa_and_roes_noes_tone_override_unlatch() {
+        let input = "aru arua arus aruf arux aruj arusa arufa aruxa aruja iru irus iruf irux iruj isu isuf isur isux isuj asa asaru asaf asax asaj asafn asafm asafng asafw asafwn asajm asajn asajt asajc asajp"
+        let expected = "aru ẩu áu àu ãu ạu ấu ầu ẫu ậu iru íu ìu ĩu ịu isu ìu ỉu ĩu ịu asa asaru ầ ẫ ậ ần ầm ầng ằ ằn ậm ận ật ậc ập"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_464_scenario78_trilingual_ufos_beer_deed_and_vietnamese_boi_be_con_de_hoang_de_con_giai_chat() {
+        let input = "Sau buổi bơi bể (bowi beer) cùng cô em giái (em gisai) nhỏ nỏi (nhor nori), cả nhóm đi dọc con đê (con deed) ngắm cánh đồng lúa bốm (luas booms) vàng hoái (vangf hosai) dưới nắng bóng sế (bongs sees), vừa thưởng thức beer mát lạnh vừa đọc truyền thuyết về vị hoàng đế (hoangf deeds) và những đĩa bay ufos thật ureshii!"
+        let expected = "Sau buổi bơi bể (bơi bể) cùng cô em giái (em giái) nhỏ nỏi (nhỏ nỏi), cả nhóm đi dọc con đê (con đê) ngắm cánh đồng lúa bốm (lúa bốm) vàng hoái (vàng hoái) dưới nắng bóng sế (bóng sế), vừa thưởng thức beer mát lạnh vừa đọc truyền thuyết về vị hoàng đế (hoàng đế) và những đĩa bay ufos thật ureshii!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3355,6 +3389,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_457_romaji_kiru_kisu_kifu_kiju_tone_override_unlatch", test_tier4_457_romaji_kiru_kisu_kifu_kiju_tone_override_unlatch),
             ("test_tier4_458_romaji_sora_lora_dora_sosa_tosa_dosa_sofa_and_nora_tone_and_vowel_unlatch", test_tier4_458_romaji_sora_lora_dora_sosa_tosa_dosa_sofa_and_nora_tone_and_vowel_unlatch),
             ("test_tier4_459_scenario77_trilingual_kisu_meje_gofo_and_vietnamese_gan_gui_ngan_nui_ba_me_bong_se_chat", test_tier4_459_scenario77_trilingual_kisu_meje_gofo_and_vietnamese_gan_gui_ngan_nui_ba_me_bong_se_chat),
+            ("test_tier4_460_vietnamese_collocation_phrases_beer_deer_sees_deed_deeds_booms_sere_gisai_torai_hosai_nori_maso", test_tier4_460_vietnamese_collocation_phrases_beer_deer_sees_deed_deeds_booms_sere_gisai_torai_hosai_nori_maso),
+            ("test_tier4_461_vowel_initial_romaji_ire_ure_use_eru_esu_efu_tone_override_and_e_unlatch", test_tier4_461_vowel_initial_romaji_ire_ure_use_eru_esu_efu_tone_override_and_e_unlatch),
+            ("test_tier4_462_vowel_initial_ufo_uro_uso_tone_override_and_wo_unlatch", test_tier4_462_vowel_initial_ufo_uro_uso_tone_override_and_wo_unlatch),
+            ("test_tier4_463_vowel_initial_aru_iru_isu_asa_and_roes_noes_tone_override_unlatch", test_tier4_463_vowel_initial_aru_iru_isu_asa_and_roes_noes_tone_override_unlatch),
+            ("test_tier4_464_scenario78_trilingual_ufos_beer_deed_and_vietnamese_boi_be_con_de_hoang_de_con_giai_chat", test_tier4_464_scenario78_trilingual_ufos_beer_deed_and_vietnamese_boi_be_con_de_hoang_de_con_giai_chat),
         ]
     }
 }
