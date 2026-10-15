@@ -2684,7 +2684,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (429 Tests)
+    // MARK: - Cycle 64: Medial-Tone góa/noãn, -oa/-ua/-ê/-ô Collocations, and C-o-[rsfjx]-o / C-e-[rsfjx]-e / -ura / -ora / -osa Tone Override Unlatch
+    // =========================================================================
+
+    func test_tier4_430_vietnamese_medial_tone_goa_noan_and_oa_ua_e_o_collocations() {
+        let input = "gosa baf gosa owr gosa noxan caauf nora norax noraxn tosa chayj tosa bawns tosa lora tawms lora bura vaay bura giawng bura tura mocj tua tura gai tua tura kere nghe kere baats kere ddangs kere bere bowi bere boons bere nere kinhs nere trongj nere rere con rere changf rere horo con horo xaaus horo toro chim toro gioox toro soro cuoons soro cuwar soro noro chays noro bungf noro moro ca moro banf moro boro booif boro thuoocs boro hofo mawtj hofo bowf hofo bofo chim bofo caau"
+        let expected = "gosa bà góa ở góa noãn cầu nora nõa noãn tosa chạy tóa bắn tóa lora tắm lỏa bura vây bủa giăng bủa tura mọc tua tủa gai tua tủa kere nghe kể bất kể đáng kể bere bơi bể bốn bể nere kính nể trọng nể rere con rể chàng rể horo con hổ xấu hổ toro chim tổ giỗ tổ soro cuốn sổ cửa sổ noro cháy nổ bùng nổ moro ca mổ bàn mổ boro bồi bổ thuốc bổ hofo mặt hồ bờ hồ bofo chim bồ câu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_431_romaji_ura_ora_osa_sofa_tone_override_unlatch() {
+        let input = "mura muraf muras murax muraj hura huraf huras hurax huraj sura suraf suras surax suraj tura turaf turas turax turaj nura nuraf nuras nurax nuraj bura buraf buras burax buraj gura guraf guras gurax guraj dura duraf durafd duras durasd durax duraxd duraj durajd rura ruraf ruras rurax ruraj chura churaf churas churax churaj sora soraf soras sorax soraj lora loraf loras lorax loraj dora doraf dorafd doras dorasd dorax doraxd doraj dorajd sosa sosaf sosar sosax sosaj tosa tosaf tosar tosax tosaj dosa dosaf dosafd dosar dosard dosax dosaxd dosaj dosajd sofa sofar sofax sofaj"
+        let expected = "mura mùa múa mũa mụa hura hùa húa hũa hụa sura sùa súa sũa sụa tura tùa túa tũa tụa nura nùa núa nũa nụa bura bùa búa bũa bụa gura gùa gúa gũa gụa dura dùa đùa dúa đúa dũa đũa dụa đụa rura rùa rúa rũa rụa chura chùa chúa chũa chụa sora sòa sóa sõa sọa lora lòa lóa lõa lọa dora dòa đòa dóa đóa dõa đõa dọa đọa sosa sòa sỏa sõa sọa tosa tòa tỏa tõa tọa dosa dòa đòa dỏa đỏa dõa đõa dọa đọa sofa sỏa sõa sọa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_432_romaji_coro_coso_cofo_cojo_coxo_tone_override_unlatch() {
+        let input = "horo horof horox horoj moro morof morox moroj toro torof torox toroj soro sorof sorox soroj noro norof norox noroj boro borof borox boroj goro gorof gorox goroj doro dorof dorofd dorox doroxd doroj dorojd roro rorof rorox roroj hoso hosof hosor hosox hosoj toso tosof tosor tosox tosoj moso mosof mosor mosox mosoj noso nosof nosor nosox nosoj hofo hofos hofor hofox hofoj bofo bofos bofor bofox bofoj tofo tofos tofor tofox tofoj dofo dofos dofosd dofor doford dofox dofoxd dofoj dofojd"
+        let expected = "horo hồ hỗ hộ moro mồ mỗ mộ toro tồ tỗ tộ soro sồ sỗ sộ noro nồ nỗ nộ boro bồ bỗ bộ goro gồ gỗ gộ doro dồ đồ dỗ đỗ dộ độ roro rồ rỗ rộ hoso hồ hổ hỗ hộ toso tồ tổ tỗ tộ moso mồ mổ mỗ mộ noso nồ nổ nỗ nộ hofo hố hổ hỗ hộ bofo bố bổ bỗ bộ tofo tố tổ tỗ tộ dofo dố đố dổ đổ dỗ đỗ dộ độ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_433_romaji_cere_cese_cefe_ceje_tone_override_unlatch_and_english_preservation() {
+        let input = "tere teref terex terej kere keref kerex kerej nere neref nerex nerej bere beref berex berej dere deref derefd derex derexd derej derejd rere reref rerex rerej chere cheref cherex cherej tese tesef teser tesex tesej kese kesef keser kesex kesej mese mesef meser mesex mesej nese nesef neser nesex nesej hese hesef heser hesex hesej sese sesef seser sesex sesej bese besef beser besex besej dese desef desefd desex desexd desej desejd rese resef resex resej chese chesef cheser chesex chesej kefe kefes kefer kefex kefej defe defes defesd defex defexd defej defejd defer defers refer refers reset beset"
+        let expected = "tere tề tễ tệ kere kề kễ kệ nere nề nễ nệ bere bề bễ bệ dere dề đề dễ đễ dệ đệ rere rề rễ rệ chere chề chễ chệ tese tề tể tễ tệ kese kề kể kễ kệ mese mề mể mễ mệ nese nề nể nễ nệ hese hề hể hễ hệ sese sề sể sễ sệ bese bề bể bễ bệ dese dề đề dễ đễ dệ đệ rese rề rễ rệ chese chề chể chễ chệ kefe kế kể kễ kệ defe dế đế dễ đễ dệ đệ defer defers refer refers reset beset"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_434_scenario72_trilingual_sofa_dora_defer_and_vietnamese_goa_noan_cua_so_mat_ho_chat() {
+        let input = "Ngồi trên ghế sofa bên cửa sổ (cuwar soro) nhìn ra mặt hồ (mawtj hofo) nơi đàn chim bồ câu (chim bofo caau) đang bay lượn, bác sĩ giải thích về tế bào noãn cầu (noxan caauf) cho bà góa (baf gosa) và chàng rể (changf rere) đáng kể (ddangs kere): dù gai xương rồng mọc tua tủa (mocj tua tura) quanh đôi đũa (duraxd) tre và đóa (dorasd) hoa hồng, chúng ta không nên defer ca mổ (ca moro) để lan tỏa (tosar) niềm vui tại vùng tosa!"
+        let expected = "Ngồi trên ghế sofa bên cửa sổ (cửa sổ) nhìn ra mặt hồ (mặt hồ) nơi đàn chim bồ câu (chim bồ câu) đang bay lượn, bác sĩ giải thích về tế bào noãn cầu (noãn cầu) cho bà góa (bà góa) và chàng rể (chàng rể) đáng kể (đáng kể): dù gai xương rồng mọc tua tủa (mọc tua tủa) quanh đôi đũa (đũa) tre và đóa (đóa) hoa hồng, chúng ta không nên defer ca mổ (ca mổ) để lan tỏa (tỏa) niềm vui tại vùng tosa!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (434 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -3125,6 +3159,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_427_romaji_and_english_ero_eso_maso_saso_rari_nori_rori_tone_override_unlatch", test_tier4_427_romaji_and_english_ero_eso_maso_saso_rari_nori_rori_tone_override_unlatch),
             ("test_tier4_428_romaji_uri_iru_isu_ifu_iju_aru_asu_tone_override_unlatch", test_tier4_428_romaji_uri_iru_isu_ifu_iju_aru_asu_tone_override_unlatch),
             ("test_tier4_429_scenario71_trilingual_hero_sasuke_naruto_and_vietnamese_heo_lanh_thu_sau_quy_bau_ban_biu_chat", test_tier4_429_scenario71_trilingual_hero_sasuke_naruto_and_vietnamese_heo_lanh_thu_sau_quy_bau_ban_biu_chat),
+            ("test_tier4_430_vietnamese_medial_tone_goa_noan_and_oa_ua_e_o_collocations", test_tier4_430_vietnamese_medial_tone_goa_noan_and_oa_ua_e_o_collocations),
+            ("test_tier4_431_romaji_ura_ora_osa_sofa_tone_override_unlatch", test_tier4_431_romaji_ura_ora_osa_sofa_tone_override_unlatch),
+            ("test_tier4_432_romaji_coro_coso_cofo_cojo_coxo_tone_override_unlatch", test_tier4_432_romaji_coro_coso_cofo_cojo_coxo_tone_override_unlatch),
+            ("test_tier4_433_romaji_cere_cese_cefe_ceje_tone_override_unlatch_and_english_preservation", test_tier4_433_romaji_cere_cese_cefe_ceje_tone_override_unlatch_and_english_preservation),
+            ("test_tier4_434_scenario72_trilingual_sofa_dora_defer_and_vietnamese_goa_noan_cua_so_mat_ho_chat", test_tier4_434_scenario72_trilingual_sofa_dora_defer_and_vietnamese_goa_noan_cua_so_mat_ho_chat),
         ]
     }
 }
