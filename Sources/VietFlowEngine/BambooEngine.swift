@@ -282,6 +282,23 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ((has3CharRhymeAfterOnset
+                && "aou".contains(r1)
+                && r2 == "r"
+                && r3 == "n")
+                || String(wordRawKeys).lowercased() == "urn")
+                && "gw".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if has3CharRhymeAfterOnset
+                && "ao".contains(r1)
+                && r2 == "r"
+                && r3 == "m"
+                && character.lowercased() == "w" {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws", "thaws", "caws", "maws", "haws"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
                 return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
             } else {

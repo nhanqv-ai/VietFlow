@@ -1570,7 +1570,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (264 Tests)
+    // MARK: - Cycle 31: Dura/Chura, Chese/Chere & Free-Tone -rn/-rm Unlatching
+    // =========================================================================
+
+    func test_tier4_265_japanese_dura_duri_chura_churi_and_vietnamese_ur_w_unlatch() {
+        let input = "dura duri chura churi sura suri bura buri gura guri nura nuri duraw duriw churaw churiw suraw buraw nuraw guriw"
+        let expected = "dura duri chura churi sura suri bura buri gura guri nura nuri dửa dửi chửa chửi sửa bửa nửa gửi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_266_japanese_rese_chese_chefe_cheje_chere_cheru_and_vietnamese_e_unlatch() {
+        let input = "rese chese chefe cheje chere cheru reset resets resen reseu cheset chejet chesem chesen chefen chejen cheseu chefeu chejeu cherem cheren chereu cherue"
+        let expected = "rese chese chefe cheje chere cheru reset resets rến rếu chết chệt chếm chến chền chện chếu chều chệu chểm chển chểu chểu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_267_english_rn_preservation_and_vietnamese_free_tone_rng_unlatch() {
+        let input = "turn turns turned burn burns burned churn churns churned urn urns barn barns darn darns tarn tarns morn morns morning thorn thorns born borne corn corns corner horn horns torn turng burng churng urng barng darng tarng morng thorng borng corng horng torng"
+        let expected = "turn turns turned burn burns burned churn churns churned urn urns barn barns darn darns tarn tarns morn morns morning thorn thorns born borne corn corns corner horn horns torn tủng bủng chủng ủng bảng dảng tảng mỏng thỏng bỏng cỏng hỏng tỏng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_268_english_rn_rm_preservation_and_vietnamese_free_tone_rnw_rngw_rmw_unlatch() {
+        let input = "turnw turngw burnw burngw churnw churngw urnw urngw barnw barngw darnw darngw tarnw tarngw mornw thornw bornw cornw hornw tornw harm harms harmed harmw charm charms charmed charmw corm corms cormw"
+        let expected = "tửn tửng bửn bửng chửn chửng ửn ửng bẳn bẳng dẳn dẳng tẳn tẳng mởn thởn bởn cởn hởn tởn harm harms harmed hẳm charm charms charmed chẳm corm corms cởm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_269_scenario39_trilingual_chura_okinawa_turn_burn_and_vietnamese_free_tone_rng_chat() {
+        let input = "Trong chuyến thăm thủy cung chura tại Okinawa, kỹ sư kiểm tra bộ truyền động dura trước mỗi turn chạy thử để tránh burn mạch hay gây harm cho thiết bị; cả đội luôn ủng (urng) hộ việc lập bảng (barng) theo dõi trên từng tảng (tarng) băng mỏng (morng), phòng tránh hư hỏng (horng) hoặc bỏng (borng) nhiệt khi nắng ửng (urngw) lên và giữ tinh thần chững chạc trước mọi chủng (churng) loại lỗi phát sinh!"
+        let expected = "Trong chuyến thăm thủy cung chura tại Okinawa, kỹ sư kiểm tra bộ truyền động dura trước mỗi turn chạy thử để tránh burn mạch hay gây harm cho thiết bị; cả đội luôn ủng (ủng) hộ việc lập bảng (bảng) theo dõi trên từng tảng (tảng) băng mỏng (mỏng), phòng tránh hư hỏng (hỏng) hoặc bỏng (bỏng) nhiệt khi nắng ửng (ửng) lên và giữ tinh thần chững chạc trước mọi chủng (chủng) loại lỗi phát sinh!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (269 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1846,6 +1880,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_262_japanese_mufe_chufe_muje_chuje_and_vietnamese_free_tone_ue_unlatch", test_tier4_262_japanese_mufe_chufe_muje_chuje_and_vietnamese_free_tone_ue_unlatch),
             ("test_tier4_263_vietnamese_duete_unlatch_duetes_duetej_and_duet_duets_preservation", test_tier4_263_vietnamese_duete_unlatch_duetes_duetej_and_duet_duets_preservation),
             ("test_tier4_264_scenario38_trilingual_chara_bara_nara_and_vietnamese_free_tone_ue_ar_or_chat", test_tier4_264_scenario38_trilingual_chara_bara_nara_and_vietnamese_free_tone_ue_ar_or_chat),
+            ("test_tier4_265_japanese_dura_duri_chura_churi_and_vietnamese_ur_w_unlatch", test_tier4_265_japanese_dura_duri_chura_churi_and_vietnamese_ur_w_unlatch),
+            ("test_tier4_266_japanese_rese_chese_chefe_cheje_chere_cheru_and_vietnamese_e_unlatch", test_tier4_266_japanese_rese_chese_chefe_cheje_chere_cheru_and_vietnamese_e_unlatch),
+            ("test_tier4_267_english_rn_preservation_and_vietnamese_free_tone_rng_unlatch", test_tier4_267_english_rn_preservation_and_vietnamese_free_tone_rng_unlatch),
+            ("test_tier4_268_english_rn_rm_preservation_and_vietnamese_free_tone_rnw_rngw_rmw_unlatch", test_tier4_268_english_rn_rm_preservation_and_vietnamese_free_tone_rnw_rngw_rmw_unlatch),
+            ("test_tier4_269_scenario39_trilingual_chura_okinawa_turn_burn_and_vietnamese_free_tone_rng_chat", test_tier4_269_scenario39_trilingual_chura_okinawa_turn_burn_and_vietnamese_free_tone_rng_chat),
         ]
     }
 }
