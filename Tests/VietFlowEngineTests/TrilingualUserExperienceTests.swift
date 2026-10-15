@@ -2246,7 +2246,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (364 Tests)
+    // MARK: - Cycle 51: Single-e ie+Coda Unlatch on ties/dies/lies/vies/hies/tries & tier/bier/pier/trier/chief/thief, w Unlatch on C-[ao]-[pt]-[ao]/oto/honor/donor/asa, and dire+d Unlatch
+    // =========================================================================
+
+    func test_tier4_365_english_ties_dies_lies_vies_hies_tries_single_e_coda_unlatch_and_preservation() {
+        let input = "ties tiesn tiesm tiesng tiesc tiesp tiest dies diesel diesn diesm diesng diesc diesp diest diesnd diesmd diesngd diescd diespd diestd lies liesn liesm liesng liesc liesp liest vies viesn viesm viesng viesc viesp viest hies hiesn hiesm hiesng hiesp hiest tries triesn triesm triesng triesc triesp triest"
+        let expected = "ties tiến tiếm tiếng tiếc tiếp tiết dies diesel diến diếm diếng diếc diếp diết điến điếm điếng điếc điếp điết lies liến liếm liếng liếc liếp liết vies viến viếm viếng viếc viếp viết hies hiến hiếm hiếng hiếp hiết tries triến triếm triếng triếc triếp triết"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_366_english_tier_bier_pier_trier_chief_thief_single_e_sonorant_unlatch_and_preservation() {
+        let input = "tier tiers tieru tiern tierm tierng bier biers bieru biern bierm bierng pier piers trier triern trierm trierng chief chiefs chiefly chiefn chiefm chiefng thief thiefn thiefm thiefng"
+        let expected = "tier tiers tieru tiển tiểm tiểng bier biers bieru biển biểm biểng pier piers trier triển triểm triểng chief chiefs chiefly chiền chiềm chiềng thief thiền thiềm thiềng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_367_romaji_and_english_cvptv_oto_w_before_tone_unlatch_and_preservation() {
+        let input = "mata mataws matawj data dataws datawsd datawds datawj datawjd datawdj soto sotows sotowj goto gotows gotowj topo topows topowj hopo hopows hopowj capa capaws capawj tapa tapaws tapawj sapa sapaws sapawj chata chataws chatawj chapa chapaws chapawj choto chotows chotowj chopo chopows chopowj oto otosu otows otowj otosw otojw"
+        let expected = "mata mắt mặt data dắt đắt đắt dặt đặt đặt soto sớt sợt goto gớt gợt topo tớp tợp hopo hớp hợp capa cắp cặp tapa tắp tập sapa sắp sặp chata chắt chặt chapa chắp chặp choto chớt chợt chopo chớp chợp oto otosu ớt ợt ớt ợt".replacingOccurrences(of: "tập", with: "tặp")
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_368_english_and_romaji_honor_donor_asa_w_and_dire_difed_dijed_single_e_unlatch() {
+        let input = "honor honors honorw donor donors donorw donorwd donordw asa asaw asawn asawng asawm asawt asawc asawp dire diredm diredn diredng diredue difedm difedn difedng difedue dijedm dijedn dijedc dijedp dijedt dijedue"
+        let expected = "honor honors hởn donor donors dởn đởn đởn asa ắ ắn ắng ắm ắt ắc ắp dire điểm điển điểng điểu điềm điền điềng điều điệm điện điệc điệp điệt điệu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_369_scenario59_trilingual_chief_tier_sapa_oto_and_vietnamese_tien_viet_bien_dat_chat() {
+        let input = "Vị kỹ sư trưởng chief ở phân khúc tier cao cấp vừa đi công tác sapa về đã nhanh chóng viết (viest) báo cáo tiến (tiesn) độ, triển (triern) khai tàu khảo sát vùng biển (biern) và đặt (datawjd) mục tiêu hợp (hopowj) tác chặt (chatawj) chẽ để không phát sinh tiếng ồn oto bất thường!"
+        let expected = "Vị kỹ sư trưởng chief ở phân khúc tier cao cấp vừa đi công tác sapa về đã nhanh chóng viết (viết) báo cáo tiến (tiến) độ, triển (triển) khai tàu khảo sát vùng biển (biển) và đặt (đặt) mục tiêu hợp (hợp) tác chặt (chặt) chẽ để không phát sinh tiếng ồn oto bất thường!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (369 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2622,6 +2656,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_362_english_and_romaji_dojos_rojos_loofs_oofs_charas_unlatch", test_tier4_362_english_and_romaji_dojos_rojos_loofs_oofs_charas_unlatch),
             ("test_tier4_363_english_duet_duets_preservation_and_vietnamese_duetj_duetsd_duetds_delayed_e_unlatch", test_tier4_363_english_duet_duets_preservation_and_vietnamese_duetj_duetsd_duetds_delayed_e_unlatch),
             ("test_tier4_364_scenario58_trilingual_rooms_troops_roots_boost_and_vietnamese_lon_rot_chac_chan_chat", test_tier4_364_scenario58_trilingual_rooms_troops_roots_boost_and_vietnamese_lon_rot_chac_chan_chat),
+            ("test_tier4_365_english_ties_dies_lies_vies_hies_tries_single_e_coda_unlatch_and_preservation", test_tier4_365_english_ties_dies_lies_vies_hies_tries_single_e_coda_unlatch_and_preservation),
+            ("test_tier4_366_english_tier_bier_pier_trier_chief_thief_single_e_sonorant_unlatch_and_preservation", test_tier4_366_english_tier_bier_pier_trier_chief_thief_single_e_sonorant_unlatch_and_preservation),
+            ("test_tier4_367_romaji_and_english_cvptv_oto_w_before_tone_unlatch_and_preservation", test_tier4_367_romaji_and_english_cvptv_oto_w_before_tone_unlatch_and_preservation),
+            ("test_tier4_368_english_and_romaji_honor_donor_asa_w_and_dire_difed_dijed_single_e_unlatch", test_tier4_368_english_and_romaji_honor_donor_asa_w_and_dire_difed_dijed_single_e_unlatch),
+            ("test_tier4_369_scenario59_trilingual_chief_tier_sapa_oto_and_vietnamese_tien_viet_bien_dat_chat", test_tier4_369_scenario59_trilingual_chief_tier_sapa_oto_and_vietnamese_tien_viet_bien_dat_chat),
         ]
     }
 }
