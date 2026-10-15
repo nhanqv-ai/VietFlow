@@ -3433,6 +3433,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 87: 40 Collocation Entries, k/p-Onset Romaji Tone Overrides, *ari Tone Overrides, and nora/rora/kosa/koxa/posa/pora Diphthong & Tone Unlatch
+
+    func test_tier4_545_vietnamese_collocation_phrases_tisu_bisu_sisu_mifu_nifu_tifu_bifu_sifu_rifu_difu_pifu_piju_kasu_masu_hasu_rasu_karu_kafu_mafu_tafu_bafu_hafu_safu_nafu_gafu_rafu_dafu_kuri_koro_koso_kofo_kojo_koxo_pofo_poso_poro_pojo_poxo_pefe_pese() {
+        let input = "pifu meemf pifu nhej pifu piju nawjng piju trixu piju kasu nongs kasu gawts kasu karu nongs karu caus karu kafu nhauf kafu bauf kafu kuri gaanf kuri cuir kuri koro vaats koro khoor koro koso coos koso gawngs koso kofo coor kofo coof kofo kojo looj kojo cooj kojo koxo goox koxo coox koxo pofo boof pofo honf pofo poso phoos poso boos poso poro vowx poro noor poro pojo booj pojo looj pojo poxo voox poxo boox poxo pefe beef pefe leef pefe pese bees pese tees pese pere keer pere neer pere peje beej peje teej peje pexe beex pexe leex pexe pisa phias pisa mias pisa pira tiar pira riar pira pifa biaf pifa liaf pifa pija biaj pija ddiaj pija pixa ddiax pixa nghiax pixa kura cuwar kura muas kura kusa cuar kusa luas kusa kufa muaf kufa chuaf kufa kuja luaj kuja duaj kuja kuxa dduax kuxa giuax kuxa pusa buas pusa luas pusa pufa buaf pufa muaf pufa puja luaj puja buaj puja puxa dduax puxa buax puxa kusi tuis kusi cuis kusi kufi cuif kufi buif kufi kuji cuij kuji buij kuji kuxi cuix kuxi guix kuxi pusi tuis pusi buis pusi"
+        let expected = "pifu mềm pìu nhẹ pìu piju nặng pịu trĩu pịu kasu nóng káu gắt káu karu nóng kảu cáu kảu kafu nhàu kàu bàu kàu kuri gần kủi củi kủi koro vất kổ khổ kổ koso cố kố gắng kố kofo cổ kồ cồ kồ kojo lộ kộ cộ kộ koxo gỗ kỗ cỗ kỗ pofo bồ pồ hòn pồ poso phố pố bố pố poro vỡ pổ nổ pổ pojo bộ pộ lộ pộ poxo vỗ pỗ bỗ pỗ pefe bề pề lề pề pese bế pế tế pế pere kể pể nể pể peje bệ pệ tệ pệ pexe bễ pễ lễ pễ pisa phía pía mía pía pira tỉa pỉa rỉa pỉa pifa bìa pìa lìa pìa pija bịa pịa địa pịa pixa đĩa pĩa nghĩa pĩa kura cửa kủa múa kủa kusa của kúa lúa kúa kufa mùa kùa chùa kùa kuja lụa kụa dụa kụa kuxa đũa kũa giũa kũa pusa búa púa lúa púa pufa bùa pùa mùa pùa puja lụa pụa bụa pụa puxa đũa pũa bũa pũa kusi túi kúi cúi kúi kufi cùi kùi bùi kùi kuji cụi kụi bụi kụi kuxi cũi kũi gũi kũi pusi túi púi búi púi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_546_k_and_p_onset_romaji_tone_override_and_diphthong_unlatch() {
+        let input = "kuri kuris kurif kurix kurij kuriw kura kuras kuraf kurax kuraj kuraw kuru kurus kuruf kurux kuruj kuruw puri puris purif purix purij puriw pura puras puraf purax puraj puraw puru purus puruf purux puruj puruw pusu pusuf pusur pusux pusuj pusuw pufu pufus pufur pufux pufuj pufuw piru pirus piruf pirux piruj pisu pisuf pisur pisux pisuj pifu pifus pifur pifux pifuj piju pijus pijuf pijur pijux pefu pefus pefur pefux pefuj pefue pesu pesuf pesur pesux pesuj pesue peru peruf perux peruj perue karu karus karuf karux karuj karua kasu kasuf kasur kasux kasuj kasua kafu kafus kafur kafux kafuj kafua paru parus paruf parux paruj parua pasu pasuf pasur pasux pasuj pasua pafu pafus pafur pafux pafuj pafua"
+        let expected = "kuri kúi kùi kũi kụi kửi kura kúa kùa kũa kụa kửa kuru kúu kùu kũu kụu kửu puri púi pùi pũi pụi pửi pura púa pùa pũa pụa pửa puru púu pùu pũu pụu pửu pusu pùu pủu pũu pụu pứu pufu púu pủu pũu pụu pừu piru píu pìu pĩu pịu pisu pìu pỉu pĩu pịu pifu píu pỉu pĩu pịu piju píu pìu pỉu pĩu pefu péu pẻu pẽu pẹu pều pesu pèu pẻu pẽu pẹu pếu peru pèu pẽu pẹu pểu karu káu kàu kãu kạu kẩu kasu kàu kảu kãu kạu kấu kafu káu kảu kãu kạu kầu paru páu pàu pãu pạu pẩu pasu pàu pảu pãu pạu pấu pafu páu pảu pãu pạu pầu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_547_ari_stems_kari_mari_hari_nari_tari_bari_sari_gari_rari_dari_pari_tone_override_unlatch() {
+        let input = "kari karif karix karij rari raris rarif rarix rarij pari parif parix parij kuri kuris kurif kurix kurij kuriw muri muris murif murix murij muriw huri huris hurif hurix hurij huriw nuri nuris nurif nurix nurij nuriw turi turis turif turix turij turiw buri buris burif burix burij buriw suri suris surif surix surij suriw guri guris gurif gurix gurij guriw ruri ruris rurif rurix rurij ruriw duri duris durif durix durij duriw durid churi churis churif churix churij churiw puri puris purif purix purij puriw"
+        let expected = "kari kài kãi kại rari rái rài rãi rại pari pài pãi pại kuri kúi kùi kũi kụi kửi muri múi mùi mũi mụi mửi huri húi hùi hũi hụi hửi nuri núi nùi nũi nụi nửi turi túi tùi tũi tụi tửi buri búi bùi bũi bụi bửi suri súi sùi sũi sụi sửi guri gúi gùi gũi gụi gửi ruri rúi rùi rũi rụi rửi duri dúi dùi dũi dụi dửi đủi churi chúi chùi chũi chụi chửi puri púi pùi pũi pụi pửi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_548_nora_rora_kosa_koxa_posa_pora_diphthong_breve_and_tone_override_unlatch() {
+        let input = "nora noraf norax noraj noram noran norai norao noraw rora roraf rorax roraj roram roran rorai rorao roraw kosa kosaf kosar kosax kosaj kosam kosan kosac kosap kosat kosai kosao kosaw koxa koxas koxaf koxar koxaj koxam koxan koxai koxao koxaw posa posaf posar posax posaj posam posan posac posap posat posai posao posaw pora poras poraf porax poraj poram poran porai porao poraw"
+        let expected = "nora nòa nõa nọa noảm noản noải noảo noẳ rora ròa rõa rọa roảm roản roải roảo roẳ kosa kòa kỏa kõa kọa koám koán koác koáp koát koái koáo koắ koxa kóa kòa kỏa kọa koãm koãn koãi koão koẵ posa pòa pỏa põa pọa poám poán poác poáp poát poái poáo poắ pora póa pòa põa pọa poảm poản poải poảo poẳ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_549_scenario95_trilingual_tafu_mafu_masu_and_vietnamese_ben_tau_sac_mau_chay_mau_diu_em_chat() {
+        let input = "Dù hệ thống cảm biến kuri và bộ điều khiển rari hoạt động liên tục cùng thuật toán pari hiện đại, khi trở về gần kủi (gaanf kuri) ngắm nhìn sắc màu hoàng hôn rực rỡ, cả đoàn vẫn xúc động nhớ lại những tháng ngày gửi (guriw) gắm niềm tin vượt qua bao gian khó dù đôi bàn tay từng nóng káu (nongs kasu) trên công trường vất kổ (vaats koro)!"
+        let expected = "Dù hệ thống cảm biến kuri và bộ điều khiển rari hoạt động liên tục cùng thuật toán pari hiện đại, khi trở về gần kủi (gần kủi) ngắm nhìn sắc màu hoàng hôn rực rỡ, cả đoàn vẫn xúc động nhớ lại những tháng ngày gửi (gửi) gắm niềm tin vượt qua bao gian khó dù đôi bàn tay từng nóng káu (nóng káu) trên công trường vất kổ (vất kổ)!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3986,6 +4018,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_542_purse_cures_curse_nurse_lexus_nexus_paasu_paaru_peesu_unlatch", test_tier4_542_purse_cures_curse_nurse_lexus_nexus_paasu_paaru_peesu_unlatch),
             ("test_tier4_543_roes_noes_rose_nose_pose_dose_kose_sore_dore_rore_more_bore_pore_unlatch", test_tier4_543_roes_noes_rose_nose_pose_dose_kose_sore_dore_rore_more_bore_pore_unlatch),
             ("test_tier4_544_scenario94_trilingual_pier_purse_lexus_and_vietnamese_trieu_dai_cuoi_roe_suc_moe_chia_koa_chat", test_tier4_544_scenario94_trilingual_pier_purse_lexus_and_vietnamese_trieu_dai_cuoi_roe_suc_moe_chia_koa_chat),
+            ("test_tier4_545_vietnamese_collocation_phrases_tisu_bisu_sisu_mifu_nifu_tifu_bifu_sifu_rifu_difu_pifu_piju_kasu_masu_hasu_rasu_karu_kafu_mafu_tafu_bafu_hafu_safu_nafu_gafu_rafu_dafu_kuri_koro_koso_kofo_kojo_koxo_pofo_poso_poro_pojo_poxo_pefe_pese", test_tier4_545_vietnamese_collocation_phrases_tisu_bisu_sisu_mifu_nifu_tifu_bifu_sifu_rifu_difu_pifu_piju_kasu_masu_hasu_rasu_karu_kafu_mafu_tafu_bafu_hafu_safu_nafu_gafu_rafu_dafu_kuri_koro_koso_kofo_kojo_koxo_pofo_poso_poro_pojo_poxo_pefe_pese),
+            ("test_tier4_546_k_and_p_onset_romaji_tone_override_and_diphthong_unlatch", test_tier4_546_k_and_p_onset_romaji_tone_override_and_diphthong_unlatch),
+            ("test_tier4_547_ari_stems_kari_mari_hari_nari_tari_bari_sari_gari_rari_dari_pari_tone_override_unlatch", test_tier4_547_ari_stems_kari_mari_hari_nari_tari_bari_sari_gari_rari_dari_pari_tone_override_unlatch),
+            ("test_tier4_548_nora_rora_kosa_koxa_posa_pora_diphthong_breve_and_tone_override_unlatch", test_tier4_548_nora_rora_kosa_koxa_posa_pora_diphthong_breve_and_tone_override_unlatch),
+            ("test_tier4_549_scenario95_trilingual_tafu_mafu_masu_and_vietnamese_ben_tau_sac_mau_chay_mau_diu_em_chat", test_tier4_549_scenario95_trilingual_tafu_mafu_masu_and_vietnamese_ben_tau_sac_mau_chay_mau_diu_em_chat),
         ]
     }
 }
