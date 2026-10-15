@@ -3305,6 +3305,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 83: 41 Collocation Entries, Romaji Long-Vowel -su/-fu/-ru/-ri Unlatch, and kiseru/hiseru/niseru/corsair/defer/miser/mixer/tuxes Unlatch
+
+    func test_tier4_525_vietnamese_collocation_phrases_testers_teens_memes_themes_hangars_maxis_taxis_minx_xanax_xerox_thorax_queer_queers_queues_vexes_hexes_sexes_haafu_saafu_taafu_seefu_baasu_naasu_garasu_keesu_beesu_reesu_beeru_meeru_neeru_reeru_seeru_teeru_gaaru_hasaru_masaru_nasaru_sasaru_tasaru_toori_sosori() {
+        let input = "testers awn testers ddons testers teens muix teens memes nhas memes themes neems themes hangars howf hangars maxis nhaf maxis ngois maxis taxis bof taxis thitj taxis minx turm minx xanax laaxn xanax xerox kheos xerox thorax thoar thorax queer bois queer queers huwowng queers vor queers queues meeus queues vexes caau vexes hexes cuwowif hexes sexes chieeuf sexes haafu duwa haafu saafu buoonf saafu taafu chuyeens taafu seefu leeuf seefu baasu vius baasu naasu cowm naasu garasu maajt garasu keesu cuwus keesu beesu mawjt beesu reesu ddaats reesu beeru mooi beeru meeru moms meeru neeru leeus neeru reeru reeuj reeru seeru xeeur seeru teeru teeus teeru gaaru caus gaaru hasaru haof hasaru masaru mieengs masaru nasaru troons nasaru sasaru quar sasaru tasaru ddaof tasaru toori ddooij toori sosori cowm sosori"
+        let expected = "testers ăn tết đón tết teens mũi tến memes nhá mếm themes nếm thếm hangars hờ hấng maxis nhà mái ngói mái taxis bò tái thịt tái minx tủm mĩn xanax lẫn xẫn xerox khéo xẽo thorax thỏa thõa queer bói quể queers hương quế vỏ quế queues mếu quếu vexes câu vế hexes cười hế sexes chiều sế haafu dưa hầu saafu buồn sầu taafu chuyến tầu seefu lều sều baasu víu bấu naasu cơm nấu garasu mật gấu keesu cứu kếu beesu mặt bếu reesu đất rếu beeru môi bểu meeru móm mểu neeru lếu nểu reeru rệu rểu seeru xểu sểu teeru tếu tểu gaaru cáu gẩu hasaru hào hẩu masaru miếng mẩu nasaru trốn nẩu sasaru quả sẩu tasaru đào tẩu toori đội tổi sosori cơm sổi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_526_romaji_baasu_daasu_garasu_naasu_beesu_keesu_reesu_haafu_saafu_taafu_seefu_unlatch() {
+        let input = "baasu baasuf baasur baasux baasuj daasu daasuf daasur daasux daasuj daasud daasufd daasurd daasuxd daasujd garasu garasuf garasur garasux garasuj naasu naasuf naasur naasux naasuj beesu beesuf beesur beesux beesuj keesu keesuf keesur keesux keesuj reesu reesuf reesur reesux reesuj haafu haafus haafur haafux haafuj saafu saafus saafur saafux saafuj taafu taafus taafur taafux taafuj seefu seefus seefur seefux seefuj"
+        let expected = "baasu bầu bẩu bẫu bậu daasu dầu dẩu dẫu dậu đấu đầu đẩu đẫu đậu garasu gầu gẩu gẫu gậu naasu nầu nẩu nẫu nậu beesu bều bểu bễu bệu keesu kều kểu kễu kệu reesu rều rểu rễu rệu haafu hấu hẩu hẫu hậu saafu sấu sẩu sẫu sậu taafu tấu tẩu tẫu tậu seefu sếu sểu sễu sệu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_527_romaji_asaru_hasaru_masaru_nasaru_sasaru_tasaru_gaaru_beeru_meeru_neeru_reeru_seeru_teeru_unlatch() {
+        let input = "asaru asarus asaruf asarux asaruj hasaru hasarus hasaruf hasarux hasaruj masaru masarus masaruf masarux masaruj nasaru nasarus nasaruf nasarux nasaruj sasaru sasarus sasaruf sasarux sasaruj tasaru tasarus tasaruf tasarux tasaruj gaaru gaarus gaaruf gaarux gaaruj beeru beerus beeruf beerux beeruj meeru meerus meeruf meerux meeruj neeru neerus neeruf neerux neeruj reeru reerus reeruf reerux reeruj seeru seerus seeruf seerux seeruj teeru teerus teeruf teerux teeruj"
+        let expected = "asaru ấu ầu ẫu ậu hasaru hấu hầu hẫu hậu masaru mấu mầu mẫu mậu nasaru nấu nầu nẫu nậu sasaru sấu sầu sẫu sậu tasaru tấu tầu tẫu tậu gaaru gấu gầu gẫu gậu beeru bếu bều bễu bệu meeru mếu mều mễu mệu neeru nếu nều nễu nệu reeru rếu rều rễu rệu seeru sếu sều sễu sệu teeru tếu tều tễu tệu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_528_romaji_kiseru_hiseru_niseru_uraya_urana_guree_toori_sosori_and_english_corsair_defer_miser_mixer_tuxes_unlatch() {
+        let input = "kiseru kiserue kiserues kiseruef kiseruex kiseruej hiseru hiserue hiserues hiseruef hiseruex hiseruej niseru niserue niserues niseruef niseruex niseruej uraya urayas urayaf urayax urayaj urana uranas uranaf uranax uranaj uranag guree gurees gureef gureex gureej gureem gureen toori tooris toorif toorix toorij tooriw sosori sosoris sosorif sosorix sosorij sosoriw corsair corsairs corsairf corsairx corsairj corsairsf corsairsr corsairsx corsairsj defer defers deferd deferf deferx deferj deferu deferm defern miser misers miserm misern mixer mixere mixeres mixeref mixerex mixerej tuxes tuxese tuxesef tuxeser tuxesex tuxesej"
+        let expected = "kiseru kiểu kiếu kiều kiễu kiệu hiseru hiểu hiếu hiều hiễu hiệu niseru niểu niếu niều niễu niệu uraya uấy uầy uẫy uậy urana uấn uần uẫn uận uẩng guree guế guề guễ guệ guểm guển toori tối tồi tỗi tội tởi sosori sối sồi sỗi sội sởi corsair corsairs coài coãi coại coài coải coãi coại defer defers để dề dễ dệ dểu dểm dển miser misers miểm miển mixer miể miế miề miễ miệ tuxes tuế tuề tuể tuễ tuệ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_529_scenario91_trilingual_testers_garasu_defer_and_vietnamese_don_tet_huong_que_mat_gau_dao_tau_chat() {
+        let input = "Trước kỳ nghỉ đón tết (ddons testers), nhóm kỹ sư quyết định defer việc nâng cấp dàn máy corsair và bàn mixer âm thanh để (deferd) cùng nhau thưởng thức trà hương quế (huwowng queers), kiểm tra bình mật gấu (maajt garasu) bên khung cửa kính garasu rồi nhâm nhi ly beeru mát lạnh trên con phố toori, vừa trò chuyện thấu hiểu (hiserue) vừa xem bộ phim hành động kể về cuộc đào tẩu (ddaof tasaru) đầy kịch tính trong khi chờ nồi bánh chưng đang nấu (nasarus) chín!"
+        let expected = "Trước kỳ nghỉ đón tết (đón tết), nhóm kỹ sư quyết định defer việc nâng cấp dàn máy corsair và bàn mixer âm thanh để (để) cùng nhau thưởng thức trà hương quế (hương quế), kiểm tra bình mật gấu (mật gấu) bên khung cửa kính garasu rồi nhâm nhi ly beeru mát lạnh trên con phố toori, vừa trò chuyện thấu hiểu (hiểu) vừa xem bộ phim hành động kể về cuộc đào tẩu (đào tẩu) đầy kịch tính trong khi chờ nồi bánh chưng đang nấu (nấu) chín!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3838,6 +3870,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_522_lexer_refer_refers_verse_vexes_hexes_sexes_mixes_mixers_sixes_unlatch", test_tier4_522_lexer_refer_refers_verse_vexes_hexes_sexes_mixes_mixers_sixes_unlatch),
             ("test_tier4_523_refuse_reuse_lexus_nexus_cures_curse_nurse_true_vue_unlatch", test_tier4_523_refuse_reuse_lexus_nexus_cures_curse_nurse_true_vue_unlatch),
             ("test_tier4_524_scenario90_trilingual_cursor_lexer_tester_and_vietnamese_thap_den_lap_rap_doat_cup_vinh_vien_chat", test_tier4_524_scenario90_trilingual_cursor_lexer_tester_and_vietnamese_thap_den_lap_rap_doat_cup_vinh_vien_chat),
+            ("test_tier4_525_vietnamese_collocation_phrases_testers_teens_memes_themes_hangars_maxis_taxis_minx_xanax_xerox_thorax_queer_queers_queues_vexes_hexes_sexes_haafu_saafu_taafu_seefu_baasu_naasu_garasu_keesu_beesu_reesu_beeru_meeru_neeru_reeru_seeru_teeru_gaaru_hasaru_masaru_nasaru_sasaru_tasaru_toori_sosori", test_tier4_525_vietnamese_collocation_phrases_testers_teens_memes_themes_hangars_maxis_taxis_minx_xanax_xerox_thorax_queer_queers_queues_vexes_hexes_sexes_haafu_saafu_taafu_seefu_baasu_naasu_garasu_keesu_beesu_reesu_beeru_meeru_neeru_reeru_seeru_teeru_gaaru_hasaru_masaru_nasaru_sasaru_tasaru_toori_sosori),
+            ("test_tier4_526_romaji_baasu_daasu_garasu_naasu_beesu_keesu_reesu_haafu_saafu_taafu_seefu_unlatch", test_tier4_526_romaji_baasu_daasu_garasu_naasu_beesu_keesu_reesu_haafu_saafu_taafu_seefu_unlatch),
+            ("test_tier4_527_romaji_asaru_hasaru_masaru_nasaru_sasaru_tasaru_gaaru_beeru_meeru_neeru_reeru_seeru_teeru_unlatch", test_tier4_527_romaji_asaru_hasaru_masaru_nasaru_sasaru_tasaru_gaaru_beeru_meeru_neeru_reeru_seeru_teeru_unlatch),
+            ("test_tier4_528_romaji_kiseru_hiseru_niseru_uraya_urana_guree_toori_sosori_and_english_corsair_defer_miser_mixer_tuxes_unlatch", test_tier4_528_romaji_kiseru_hiseru_niseru_uraya_urana_guree_toori_sosori_and_english_corsair_defer_miser_mixer_tuxes_unlatch),
+            ("test_tier4_529_scenario91_trilingual_testers_garasu_defer_and_vietnamese_don_tet_huong_que_mat_gau_dao_tau_chat", test_tier4_529_scenario91_trilingual_testers_garasu_defer_and_vietnamese_don_tet_huong_que_mat_gau_dao_tau_chat),
         ]
     }
 }
