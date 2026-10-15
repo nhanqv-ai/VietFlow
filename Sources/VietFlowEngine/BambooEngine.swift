@@ -623,8 +623,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "harmf" && "aw".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if (["cost", "most"].contains(String(wordRawKeys).lowercased()) && "woj".contains(character.lowercased()))
-                || (["rust", "cusp", "coast", "coats", "soaps", "boost", "roost", "roots", "noops", "goops", "troops"].contains(String(wordRawKeys).lowercased()) && "wj".contains(character.lowercased()))
+                || (["rust", "dust", "burst", "cusp", "coast", "coats", "soaps", "boost", "roost", "roots", "noops", "goops", "troops"].contains(String(wordRawKeys).lowercased()) && "wj".contains(character.lowercased()))
                 || (["gasp", "rasp"].contains(String(wordRawKeys).lowercased()) && "waj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "test" && "ej".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "lisp" && character.lowercased() == "j")
@@ -652,6 +656,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         || (character.lowercased() == "s"
                             && !["arch", "merch", "perch"].contains(String(wordRawKeys).lowercased()))))
                 || Self.matchesMonophthongStopCodaDiacriticUnlatch(
+                    wordRawKeys: wordRawKeys,
+                    prefix2: prefix2,
+                    rhymeAfterOnset: rhymeAfterOnset,
+                    character: character
+                )
+                || Self.matchesPreDiacriticStopCodaToneOverrideUnlatch(
                     wordRawKeys: wordRawKeys,
                     prefix2: prefix2,
                     rhymeAfterOnset: rhymeAfterOnset,
@@ -2193,7 +2203,23 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "daru": ["yêu", "con", "dảu"],
         "seru": ["chim", "con", "sẻu"],
         "meru": ["móm", "mẻu"],
-        "cheru": ["chặt", "chẻu"]
+        "cheru": ["chặt", "chẻu"],
+        "cheers": ["hạn", "cơ", "thể", "điều", "tự", "ức", "khống", "quy", "chế"],
+        "seers": ["bóng", "chiều", "xế", "sế"],
+        "veers": ["câu", "đối", "hai", "một", "vế"],
+        "beers": ["bồng", "ẵm", "mẹ", "bà", "bế"],
+        "deers": ["con", "tiếng", "đá", "bắt", "chọi", "dế"],
+        "reefs": ["cái", "chiếc", "rổ", "rế"],
+        "moors": ["cái", "chân", "đầu", "xây", "mố"],
+        "boors": ["ông", "cha", "công", "phân", "tuyên", "bố"],
+        "roofs": ["mắt", "lồi", "trợn", "rố"],
+        "hoofs": ["cái", "miệng", "đào", "xuống", "lấp", "hố"],
+        "goofs": ["vải", "áo", "gố"],
+        "loofs": ["quá", "hơi", "rất", "mặc", "lố"],
+        "tores": ["bắn", "tung", "nước", "máu", "lửa", "tóe"],
+        "lores": ["sáng", "chớp", "tia", "lóe"],
+        "chores": ["đỏ", "vàng", "sáng", "chóe"],
+        "hifu": ["hắt", "buồn", "hìu"]
     ]
 
     private static func matchesUyOaOeClusterUnlatch(
@@ -2459,6 +2485,74 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 allowToneOverride: true,
                 allowD: false
             ) || (tail.last.map { "sj".contains($0) } == true && stopCodas.contains(String(tail.dropLast())))
+        }
+        return false
+    }
+
+    private static func matchesPreDiacriticStopCodaToneOverrideUnlatch(
+        wordRawKeys: [Character],
+        prefix2: String,
+        rhymeAfterOnset: [String],
+        character: Character
+    ) -> Bool {
+        guard let firstKey = wordRawKeys.first?.lowercased().first,
+              !"wfjz".contains(firstKey),
+              firstKey != "p" || prefix2 == "ph" else {
+            return false
+        }
+        let c = character.lowercased()
+        let isDOnset = firstKey == "d"
+        let effRhyme = "aeiouy".contains(firstKey) ? wordRawKeys.map({ $0.lowercased() }) : rhymeAfterOnset
+        guard effRhyme.count >= 4, "aeiouy".contains(effRhyme[0]) else {
+            return false
+        }
+        var rem = effRhyme.joined()
+        let secondIdx = rem.index(after: rem.startIndex)
+        guard let toneIdx = rem[secondIdx...].firstIndex(where: { "rfx".contains($0) }) else {
+            return false
+        }
+        rem.remove(at: toneIdx)
+
+        if "sj".contains(c) {
+            if isDOnset, let dIdx = rem.firstIndex(of: "d") {
+                rem.remove(at: dIdx)
+            } else if rem.contains("d") {
+                return false
+            }
+        } else if isDOnset && c == "d" && !rem.contains("d") {
+            if let last = rem.last, "sj".contains(last) {
+                rem.removeLast()
+            }
+        } else {
+            return false
+        }
+
+        let patterns: [(vowel: String, codas: Set<String>)] = [
+            ("uyee", ["c", "t", "ch"]),
+            ("uwow", ["c", "p", "t"]),
+            ("uow", ["c", "p", "t"]),
+            ("uwo", ["c", "p", "t"]),
+            ("uoo", ["c", "p", "t"]),
+            ("uaa", ["c", "t"]),
+            ("uee", ["p", "t", "ch"]),
+            ("iee", ["c", "p", "t"]),
+            ("yee", ["c", "p", "t"]),
+            ("oaw", ["c", "p", "t", "ch"]),
+            ("aw", ["c", "p", "t"]),
+            ("aa", ["c", "p", "t"]),
+            ("ee", ["c", "p", "t", "ch"]),
+            ("oo", ["c", "p", "t"]),
+            ("ow", ["c", "p", "t"]),
+            ("uw", ["c", "t"])
+        ]
+        for (vowel, codas) in patterns where rem.hasPrefix(vowel) {
+            if "iey".contains(vowel.first!) && firstKey == "c" && prefix2 != "ch" {
+                return false
+            }
+            let coda = String(rem.dropFirst(vowel.count))
+            if codas.contains(coda) {
+                return true
+            }
         }
         return false
     }
