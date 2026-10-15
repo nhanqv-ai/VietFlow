@@ -212,7 +212,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["toes", "hoes", "roes", "noes"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "t" {
+            } else if ["toes", "hoes", "roes", "noes", "lose", "hose"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "t" {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -332,15 +332,21 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && rhymeAfterOnset[2] == "e"
                     && rhymeAfterOnset[3] == "u"
                     && character.lowercased() == "e")
+                || (rhymeAfterOnset.count >= 4
+                    && rhymeAfterOnset[0] == "u"
+                    && "rsfjx".contains(rhymeAfterOnset[1])
+                    && rhymeAfterOnset[2] == "e"
+                    && ["t", "nh", "ch"].contains(rhymeAfterOnset[3...].joined())
+                    && character.lowercased() == "e")
                 || (String(wordRawKeys).lowercased() == "tureen" && character.lowercased() == "h")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if has3CharRhymeAfterOnset
-                && r1 == "e"
-                && "rsfj".contains(r2)
-                && r3 == "u"
-                && character.lowercased() == "e" {
+                && ((r1 == "e" && "rsfj".contains(r2) && r3 == "u" && character.lowercased() == "e")
+                    || (r1 == "a" && "rsfjx".contains(r2) && r3 == "u" && character.lowercased() == "a")
+                    || (r1 == "o" && "rsfjx".contains(r2) && r3 == "i" && "ow".contains(character.lowercased()))
+                    || (r1 == "e" && r2 == "r" && "mn".contains(r3) && character.lowercased() == "e")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
