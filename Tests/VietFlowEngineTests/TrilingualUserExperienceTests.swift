@@ -1944,7 +1944,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (319 Tests)
+    // MARK: - Cycle 42: -iêng + e, Dodos/Dadas/Deeds + Coda & Delayed-d, Guree/Queer/Queensh/Teensh/Senseh, Manga/Manx/Minx/Trex/Oxen/Vixen/Ore Unlatching
+    // =========================================================================
+
+    func test_tier4_320_english_ties_dies_lies_vies_hies_tries_trier_tier_bier_chief_thief_siren_risen_vixen_ire_ieng_unlatch() {
+        let input = "ties tiesnge dies diesnge diesngde diesnde diesmde diestde diescde diespde lies liesnge vies viesnge hies hiesnge tries triesnge trier triernge tier tiernge bier biernge chief chiefnge thief thiefnge siren sirenge risen risenge vixen vixenge ire irene ireme irenge ireue"
+        let expected = "ties tiếng dies diếng điếng điến điếm điết điếc điếp lies liếng vies viếng hies hiếng tries triếng trier triểng tier tiểng bier biểng chief chiềng thief thiềng siren siểng risen riếng vixen viễng ire iển iểm iểng iểu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_321_english_and_romaji_dodos_dadas_deeds_coda_and_delayed_d_unlatch() {
+        let input = "dodos dodosi dodosm dodosn dodosng dodosc dodosp dodost dadas dadasu dadasy dadasm dadasn dadasng dadasc dadasp dadast deeds deedsu deedsm deedsn deedsnh deedsch deedsp deedst daasu daasud datas datasd dawns dawnsd downs downsd darns darnsd deems deemsd dense densed dojos dojosd dooms doomsd donors donorsd dura durad duri durid dorm dormd"
+        let expected = "dodos đối đốm đốn đống đốc đốp đốt dadas đấu đấy đấm đấn đấng đấc đấp đất deeds đếu đếm đến đếnh đếch đếp đết daasu đấu datas đất dawns đắn downs đớn darns đán deems đếm dense đến dojos đố dooms đốm donors đốn dura đủa duri đủi dorm đỏm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_322_english_and_romaji_guree_queer_queens_teens_keens_sense_tense_dense_defend_unlatch() {
+        let input = "guree gureem gureen queer queeru queerm queern queernh queens queensh teens teensh keens keensh sense senseh tense tenseh dense denseh defend defendh"
+        let expected = "guree guểm guển queer quểu quểm quển quểnh queens quếnh teens tếnh keens kếnh sense sếnh tense tếnh dense dếnh defend đềnh"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_323_english_and_romaji_manga_manx_minx_trex_oxen_vixen_ore_unlatch() {
+        let input = "manga mangas mangaf mangar mangax mangaj manx manxa manxw manxg manxh minx minxh trex trexe trexo trexm trexn trexng trexue trexne trexme oxen oxeng vixen vixeng ore ores orem oren oreng"
+        let expected = "manga mấng mầng mẩng mẫng mậng manx mẫn mẵn mãng mãnh minx mĩnh trex trễ trẽo trẽm trẽn trẽng trễu trễn trễm oxen oẽng vixen viễng ore ores oẻm oẻn oẻng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_324_scenario50_trilingual_manga_dodos_deeds_and_vietnamese_man_manh_tre_tieng_doi_dau_den_chat() {
+        let input = "Đọc bộ truyện manga mới ra mắt, nhân vật chính có tính cách kiên nhẫn (manxa), dũng mãnh (manxh) và không bao giờ đến trễ (trexe) hẹn, luôn lắng nghe tiếng (tiesnge) nói của đồng đội và chủ động đối (dodosi) mặt với thử thách để chiến đấu (dadasu) hết mình đến (deedsn) cùng!"
+        let expected = "Đọc bộ truyện manga mới ra mắt, nhân vật chính có tính cách kiên nhẫn (mẫn), dũng mãnh (mãnh) và không bao giờ đến trễ (trễ) hẹn, luôn lắng nghe tiếng (tiếng) nói của đồng đội và chủ động đối (đối) mặt với thử thách để chiến đấu (đấu) hết mình đến (đến) cùng!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (324 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2275,6 +2309,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_317_english_and_romaji_ufo_uro_uso_duos_coda_o_w_unlatch", test_tier4_317_english_and_romaji_ufo_uro_uso_duos_coda_o_w_unlatch),
             ("test_tier4_318_english_and_romaji_giro_gifu_giju_gire_gise_and_vietnamese_ue_coda_e_unlatch", test_tier4_318_english_and_romaji_giro_gifu_giju_gire_gise_and_vietnamese_ue_coda_e_unlatch),
             ("test_tier4_319_scenario49_trilingual_gifu_diesel_yesterday_and_vietnamese_gioi_dien_tien_trien_uon_chat", test_tier4_319_scenario49_trilingual_gifu_diesel_yesterday_and_vietnamese_gioi_dien_tien_trien_uon_chat),
+            ("test_tier4_320_english_ties_dies_lies_vies_hies_tries_trier_tier_bier_chief_thief_siren_risen_vixen_ire_ieng_unlatch", test_tier4_320_english_ties_dies_lies_vies_hies_tries_trier_tier_bier_chief_thief_siren_risen_vixen_ire_ieng_unlatch),
+            ("test_tier4_321_english_and_romaji_dodos_dadas_deeds_coda_and_delayed_d_unlatch", test_tier4_321_english_and_romaji_dodos_dadas_deeds_coda_and_delayed_d_unlatch),
+            ("test_tier4_322_english_and_romaji_guree_queer_queens_teens_keens_sense_tense_dense_defend_unlatch", test_tier4_322_english_and_romaji_guree_queer_queens_teens_keens_sense_tense_dense_defend_unlatch),
+            ("test_tier4_323_english_and_romaji_manga_manx_minx_trex_oxen_vixen_ore_unlatch", test_tier4_323_english_and_romaji_manga_manx_minx_trex_oxen_vixen_ore_unlatch),
+            ("test_tier4_324_scenario50_trilingual_manga_dodos_deeds_and_vietnamese_man_manh_tre_tieng_doi_dau_den_chat", test_tier4_324_scenario50_trilingual_manga_dodos_deeds_and_vietnamese_man_manh_tre_tieng_doi_dau_den_chat),
         ]
     }
 }
