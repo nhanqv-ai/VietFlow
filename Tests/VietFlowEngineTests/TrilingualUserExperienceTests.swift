@@ -3337,6 +3337,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 84: 40 Collocation Entries, Delayed e on ie+u and ue+coda/tone Stems, and defer/lexer/refer/duet Stop-Coda Unlatch
+
+    func test_tier4_530_vietnamese_collocation_phrases_daasu_datas_diets_quiets_nieces_verse_refers_defer_lexer_refer_refuse_reuse_major_majors_corsair_corsairs_horse_those_coax_kerf_taxi_maxi_worm_worms_worn_worst_hiju_kifu_kiju_niru_haru_naru_saru_narau_sarau_dora_guwa_huwa_ruwa_giwa() {
+        let input = "daasu yeeu daasu ddongs daasu datas trowif datas mawjt datas diets rieets diets khoon diets quiets taam quiets ddinhj quiets nieces cas nieces lieecs nieces verse caau verse moojt verse refers roor refers chieecs refers defer khinh defer lexer keer lexer refer changf refer lamf refer refuse ddaats refuse cayf refuse reuse ddaats reuse cayf reuse major giowf major maox major majors mux majors maof majors corsair ueer corsair oair corsair corsairs nhifn corsairs ngoais corsairs horse ddor horse vangf horse those nois those cuwowif those coax xoax coax tocs coax kerf cawjp kerf bowf kerf taxi baix taxi trair taxi maxi nhows maxi thuwowng maxi worm uowms worm thuwr worm worms thuwr worms lowif worms worn uowxn worn nguwjc worn worst aarm worst muwa worst hiju quanhj hiju ddifu hiju kifu keeu kifu cuwus kifu kiju nawjng kiju trixu kiju niru bams niru nius niru haru haof haru naru aarn naru troons naru saru quar saru trais saru narau troons narau aarn narau sarau quar sarau trais sarau dora tocs dora xoax dora guwa nawngs guwa muwa guwa huwa daj huwa thuwa huwa ruwa buooir ruwa truwa ruwa giwa luwowxi giwa giuwax giwa"
+        let expected = "daasu yêu dấu đóng dấu datas trời dất mặt dất diets riết diết khôn diết quiets tâm quiết định quiết nieces cá niếc liếc niếc verse câu vế một vế refers rổ rế chiếc rế defer khinh dể lexer kể lể refer chàng rể làm rể refuse đất rếu cày rếu reuse đất rếu cày rếu major giờ mảo mão mảo majors mũ máo mào máo corsair uể coải oải coải corsairs nhìn coái ngoái coái horse đỏ hóe vàng hóe those nói thóe cười thóe coax xõa cõa tóc cõa kerf cặp kè bờ kè taxi bãi tãi trải tãi maxi nhớ mãi thương mãi worm ướm ưởm thử ưởm worms thử ướm lời ướm worn ưỡn ưởn ngực ưởn worst ẩm ướt mưa ướt hiju quạnh hịu đìu hịu kifu kêu kìu cứu kìu kiju nặng kịu trĩu kịu niru bám nỉu níu nỉu haru hào hảu naru ẩn nảu trốn nảu saru quả sảu trái sảu narau trốn nẩu ẩn nẩu sarau quả sẩu trái sẩu dora tóc dỏa xõa dỏa guwa nắng gưa mưa gưa huwa dạ hưa thưa hưa ruwa buổi rưa trưa rưa giwa lưỡi giưa giữa giưa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_531_delayed_e_and_w_on_tiersu_biersu_triesu_chiefsu_sixesu_mixesu_mixersu_miseru_mixeru_trieru_yens_twos_unlatch() {
+        let input = "tiers tiersue biers biersue tries triesue chiefs chiefsue sixes sixesue mixes mixesue mixers mixersue miser miserue mixer mixerue mixerm mixern trieru trierue yens yensfe yensre yensxe yensje yensge yenshe twos twosfw twosrw twosxw twosjw"
+        let expected = "tiers tiếu biers biếu tries triếu chiefs chiếu sixes siếu mixes miếu mixers miếu miser miểu mixer miểu miểm miển trieru triểu yens yền yển yễn yện yếng yếnh twos tườ tưở tưỡ tượ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_532_tuxes_cures_curse_nurse_coda_and_tone_before_delayed_e_unlatch() {
+        let input = "tuxes tuxesme tuxesne tuxesce tuxespe tuxeste tuxesfe tuxesre tuxesxe tuxesje cures curesme curesne curesce curespe cureste curesfe curesre curesxe curesje curse curseme cursene cursece cursepe cursete cursefe cursere cursexe curseje nurse nurseme nursene nursece nursepe nursete nursefe nursere nursexe nurseje"
+        let expected = "tuxes tuếm tuến tuếc tuếp tuết tuề tuể tuễ tuệ cures cuếm cuến cuếc cuếp cuết cuề cuể cuễ cuệ curse cuếm cuến cuếc cuếp cuết cuề cuể cuễ cuệ nurse nuếm nuến nuếc nuếp nuết nuề nuể nuễ nuệ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_533_defer_lexer_refer_duet_stop_coda_and_d_stroke_unlatch() {
+        let input = "defer defercs defercj deferps deferpj deferts defertj defercsd defercjd deferpsd deferpjd defertsd defertjd defercds defercdj deferpds deferpdj defertds defertdj deferdcs deferdcj deferdps deferdpj deferdts deferdtj lexer lexercs lexercj lexerps lexerpj lexerts lexertj refer refercs refercj referps referpj referts refertj duet duetsje duetsjde duetsdje duetsjed duetdes duetdej"
+        let expected = "defer dếc dệc dếp dệp dết dệt đếc đệc đếp đệp đết đệt đếc đệc đếp đệp đết đệt đếc đệc đếp đệp đết đệt lexer lếc lệc lếp lệp lết lệt refer rếc rệc rếp rệp rết rệt duet duệt đuệt đuệt đuệt đuết đuệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_534_scenario92_trilingual_defer_lexer_corsair_daasu_and_vietnamese_yeu_dau_tieu_diet_ke_le_am_uot_diu_hiu_chat() {
+        let input = "Sau khi hoàn thành mô-đun lexer và defer tác vụ kiểm tra giun máy worms trên hệ thống corsair, anh gửi bức thư tay cho người yêu dấu (yeeu daasu) kể lể (keer lexer) về hành trình vượt qua cơn mưa ẩm ướt (aarm worst) trên con phố đìu hịu (ddifu hiju) lúc giao mùa haru, đồng thời khẳng định đội ngũ đã tâm quiết (taam quiets) giữ vững kỷ luật khôn diết (khoon diets) trước khi trao quà kỷ niệm biếu (biersue) các thành viên kỳ cựu và cùng nhau bước đi nối tiếp (deferpsd) chặng đường mới!"
+        let expected = "Sau khi hoàn thành mô-đun lexer và defer tác vụ kiểm tra giun máy worms trên hệ thống corsair, anh gửi bức thư tay cho người yêu dấu (yêu dấu) kể lể (kể lể) về hành trình vượt qua cơn mưa ẩm ướt (ẩm ướt) trên con phố đìu hịu (đìu hịu) lúc giao mùa haru, đồng thời khẳng định đội ngũ đã tâm quiết (tâm quiết) giữ vững kỷ luật khôn diết (khôn diết) trước khi trao quà kỷ niệm biếu (biếu) các thành viên kỳ cựu và cùng nhau bước đi nối tiếp (đếp) chặng đường mới!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3875,6 +3907,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_527_romaji_asaru_hasaru_masaru_nasaru_sasaru_tasaru_gaaru_beeru_meeru_neeru_reeru_seeru_teeru_unlatch", test_tier4_527_romaji_asaru_hasaru_masaru_nasaru_sasaru_tasaru_gaaru_beeru_meeru_neeru_reeru_seeru_teeru_unlatch),
             ("test_tier4_528_romaji_kiseru_hiseru_niseru_uraya_urana_guree_toori_sosori_and_english_corsair_defer_miser_mixer_tuxes_unlatch", test_tier4_528_romaji_kiseru_hiseru_niseru_uraya_urana_guree_toori_sosori_and_english_corsair_defer_miser_mixer_tuxes_unlatch),
             ("test_tier4_529_scenario91_trilingual_testers_garasu_defer_and_vietnamese_don_tet_huong_que_mat_gau_dao_tau_chat", test_tier4_529_scenario91_trilingual_testers_garasu_defer_and_vietnamese_don_tet_huong_que_mat_gau_dao_tau_chat),
+            ("test_tier4_530_vietnamese_collocation_phrases_daasu_datas_diets_quiets_nieces_verse_refers_defer_lexer_refer_refuse_reuse_major_majors_corsair_corsairs_horse_those_coax_kerf_taxi_maxi_worm_worms_worn_worst_hiju_kifu_kiju_niru_haru_naru_saru_narau_sarau_dora_guwa_huwa_ruwa_giwa", test_tier4_530_vietnamese_collocation_phrases_daasu_datas_diets_quiets_nieces_verse_refers_defer_lexer_refer_refuse_reuse_major_majors_corsair_corsairs_horse_those_coax_kerf_taxi_maxi_worm_worms_worn_worst_hiju_kifu_kiju_niru_haru_naru_saru_narau_sarau_dora_guwa_huwa_ruwa_giwa),
+            ("test_tier4_531_delayed_e_and_w_on_tiersu_biersu_triesu_chiefsu_sixesu_mixesu_mixersu_miseru_mixeru_trieru_yens_twos_unlatch", test_tier4_531_delayed_e_and_w_on_tiersu_biersu_triesu_chiefsu_sixesu_mixesu_mixersu_miseru_mixeru_trieru_yens_twos_unlatch),
+            ("test_tier4_532_tuxes_cures_curse_nurse_coda_and_tone_before_delayed_e_unlatch", test_tier4_532_tuxes_cures_curse_nurse_coda_and_tone_before_delayed_e_unlatch),
+            ("test_tier4_533_defer_lexer_refer_duet_stop_coda_and_d_stroke_unlatch", test_tier4_533_defer_lexer_refer_duet_stop_coda_and_d_stroke_unlatch),
+            ("test_tier4_534_scenario92_trilingual_defer_lexer_corsair_daasu_and_vietnamese_yeu_dau_tieu_diet_ke_le_am_uot_diu_hiu_chat", test_tier4_534_scenario92_trilingual_defer_lexer_corsair_daasu_and_vietnamese_yeu_dau_tieu_diet_ke_le_am_uot_diu_hiu_chat),
         ]
     }
 }
