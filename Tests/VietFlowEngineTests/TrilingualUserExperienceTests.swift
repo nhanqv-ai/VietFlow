@@ -1449,8 +1449,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_245_japanese_nuete_muete_tieru_bieru_sieru_gieru_rieru_tiete_riete_and_vietnamese_unlatch() {
+        let input = "nuete muete tieru bieru sieru gieru rieru tiete biete siete giete riete loofs nuetes nuetej muetes muetej tietes tietej bietes bietej sietes sietej gietes gietej rietes rietej sierue gierue rierue"
+        let expected = "nuete muete tieru bieru sieru gieru rieru tiete biete siete giete riete loofs nuết nuệt muết muệt tiết tiệt biết biệt siết siệt giết giệt riết riệt siểu giểu riểu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_246_japanese_kete_sete_hete_mete_tete_bete_rete_and_vietnamese_et_unlatch() {
+        let input = "kete sete hete mete tete bete rete dete nete ketes ketej setes setej hetes hetej metes metej tetes tetej betes betej retes retej detes detej netes netej letes letej"
+        let expected = "kete sete hete mete tete bete rete dete nete kết kệt sết sệt hết hệt mết mệt tết tệt bết bệt rết rệt dết dệt nết nệt lết lệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_247_vietnamese_stop_final_cvtv_unlatch_motoj_sotos_batas_bataj_gatas_gataj() {
+        let input = "moto soto bata gata pata motoj motos sotos sotoj batas bataj gatas gataj dataj datas"
+        let expected = "moto soto bata gata pata một mốt sốt sột bất bật gất gật dật datas"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_248_vietnamese_nasal_final_cvnv_cvmv_fjx_unlatch_honof_donof_hanaj_manaj_hamaf() {
+        let input = "hana mana nana sana kama hama nama sama momo homo mono hono dono sono kono hanaf hanaj hanax manaf manaj manax nanaf nanaj sanaf hamaf hamaj hamax namaf namaj namax samaf samaj samax momof momox homof homoj honof honoj honox donof donoj donox monof monoj monox sonof sonoj sonox honor donor"
+        let expected = "hana mana nana sana kama hama nama sama momo homo mono hono dono sono kono hần hận hẫn mần mận mẫn nần nận sần hầm hậm hẫm nầm nậm nẫm sầm sậm sẫm mồm mỗm hồm hộm hồn hộn hỗn dồn dộn dỗn mồn mộn mỗn sồn sộn sỗn honor donor"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_249_scenario35_trilingual_nuete_hete_moto_and_vietnamese_delayed_circumflex_chat() {
+        let input = "Sau nhiều năm hete tại Nhật Bản và tự tay nuete chiếc túi vải thủ công ở vùng moto, nghệ nhân dệt (detej) lụa vẫn giữ nguyên tính nết (netes) giản dị, dồn (donof) hết (hetes) tâm hồn (honof) vào một (motoj) xưởng hầm (hamaf) ấm áp và bật (bataj) đèn đón khách bất (batas) kể ngày mưa!"
+        let expected = "Sau nhiều năm hete tại Nhật Bản và tự tay nuete chiếc túi vải thủ công ở vùng moto, nghệ nhân dệt (dệt) lụa vẫn giữ nguyên tính nết (nết) giản dị, dồn (dồn) hết (hết) tâm hồn (hồn) vào một (một) xưởng hầm (hầm) ấm áp và bật (bật) đèn đón khách bất (bất) kể ngày mưa!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (244 Tests)
+    // MARK: - Test Registration (249 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1706,6 +1736,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_242_vietnamese_free_tone_unlatch_tier_bier_pier_ties_dies_lies_vies_pies_hies_chief_thief", test_tier4_242_vietnamese_free_tone_unlatch_tier_bier_pier_ties_dies_lies_vies_pies_hies_chief_thief),
             ("test_tier4_243_japanese_kufo_rufo_muxu_ruxu_kuxo_ruxo_kife_dife_kije_rije_and_vietnamese_unlatch", test_tier4_243_japanese_kufo_rufo_muxu_ruxu_kuxo_ruxo_kife_dife_kije_rije_and_vietnamese_unlatch),
             ("test_tier4_244_scenario34_trilingual_noop_quasar_kujo_hieru_and_free_tone_ieu_iet_chat", test_tier4_244_scenario34_trilingual_noop_quasar_kujo_hieru_and_free_tone_ieu_iet_chat),
+            ("test_tier4_245_japanese_nuete_muete_tieru_bieru_sieru_gieru_rieru_tiete_riete_and_vietnamese_unlatch", test_tier4_245_japanese_nuete_muete_tieru_bieru_sieru_gieru_rieru_tiete_riete_and_vietnamese_unlatch),
+            ("test_tier4_246_japanese_kete_sete_hete_mete_tete_bete_rete_and_vietnamese_et_unlatch", test_tier4_246_japanese_kete_sete_hete_mete_tete_bete_rete_and_vietnamese_et_unlatch),
+            ("test_tier4_247_vietnamese_stop_final_cvtv_unlatch_motoj_sotos_batas_bataj_gatas_gataj", test_tier4_247_vietnamese_stop_final_cvtv_unlatch_motoj_sotos_batas_bataj_gatas_gataj),
+            ("test_tier4_248_vietnamese_nasal_final_cvnv_cvmv_fjx_unlatch_honof_donof_hanaj_manaj_hamaf", test_tier4_248_vietnamese_nasal_final_cvnv_cvmv_fjx_unlatch_honof_donof_hanaj_manaj_hamaf),
+            ("test_tier4_249_scenario35_trilingual_nuete_hete_moto_and_vietnamese_delayed_circumflex_chat", test_tier4_249_scenario35_trilingual_nuete_hete_moto_and_vietnamese_delayed_circumflex_chat),
         ]
     }
 }
