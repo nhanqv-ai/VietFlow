@@ -1539,8 +1539,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_260_english_and_romaji_chara_charas_bara_gara_dara_nara_rara_and_vietnamese_ar_unlatch() {
+        let input = "chara charas kara bara gara dara nara rara mara hara sara tara baram baran baray garam garan garay daram daran daray naram naran naray raram raran raray marau harau tarau darau saray taray charam charan charau charay"
+        let expected = "chara charas kara bara gara dara nara rara mara hara sara tara bẩm bẩn bẩy gẩm gẩn gẩy dẩm dẩn dẩy nẩm nẩn nẩy rẩm rẩn rẩy mẩu hẩu tẩu dẩu sẩy tẩy chẩm chẩn chẩu chẩy"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_261_japanese_koro_boro_goro_doro_roro_horo_toro_and_vietnamese_or_unlatch() {
+        let input = "koro boro goro doro roro horo moro toro soro noro moroi noroi soroi moron morons boron borom boroi gorom goron goroi dorom doron doroi rorom roron roroi horom horon horoi torom toron toroi sorom soron noron choroi chorom"
+        let expected = "koro boro goro doro roro horo moro toro soro noro moroi noroi soroi moron morons boron bổm bổi gổm gổn gổi dổm dổn dổi rổm rổn rổi hổm hổn hổi tổm tổn tổi sổm sổn nổn chổi chổm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_262_japanese_mufe_chufe_muje_chuje_and_vietnamese_free_tone_ue_unlatch() {
+        let input = "mufe nufe hufe sufe tufe bufe gufe dufe rufe chufe muje nuje huje suje tuje buje guje duje ruje chuje husee hufee hujee tusee tujee dusee dujee susee chusee chujee huseenh chuseenh tuseet dujeet"
+        let expected = "mufe nufe hufe sufe tufe bufe gufe dufe rufe chufe muje nuje huje suje tuje buje guje duje ruje chuje huế huề huệ tuế tuệ duế duệ suế chuế chuệ huếnh chuếnh tuết duệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_263_vietnamese_duete_unlatch_duetes_duetej_and_duet_duets_preservation() {
+        let input = "duet duets duete duetes duetej suete suetes suetej nuete nuetes nuetej muete muetes muetej"
+        let expected = "duet duets duết duết duệt suete suết suệt nuete nuết nuệt muete muết muệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_264_scenario38_trilingual_chara_bara_nara_and_vietnamese_free_tone_ue_ar_or_chat() {
+        let input = "Khi thiết kế chara mới lấy cảm hứng từ vườn hoa hồng bara tại thành phố nara và dạo chơi ngắm cảnh goro, họa sĩ đi chuyến tàu đêm về cố đô Huế (husee) vẫn cẩn (charan) thận dùng tẩy (taray) chỉnh lại từng mẩu (marau) phác thảo, dùng đòn bẩy (baray) sáng tạo để hạt giống nghệ thuật nẩy (naray) mầm và không để tổn (toron) hại đến tiến độ duyệt (dujeet) bản mẫu!"
+        let expected = "Khi thiết kế chara mới lấy cảm hứng từ vườn hoa hồng bara tại thành phố nara và dạo chơi ngắm cảnh goro, họa sĩ đi chuyến tàu đêm về cố đô Huế (huế) vẫn cẩn (chẩn) thận dùng tẩy (tẩy) chỉnh lại từng mẩu (mẩu) phác thảo, dùng đòn bẩy (bẩy) sáng tạo để hạt giống nghệ thuật nẩy (nẩy) mầm và không để tổn (tổn) hại đến tiến độ duyệt (duệt) bản mẫu!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (259 Tests)
+    // MARK: - Test Registration (264 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1811,6 +1841,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_257_japanese_churu_chure_churo_chusu_chuse_chuso_chujo_chuju_chufo_chufu_chuxu_chuxo_and_vietnamese_unlatch", test_tier4_257_japanese_churu_chure_churo_chusu_chuse_chuso_chujo_chuju_chufo_chufu_chuxu_chuxo_and_vietnamese_unlatch),
             ("test_tier4_258_japanese_chaja_chafa_chaxa_chasa_and_vietnamese_digraph_circumflex_unlatch", test_tier4_258_japanese_chaja_chafa_chaxa_chasa_and_vietnamese_digraph_circumflex_unlatch),
             ("test_tier4_259_scenario37_trilingual_choto_choco_chieru_chire_and_vietnamese_digraph_unlatch_chat", test_tier4_259_scenario37_trilingual_choto_choco_chieru_chire_and_vietnamese_digraph_unlatch_chat),
+            ("test_tier4_260_english_and_romaji_chara_charas_bara_gara_dara_nara_rara_and_vietnamese_ar_unlatch", test_tier4_260_english_and_romaji_chara_charas_bara_gara_dara_nara_rara_and_vietnamese_ar_unlatch),
+            ("test_tier4_261_japanese_koro_boro_goro_doro_roro_horo_toro_and_vietnamese_or_unlatch", test_tier4_261_japanese_koro_boro_goro_doro_roro_horo_toro_and_vietnamese_or_unlatch),
+            ("test_tier4_262_japanese_mufe_chufe_muje_chuje_and_vietnamese_free_tone_ue_unlatch", test_tier4_262_japanese_mufe_chufe_muje_chuje_and_vietnamese_free_tone_ue_unlatch),
+            ("test_tier4_263_vietnamese_duete_unlatch_duetes_duetej_and_duet_duets_preservation", test_tier4_263_vietnamese_duete_unlatch_duetes_duetej_and_duet_duets_preservation),
+            ("test_tier4_264_scenario38_trilingual_chara_bara_nara_and_vietnamese_free_tone_ue_ar_or_chat", test_tier4_264_scenario38_trilingual_chara_bara_nara_and_vietnamese_free_tone_ue_ar_or_chat),
         ]
     }
 }
