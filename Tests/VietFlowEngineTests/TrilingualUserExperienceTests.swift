@@ -2416,7 +2416,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (389 Tests)
+    // MARK: - Cycle 56: General Mid-Word Tone Override (r/s -> s/f/r/x/j), beer/deer/beers/deers, door/doors/goof, and soar/coax/tore/hore/lore/chore/ore/lose/hose/chose/those Tone Override Unlatch
+    // =========================================================================
+
+    func test_tier4_390_vietnamese_general_midword_tone_override_rs_rf_rj_rx_sf_sr_sj_sx() {
+        let input = "harsn harfn harjn harxn basfn basrn basjn basxn lasfm tasjo hosfng cosfn misfnh tisfnh hisfnh disfnhd misrnh disrnhd curfm curfn curfng curfwng tersn terst tersen terset corsn corst corsw corso torsn torst torson torsot torsoi"
+        let expected = "hán hàn hạn hãn bàn bản bạn bãn làm tạo hòng còn mình tình hình đình mỉnh đỉnh cùm cùn cùng cừng tén tét tến tết cón cót cớ cố tón tót tốn tốt tối"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_391_english_beer_deer_beers_deers_tone_override_and_coda_unlatch() {
+        let input = "beer beers beerf beerfn beerfm beerfu beerx beerxn beerj beerjn beerjt beersm beersn beerst beersp beersc beersu deer deers deerf deerfd deerfnd deerfud deerxd deerjd deerjtd deersd deersn deersnd deersm deersmd deerst deerstd deersu deersud"
+        let expected = "beer beers bề bền bềm bều bễ bễn bệ bện bệt bếm bến bết bếp bếc bếu deer deers dề đề đền đều đễ đệ đệt đế dến đến dếm đếm dết đết dếu đếu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_392_english_door_doors_goof_tone_override_and_coda_unlatch() {
+        let input = "door doors doorf doorfd doorfnd doorfngd doorfid doorfwid doorxd doorxid doorxwd doorjd doorjid doorjnd doorjngd doorjtd doorjwtd doorsd doorsi doorsid doorsm doorsmd doorsn doorsnd doorsng doorsngd doorsc doorscd doorsp doorspd doorst doorstd doorsw doorswd goof goofs goofr goofrng goofri goofrwi goofx goofxng goofxw goofj goofjng goofji goofjp goofjwi"
+        let expected = "door doors dồ đồ đồn đồng đồi đời đỗ đỗi đỡ độ đội độn động đột đợt đố dối đối dốm đốm dốn đốn dống đống dốc đốc dốp đốp dốt đốt dớ đớ goof goofs gổ gổng gổi gởi gỗ gỗng gỡ gộ gộng gội gộp gợi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_393_english_soar_coax_tore_hore_lore_chore_ore_lose_hose_chose_those_tone_override_unlatch() {
+        let input = "soar soarf soarfn soarfng soarfi soarfwng soarx soarxng soarj soarjn soarjt soarji coax coaxes coaxed coaxf coaxfn coaxfng coaxr coaxrng coaxs coaxsn coaxst coaxsi coaxsy coaxswn coaxswt coaxj coaxjn coaxjt orefo orejo torefo torejt horefo horejt lorefo lorejt chorefo chorejt lose loser losefo losejt hose hosefo hosejt chose chosefo chosejt those thosefo thosejt"
+        let expected = "soar sòa soàn soàng soài soằng sõa soãng sọa soạn soạt soại coax coaxes coaxed còa coàn coàng cỏa coảng cóa coán coát coái coáy coắn coắt cọa coạn coạt oèo oẹo toèo toẹt hoèo hoẹt loèo loẹt choèo choẹt lose loser loèo loẹt hose hoèo hoẹt chose choèo choẹt those thoèo thoẹt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_394_scenario64_trilingual_doors_beers_coax_and_vietnamese_dong_den_soan_ban_chat() {
+        let input = "Sau khi đóng các cánh cửa doors và mang hai ly beers ra bàn, anh ấy khéo léo coaxes cả nhóm cùng đồng (doorfngd) tâm hiệp lực đến (deersnd) phút cuối để soạn (soarjn) thảo bản ghi chú terse về tư thế torso, giúp các bạn (basjn) làm (lasfm) việc hết mình (misfnh) và gộp (goofjp) kết quả đúng hạn!"
+        let expected = "Sau khi đóng các cánh cửa doors và mang hai ly beers ra bàn, anh ấy khéo léo coaxes cả nhóm cùng đồng (đồng) tâm hiệp lực đến (đến) phút cuối để soạn (soạn) thảo bản ghi chú terse về tư thế torso, giúp các bạn (bạn) làm (làm) việc hết mình (mình) và gộp (gộp) kết quả đúng hạn!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (394 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2817,6 +2851,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_387_english_hires_tires_mires_sires_berms_unlatch_and_preservation", test_tier4_387_english_hires_tires_mires_sires_berms_unlatch_and_preservation),
             ("test_tier4_388_english_plural_midword_tone_override_preservation_and_unlatch_matrix", test_tier4_388_english_plural_midword_tone_override_preservation_and_unlatch_matrix),
             ("test_tier4_389_scenario63_trilingual_choirs_chores_tires_and_vietnamese_choi_bon_hien_toet_chat", test_tier4_389_scenario63_trilingual_choirs_chores_tires_and_vietnamese_choi_bon_hien_toet_chat),
+            ("test_tier4_390_vietnamese_general_midword_tone_override_rs_rf_rj_rx_sf_sr_sj_sx", test_tier4_390_vietnamese_general_midword_tone_override_rs_rf_rj_rx_sf_sr_sj_sx),
+            ("test_tier4_391_english_beer_deer_beers_deers_tone_override_and_coda_unlatch", test_tier4_391_english_beer_deer_beers_deers_tone_override_and_coda_unlatch),
+            ("test_tier4_392_english_door_doors_goof_tone_override_and_coda_unlatch", test_tier4_392_english_door_doors_goof_tone_override_and_coda_unlatch),
+            ("test_tier4_393_english_soar_coax_tore_hore_lore_chore_ore_lose_hose_chose_those_tone_override_unlatch", test_tier4_393_english_soar_coax_tore_hore_lore_chore_ore_lose_hose_chose_those_tone_override_unlatch),
+            ("test_tier4_394_scenario64_trilingual_doors_beers_coax_and_vietnamese_dong_den_soan_ban_chat", test_tier4_394_scenario64_trilingual_doors_beers_coax_and_vietnamese_dong_den_soan_ban_chat),
         ]
     }
 }
