@@ -3115,6 +3115,36 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_495_vietnamese_collocation_phrases_topos_photos_toast_coats_coast_soaps_oars_soar_soars_tore_hore_hores_leers_beefs_dodos_dojos() {
+        let input = "mootj topos hai topos chia topos bocs photos dinhs photos vuj photos lanhj toast uowts toast duwts coats cown coast lucj soaps keeu oars xoax soar tocs soar xoas soars mowf soars bawns tore manhj hore ddor hores vangf hores cas leers con leers boongf beefs mej beefs caau dodos thachs dojos"
+        let expected = "một tốp hai tốp chia tốp bóc phốt dính phốt vụ phốt lạnh toát ướt toát dứt coát cơn coát lục soáp kêu óa xõa sỏa tóc sỏa xóa sóa mờ sóa bắn tỏe mạnh hỏe đỏ hóe vàng hóe cá lế con lế bồng bế mẹ bế câu đố thách dố"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_496_english_and_romaji_oa_stems_sofas_toast_dosai_unlatch() {
+        let input = "sofas sofasm sofasn sofasc sofasp sofast sofasw sofasy sofasi sofaso sofasr sofasx sofasj coast coastw coastj coastwj coastjw coats coatsw coatsj coatswj coatsjw dosai dosaid dosaiw dosais dosaifd dosaird dosaixd dosaijd doraisd doraifd doraixd doraijd doraysd dorayfd dorayjd"
+        let expected = "sofas soám soán soác soáp soát soắ soáy soái soáo sỏa sõa sọa coast coắt coạt coặt coặt coats coắt coạt coặt coặt dosai đoái dosaiw dosais đoài đoải đoãi đoại đoái đoài đoãi đoại đoáy đoày đoạy"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_497_english_oe_stems_ores_tores_hores_lores_chores_tone_override_unlatch() {
+        let input = "ores tores hores lores chores oresf oresr oresx oresj oresfo oresjt oresjc oresjp toresf toresr toresx toresj toresfo toresjt toresjc toresjp horesf horesr horesx horesj horesfo horesjt loresf loresr loresx loresj loresfo loresjt loresjc choresf choresr choresx choresj choresfo choresjt choresjc"
+        let expected = "ores tores hores lores chores òe ỏe õe ọe oèo oẹt oẹc oẹp tòe tỏe tõe tọe toèo toẹt toẹc toẹp hòe hỏe hõe họe hoèo hoẹt lòe lỏe lõe lọe loèo loẹt loẹc chòe chỏe chõe chọe choèo choẹt choẹc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_498_english_ue_stems_dues_hues_sues_rues_tues_cues_tone_override_and_delayed_d_unlatch() {
+        let input = "dues hues sues rues tues cues duesfe duesre duesxe duesje duesde duesfde duesrde duesxde duesjde huesfe huesre huesxe huesje huesfne huesfnhe huesjte huesjche suesfe suesre suesxe suesje ruesfe ruesre ruesxe ruesje tuesfe tuesre tuesxe tuesje tuesfne tuesjte cuesfe cuesre cuesxe cuesje"
+        let expected = "dues hues sues rues tues cues duề duể duễ duệ đuế đuề đuể đuễ đuệ huề huể huễ huệ huền huềnh huệt huệch suề suể suễ suệ ruề ruể ruễ ruệ tuề tuể tuễ tuệ tuền tuệt cuề cuể cuễ cuệ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_499_scenario85_trilingual_moreover_boats_roast_and_vietnamese_top_phot_lanh_toat_ca_le_hue_chat() {
+        let input = "Moreover, khi một tốp (mootj topos) du khách chèo boats đi xem wild boars và thưởng thức món roast beefs cùng cá lế (cas leers) nướng bên bờ suối, họ kể lại vụ phốt (vuj photos) dở khóc dở cười: vì trời mưa lạnh toát (lanhj toast) làm ướt cả ghế sofas ngoài hiên, mọi người đành ngồi quanh bếp lửa đỏ hóe (ddor hores), bàn chuyện cố đô Huế (huees) và các khoản hợp đồng huề (huesfe) vốn trên triền đồi đoài (dosaifd) ngoằn ngoèo (toresfo)!"
+        let expected = "Moreover, khi một tốp (một tốp) du khách chèo boats đi xem wild boars và thưởng thức món roast beefs cùng cá lế (cá lế) nướng bên bờ suối, họ kể lại vụ phốt (vụ phốt) dở khóc dở cười: vì trời mưa lạnh toát (lạnh toát) làm ướt cả ghế sofas ngoài hiên, mọi người đành ngồi quanh bếp lửa đỏ hóe (đỏ hóe), bàn chuyện cố đô Huế (huế) và các khoản hợp đồng huề (huề) vốn trên triền đồi đoài (đoài) ngoằn ngoèo (toèo)!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3618,6 +3648,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_492_post_coda_diphthong_stop_coda_tone_override_and_delayed_diacritic_unlatch", test_tier4_492_post_coda_diphthong_stop_coda_tone_override_and_delayed_diacritic_unlatch),
             ("test_tier4_493_romaji_gifi_gisi_giji_tone_override_and_peepsj_unlatch", test_tier4_493_romaji_gifi_gisi_giji_tone_override_and_peepsj_unlatch),
             ("test_tier4_494_scenario84_trilingual_motors_meters_and_vietnamese_kinh_te_thiet_ke_cua_so_chay_no_chat", test_tier4_494_scenario84_trilingual_motors_meters_and_vietnamese_kinh_te_thiet_ke_cua_so_chay_no_chat),
+            ("test_tier4_495_vietnamese_collocation_phrases_topos_photos_toast_coats_coast_soaps_oars_soar_soars_tore_hore_hores_leers_beefs_dodos_dojos", test_tier4_495_vietnamese_collocation_phrases_topos_photos_toast_coats_coast_soaps_oars_soar_soars_tore_hore_hores_leers_beefs_dodos_dojos),
+            ("test_tier4_496_english_and_romaji_oa_stems_sofas_toast_dosai_unlatch", test_tier4_496_english_and_romaji_oa_stems_sofas_toast_dosai_unlatch),
+            ("test_tier4_497_english_oe_stems_ores_tores_hores_lores_chores_tone_override_unlatch", test_tier4_497_english_oe_stems_ores_tores_hores_lores_chores_tone_override_unlatch),
+            ("test_tier4_498_english_ue_stems_dues_hues_sues_rues_tues_cues_tone_override_and_delayed_d_unlatch", test_tier4_498_english_ue_stems_dues_hues_sues_rues_tues_cues_tone_override_and_delayed_d_unlatch),
+            ("test_tier4_499_scenario85_trilingual_moreover_boats_roast_and_vietnamese_top_phot_lanh_toat_ca_le_hue_chat", test_tier4_499_scenario85_trilingual_moreover_boats_roast_and_vietnamese_top_phot_lanh_toat_ca_le_hue_chat),
         ]
     }
 }
