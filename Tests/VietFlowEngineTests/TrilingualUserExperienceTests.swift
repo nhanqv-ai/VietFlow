@@ -2586,7 +2586,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (414 Tests)
+    // MARK: - Cycle 61: Vietnamese góa/noãn Orthography, Romaji & English Phrase Collocations (say sưa, gỗ sưa, củ nưa, cái giỏ, nước ối, trôi nổi, ăn sổi, hoa dơn, rau dớn, lớn tớn, đánh vảy), and Plural Keyword Tone Override Unlatch
+    // =========================================================================
+
+    func test_tier4_415_vietnamese_goa_noan_orthography_and_romaji_english_phrase_collocations() {
+        let input = "baf goas goas phuj goas buaj owr goas noanx noaxn noanx caauf noanx safo phongs noanx gora gosa goats goal nosa say suwa goox suwa caay suwa hoa suwa hoof suwa cur nuwa bootj nuwa awn buwa chos sura tieengs sura nguyeenf rura chuwir rura cais giro chieecs giro lafn giro cais gire taams gire boong gise luas gise nuwowcs osoi tuis osoi vowx osoi trooi noroi chifm noroi awn soroi muoois soroi hoa down lay down cur down rau downs caay downs noomj rau downs lowns towns chayj lowns towns ddanhs vary caoj vary trocs vary"
+        let expected = "bà góa góa phụ góa bụa ở góa noãn noãn noãn cầu noãn sào phóng noãn gora gosa goats goal nosa say sưa gỗ sưa cây sưa hoa sưa hồ suwa củ nưa bột nưa ăn bưa chó sủa tiếng sủa nguyền rủa chửi rủa cái giỏ chiếc giỏ làn giỏ cái giẻ tấm giẻ bông gié lúa gié nước ối túi ối vỡ ối trôi nổi chìm nổi ăn sổi muối sổi hoa dơn lay dơn củ dơn rau dớn cây dớn nộm rau dớn lớn tớn chạy lớn tớn đánh vảy cạo vảy tróc vảy"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_416_english_plural_ooms_oons_eems_eens_tone_override_unlatch() {
+        let input = "booms boomsf boomsr boomsx boomsj dooms doomsf doomsfd doomsr doomsrd doomsx doomsxd doomsj doomsjd looms loomsf loomsr loomsx loomsj rooms roomsf roomsr roomsx roomsj goons goonsf goonsr goonsx goonsj loons loonsf loonsr loonsx loonsj moons moonsf moonsr moonsx moonsj nonos nonosf nonosr nonosx nonosj deems deemsf deemsfd deemsr deemsrd deemsx deemsxd deemsj deemsjd seems seemsf seemsr seemsx seemsj teems teemsf teemsr teemsx teemsj keens keensf keensr keensx keensj teens teensf teensr teensx teensj queens queensf queensr queensx queensj mamas mamasf mamasr mamasx mamasj memes memesf memesr memesx memesj themes themesf themesr themesx themesj donors donorsf donorsfd donorsr donorsrd donorsx donorsxd donorsj donorsjd honors honorsf honorsr honorsx honorsj"
+        let expected = "booms bồm bổm bỗm bộm dooms dồm đồm dổm đổm dỗm đỗm dộm độm looms lồm lổm lỗm lộm rooms rồm rổm rỗm rộm goons gồn gổn gỗn gộn loons lồn lổn lỗn lộn moons mồn mổn mỗn mộn nonos nồn nổn nỗn nộn deems dềm đềm dểm đểm dễm đễm dệm đệm seems sềm sểm sễm sệm teems tềm tểm tễm tệm keens kền kển kễn kện teens tền tển tễn tện queens quền quển quễn quện mamas mầm mẩm mẫm mậm memes mềm mểm mễm mệm themes thềm thểm thễm thệm donors dồn đồn dổn đổn dỗn đỗn dộn độn honors hồn hổn hỗn hộn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_417_english_stop_coda_plurals_and_stems_dot_tone_override_unlatch() {
+        let input = "keeps keepsj deeps deepsj deepsjd cheeps cheepsj noops noopsj goops goopsj troops troopsj topos toposj gotos gotosj photos photosj datas datasj datasjd basta bastaj rasta rastaj coats coatsj coast coastj diets dietsj dietsjd quiets quietsj nieces niecesj sorts sortsj burst burstj worst worstj thirst thirstj swops swopsj"
+        let expected = "keeps kệp deeps dệp đệp cheeps chệp noops nộp goops gộp troops trộp topos tộp gotos gột photos phột datas dật đật basta bật rasta rật coats coạt coast coạt diets diệt điệt quiets quiệt nieces niệc sorts sọt burst bụt worst ượt thirst thịt swops sượp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_418_english_oxen_vixen_siren_sirens_risen_tureen_chosen_tone_override_unlatch() {
+        let input = "oxen oxenf oxenr oxenj oxens vixen vixenf vixenr vixenj vixens vixensf vixensr vixensx vixensj siren sirenf sirenx sirenj sirens sirensf sirensr sirensx sirensj risen risenf risenr risenx risenj tureen tureenf tureenx tureenj tureens tureensf tureensr tureensx tureensj chosen chosenf chosenr chosenx chosenj"
+        let expected = "oxen oèn oẻn oẹn oén vixen viền viển viện vixens viền viển viễn viện siren siền siễn siện sirens siền siển siễn siện risen riền riển riễn riện tureen tuền tuễn tuện tureens tuền tuển tuễn tuện chosen choèn choẻn choẽn choẹn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_419_scenario69_trilingual_suwa_photos_rooms_and_vietnamese_say_sua_goa_phu_noan_cau_chat() {
+        let input = "Trong chuyến đi ngắm hồ suwa và chụp photos các rooms cổ kính, đoàn nghiên cứu say sưa (say suwa) tìm hiểu về gỗ sưa (goox suwa), nếm thử nộm rau dớn (rau downs), ngắm hoa dơn (hoa down) bên chiếc giỏ (chieecs giro) mây của bà góa (baf goas), đồng thời tổng hợp (goopsj) tài liệu về tế bào noãn cầu (noanx caauf) và dịch nước ối (nuwowcs osoi) tại bệnh viện (vixenj)!"
+        let expected = "Trong chuyến đi ngắm hồ suwa và chụp photos các rooms cổ kính, đoàn nghiên cứu say sưa (say sưa) tìm hiểu về gỗ sưa (gỗ sưa), nếm thử nộm rau dớn (rau dớn), ngắm hoa dơn (hoa dơn) bên chiếc giỏ (chiếc giỏ) mây của bà góa (bà góa), đồng thời tổng hợp (gộp) tài liệu về tế bào noãn cầu (noãn cầu) và dịch nước ối (nước ối) tại bệnh viện (viện)!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (419 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -3012,6 +3046,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_412_english_chair_lair_hairs_chairs_lairs_airs_tone_override_unlatch", test_tier4_412_english_chair_lair_hairs_chairs_lairs_airs_tone_override_unlatch),
             ("test_tier4_413_english_boron_moron_morons_beset_reset_in_tone_override_unlatch", test_tier4_413_english_boron_moron_morons_beset_reset_in_tone_override_unlatch),
             ("test_tier4_414_scenario68_trilingual_install_inside_reset_and_vietnamese_biet_on_ban_chai_the_he_chat", test_tier4_414_scenario68_trilingual_install_inside_reset_and_vietnamese_biet_on_ban_chai_the_he_chat),
+            ("test_tier4_415_vietnamese_goa_noan_orthography_and_romaji_english_phrase_collocations", test_tier4_415_vietnamese_goa_noan_orthography_and_romaji_english_phrase_collocations),
+            ("test_tier4_416_english_plural_ooms_oons_eems_eens_tone_override_unlatch", test_tier4_416_english_plural_ooms_oons_eems_eens_tone_override_unlatch),
+            ("test_tier4_417_english_stop_coda_plurals_and_stems_dot_tone_override_unlatch", test_tier4_417_english_stop_coda_plurals_and_stems_dot_tone_override_unlatch),
+            ("test_tier4_418_english_oxen_vixen_siren_sirens_risen_tureen_chosen_tone_override_unlatch", test_tier4_418_english_oxen_vixen_siren_sirens_risen_tureen_chosen_tone_override_unlatch),
+            ("test_tier4_419_scenario69_trilingual_suwa_photos_rooms_and_vietnamese_say_sua_goa_phu_noan_cau_chat", test_tier4_419_scenario69_trilingual_suwa_photos_rooms_and_vietnamese_say_sua_goa_phu_noan_cau_chat),
         ]
     }
 }
