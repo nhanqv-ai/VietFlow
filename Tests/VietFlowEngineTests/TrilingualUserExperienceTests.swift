@@ -3051,6 +3051,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 75: 16 Collocation Entries, Pre-Diacritic Stop-Coda Tone Override Unlatch, and dust/burst/harmf Unlatch
+
+    func test_tier4_485_vietnamese_collocation_phrases_cheers_seers_veers_beers_deers_reefs_moors_boors_roofs_hoofs_goofs_loofs_tores_lores_chores_hifu() {
+        let input = "cheers hanj cheers cow cheers ddieeuf cheers khoongs cheers seers bongs seers chieeuf seers veers caau veers ddoois veers beers boongf beers mej beers deers con deers choij deers reefs cais reefs roor reefs moors chaan moors ddaauf moors boors coong boors tuyeen boors roofs mawts roofs looif roofs hoofs ddaof hoofs laaps hoofs goofs vair goofs aos goofs loofs quas loofs mawjc loofs tores bawns tores tung tores lores sangs lores chowps lores chores ddor chores vangf chores hifu hawts hifu buoonf hifu"
+        let expected = "cheers hạn chế cơ chế điều chế khống chế seers bóng sế chiều sế veers câu vế đối vế beers bồng bế mẹ bế deers con dế chọi dế reefs cái rế rổ rế moors chân mố đầu mố boors công bố tuyên bố roofs mắt rố lồi rố hoofs đào hố lấp hố goofs vải gố áo gố loofs quá lố mặc lố tores bắn tóe tung tóe lores sáng lóe chớp lóe chores đỏ chóe vàng chóe hifu hắt hìu buồn hìu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_486_pre_diacritic_monophthong_stop_coda_tone_override_unlatch() {
+        let input = "bawrts barwts bawtrs bawrtj barwtj baarts barats baartj baratj dawrtsd dawrtjd heerts herets heetrj meertj meretj cheerts deertjd deretjd deertdj beefts beeftj reefts reeftj coorts corots coortj corotj moortj morotj doortsd doortjd doortdj hoofpj hoofps loofps goofpj roofts rooftj cowrts corwts cowrtj corwtj howrpj horwpj muwrcs murwcs muwrcj murwcj tuwrts tuwrtj duwrcsd awrts aarts eerts oofts oorcs owrts uwrts"
+        let expected = "bắt bắt bắt bặt bặt bất bất bật bật đắt đặt hết hết hệt mệt mệt chết đệt đệt đệt bết bệt rết rệt cốt cốt cột cột một một đốt đột đột hộp hốp lốp gộp rốt rột cớt cớt cợt cợt hợp hợp mức mức mực mực tứt tựt đức ắt ất ết ốt ốc ớt ứt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_487_pre_diacritic_diphthong_stop_coda_tone_override_unlatch() {
+        let input = "bieerts bierets bireets bieertj bieretj tieerts tieertj kieerts kieertj dieertsd dieertjd tuowrts tuorwts turowts tuworts tuowrtj tuorwtj duowrcjd duowrcdj tuoorts tuorots tuoortj tuaarts tuarats tuaartj tueerts tuerets tueertj tuyeerts tuyerets tuyeertj quyeerts quyerets quyeertj hoawrts hoarwts hoawrtj ngoawrcj ngoawrtj"
+        let expected = "biết biết biết biệt biệt tiết tiệt kiết kiệt điết điệt tướt tướt tướt tướt tượt tượt được được tuốt tuốt tuột tuất tuất tuật tuết tuết tuệt tuyết tuyết tuyệt quyết quyết quyệt hoắt hoắt hoặt ngoặc ngoặt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_488_english_dust_burst_and_harmf_tone_diacritic_unlatch() {
+        let input = "rust rusty rustw rustj rustwj dusty dustw dustj dustwj dustwd dustjd dustwjd dustdw dustdj burst bursts burstw burstj burstwj harm harms harmful harmfa harmfw"
+        let expected = "rust rusty rứt rụt rựt dusty dứt dụt dựt đứt đụt đựt đứt đụt burst bursts bứt bụt bựt harm harms harmful hầm hằm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_489_scenario83_trilingual_cheers_roofs_hifu_and_vietnamese_co_che_cong_bo_hat_hiu_duoc_biet_chat() {
+        let input = "Khi công bố (coong boors) cơ chế (cow cheers) mới trên mái nhà roofs mà không gây hiệu ứng harmful hay bụi dusty, mọi người đều biết (bieerts) rằng dù dưới ngọn đèn hắt hìu (hawts hifu) hay tia lửa bắn tóe (bawns tores) trong căn hầm (harmfa) chăm sóc làn da hifu, chỉ cần một (moortj) chiếc hộp (hoofpj) dụng cụ không bị bứt (burstw) hay đứt (dustwd) dây là công việc sẽ được (duowrcjd) hoàn tất cùng tiếng reo cheers!"
+        let expected = "Khi công bố (công bố) cơ chế (cơ chế) mới trên mái nhà roofs mà không gây hiệu ứng harmful hay bụi dusty, mọi người đều biết (biết) rằng dù dưới ngọn đèn hắt hìu (hắt hìu) hay tia lửa bắn tóe (bắn tóe) trong căn hầm (hầm) chăm sóc làn da hifu, chỉ cần một (một) chiếc hộp (hộp) dụng cụ không bị bứt (bứt) hay đứt (đứt) dây là công việc sẽ được (được) hoàn tất cùng tiếng reo cheers!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3544,6 +3576,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_482_oa_oaw_and_oe_stop_coda_tone_override_and_delayed_w_unlatch", test_tier4_482_oa_oaw_and_oe_stop_coda_tone_override_and_delayed_w_unlatch),
             ("test_tier4_483_romaji_moco_toco_soco_doco_boco_hoco_goco_roco_choco_delayed_w_unlatch", test_tier4_483_romaji_moco_toco_soco_doco_boco_hoco_goco_roco_choco_delayed_w_unlatch),
             ("test_tier4_484_scenario82_trilingual_troops_gotos_and_vietnamese_chuyen_truyen_quyet_tam_ke_hoach_chat", test_tier4_484_scenario82_trilingual_troops_gotos_and_vietnamese_chuyen_truyen_quyet_tam_ke_hoach_chat),
+            ("test_tier4_485_vietnamese_collocation_phrases_cheers_seers_veers_beers_deers_reefs_moors_boors_roofs_hoofs_goofs_loofs_tores_lores_chores_hifu", test_tier4_485_vietnamese_collocation_phrases_cheers_seers_veers_beers_deers_reefs_moors_boors_roofs_hoofs_goofs_loofs_tores_lores_chores_hifu),
+            ("test_tier4_486_pre_diacritic_monophthong_stop_coda_tone_override_unlatch", test_tier4_486_pre_diacritic_monophthong_stop_coda_tone_override_unlatch),
+            ("test_tier4_487_pre_diacritic_diphthong_stop_coda_tone_override_unlatch", test_tier4_487_pre_diacritic_diphthong_stop_coda_tone_override_unlatch),
+            ("test_tier4_488_english_dust_burst_and_harmf_tone_diacritic_unlatch", test_tier4_488_english_dust_burst_and_harmf_tone_diacritic_unlatch),
+            ("test_tier4_489_scenario83_trilingual_cheers_roofs_hifu_and_vietnamese_co_che_cong_bo_hat_hiu_duoc_biet_chat", test_tier4_489_scenario83_trilingual_cheers_roofs_hifu_and_vietnamese_co_che_cong_bo_hat_hiu_duoc_biet_chat),
         ]
     }
 }
