@@ -157,12 +157,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             let r2 = has3CharRhymeAfterOnset ? rhymeAfterOnset[1] : ""
             let r3 = has3CharRhymeAfterOnset ? rhymeAfterOnset[2] : ""
 
-            // Unlatch bypass if 'yes' or 'chief' is immediately followed by a vowel for free-order Vietnamese ('yesue' -> 'yếu', 'chiefue' -> 'chiều')
-            if String(wordRawKeys).lowercased() == "yes" && PhonotacticsMatrix.isVowelChar(character) {
+            // Unlatch bypass if 'yes' or 'chief' is immediately followed by a vowel or tone override for free-order Vietnamese ('yesue' -> 'yếu', 'yesfue' -> 'yều', 'chiefue' -> 'chiều')
+            if String(wordRawKeys).lowercased() == "yes" && (PhonotacticsMatrix.isVowelChar(character) || "frxj".contains(character.lowercased())) {
                 isBypassed = false
                 didBackspace = true
-                activePreedit = "yé"
-                activeRawKeys = ["y", "e", "s"]
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if ([
                 "chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier", "trier", "tries",
                 "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
@@ -299,14 +299,14 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "cat" && "awjs".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "let" && "ejs".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "in" && "rx".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "var" && "mnouw".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "var" && "mnouwfjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "git" && "sj".contains(character.lowercased()))
                 || (["manx", "sans"].contains(String(wordRawKeys).lowercased()) && "awgh".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "chasm" && "aw".contains(character.lowercased()))
                 || (["coast", "coats", "cusp", "swops", "soaps", "boron", "moron", "datas", "gotos", "topos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (["barns", "darns", "tarns", "harms", "charms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
                 || (["horns", "thorns", "morns", "borns", "corns", "torns", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "o")
-                || (String(wordRawKeys).lowercased() == "disc" && "hd".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "disc" && "hdj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "minx" && character.lowercased() == "h")
                 || (["oxen", "vixen", "siren", "risen", "kern", "kerns", "boron", "moron", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "keens", "teens"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
                 || (String(wordRawKeys).lowercased() == "manag" && "sfrxj".contains(character.lowercased()))
@@ -509,10 +509,19 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if (["cost", "most"].contains(String(wordRawKeys).lowercased()) && "wo".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "rust" && character.lowercased() == "w")
-                || (["gasp", "rasp"].contains(String(wordRawKeys).lowercased()) && "wa".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "test" && character.lowercased() == "e") {
+            } else if (["cost", "most"].contains(String(wordRawKeys).lowercased()) && "woj".contains(character.lowercased()))
+                || (["rust", "cusp", "coast", "coats", "soaps", "boost", "roost", "roots", "noops", "goops", "troops"].contains(String(wordRawKeys).lowercased()) && "wj".contains(character.lowercased()))
+                || (["gasp", "rasp"].contains(String(wordRawKeys).lowercased()) && "waj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "test" && "ej".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "lisp" && character.lowercased() == "j")
+                || (((has3CharRhymeAfterOnset
+                    && "aouiey".contains(r1)
+                    && "rfx".contains(r2)
+                    && "cpt".contains(r3)
+                    && !"wfjz".contains(wordRawKeys[0].lowercased())
+                    && (wordRawKeys[0].lowercased() != "p" || prefix2 == "ph"))
+                    || ["art", "arc", "orc", "aft", "oft"].contains(String(wordRawKeys).lowercased()))
+                    && character.lowercased() == "j") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
