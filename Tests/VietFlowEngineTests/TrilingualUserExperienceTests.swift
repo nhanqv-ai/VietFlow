@@ -1604,7 +1604,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (269 Tests)
+    // MARK: - Cycle 32: Goop/Troop/Loom/Keen, Sees/Trees/Toes & -uree Unlatching
+    // =========================================================================
+
+    func test_tier4_270_english_goop_troop_keep_cheep_preservation_and_vietnamese_gop_trop_kep_chep_unlatch() {
+        let input = "noop noops noopj goop goops goopj troop troops troopj keep keeps keepj cheep cheeps cheepj peep peeps"
+        let expected = "noop noops nộp goop goops gộp troop troops trộp keep keeps kệp cheep cheeps chệp peep peeps"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_271_english_loom_doom_deem_seem_keen_preservation_and_vietnamese_tone_unlatch() {
+        let input = "loom looms loomf loomr loomx loomj doom dooms doomf doomr doomx doomj doomd doomdf doomdj deem deems deemf deemr deemx deemj deemd deemdf deemdj seem seems seemf seemr seemx seemj keen keens keenf keenr keenx keenj"
+        let expected = "loom looms lồm lổm lỗm lộm doom dooms dồm dổm dỗm dộm đôm đồm độm deem deems dềm dểm dễm dệm đêm đềm đệm seem seems sềm sểm sễm sệm keen keens kền kển kễn kện"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_272_english_sees_trees_toes_hoes_preservation_and_vietnamese_sep_sen_seu_toet_hoet_unlatch() {
+        let input = "sees seesp seesn seesu seest seesch trees treest treesu toes toest toess hoes hoest hoess foes woes roes noes"
+        let expected = "sees sếp sến sếu sết sếch trees trết trếu toes toét toes hoes hoét hoes foes woes roes noes"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_273_japanese_hure_ture_dure_chure_preservation_and_vietnamese_huenh_tuenh_chuenh_unlatch() {
+        let input = "hure ture dure sure bure gure nure mure rure chure tureen huree turee duree churee hureenh tureenh chureenh"
+        let expected = "hure ture dure sure bure gure nure mure rure chure tureen huể tuể duể chuể huểnh tuểnh chuểnh"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_274_scenario40_trilingual_goop_loom_keen_sees_toes_and_vietnamese_gop_lom_ken_sep_toet_chat() {
+        let input = "Khi đọc báo cáo tổng gộp (goopj) từ nhánh main mà hệ thống CI sees trên các cây quyết định trees, anh trưởng nhóm keen với quy trình kiểm thử không để bất kỳ lỗi nào lồm (loomf) cồm hay lộm (loomj) cộm xuất hiện, nhắc nhở đội ngũ không được làm việc huểnh (hureenh) hoảng, chuểnh (chureenh) choảng, gửi tài liệu cho sếp (seesp) đúng hẹn và nở nụ cười toét (toest) miệng khi đàn sếu (seesu) cùng chim kền (keenf) kền bay qua bầu trời chuyến đi hure tại Nhật!"
+        let expected = "Khi đọc báo cáo tổng gộp (gộp) từ nhánh main mà hệ thống CI sees trên các cây quyết định trees, anh trưởng nhóm keen với quy trình kiểm thử không để bất kỳ lỗi nào lồm (lồm) cồm hay lộm (lộm) cộm xuất hiện, nhắc nhở đội ngũ không được làm việc huểnh (huểnh) hoảng, chuểnh (chuểnh) choảng, gửi tài liệu cho sếp (sếp) đúng hẹn và nở nụ cười toét (toét) miệng khi đàn sếu (sếu) cùng chim kền (kền) kền bay qua bầu trời chuyến đi hure tại Nhật!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (274 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1885,6 +1919,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_267_english_rn_preservation_and_vietnamese_free_tone_rng_unlatch", test_tier4_267_english_rn_preservation_and_vietnamese_free_tone_rng_unlatch),
             ("test_tier4_268_english_rn_rm_preservation_and_vietnamese_free_tone_rnw_rngw_rmw_unlatch", test_tier4_268_english_rn_rm_preservation_and_vietnamese_free_tone_rnw_rngw_rmw_unlatch),
             ("test_tier4_269_scenario39_trilingual_chura_okinawa_turn_burn_and_vietnamese_free_tone_rng_chat", test_tier4_269_scenario39_trilingual_chura_okinawa_turn_burn_and_vietnamese_free_tone_rng_chat),
+            ("test_tier4_270_english_goop_troop_keep_cheep_preservation_and_vietnamese_gop_trop_kep_chep_unlatch", test_tier4_270_english_goop_troop_keep_cheep_preservation_and_vietnamese_gop_trop_kep_chep_unlatch),
+            ("test_tier4_271_english_loom_doom_deem_seem_keen_preservation_and_vietnamese_tone_unlatch", test_tier4_271_english_loom_doom_deem_seem_keen_preservation_and_vietnamese_tone_unlatch),
+            ("test_tier4_272_english_sees_trees_toes_hoes_preservation_and_vietnamese_sep_sen_seu_toet_hoet_unlatch", test_tier4_272_english_sees_trees_toes_hoes_preservation_and_vietnamese_sep_sen_seu_toet_hoet_unlatch),
+            ("test_tier4_273_japanese_hure_ture_dure_chure_preservation_and_vietnamese_huenh_tuenh_chuenh_unlatch", test_tier4_273_japanese_hure_ture_dure_chure_preservation_and_vietnamese_huenh_tuenh_chuenh_unlatch),
+            ("test_tier4_274_scenario40_trilingual_goop_loom_keen_sees_toes_and_vietnamese_gop_lom_ken_sep_toet_chat", test_tier4_274_scenario40_trilingual_goop_loom_keen_sees_toes_and_vietnamese_gop_lom_ken_sep_toet_chat),
         ]
     }
 }
