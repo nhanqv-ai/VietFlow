@@ -147,6 +147,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
         // 2. English Bypass Latch Check
         if isBypassed {
+            let has3CharRhymeAfterOnset = wordRawKeys.count == 4
+                || (wordRawKeys.count == 5 && ["ch", "ph", "th", "kh", "tr", "nh", "gh", "ng", "gi", "qu"].contains(String(wordRawKeys[0...1]).lowercased()))
+            let r1 = has3CharRhymeAfterOnset ? wordRawKeys[wordRawKeys.count - 3].lowercased() : ""
+            let r2 = has3CharRhymeAfterOnset ? wordRawKeys[wordRawKeys.count - 2].lowercased() : ""
+            let r3 = has3CharRhymeAfterOnset ? wordRawKeys[wordRawKeys.count - 1].lowercased() : ""
+
             // Unlatch bypass if 'yes' or 'chief' is immediately followed by a vowel for free-order Vietnamese ('yesue' -> 'yếu', 'chiefue' -> 'chiều')
             if String(wordRawKeys).lowercased() == "yes" && PhonotacticsMatrix.isVowelChar(character) {
                 isBypassed = false
@@ -155,7 +161,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = ["y", "e", "s"]
             } else if [
                 "chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier",
-                "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru",
+                "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
                 "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu"
             ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e" {
                 isBypassed = false
@@ -182,26 +188,26 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if wordRawKeys.count == 4
-                && wordRawKeys[1].lowercased() == "o"
-                && "sfjx".contains(wordRawKeys[2].lowercased())
-                && wordRawKeys[3].lowercased() == "o"
+            } else if has3CharRhymeAfterOnset
+                && r1 == "o"
+                && "sfjx".contains(r2)
+                && r3 == "o"
                 && "cmnpti".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if wordRawKeys.count == 4
-                && wordRawKeys[1].lowercased() == "a"
-                && "sfjx".contains(wordRawKeys[2].lowercased())
-                && wordRawKeys[3].lowercased() == "a"
+            } else if has3CharRhymeAfterOnset
+                && r1 == "a"
+                && "sfjx".contains(r2)
+                && r3 == "a"
                 && "cmnptuy".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ((wordRawKeys.count == 4
-                && wordRawKeys[1].lowercased() == "e"
-                && "rsfj".contains(wordRawKeys[2].lowercased())
-                && wordRawKeys[3].lowercased() == "e")
+            } else if ((has3CharRhymeAfterOnset
+                && r1 == "e"
+                && "rsfj".contains(r2)
+                && r3 == "e")
                 || String(wordRawKeys).lowercased() == "nix")
                 && "cmnptu".contains(character.lowercased()) {
                 isBypassed = false
@@ -228,21 +234,21 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if ([
-                "kiete", "miete", "hiete", "niete", "iete", "diete", "tiete", "biete", "siete", "giete", "riete",
+                "kiete", "miete", "hiete", "niete", "iete", "diete", "tiete", "biete", "siete", "giete", "riete", "chiete",
                 "uete", "suete", "nuete", "muete"
             ].contains(String(wordRawKeys).lowercased())
-                || (wordRawKeys.count == 4
-                    && "aoe".contains(wordRawKeys[1].lowercased())
-                    && "cpt".contains(wordRawKeys[2].lowercased())
-                    && wordRawKeys[1].lowercased() == wordRawKeys[3].lowercased()))
+                || (has3CharRhymeAfterOnset
+                    && "aoe".contains(r1)
+                    && "cpt".contains(r2)
+                    && r1 == r3))
                 && ("sj".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if wordRawKeys.count == 4
-                && "aoe".contains(wordRawKeys[1].lowercased())
-                && "mn".contains(wordRawKeys[2].lowercased())
-                && wordRawKeys[1].lowercased() == wordRawKeys[3].lowercased()
+            } else if has3CharRhymeAfterOnset
+                && "aoe".contains(r1)
+                && "mn".contains(r2)
+                && r1 == r3
                 && ("fjx".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -255,26 +261,26 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if wordRawKeys.count == 4
-                && wordRawKeys[1].lowercased() == "u"
-                && "rsfjx".contains(wordRawKeys[2].lowercased())
-                && "aoui".contains(wordRawKeys[3].lowercased())
+            } else if has3CharRhymeAfterOnset
+                && r1 == "u"
+                && "rsfjx".contains(r2)
+                && "aoui".contains(r3)
                 && "wo".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if wordRawKeys.count == 4
-                && wordRawKeys[1].lowercased() == "i"
-                && "rsfjx".contains(wordRawKeys[2].lowercased())
-                && wordRawKeys[3].lowercased() == "e"
+            } else if has3CharRhymeAfterOnset
+                && r1 == "i"
+                && "rsfjx".contains(r2)
+                && r3 == "e"
                 && character.lowercased() == "e" {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if wordRawKeys.count == 4
-                && wordRawKeys[1].lowercased() == "e"
-                && "rsfj".contains(wordRawKeys[2].lowercased())
-                && wordRawKeys[3].lowercased() == "u"
+            } else if has3CharRhymeAfterOnset
+                && r1 == "e"
+                && "rsfj".contains(r2)
+                && r3 == "u"
                 && character.lowercased() == "e" {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
