@@ -2045,8 +2045,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_335_english_cat_let_in_try_wi_preservation_and_vietnamese_diacritic_unlatch() {
+        let input = "cat catch catalog cats catj cata catas catsa cataj catja catw catws catsw catwj catjw let letter lets letj lete letes letse letej letje in info install inside inherit inhs inhf inhr inhx inhj inr inx try tries tried trys tryf tryr tryx tryj wi wis wif wir wix wij"
+        let expected = "cat catch catalog cát cạt cât cất cất cật cật căt cắt cắt cặt cặt let letter lét lẹt lêt lết lết lệt lệt in info install inside inherit ính ình ỉnh ĩnh ịnh ỉn ĩn try tries tried trý trỳ trỷ trỹ trỵ wi ứi ừi ửi ữi ựi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_336_english_var_git_deep_preservation_and_vietnamese_var_git_deepsd_unlatch() {
+        let input = "var vary varies varied variable variant variety varm varma varmw varn varng varnh varna varnga varnw varngw varo varu varua varw varwn varwng varwm git github gitlab gits gitj deep deeps deeper deepsd"
+        let expected = "var vary varies varied variable variant variety vảm vẩm vẳm vản vảng vảnh vẩn vẩng vẳn vẳng vảo vảu vẩu vẳ vẳn vẳng vẳm git github gitlab gít gịt deep deeps deeper đếp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_337_romaji_gifi_gisi_giji_preservation_and_vietnamese_gim_gin_ginh_gic_gich_gip_git_unlatch() {
+        let input = "gifi gifim gifin gifinh gisi gisim gisin gisinh gisic gisich gisip gisit giji gijim gijin gijinh gijic gijich gijip gijit"
+        let expected = "gifi giìm giìn giình gisi giím giín giính giíc giích giíp giít giji giịm giịn giịnh giịc giịch giịp giịt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_338_english_rise_sire_hex_trex_preservation_and_vietnamese_riem_riec_riep_riet_siem_heu_treu_unlatch() {
+        let input = "rise rises risen risem risec risep riset sire sires siren sirem hex hexu hexue trex trexu trexue"
+        let expected = "rise rises risen riếm riếc riếp riết sire sires siren siểm hex hẽu hễu trex trẽu trễu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_339_scenario53_trilingual_cat_let_try_in_var_git_and_vietnamese_cat_let_inh_vang_riet_chat() {
+        let input = "Chạy lệnh cat và git trong terminal để kiểm tra log, dùng let và var khai báo biến rồi try bắt lỗi, sau đó cắt (catws) gọn dữ liệu, cất (catas) giữ bản sao lưu tại tỉnh (inhr) nhà, gửi (wir) báo cáo vảng (varng) vất siết (riset) chặt quy trình định (inhj) kỳ mà không hề lê lết (letes)!"
+        let expected = "Chạy lệnh cat và git trong terminal để kiểm tra log, dùng let và var khai báo biến rồi try bắt lỗi, sau đó cắt (cắt) gọn dữ liệu, cất (cất) giữ bản sao lưu tại tỉnh (ỉnh) nhà, gửi (ửi) báo cáo vảng (vảng) vất siết (riết) chặt quy trình định (ịnh) kỳ mà không hề lê lết (lết)!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (334 Tests)
+    // MARK: - Test Registration (339 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2392,6 +2422,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_332_english_wow_wows_preservation_and_vietnamese_uo_coda_tone_unlatch", test_tier4_332_english_wow_wows_preservation_and_vietnamese_uo_coda_tone_unlatch),
             ("test_tier4_333_english_sans_chasm_coast_coats_cusp_swops_disc_lore_preservation_and_vietnamese_unlatch", test_tier4_333_english_sans_chasm_coast_coats_cusp_swops_disc_lore_preservation_and_vietnamese_unlatch),
             ("test_tier4_334_scenario52_trilingual_sans_coast_disc_and_vietnamese_nam_nang_song_tuong_uoc_chat", test_tier4_334_scenario52_trilingual_sans_coast_disc_and_vietnamese_nam_nang_song_tuong_uoc_chat),
+            ("test_tier4_335_english_cat_let_in_try_wi_preservation_and_vietnamese_diacritic_unlatch", test_tier4_335_english_cat_let_in_try_wi_preservation_and_vietnamese_diacritic_unlatch),
+            ("test_tier4_336_english_var_git_deep_preservation_and_vietnamese_var_git_deepsd_unlatch", test_tier4_336_english_var_git_deep_preservation_and_vietnamese_var_git_deepsd_unlatch),
+            ("test_tier4_337_romaji_gifi_gisi_giji_preservation_and_vietnamese_gim_gin_ginh_gic_gich_gip_git_unlatch", test_tier4_337_romaji_gifi_gisi_giji_preservation_and_vietnamese_gim_gin_ginh_gic_gich_gip_git_unlatch),
+            ("test_tier4_338_english_rise_sire_hex_trex_preservation_and_vietnamese_riem_riec_riep_riet_siem_heu_treu_unlatch", test_tier4_338_english_rise_sire_hex_trex_preservation_and_vietnamese_riem_riec_riep_riet_siem_heu_treu_unlatch),
+            ("test_tier4_339_scenario53_trilingual_cat_let_try_in_var_git_and_vietnamese_cat_let_inh_vang_riet_chat", test_tier4_339_scenario53_trilingual_cat_let_try_in_var_git_and_vietnamese_cat_let_inh_vang_riet_chat),
         ]
     }
 }
