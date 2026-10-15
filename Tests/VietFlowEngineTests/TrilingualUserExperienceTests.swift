@@ -1876,7 +1876,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (309 Tests)
+    // MARK: - Cycle 40: Tux/Dux/Nix/Hex, Two/Twos, Cues/Use/Ure/Ire/Efu/Eru/Esu/Duets/Diets/Guest/Quiet/Niece, Toes/Hoes/Chore & Aru/Asa/Ufo/Uro/Uso/Uru/Usu/Girui/Gisui Unlatching
+    // =========================================================================
+
+    func test_tier4_310_english_tux_dux_nix_hex_preservation_and_vietnamese_dua_nia_dui_heo_unlatch() {
+        let input = "tux tuxes tuxa tuxi tuxy dux duxa duxad duxi duxid duxy duxda nix nixa hex hexes hexo"
+        let expected = "tux tuxes tũa tũi tũy dux dũa đũa dũi đũi dũy đũa nix nĩa hex hexes hẽo"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_311_english_two_twos_preservation_and_vietnamese_tuoi_tuom_tuoc_tuot_tuop_tuong_unlatch() {
+        let input = "two twos twofold twoi twois twoif twoir twou twom twocs twocj twots twotj twops twosi twosu twosm twosn twosng twosc twosp twost twosw"
+        let expected = "two twos twofold tươi tưới tười tưởi tươu tươm tước tược tướt tượt tướp tưới tướu tướm tướn tướng tước tướp tướt tướ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_312_english_and_romaji_cues_use_ure_ire_efu_eru_esu_duets_diets_guest_quiet_niece_unlatch() {
+        let input = "cues cuese use uses usee ure uree ire iree efu efue eru erue esu esue duets duetse diets dietse dietsd guest guests gueste quiet quiets quietj niece nieces niecej"
+        let expected = "cues cuế use uses uế ure uể ire iể efu ều eru ểu esu ếu duets duết diets diết điết guest guests guết quiet quiets quiệt niece nieces niệc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_313_english_and_romaji_toes_hoes_chore_aru_asa_ufo_uro_uso_uru_usu_girui_gisui_unlatch() {
+        let input = "toes toeso toesc toesm toesn toesp toesng hoes hoeso hoesc hoesm hoesn hoesp hoesng losec losep hosec hosep chosec chosep thosen thosec thosep chore chores choreo chorem choren choreng aru arua asa asac asam asan asang asat asau asay ufo ufos ufoo ufow uro uroo urow uso usoo usow uru uruw usu usuw girui giruiw gisui gisuiw"
+        let expected = "toes toéo toéc toém toén toép toéng hoes hoéo hoéc hoém hoén hoép hoéng loéc loép hoéc hoép choéc choép thoén thoéc thoép chore chores choẻo choẻm choẻn choẻng aru ẩu asa ấc ấm ấn ấng ất ấu ấy ufo ufos uồ ườ uro uổ ưở uso uố ướ uru ửu usu ứu girui giửi gisui giứi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_314_scenario48_trilingual_asa_ufo_guest_and_vietnamese_dua_nia_tuoi_tuong_am_ap_chat() {
+        let input = "Buổi sáng asa đón hai vị khách guest cùng xem bộ phim ufo và nghe bản nhạc duets trong không gian quiet yên tĩnh, đầu bếp chuẩn bị sẵn bộ đũa (duxad) và nĩa (nixa) sạch sẽ bên cạnh đĩa rau sống tươi (twoi) ngon mới tưới (twosi) nước ấm (asam) áp, tạo ấn (asan) tượng đẹp cho vị tướng (twosng) lĩnh mặc áo vải đũi (duxid)!"
+        let expected = "Buổi sáng asa đón hai vị khách guest cùng xem bộ phim ufo và nghe bản nhạc duets trong không gian quiet yên tĩnh, đầu bếp chuẩn bị sẵn bộ đũa (đũa) và nĩa (nĩa) sạch sẽ bên cạnh đĩa rau sống tươi (tươi) ngon mới tưới (tưới) nước ấm (ấm) áp, tạo ấn (ấn) tượng đẹp cho vị tướng (tướng) lĩnh mặc áo vải đũi (đũi)!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (314 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2197,6 +2231,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_307_japanese_tosa_sosa_sora_lora_sofa_preservation_and_vietnamese_oay_oai_unlatch", test_tier4_307_japanese_tosa_sosa_sora_lora_sofa_preservation_and_vietnamese_oay_oai_unlatch),
             ("test_tier4_308_japanese_tura_chura_hura_sura_deso_daru_dasu_and_vietnamese_uang_delayed_d_unlatch", test_tier4_308_japanese_tura_chura_hura_sura_deso_daru_dasu_and_vietnamese_uang_delayed_d_unlatch),
             ("test_tier4_309_scenario47_trilingual_dorayaki_tosai_lore_and_vietnamese_soai_loai_hoeo_toay_chat", test_tier4_309_scenario47_trilingual_dorayaki_tosai_lore_and_vietnamese_soai_loai_hoeo_toay_chat),
+            ("test_tier4_310_english_tux_dux_nix_hex_preservation_and_vietnamese_dua_nia_dui_heo_unlatch", test_tier4_310_english_tux_dux_nix_hex_preservation_and_vietnamese_dua_nia_dui_heo_unlatch),
+            ("test_tier4_311_english_two_twos_preservation_and_vietnamese_tuoi_tuom_tuoc_tuot_tuop_tuong_unlatch", test_tier4_311_english_two_twos_preservation_and_vietnamese_tuoi_tuom_tuoc_tuot_tuop_tuong_unlatch),
+            ("test_tier4_312_english_and_romaji_cues_use_ure_ire_efu_eru_esu_duets_diets_guest_quiet_niece_unlatch", test_tier4_312_english_and_romaji_cues_use_ure_ire_efu_eru_esu_duets_diets_guest_quiet_niece_unlatch),
+            ("test_tier4_313_english_and_romaji_toes_hoes_chore_aru_asa_ufo_uro_uso_uru_usu_girui_gisui_unlatch", test_tier4_313_english_and_romaji_toes_hoes_chore_aru_asa_ufo_uro_uso_uru_usu_girui_gisui_unlatch),
+            ("test_tier4_314_scenario48_trilingual_asa_ufo_guest_and_vietnamese_dua_nia_tuoi_tuong_am_ap_chat", test_tier4_314_scenario48_trilingual_asa_ufo_guest_and_vietnamese_dua_nia_tuoi_tuong_am_ap_chat),
         ]
     }
 }
