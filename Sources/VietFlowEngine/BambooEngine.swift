@@ -150,7 +150,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         if isBypassed {
             let prefix2 = wordRawKeys.count >= 2 ? String(wordRawKeys[0...1]).lowercased() : ""
             let prefix3 = wordRawKeys.count >= 3 ? String(wordRawKeys[0...2]).lowercased() : ""
-            let onsetLen = prefix3 == "ngh" ? 3 : ((["ch", "ph", "th", "kh", "tr", "nh", "gh", "ng", "qu"].contains(prefix2)
+            let onsetLen = prefix3 == "ngh" ? 3 : ((["ch", "ph", "th", "kh", "tr", "nh", "gh", "ng", "qu", "dd"].contains(prefix2)
                 || (prefix2 == "gi" && wordRawKeys.count >= 3 && "aeiouy".contains(wordRawKeys[2].lowercased()))) ? 2 : 1)
             let rhymeAfterOnset = wordRawKeys.count > onsetLen ? Array(wordRawKeys[onsetLen...]).map { $0.lowercased() } : []
             let has3CharRhymeAfterOnset = rhymeAfterOnset.count == 3
@@ -261,7 +261,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["howa", "dowa", "nowa", "sowa", "towa", "rowa"].contains(String(wordRawKeys).lowercased()) && "cmnptsfrxj".contains(character.lowercased()) {
+            } else if ["howa", "dowa", "nowa", "sowa", "towa", "rowa", "owa"].contains(String(wordRawKeys).lowercased()) && "cmnptsfrxj".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -329,10 +329,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["chair", "lair", "moron"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "boron" && "sfjx".contains(character.lowercased()))
                 || (["beset", "reset", "keeps", "peeps", "deeps", "cheeps", "noops", "goops", "troops", "topos", "gotos", "photos", "datas", "basta", "rasta", "coats", "coast", "toast", "diets", "quiets", "nieces", "sorts", "burst", "worst", "thirst", "swops"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j")
-                || (["hairs", "chairs", "lairs", "airs", "morons", "booms", "dooms", "looms", "rooms", "goons", "loons", "moons", "nonos", "deems", "seems", "teems", "keens", "teens", "queens", "mamas", "memes", "themes", "donors", "honors", "oxen", "vixen", "vixens", "sirens", "risen", "chosen", "tureens", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms", "berms", "terms", "kerns", "terns", "dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors", "dadas", "charas", "leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "trees", "sees", "buys", "guys", "soars", "sofas", "oars", "loafs", "oafs", "coifs", "choirs", "naifs", "liars", "dues", "hues", "sues", "rues", "tues", "cues"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
+                || (["hairs", "chairs", "lairs", "airs", "morons", "booms", "dooms", "looms", "rooms", "goons", "loons", "moons", "nonos", "deems", "seems", "teems", "keens", "teens", "queens", "mamas", "memes", "themes", "donors", "honors", "oxen", "vixen", "vixens", "sirens", "risen", "chosen", "tureens", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms", "berms", "terms", "kerns", "terns", "dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors", "dadas", "charas", "leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "trees", "sees", "buys", "guys", "soars", "sofas", "oars", "loafs", "oafs", "coifs", "choirs", "naifs", "liars", "dues", "hues", "sues", "rues", "tues", "cues", "sirs", "dirs", "sans"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
                 || (["siren", "tureen", "honor", "donor"].contains(String(wordRawKeys).lowercased()) && "fxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "oxen" && character.lowercased() == "s")
                 || (["manx", "sans"].contains(String(wordRawKeys).lowercased()) && "awgh".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "manx" && "sfrj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "chasm" && "aw".contains(character.lowercased()))
                 || (["coast", "coats", "toast", "cusp", "swops", "soaps", "boron", "moron", "morons", "datas", "gotos", "topos", "photos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (["barns", "darns", "tarns", "harms", "charms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
@@ -348,14 +349,14 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["berms", "terms", "kerns", "terns"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e")
                 || (["leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "terse", "sirs", "dirs"].contains(String(wordRawKeys).lowercased()) && "mncptu".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "torso" && "mncpti".contains(character.lowercased()))
-                || (["bars", "cars", "mars", "tars", "vars", "barfs"].contains(String(wordRawKeys).lowercased()) && "mncptiouywa".contains(character.lowercased()))
+                || (["bars", "cars", "mars", "tars", "vars", "barfs"].contains(String(wordRawKeys).lowercased()) && "mncptiouywafxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "barf" && "mniouywajx".contains(character.lowercased()))
-                || (["chefs", "refs", "hers", "ers", "nerfs", "serfs"].contains(String(wordRawKeys).lowercased()) && "mncptoe".contains(character.lowercased()))
+                || (["chefs", "refs", "hers", "ers", "nerfs", "serfs"].contains(String(wordRawKeys).lowercased()) && "mncptoefxj".contains(character.lowercased()))
                 || (["nerf", "serf", "kerf"].contains(String(wordRawKeys).lowercased()) && "mnoejx".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "vers" && "mncpto".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "ors" && "mncptoiw".contains(character.lowercased()))
-                || (["urs", "curs"].contains(String(wordRawKeys).lowercased()) && "mncptiuw".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "burs" && "mncpiuw".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "vers" && "mncptofxj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "ors" && "mncptoiwfxj".contains(character.lowercased()))
+                || (["urs", "curs"].contains(String(wordRawKeys).lowercased()) && "mncptiuwfxj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "burs" && "mncpiuwfxj".contains(character.lowercased()))
                 || (["surf", "turf"].contains(String(wordRawKeys).lowercased()) && "mniuwjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "diesd" && "cmnpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "queer" && "umn".contains(character.lowercased()))
@@ -642,7 +643,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && (character.lowercased() == "j"
                         || (character.lowercased() == "s"
                             && has3CharRhymeAfterOnset
-                            && "fx".contains(r2)
+                            && ("fx".contains(r2) || prefix2 == "dd")
                             && !["raft", "loft", "toft", "tuft", "theft", "gift", "lift", "rift", "sift", "text", "sext", "mixt"].contains(String(wordRawKeys).lowercased()))))
                 || (((rhymeAfterOnset.count == 4
                     && "aei".contains(rhymeAfterOnset[0])
@@ -2296,7 +2297,31 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "ores": ["kêu", "tiếng", "khóc", "cười"],
         "roes": ["kêu", "tiếng", "khóc", "cười", "róe", "roé"],
         "noes": ["ánh", "sáng", "nóe", "noé"],
-        "liars": ["lia", "thoăn", "nhanh", "nói", "chém", "lía"]
+        "liars": ["lia", "thoăn", "nhanh", "nói", "chém", "lía"],
+        "barns": ["mua", "buôn", "chợ", "quán", "giá", "người", "hàng", "đang", "không", "chưa", "sắp", "bán"],
+        "darns": ["băng", "keo", "giấy", "miếng", "hồ", "cắt", "nhãn", "dán"],
+        "tarns": ["phát", "phân", "bàn", "giải", "sơ", "xơ", "hòa", "tán"],
+        "morns": ["một", "hai", "ba", "mấy", "nhiều", "các", "ăn", "nấu", "làm", "gọi", "món"],
+        "borns": ["chăm", "phân", "đút", "tưới", "bón"],
+        "corns": ["nhỏ", "bé", "con", "cón"],
+        "horns": ["nhỏ", "hón"],
+        "thorns": ["ăn", "lấy", "bốc", "nhón", "thón"],
+        "harms": ["tham", "rất", "quá", "kẻ", "người", "hám"],
+        "charms": ["quả", "cây", "bánh", "chám"],
+        "corms": ["gầy", "nhỏ", "ốm", "cóm"],
+        "dorms": ["nhen", "lửa", "nhóm", "dóm"],
+        "burns": ["ăn", "tô", "bát", "sợi", "làm", "nấu", "quán", "chả", "riêu", "bò", "mắm", "bún"],
+        "turns": ["cười", "tủm", "tún"],
+        "urns": ["mập", "béo", "tròn"],
+        "terms": ["gọn", "vén", "ăn", "tém"],
+        "kerns": ["con", "tổ", "đóng", "làm", "rất", "hơi", "khá", "kén"],
+        "door": ["gây", "cãi", "dổ"],
+        "goof": ["nổi", "trán", "đầu", "mặt", "đất", "đá", "gồ"],
+        "oofs": ["kêu", "tiếng", "hoen", "vết"],
+        "darn": ["thanh", "dản"],
+        "thorn": ["nhỏ", "bé", "thỏn"],
+        "morn": ["nhỏ", "ít", "mỏn"],
+        "corm": ["nhỏ", "gầy", "cỏm"]
     ]
 
     private static func matchesUyOaOeClusterUnlatch(
@@ -2662,12 +2687,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             ("uyee", ["c", "t", "ch"]),
             ("uwow", ["c", "p", "t"]),
             ("uow", ["c", "p", "t"]),
-            ("uwo", ["c", "p", "t"]),
+            ("uwo", ["c", "p", "t", "cw", "pw", "tw"]),
             ("uoo", ["c", "p", "t"]),
             ("uaa", ["c", "t"]),
             ("uee", ["p", "t", "ch"]),
             ("iee", ["c", "p", "t"]),
             ("yee", ["c", "p", "t", "ch"]),
+            ("owa", ["c", "p", "t", "ch"]),
             ("oaw", ["c", "p", "t", "ch"]),
             ("aw", ["c", "p", "t"]),
             ("aa", ["c", "p", "t"]),
@@ -2707,22 +2733,39 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
         let rawRhyme = effRhyme.joined()
         let basePatterns: [(base: String, diacritics: Set<String>)] = [
+            ("uyeech", [""]), ("uyeet", [""]), ("uyeec", [""]),
             ("uyech", ["e", ""]), ("uyet", ["e", ""]), ("uyec", ["e", ""]),
+            ("uwowc", [""]), ("uwowp", [""]), ("uwowt", [""]),
+            ("uowc", ["w", ""]), ("uowp", ["w", ""]), ("uowt", ["w", ""]),
             ("uwoc", ["w", ""]), ("uwop", ["w", ""]), ("uwot", ["w", ""]),
+            ("uooc", [""]), ("uoop", [""]), ("uoot", [""]),
             ("uoc", ["w", "o", ""]), ("uop", ["w", ""]), ("uot", ["w", "o", ""]),
+            ("uaat", [""]), ("uaac", [""]),
             ("uat", ["a", ""]), ("uac", ["a", ""]),
+            ("ueech", [""]), ("ueet", [""]), ("ueep", [""]),
             ("uech", ["e", ""]), ("uet", ["e", ""]), ("uep", ["e", ""]),
+            ("ieet", [""]), ("ieec", [""]), ("ieep", [""]),
             ("iet", ["e", ""]), ("iec", ["e", ""]), ("iep", ["e", ""]),
+            ("yeet", [""]), ("yeec", [""]), ("yeep", [""]),
             ("yet", ["e", ""]), ("yec", ["e", ""]), ("yep", ["e", ""]),
+            ("oawch", [""]), ("oawt", [""]), ("oawc", [""]), ("oawp", [""]),
+            ("owach", ["w", ""]), ("owat", ["w", ""]), ("owac", ["w", ""]), ("owap", ["w", ""]),
             ("oach", ["w", ""]), ("oat", ["w", ""]), ("oac", ["w", ""]), ("oap", ["w", ""]),
             ("oet", [""]), ("oec", [""]), ("oep", [""]),
             ("uych", [""]), ("uyt", [""]), ("uyp", [""]),
             ("ych", [""]), ("yt", [""]), ("yp", [""]), ("yc", [""]),
+            ("awch", [""]), ("aach", [""]), ("eech", [""]),
             ("ach", ["w", "a", ""]), ("ech", ["e", ""]), ("ich", [""]),
+            ("awc", [""]), ("awp", [""]), ("awt", [""]),
+            ("aac", [""]), ("aap", [""]), ("aat", [""]),
             ("ac", ["w", "a", ""]), ("ap", ["w", "a", ""]), ("at", ["w", "a", ""]),
+            ("eec", [""]), ("eep", [""]), ("eet", [""]),
             ("ec", ["e", ""]), ("ep", ["e", ""]), ("et", ["e", ""]),
             ("ic", [""]), ("ip", [""]), ("it", [""]),
+            ("ooc", [""]), ("oop", [""]), ("oot", [""]),
+            ("owc", [""]), ("owp", [""]), ("owt", [""]),
             ("oc", ["o", "w", ""]), ("op", ["o", "w", ""]), ("ot", ["o", "w", ""]),
+            ("uwc", [""]), ("uwt", [""]),
             ("uc", ["w", ""]), ("up", [""]), ("ut", ["w", ""])
         ]
         for (base, diacritics) in basePatterns where rawRhyme.hasPrefix(base) {
