@@ -253,7 +253,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && r1 == "o"
                 && "rsfjx".contains(r2)
                 && r3 == "o"
-                && ("cmnpti".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
+                && ("cmnptiw".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -262,7 +262,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && r1 == "a"
                 && "rsfjx".contains(r2)
                 && r3 == "a"
-                && ((("sfjx".contains(r2) || !["hara", "sara", "tara", "nara"].contains(String(wordRawKeys).lowercased())) ? "cmnptuy" : "cmnpty").contains(character.lowercased())
+                && ((("sfjx".contains(r2) || !["hara", "sara", "tara", "nara"].contains(String(wordRawKeys).lowercased())) ? "cmnptuyw" : "cmnptyw").contains(character.lowercased())
                     || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -297,21 +297,22 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "git" && "sj".contains(character.lowercased()))
                 || (["manx", "sans"].contains(String(wordRawKeys).lowercased()) && "awgh".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "chasm" && "aw".contains(character.lowercased()))
-                || (["coast", "coats", "cusp", "swops", "soaps"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
+                || (["coast", "coats", "cusp", "swops", "soaps", "boron", "moron", "datas", "gotos", "topos"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (String(wordRawKeys).lowercased() == "disc" && "hd".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "minx" && character.lowercased() == "h")
-                || (["oxen", "vixen", "kern", "boron", "moron", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
+                || (["oxen", "vixen", "siren", "risen", "kern", "boron", "moron", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
                 || (String(wordRawKeys).lowercased() == "manag" && "sfrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "monog" && "sfxj".contains(character.lowercased()))
-                || (["ore", "guree", "gifi"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
+                || (["ore", "guree", "gifi", "dired"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
                 || (["gisi", "giji"].contains(String(wordRawKeys).lowercased()) && "mncpt".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "diesd" && "cmnpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "queer" && "umn".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "queue" && "frxj".contains(character.lowercased()))
                 || (["buys", "guys"].contains(String(wordRawKeys).lowercased()) && "aumnptc".contains(character.lowercased()))
                 || (["bura", "chura", "dura", "gura", "hura", "mura", "nura", "rura", "sura", "tura"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
                 || (["queens", "teens", "keens", "sense", "tense", "dense", "defend", "deedsc"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "h")
-                || (String(wordRawKeys).lowercased() == "dodos" && "imncpt".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "dadas" && "uymncpt".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "dodos" && "wimncpt".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "dadas" && "wuymncpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "deeds" && "umnpt".contains(character.lowercased()))
                 || (["daasu", "datas", "dawns", "downs", "darns", "deems", "deeps", "dense", "dojos", "dooms", "donor", "donors", "dura", "duri", "dorm", "derm", "dora", "dosa", "diesm", "diesn", "diesc", "diesp", "diest", "diesng"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
                 isBypassed = false
@@ -342,7 +343,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && "mn".contains(r2)
                 && r1 == r3
                 && ("fjx".contains(character.lowercased())
-                    || ("ao".contains(r1) && character.lowercased() == "s")
+                    || ("ao".contains(r1) && "sw".contains(character.lowercased()) && wordRawKeys[0].lowercased() != "k")
                     || ("ao".contains(r1) && character.lowercased() == "r" && !["hono", "dono"].contains(String(wordRawKeys).lowercased()))
                     || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
@@ -406,7 +407,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && "rsfjx".contains(r2)
                 && r3 == "e"
                 && (character.lowercased() == "e"
-                    || (r1 == "i" && "rfx".contains(r2) && "mn".contains(character.lowercased()) && (String(wordRawKeys).lowercased() != "vixe" && (String(wordRawKeys).lowercased() != "sire" || character.lowercased() == "m")))
+                    || (r1 == "i" && "rfx".contains(r2) && "mn".contains(character.lowercased()) && (!["vixe", "sire"].contains(String(wordRawKeys).lowercased()) || character.lowercased() == "m"))
                     || (r1 == "i" && "sj".contains(r2) && "cmnpt".contains(character.lowercased()) && (String(wordRawKeys).lowercased() != "rise" || character.lowercased() != "n"))
                     || (r1 == "i" && "sfjx".contains(r2) && wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
                 || (rhymeAfterOnset.count >= 4
@@ -1358,7 +1359,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         newNucleus = isUpperNuc ? "ƠI" : "ơi"
                     } else if lowerNuc == "ui" {
                         newNucleus = isUpperNuc ? "ƯI" : "ưi"
-                    } else if lowerNuc == "o" {
+                    } else if lowerNuc == "o" || (lowerNuc == "ô" && rawHistory.filter({ $0.lowercased() == "w" }).isEmpty) {
                         newNucleus = isUpperNuc ? "Ơ" : "ơ"
                     } else if lowerNuc == "u" {
                         newNucleus = isUpperNuc ? "Ư" : "ư"
@@ -1366,7 +1367,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 }
 
                 if newNucleus == nil && isBreveKey {
-                    if lowerNuc == "a" && (!parsed.coda.isEmpty || method == .vni) {
+                    if (lowerNuc == "a" && (!parsed.coda.isEmpty || method == .vni))
+                        || (lowerNuc == "â" && rawHistory.filter({ $0.lowercased() == "w" }).isEmpty) {
                         newNucleus = isUpperNuc ? "Ă" : "ă"
                     } else if lowerNuc == "oa" && (!parsed.coda.isEmpty || method == .vni) {
                         newNucleus = isUpperNuc ? "OĂ" : "oă"
