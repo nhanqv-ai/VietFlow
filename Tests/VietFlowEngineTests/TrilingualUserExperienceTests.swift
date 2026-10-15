@@ -3177,6 +3177,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 79: 22 Collocation Entries, qu- Pre-Vowel Tone Unlatch, uwoc/uwot/uwop Post-Coda Unlatch, and Non-m/r -eters/-otors Unlatch
+
+    func test_tier4_505_vietnamese_collocation_phrases_hers_chefs_refs_vers_sirs_dirs_ors_urs_curs_burs_barf_barfs_nerf_nerfs_serf_serfs_surf_turf_ores_roes_noes_liars() {
+        let input = "hers cuwar hers mowr hers chefs ruwowuj chefs cais chefs refs keeu refs hets refs vers mua vers bans vers soats vers sirs bis sirs nhis sirs dirs bij dirs ddang dirs ors chim ors con ors urs maajp urs beos urs curs chim curs mootj curs burs cho burs con burs barf oong barf ddanf barf barfs ddoocj barfs xuwng barfs nerf ddaay nerf coi nerf nerfs tranhs nerfs dduwngs nerfs serf nhef serf serfs chim serfs surf ddaauf surf tocs surf turf nhaf turf vaof turf ores keeu ores tieengs ores roes khocs roes cuwowif roes noes sangs noes liars lia liars nois liars"
+        let expected = "hers cửa hé mở hé chefs rượu ché cái ché refs kêu ré hét ré vers mua vé bán vé soát vé sirs bí sí nhí sí dirs bị dí đang dí ors chim ó con ó urs mập ú béo ú curs chim cú một cú burs cho bú con bú barf ông bà đàn bà barfs độc bá xưng bá nerf đây nè coi nè nerfs tránh né đứng né serf nhè sè serfs chim sé surf đầu sù tóc sù turf nhà tù vào tù ores kêu óe tiếng óe roes khóc róe cười róe noes sáng nóe liars lia lía nói lía"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_506_qu_pre_vowel_tone_stop_coda_and_diacritic_unlatch() {
+        let input = "qurats quratj qufats qufatj quracs quracj qufacs qufacj qurachs qurachj qurets quretj quratws quratwj quratsw quratjw quracws quracwj quracsw quracjw quratas qurataj quratsa quratja quracas qurawts qurawtj quraats quraatj qurawcs qurawcj quretes quretej quretse quretje qureets qureetj qurocos qurocoj qurocso qurocjo quroocs quroocj qurotws qurotwj qurotsw qurotjw qurowts qurowtj quryts qurytj quryetes quryetej quryetse quryetje quryeets quryeetj quryense quryenfe quryenje girachs girachj gifachs gifachj"
+        let expected = "quát quạt quát quạt quác quạc quác quạc quách quạch quét quẹt quắt quặt quắt quặt quắc quặc quắc quặc quất quật quất quật quấc quắt quặt quất quật quắc quặc quết quệt quết quệt quết quệt quốc quộc quốc quộc quốc quộc quớt quợt quớt quợt quớt quợt quýt quỵt quyết quyệt quyết quyệt quyết quyệt quyến quyền quyện giách giạch giách giạch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_507_uwoc_uwot_uwop_post_coda_and_pre_coda_tone_override_unlatch() {
+        let input = "tuwocfs tuwocfj tuwocrs tuwocrj tuwocwfs tuwocfws tuwocwrs tuwocrws tuwocwfj tuwocfwj tuwocwrj tuwocrwj tuwotfs tuwotfj tuwotrs tuwotrj tuwotwfs tuwotfws tuwotwrs tuwotrws tuwotwfj tuwotfwj tuwotwrj tuwotrwj muwopfs muwopfj muwoprs muwoprj muwopwfs muwopfws muwopwfj muwopfwj duwocfsd duwocfjd duwocrsd duwocrjd duwocwfjd duwocfwjd duwocwrjd duwocrwjd duwotfsd duwotfjd duwotrsd duwotrjd nuwocfs nuwocrs luwotfs luwotfj luwotrs luwotrj buwocfs buwocrs uwocfs uwocfj uwocrs uwocrj uwotfs uwotfj uwotrs uwotrj"
+        let expected = "tước tược tước tược tước tước tước tước tược tược tược tược tướt tượt tướt tượt tướt tướt tướt tướt tượt tượt tượt tượt mướp mượp mướp mượp mướp mướp mượp mượp đước được đước được được được được được đướt đượt đướt đượt nước nước lướt lượt lướt lượt bước bước ước ược ước ược ướt ượt ướt ượt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_508_non_m_eters_and_non_mr_otors_post_coda_hook_to_acute_unlatch() {
+        let input = "meters waters motors rotors heters beters teters leters keters neters seters veters xeters cheters gheters kheters pheters theters treters gieters detersd cotors botors totors gotors hotors lotors notors sotors chotors thotors photors giotors dotorsd"
+        let expected = "meters waters motors rotors hết bết tết lết kết nết sết vết xết chết ghết khết phết thết trết giết đết cốt bốt tốt gốt hốt lốt nốt sốt chốt thốt phốt giốt đốt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_509_scenario87_trilingual_chefs_surf_meters_and_vietnamese_mua_ve_ong_ba_chim_cu_quoc_te_chat() {
+        let input = "Sau khi mua vé (mua vers) tàu quốc (qurocos) tế cùng ông bà (oong barf) đi xem các đầu bếp chefs biểu diễn và vận động viên surf sóng cách bờ vài chục meters, cả nhà ngồi bên khung cửa hé (cuwar hers) nghe tiếng chim cú (chim curs) kêu ngoài vườn, vừa trò chuyện lia lía (lia liars) vừa quyết (quryetes) tâm hoàn thành hết (heters) mọi công việc được (duwocwfjd) giao với kết quả tốt (totors) nhất mà không hề tránh né (tranhs nerfs)!"
+        let expected = "Sau khi mua vé (mua vé) tàu quốc (quốc) tế cùng ông bà (ông bà) đi xem các đầu bếp chefs biểu diễn và vận động viên surf sóng cách bờ vài chục meters, cả nhà ngồi bên khung cửa hé (cửa hé) nghe tiếng chim cú (chim cú) kêu ngoài vườn, vừa trò chuyện lia lía (lia lía) vừa quyết (quyết) tâm hoàn thành hết (hết) mọi công việc được (được) giao với kết quả tốt (tốt) nhất mà không hề tránh né (tránh né)!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3690,6 +3722,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_502_post_coda_hook_to_acute_monophthong_stop_coda_unlatch", test_tier4_502_post_coda_hook_to_acute_monophthong_stop_coda_unlatch),
             ("test_tier4_503_post_coda_hook_to_acute_diphthong_stop_coda_unlatch", test_tier4_503_post_coda_hook_to_acute_diphthong_stop_coda_unlatch),
             ("test_tier4_504_scenario86_trilingual_cars_mars_motors_and_vietnamese_con_ca_rau_ma_tay_lai_chieu_coi_chat", test_tier4_504_scenario86_trilingual_cars_mars_motors_and_vietnamese_con_ca_rau_ma_tay_lai_chieu_coi_chat),
+            ("test_tier4_505_vietnamese_collocation_phrases_hers_chefs_refs_vers_sirs_dirs_ors_urs_curs_burs_barf_barfs_nerf_nerfs_serf_serfs_surf_turf_ores_roes_noes_liars", test_tier4_505_vietnamese_collocation_phrases_hers_chefs_refs_vers_sirs_dirs_ors_urs_curs_burs_barf_barfs_nerf_nerfs_serf_serfs_surf_turf_ores_roes_noes_liars),
+            ("test_tier4_506_qu_pre_vowel_tone_stop_coda_and_diacritic_unlatch", test_tier4_506_qu_pre_vowel_tone_stop_coda_and_diacritic_unlatch),
+            ("test_tier4_507_uwoc_uwot_uwop_post_coda_and_pre_coda_tone_override_unlatch", test_tier4_507_uwoc_uwot_uwop_post_coda_and_pre_coda_tone_override_unlatch),
+            ("test_tier4_508_non_m_eters_and_non_mr_otors_post_coda_hook_to_acute_unlatch", test_tier4_508_non_m_eters_and_non_mr_otors_post_coda_hook_to_acute_unlatch),
+            ("test_tier4_509_scenario87_trilingual_chefs_surf_meters_and_vietnamese_mua_ve_ong_ba_chim_cu_quoc_te_chat", test_tier4_509_scenario87_trilingual_chefs_surf_meters_and_vietnamese_mua_ve_ong_ba_chim_cu_quoc_te_chat),
         ]
     }
 }

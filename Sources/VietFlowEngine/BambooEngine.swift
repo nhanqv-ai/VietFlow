@@ -997,8 +997,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!))
                     || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc))
-                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe")
-                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan)
+                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull)
+                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull)
                     || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y"))
                     || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })))
                     || (lowerOnset == "z")
@@ -2274,7 +2274,29 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "sofas": ["xóa", "mờ", "sóa", "soá"],
         "oafs": ["kêu", "tiếng", "khóc", "vỡ"],
         "lore": ["sáng", "đỏ", "loẻ", "lỏe"],
-        "chore": ["đỏ", "vàng", "choẻ", "chỏe"]
+        "chore": ["đỏ", "vàng", "choẻ", "chỏe"],
+        "hers": ["cửa", "mở", "nhìn", "cười", "mắt", "khe", "vừa", "mới", "chưa", "hé"],
+        "chefs": ["rượu", "cái", "một", "hai", "chum", "ché"],
+        "refs": ["kêu", "hét", "khóc", "tiếng", "lúa", "gạo", "ré"],
+        "vers": ["mua", "bán", "tấm", "chiếc", "cái", "giá", "soát", "đặt", "quầy", "cổng", "trạm", "hết", "còn", "một", "hai", "cặp", "vé"],
+        "sirs": ["bí", "nhí", "chút", "tí", "sí"],
+        "dirs": ["bị", "đang", "cứ", "dí"],
+        "ors": ["chim", "con", "diều", "tiếng", "kêu"],
+        "urs": ["mập", "béo", "tròn", "heo", "lợn", "chó", "mèo", "con", "bé"],
+        "curs": ["chim", "con", "mắt", "đêm", "một", "hai", "mấy", "đấm", "đá", "sút", "ngã", "lừa", "sốc", "tát", "cú"],
+        "burs": ["cho", "con", "trẻ", "em", "bé", "sữa", "bình", "núm", "đòi", "cai", "bú"],
+        "barf": ["ông", "hai", "các", "mấy", "cụ", "đàn", "bà"],
+        "barfs": ["độc", "xưng", "hùng", "thống", "chú", "bác", "bá"],
+        "nerf": ["đây", "đó", "kia", "coi", "nhìn", "nghe", "thấy", "em", "anh", "nè"],
+        "nerfs": ["tránh", "đứng", "chạy", "cố", "phải", "kịp", "né"],
+        "serf": ["nhè", "rè", "sè"],
+        "serfs": ["chim", "con", "xé", "sé"],
+        "surf": ["đầu", "tóc", "lông", "xù", "sù"],
+        "turf": ["nhà", "vào", "ở", "đi", "ra", "bỏ", "án", "phạt", "ngục", "cầm", "tù"],
+        "ores": ["kêu", "tiếng", "khóc", "cười"],
+        "roes": ["kêu", "tiếng", "khóc", "cười", "róe", "roé"],
+        "noes": ["ánh", "sáng", "nóe", "noé"],
+        "liars": ["lia", "thoăn", "nhanh", "nói", "chém", "lía"]
     ]
 
     private static func matchesUyOaOeClusterUnlatch(
@@ -2291,14 +2313,19 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let c = character.lowercased()
         let isDOnset = firstKey == "d"
 
-        // 1. 'qu' onset + 'yê' / 'uy' stop-coda & non-stop-coda unlatch (e.g. quyretes -> quyết, quyretej -> quyệt, quyrense -> quyến, quyrts -> quýt)
-        if prefix2 == "qu" && rhymeAfterOnset.count >= 3 && rhymeAfterOnset[0] == "y" {
-            if "rfx".contains(rhymeAfterOnset[1]) && ["t", "p", "ch"].contains(rhymeAfterOnset[2...].joined()) && "sj".contains(c) {
+        // 1. 'qu' onset + 'yê' / 'uy' stop-coda & non-stop-coda unlatch (e.g. quyretes / quryetes -> quyết, quyretej / quryetej -> quyệt, quyrense / quryense -> quyến, quyrts / quryts -> quýt)
+        if prefix2 == "qu" && rhymeAfterOnset.count >= 3 {
+            if ((rhymeAfterOnset[0] == "y" && "rfx".contains(rhymeAfterOnset[1]))
+                || ("rfx".contains(rhymeAfterOnset[0]) && rhymeAfterOnset[1] == "y"))
+                && ["t", "p", "ch"].contains(rhymeAfterOnset[2...].joined())
+                && "sj".contains(c) {
                 return true
             }
             if rhymeAfterOnset.count >= 4
-                && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
-                    || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2]))) {
+                && ((rhymeAfterOnset[0] == "y"
+                    && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
+                        || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2]))))
+                    || ("rsfjx".contains(rhymeAfterOnset[0]) && rhymeAfterOnset[1] == "y" && rhymeAfterOnset[2] == "e")) {
                 let tail = rhymeAfterOnset[3...].joined()
                 if c == "e" && matchesDiphthongCodaTail(tail, nonStopCodas: ["n"], stopCodas: ["t", "c", "ch"], allowD: false) {
                     return true
@@ -2487,7 +2514,21 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if rhymeAfterOnset.count == 4 && "cpt".contains(rhymeAfterOnset[3]) && "sj".contains(c) {
                 return true
             }
+            if rhymeAfterOnset.count == 5 && "ae".contains(rhymeAfterOnset[2]) && rhymeAfterOnset[3...].joined() == "ch" && "sj".contains(c) {
+                return true
+            }
             effRhyme = [rhymeAfterOnset[2], rhymeAfterOnset[1]] + Array(rhymeAfterOnset[3...])
+        } else if prefix2 == "qu"
+            && rhymeAfterOnset.count >= 3
+            && "rfx".contains(rhymeAfterOnset[0])
+            && "aeo".contains(rhymeAfterOnset[1]) {
+            if rhymeAfterOnset.count == 3 && "cpt".contains(rhymeAfterOnset[2]) && "sj".contains(c) {
+                return true
+            }
+            if rhymeAfterOnset.count == 4 && "ae".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2...].joined() == "ch" && "sj".contains(c) {
+                return true
+            }
+            effRhyme = [rhymeAfterOnset[1], rhymeAfterOnset[0]] + Array(rhymeAfterOnset[2...])
         } else {
             effRhyme = "aeou".contains(firstKey) ? wordRawKeys.map({ $0.lowercased() }) : rhymeAfterOnset
         }
@@ -2585,6 +2626,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     return true
                 }
             }
+        } else if prefix2 == "qu"
+            && rhymeAfterOnset.count >= 4
+            && "rfx".contains(rhymeAfterOnset[0])
+            && "aeoy".contains(rhymeAfterOnset[1]) {
+            effRhyme = [rhymeAfterOnset[1], rhymeAfterOnset[0]] + Array(rhymeAfterOnset[2...])
         } else {
             effRhyme = "aeiouy".contains(firstKey) ? wordRawKeys.map({ $0.lowercased() }) : rhymeAfterOnset
         }
@@ -2621,7 +2667,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             ("uaa", ["c", "t"]),
             ("uee", ["p", "t", "ch"]),
             ("iee", ["c", "p", "t"]),
-            ("yee", ["c", "p", "t"]),
+            ("yee", ["c", "p", "t", "ch"]),
             ("oaw", ["c", "p", "t", "ch"]),
             ("aw", ["c", "p", "t"]),
             ("aa", ["c", "p", "t"]),
@@ -2662,6 +2708,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let rawRhyme = effRhyme.joined()
         let basePatterns: [(base: String, diacritics: Set<String>)] = [
             ("uyech", ["e", ""]), ("uyet", ["e", ""]), ("uyec", ["e", ""]),
+            ("uwoc", ["w", ""]), ("uwop", ["w", ""]), ("uwot", ["w", ""]),
             ("uoc", ["w", "o", ""]), ("uop", ["w", ""]), ("uot", ["w", "o", ""]),
             ("uat", ["a", ""]), ("uac", ["a", ""]),
             ("uech", ["e", ""]), ("uet", ["e", ""]), ("uep", ["e", ""]),
@@ -2704,7 +2751,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     return false
                 }
                 guard diacritics.contains(rem) else { return false }
-                if toneChar == "r" && c == "s" && ((base == "et" && tail == "er") || (base == "ot" && tail == "or")) {
+                if toneChar == "r" && c == "s"
+                    && ((base == "et" && tail == "er" && firstKey == "m")
+                        || (base == "ot" && tail == "or" && "mr".contains(firstKey))) {
                     return false
                 }
                 return true
@@ -2725,7 +2774,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if isDOnset && c == "d" && !rem.contains("d") {
                 if let last = rem.last, "sj".contains(last) {
                     let diac = String(rem.dropLast())
-                    if diacritics.contains(diac) && !((base == "et" && tail.hasPrefix("er")) || (base == "ot" && tail.hasPrefix("or"))) {
+                    if diacritics.contains(diac) {
                         return true
                     }
                 }
