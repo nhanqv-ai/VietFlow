@@ -2144,7 +2144,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (349 Tests)
+    // MARK: - Cycle 48: -oă- Unlatch on sora/lora/sofa/sosa/tosa/dora/dosa, Delayed-d on đoai/đoay/đoao, ufong/urong/usong/duos/gifuo/gijuo, and honor/donor/manag/monog/osoi Unlatch
+    // =========================================================================
+
+    func test_tier4_350_romaji_and_english_sora_lora_sofa_sosa_tosa_dora_dosa_w_unlatch() {
+        let input = "sora soraw sorawn sorawng sorawm lora loraw lorawn lorawng lorawm sofa sofaw sofawn sofawng sofawm sosa sosaw sosawn sosawng sosawm sosawt sosawc sosawp tosa tosaw tosawn tosawng tosawt tosawc dora doraw dorawd dorawdn dorawnd dorawdng dorawngd dosa dosaw dosawd dosawdn dosawnd dosawdng dosawngd dosawdt dosawtd dosawdc dosawcd"
+        let expected = "sora soẳ soẳn soẳng soẳm lora loẳ loẳn loẳng loẳm sofa soằ soằn soằng soằm sosa soắ soắn soắng soắm soắt soắc soắp tosa toắ toắn toắng toắt toắc dora doẳ đoẳ đoẳn đoẳn đoẳng đoẳng dosa doắ đoắ đoắn đoắn đoắng đoắng đoắt đoắt đoắc đoắc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_351_vietnamese_delayed_d_doai_doay_doao_all_tone_positions_and_dosai_preservation() {
+        let input = "dosai doraid dosaid dofaid doxaid dojaid doaird doaisd doaifd doaixd doaijd dorayd dosayd dofayd doxayd dojayd doayrd doaysd doayfd doayxd doayjd doraod dosaod dofaod doaord doaosd doaofd"
+        let expected = "dosai đoải đoái đoài đoãi đoại đoải đoái đoài đoãi đoại đoảy đoáy đoày đoãy đoạy đoảy đoáy đoày đoãy đoạy đoảo đoáo đoào đoảo đoáo đoào"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_352_romaji_and_english_ufong_urong_usong_duos_gifuo_gijuo_unlatch() {
+        let input = "ufo ufongw ufongo uro urongw urongo uso usongw usongo duos duosngw duosngo duosngdw duosngwd duosngdo duosngod duoscdw duoscwd duoscdo duoscod duostdw duostwd duostdo duostod duosidw duosiwd duosido duosiod gifu gifuowng gifuongw gifuowi gifuoiw giju gijuowng gijuongw gijuowc gijuocw gijuowt gijuotw"
+        let expected = "ufo ường uồng uro ưởng uổng uso ướng uống duos dướng duống đướng đướng đuống đuống đước đước đuốc đuốc đướt đướt đuốt đuốt đưới đưới đuối đuối gifu giường giường giười giười giju giượng giượng giược giược giượt giượt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_353_delayed_d_before_coda_before_e_on_di_e_du_e_and_honor_donor_manag_monog_osoi_unlatch() {
+        let input = "diredne diredme dirednge diredue difedne difedme disedne disedme disedte disedpe disedce dijedne dijedme dijedte dijedpe dijedce duredne durednhe dufedne dufednhe dusedne dusednhe dusedte dusedche dujedne dujednhe dujedte dujedche yesnge usenhe useche urenhe honor honors honorg donor donors donorg donorgd donord donordg manage manager manags managf managr managx managj monogram monogs monogf monogx monogj osoi osoiw"
+        let expected = "điển điểm điểng điểu điền điềm điến điếm điết điếp điếc điện điệm điệt điệp điệc đuển đuểnh đuền đuềnh đuến đuếnh đuết đuếch đuện đuệnh đuệt đuệch yếng uếnh uếch uểnh honor honors hổng donor donors dổng đổng đổn đổng manage manager mấng mầng mẩng mẫng mậng monogram mống mồng mỗng mộng osoi ới"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_354_scenario56_trilingual_dosai_duos_gifu_manager_and_vietnamese_giuong_uong_doai_chat() {
+        let input = "Dù tiến độ ban đầu hơi osoi sau chuyến công tác gifu của vị manager, bộ đôi duos kỹ sư vẫn không đoái (dosaid) hoài mệt mỏi mà thức trắng bên chiếc giường (gifuongw) nhỏ, vừa uống (usongo) trà nóng vừa tháo gỡ những mắt xích xoắn (sosawn) rối và sửa từng chỗ hỏng (honorg) để nhận được (duoscdw) sự khen thưởng xứng đáng!"
+        let expected = "Dù tiến độ ban đầu hơi osoi sau chuyến công tác gifu của vị manager, bộ đôi duos kỹ sư vẫn không đoái (đoái) hoài mệt mỏi mà thức trắng bên chiếc giường (giường) nhỏ, vừa uống (uống) trà nóng vừa tháo gỡ những mắt xích xoắn (xoắn) rối và sửa từng chỗ hỏng (hổng) để nhận được (đước) sự khen thưởng xứng đáng!".replacingOccurrences(of: "(xoắn)", with: "(soắn)")
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (354 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2505,6 +2539,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_347_romaji_de_u_da_u_da_y_do_i_dorm_delayed_d_unlatch", test_tier4_347_romaji_de_u_da_u_da_y_do_i_dorm_delayed_d_unlatch),
             ("test_tier4_348_english_lure_sure_cure_muse_ruse_hire_tire_mire_preservation_and_vietnamese_unlatch", test_tier4_348_english_lure_sure_cure_muse_ruse_hire_tire_mire_preservation_and_vietnamese_unlatch),
             ("test_tier4_349_scenario55_trilingual_soaps_sure_hire_and_vietnamese_duoc_dieu_dau_doi_chat", test_tier4_349_scenario55_trilingual_soaps_sure_hire_and_vietnamese_duoc_dieu_dau_doi_chat),
+            ("test_tier4_350_romaji_and_english_sora_lora_sofa_sosa_tosa_dora_dosa_w_unlatch", test_tier4_350_romaji_and_english_sora_lora_sofa_sosa_tosa_dora_dosa_w_unlatch),
+            ("test_tier4_351_vietnamese_delayed_d_doai_doay_doao_all_tone_positions_and_dosai_preservation", test_tier4_351_vietnamese_delayed_d_doai_doay_doao_all_tone_positions_and_dosai_preservation),
+            ("test_tier4_352_romaji_and_english_ufong_urong_usong_duos_gifuo_gijuo_unlatch", test_tier4_352_romaji_and_english_ufong_urong_usong_duos_gifuo_gijuo_unlatch),
+            ("test_tier4_353_delayed_d_before_coda_before_e_on_di_e_du_e_and_honor_donor_manag_monog_osoi_unlatch", test_tier4_353_delayed_d_before_coda_before_e_on_di_e_du_e_and_honor_donor_manag_monog_osoi_unlatch),
+            ("test_tier4_354_scenario56_trilingual_dosai_duos_gifu_manager_and_vietnamese_giuong_uong_doai_chat", test_tier4_354_scenario56_trilingual_dosai_duos_gifu_manager_and_vietnamese_giuong_uong_doai_chat),
         ]
     }
 }
