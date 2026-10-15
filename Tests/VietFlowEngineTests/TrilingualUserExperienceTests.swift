@@ -2314,7 +2314,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (374 Tests)
+    // MARK: - Cycle 53: keen/keens/teens g Unlatch, leers/seers/cheers/veers/reefs/beefs Coda Unlatch, soars/loafs/oafs/coifs Unlatch, chefs/refs Unlatch, and hoofs/roofs/goofs Unlatch
+    // =========================================================================
+
+    func test_tier4_375_english_keen_keens_teens_g_and_leers_seers_cheers_veers_coda_unlatch() {
+        let input = "keen keenly keens keeng keengf keengs keengr keengx keengj keensg teens teensg leers leersm leersn leerst leersp leersu seers seersm seersn seerst seersp seersu cheers cheered cheering cheerful cheersm cheersn cheerst cheersp cheersc cheersu veers veered veering veersm veersn veerst veersp veersu reefs reefsm reefsn reefst reefsp reefsc reefsu beefs beefsm beefsn beefst beefsp beefsc beefsu"
+        let expected = "keen keenly keens kêng kềng kếng kểng kễng kệng kếng teens tếng leers lếm lến lết lếp lếu seers sếm sến sết sếp sếu cheers cheered cheering cheerful chếm chến chết chếp chếc chếu veers veered veering vếm vến vết vếp vếu reefs rếm rến rết rếp rếc rếu beefs bếm bến bết bếp bếc bếu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_376_english_soars_loafs_oafs_coifs_unlatch_and_preservation() {
+        let input = "soars soarsn soarsng soarst soarsi soarsy soarso soarsw soarswn soarswt loafs loafsn loafsng loafst loafsc loafsi loafsy loafso loafsw loafswn loafswt oafs oafsn oafsng oafst oafsc oafsi oafsy oafso oafsw oafswn oafswt coifs coifso coifsw"
+        let expected = "soars soán soáng soát soái soáy soáo soắ soắn soắt loafs loán loáng loát loác loái loáy loáo loắ loắn loắt oafs oán oáng oát oác oái oáy oáo oắ oắn oắt coifs cối cới"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_377_english_chefs_refs_midword_tone_override_unlatch_and_preservation() {
+        let input = "chefs chefsn chefsm chefsc chefsp chefst chefso chefse chefsen chefsem chefset chefsep chefsec chefseu refs refsn refsm refsc refsp refst refso refse refsen refsem refset refsep refsec refseu"
+        let expected = "chefs chén chém chéc chép chét chéo chế chến chếm chết chếp chếc chếu refs rén rém réc rép rét réo rế rến rếm rết rếp rếc rếu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_378_english_hoofs_roofs_goofs_unlatch_and_preservation() {
+        let input = "hoofs hoofsw hoofswn hoofswt hoofsi hoofsm hoofsn hoofsng hoofsc hoofsp hoofst roofs roofsw roofswn roofswt roofsi roofsm roofsn roofsng roofsc roofsp roofst goofs goofsw goofswn goofswt goofsi goofsm goofsn goofsng goofsc goofsp goofst"
+        let expected = "hoofs hớ hớn hớt hối hốm hốn hống hốc hốp hốt roofs rớ rớn rớt rối rốm rốn rống rốc rốp rốt goofs gớ gớn gớt gối gốm gốn gống gốc gốp gốt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_379_scenario61_trilingual_cheers_chefs_roofs_and_vietnamese_keeng_soat_bep_goc_chat() {
+        let input = "Tiếng chuông leng kêng (keeng) và kềng (keengf) càng vang lên trên mái nhà roofs, các đầu bếp chefs trong gian bếp (beefsp) ấm cúng cùng nâng ly cheers chúc mừng sau khi rà soát (soarst) hết (chefset) các quy trình từ gốc (goofsc) đến ngọn!"
+        let expected = "Tiếng chuông leng kêng (kêng) và kềng (kềng) càng vang lên trên mái nhà roofs, các đầu bếp chefs trong gian bếp (bếp) ấm cúng cùng nâng ly cheers chúc mừng sau khi rà soát (soát) hết (chết) các quy trình từ gốc (gốc) đến ngọn!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (379 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2700,6 +2734,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_372_romaji_osoi_hosoi_moroi_noroi_soroi_w_unlatch_and_preservation", test_tier4_372_romaji_osoi_hosoi_moroi_noroi_soroi_w_unlatch_and_preservation),
             ("test_tier4_373_romaji_dora_dosa_and_english_kern_tern_unlatch_and_preservation", test_tier4_373_romaji_dora_dosa_and_english_kern_tern_unlatch_and_preservation),
             ("test_tier4_374_scenario60_trilingual_kernel_hosoi_turns_and_vietnamese_dien_dieu_doan_doi_chat", test_tier4_374_scenario60_trilingual_kernel_hosoi_turns_and_vietnamese_dien_dieu_doan_doi_chat),
+            ("test_tier4_375_english_keen_keens_teens_g_and_leers_seers_cheers_veers_coda_unlatch", test_tier4_375_english_keen_keens_teens_g_and_leers_seers_cheers_veers_coda_unlatch),
+            ("test_tier4_376_english_soars_loafs_oafs_coifs_unlatch_and_preservation", test_tier4_376_english_soars_loafs_oafs_coifs_unlatch_and_preservation),
+            ("test_tier4_377_english_chefs_refs_midword_tone_override_unlatch_and_preservation", test_tier4_377_english_chefs_refs_midword_tone_override_unlatch_and_preservation),
+            ("test_tier4_378_english_hoofs_roofs_goofs_unlatch_and_preservation", test_tier4_378_english_hoofs_roofs_goofs_unlatch_and_preservation),
+            ("test_tier4_379_scenario61_trilingual_cheers_chefs_roofs_and_vietnamese_keeng_soat_bep_goc_chat", test_tier4_379_scenario61_trilingual_cheers_chefs_roofs_and_vietnamese_keeng_soat_bep_goc_chat),
         ]
     }
 }
