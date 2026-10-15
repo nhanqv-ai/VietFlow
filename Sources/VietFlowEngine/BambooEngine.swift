@@ -196,7 +196,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if String(wordRawKeys).lowercased() == "soar" && "mnioyw".contains(character.lowercased()) {
+            } else if (String(wordRawKeys).lowercased() == "soar" && "mnioyw".contains(character.lowercased()))
+                || (["soars", "loafs", "oafs"].contains(String(wordRawKeys).lowercased()) && "mncptwyio".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "coifs" && "ow".contains(character.lowercased())) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -213,7 +215,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             } else if ["loom", "doom", "deem", "seem", "keen"].contains(String(wordRawKeys).lowercased())
                 && ("fjrx".contains(character.lowercased())
                     || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
-                    || (String(wordRawKeys).lowercased() == "keen" && character.lowercased() == "h")
+                    || (String(wordRawKeys).lowercased() == "keen" && "gh".contains(character.lowercased()))
                     || (["loom", "doom"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -301,18 +303,20 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["coast", "coats", "cusp", "swops", "soaps", "boron", "moron", "datas", "gotos", "topos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "burns", "turns", "churns", "urns", "harms", "charms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (String(wordRawKeys).lowercased() == "disc" && "hd".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "minx" && character.lowercased() == "h")
-                || (["oxen", "vixen", "siren", "risen", "kern", "boron", "moron", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "burns", "turns", "churns", "urns"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
+                || (["oxen", "vixen", "siren", "risen", "kern", "boron", "moron", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "burns", "turns", "churns", "urns", "keens", "teens"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
                 || (String(wordRawKeys).lowercased() == "manag" && "sfrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "monog" && "sfxj".contains(character.lowercased()))
                 || (["ore", "guree", "gifi", "dired", "tier", "bier", "trier", "chief", "thief"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
                 || (["gisi", "giji", "ties", "dies", "lies", "vies", "pies", "hies", "tries"].contains(String(wordRawKeys).lowercased()) && "mncpt".contains(character.lowercased()))
+                || (["leers", "seers", "cheers", "veers", "reefs", "beefs"].contains(String(wordRawKeys).lowercased()) && "mncptu".contains(character.lowercased()))
+                || (["chefs", "refs"].contains(String(wordRawKeys).lowercased()) && "mncptoe".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "diesd" && "cmnpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "queer" && "umn".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "queue" && "frxj".contains(character.lowercased()))
                 || (["buys", "guys"].contains(String(wordRawKeys).lowercased()) && "aumnptc".contains(character.lowercased()))
                 || (["bura", "chura", "dura", "gura", "hura", "mura", "nura", "rura", "sura", "tura"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
                 || (["queens", "teens", "keens", "sense", "tense", "dense", "defend", "deedsc", "kern", "tern"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "h")
-                || (["dodos", "dojos", "rojos", "loofs", "oofs"].contains(String(wordRawKeys).lowercased()) && "wimncpt".contains(character.lowercased()))
+                || (["dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs"].contains(String(wordRawKeys).lowercased()) && "wimncpt".contains(character.lowercased()))
                 || (["dadas", "charas"].contains(String(wordRawKeys).lowercased()) && "wuymncpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "deeds" && "umnpt".contains(character.lowercased()))
                 || (["daasu", "datas", "dawns", "downs", "darns", "deems", "deeps", "dense", "dojos", "dooms", "donor", "donors", "dura", "duri", "dorm", "derm", "dora", "dosa", "diesm", "diesn", "diesc", "diesp", "diest", "diesng"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
@@ -676,6 +680,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             && "rs".contains(activeRawKeys[activeRawKeys.count - 2].lowercased())
             && "sfrxj".contains(activeRawKeys[activeRawKeys.count - 1].lowercased())
             && !strippedActivePreedit.contains(where: { "ăâêôơưđ".contains($0) })
+            && strippedActivePreedit != "soa"
             && !"sfrxjz".contains(character.lowercased())
 
         let hasMidWordZAfterTone = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
