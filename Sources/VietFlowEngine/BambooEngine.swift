@@ -165,7 +165,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if ([
-                "chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier", "trier", "tries",
+                "chief", "thief", "chiefs", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier", "trier", "tries", "tiers", "biers",
                 "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
                 "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu",
                 "dues", "hues", "sues", "rues", "tues", "cues", "died", "diets", "duets", "guest", "quiet", "quiets",
@@ -226,7 +226,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if (["toes", "hoes", "lose", "hose", "chose", "those", "ores", "tores", "hores", "lores", "chores"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
-                || (["toes", "hoes", "ores", "tores", "hores", "lores", "chores"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
+                || (["toes", "hoes", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "horse" && character.lowercased() == "o")
                 || (["toes", "hoes", "lose", "hose", "those", "ores", "tores", "hores", "lores", "chores"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
                 || (["tore", "hore", "lore", "chore", "ore"].contains(String(wordRawKeys).lowercased()) && "ofjx".contains(character.lowercased()))
                 || (["lose", "hose", "chose", "those"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
@@ -239,13 +240,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             } else if (String(wordRawKeys).lowercased() == "two" && "wnimcptufrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "twos" && "imncptuw".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "wow" && "frxjiumnptc".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "wows" && "iumncpt".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "wows" && "iumncptfrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "wi" && "sfrxj".contains(character.lowercased())) {
                 isBypassed = false
                 didBackspace = true
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["laws", "raws", "saws", "thaws", "caws", "maws", "haws"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
+            } else if ["laws", "raws", "saws", "thaws", "caws", "maws", "haws"].contains(String(wordRawKeys).lowercased()) && "cmnptfrxj".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -300,7 +301,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || ["nix", "sees", "trees"].contains(String(wordRawKeys).lowercased()))
                 && ("cmnptu".contains(character.lowercased())
                     || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
-                    || (String(wordRawKeys).lowercased() == "nix" && character.lowercased() == "a")
+                    || (String(wordRawKeys).lowercased() == "nix" && "asfrj".contains(character.lowercased()))
                     || (has3CharRhymeAfterOnset
                         && "sfrxj".contains(character.lowercased())
                         && character.lowercased() != r2
@@ -314,12 +315,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if ["tux", "dux"].contains(String(wordRawKeys).lowercased())
-                && ("cmnptwaiy".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
+                && ("cmnptwaiysfrj".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if (String(wordRawKeys).lowercased() == "hex" && "euocmnpt".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "trex" && "euomn".contains(character.lowercased()))
+            } else if (String(wordRawKeys).lowercased() == "hex" && "euocmnptsfrj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "trex" && "euomncptsfrj".contains(character.lowercased()))
                 || (["trexu", "trexn", "trexm", "hexu"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e")
                 || (String(wordRawKeys).lowercased() == "cat" && "awjs".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "let" && "ejs".contains(character.lowercased()))
@@ -329,49 +330,64 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["chair", "lair", "moron"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "boron" && "sfjx".contains(character.lowercased()))
                 || (["beset", "reset", "keeps", "peeps", "deeps", "cheeps", "noops", "goops", "troops", "topos", "gotos", "photos", "datas", "basta", "rasta", "coats", "coast", "toast", "diets", "quiets", "nieces", "sorts", "burst", "worst", "thirst", "swops"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j")
-                || (["hairs", "chairs", "lairs", "airs", "morons", "booms", "dooms", "looms", "rooms", "goons", "loons", "moons", "nonos", "deems", "seems", "teems", "keens", "teens", "queens", "mamas", "memes", "themes", "donors", "honors", "oxen", "vixen", "vixens", "sirens", "risen", "chosen", "tureens", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms", "berms", "terms", "kerns", "terns", "dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors", "dadas", "charas", "leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "trees", "sees", "buys", "guys", "soars", "sofas", "oars", "loafs", "oafs", "coifs", "choirs", "naifs", "liars", "dues", "hues", "sues", "rues", "tues", "cues", "sirs", "dirs", "sans"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
-                || (["siren", "tureen", "honor", "donor"].contains(String(wordRawKeys).lowercased()) && "fxj".contains(character.lowercased()))
+                || (["hairs", "chairs", "lairs", "airs", "morons", "booms", "dooms", "looms", "rooms", "goons", "loons", "moons", "nonos", "deems", "seems", "teems", "keens", "teens", "queens", "mamas", "memes", "themes", "donors", "honors", "oxen", "vixen", "vixens", "sirens", "risen", "chosen", "tureens", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "arms", "harms", "charms", "chasm", "norms", "corms", "dorms", "berms", "terms", "kerns", "terns", "dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors", "dadas", "charas", "leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "trees", "sees", "buys", "guys", "soars", "sofas", "oars", "loafs", "oafs", "coifs", "choirs", "naifs", "liars", "dues", "hues", "sues", "rues", "tues", "cues", "sirs", "dirs", "sans", "auras", "axis", "bias", "taxis", "maxis", "virus", "wars", "worms", "hangars", "queers", "queues"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
+                || (["siren", "tureen", "honor", "donor", "worm"].contains(String(wordRawKeys).lowercased()) && "fxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "oxen" && character.lowercased() == "s")
                 || (["manx", "sans"].contains(String(wordRawKeys).lowercased()) && "awgh".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "manx" && "sfrj".contains(character.lowercased()))
+                || (["manx", "xerox", "exo"].contains(String(wordRawKeys).lowercased()) && "sfrj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "xanax" && "sfrjw".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "worn" && "sfxjg".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "vary" && "sfxj".contains(character.lowercased()))
+                || (["taxi", "maxi"].contains(String(wordRawKeys).lowercased()) && "frj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "loris" && "frxjow".contains(character.lowercased()))
+                || (["sense", "tense", "dense"].contains(String(wordRawKeys).lowercased()) && "fxjg".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "defend" && "rxjg".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "defends" && "frxjgh".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "ajar" && "sfxjwuymn".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "ajax" && "sfrjwuymn".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "quasar" && "fxjwuymn".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "quasars" && "frxjwuymncpt".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "thorax" && "sfrjowiymn".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "irs" && "frxjaumncpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "chasm" && "aw".contains(character.lowercased()))
-                || (["coast", "coats", "toast", "cusp", "swops", "soaps", "boron", "moron", "morons", "datas", "gotos", "topos", "photos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
-                || (["barns", "darns", "tarns", "harms", "charms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
+                || (["coast", "coats", "toast", "cusp", "swops", "soaps", "boron", "moron", "morons", "datas", "gotos", "topos", "photos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "honors", "donors", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "arms", "harms", "charms", "norms", "corms", "dorms", "worms", "worst", "hangars"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
+                || (["barns", "darns", "tarns", "arms", "harms", "charms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
                 || (["horns", "thorns", "morns", "borns", "corns", "torns", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "o")
                 || (String(wordRawKeys).lowercased() == "disc" && "hdj".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "minx" && character.lowercased() == "h")
-                || (["oxen", "vixen", "siren", "risen", "kern", "kerns", "boron", "moron", "morons", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "keens", "teens"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
+                || (["minx", "nginx"].contains(String(wordRawKeys).lowercased()) && "hsfrjg".contains(character.lowercased()))
+                || (["oxen", "vixen", "vixens", "siren", "sirens", "risen", "tureen", "tureens", "kern", "kerns", "tern", "terns", "boron", "moron", "morons", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor", "honors", "donors", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "keens", "teens", "queens"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
                 || (String(wordRawKeys).lowercased() == "manag" && "sfrxjw".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "monog" && "sfxj".contains(character.lowercased()))
                 || (["ore", "guree", "gifi", "dired", "tier", "bier", "trier", "chief", "thief"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
-                || (["gisi", "giji", "ties", "dies", "lies", "vies", "pies", "hies", "tries"].contains(String(wordRawKeys).lowercased()) && "mncpt".contains(character.lowercased()))
+                || (["gisi", "giji", "ties", "dies", "lies", "vies", "pies", "hies", "tries", "tiers", "biers", "chiefs"].contains(String(wordRawKeys).lowercased()) && "mncpt".contains(character.lowercased()))
                 || (["hires", "tires", "mires", "sires"].contains(String(wordRawKeys).lowercased()) && "mncpteu".contains(character.lowercased()))
                 || (["berms", "terms", "kerns", "terns"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e")
-                || (["leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "terse", "sirs", "dirs"].contains(String(wordRawKeys).lowercased()) && "mncptu".contains(character.lowercased()))
+                || (["leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "terse", "sirs", "dirs", "queers"].contains(String(wordRawKeys).lowercased()) && "mncptu".contains(character.lowercased()))
+                || (["sirs", "dirs"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
                 || (String(wordRawKeys).lowercased() == "torso" && "mncpti".contains(character.lowercased()))
-                || (["bars", "cars", "mars", "tars", "vars", "barfs"].contains(String(wordRawKeys).lowercased()) && "mncptiouywafxj".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "barf" && "mniouywajx".contains(character.lowercased()))
-                || (["chefs", "refs", "hers", "ers", "nerfs", "serfs"].contains(String(wordRawKeys).lowercased()) && "mncptoefxj".contains(character.lowercased()))
-                || (["nerf", "serf", "kerf"].contains(String(wordRawKeys).lowercased()) && "mnoejx".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "vers" && "mncptofxj".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "ors" && "mncptoiwfxj".contains(character.lowercased()))
-                || (["urs", "curs"].contains(String(wordRawKeys).lowercased()) && "mncptiuwfxj".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "burs" && "mncpiuwfxj".contains(character.lowercased()))
-                || (["surf", "turf"].contains(String(wordRawKeys).lowercased()) && "mniuwjx".contains(character.lowercased()))
+                || (["bars", "cars", "mars", "tars", "vars", "barfs"].contains(String(wordRawKeys).lowercased()) && "mncptiouywafxjr".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "barf" && "mniouywajxr".contains(character.lowercased()))
+                || (["chefs", "refs", "hers", "ers", "nerfs", "serfs"].contains(String(wordRawKeys).lowercased()) && "mncptoefxjr".contains(character.lowercased()))
+                || (["nerf", "serf", "kerf"].contains(String(wordRawKeys).lowercased()) && "mnoejxsr".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "vers" && "mncptofxjr".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "ors" && "mncptoiwfxjrae".contains(character.lowercased()))
+                || (["urs", "curs"].contains(String(wordRawKeys).lowercased()) && "mncptiuwfxjr".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "burs" && "mncpiuwfxjr".contains(character.lowercased()))
+                || (["surf", "turf"].contains(String(wordRawKeys).lowercased()) && "mniuwjxra".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "diesd" && "cmnpt".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "queer" && "umn".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "queer" && "umnfxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "queue" && "frxj".contains(character.lowercased()))
                 || (["buys", "guys"].contains(String(wordRawKeys).lowercased()) && "aumnptc".contains(character.lowercased()))
                 || (["bura", "chura", "dura", "gura", "hura", "mura", "nura", "rura", "sura", "tura"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
-                || (["queens", "teens", "keens", "sense", "tense", "dense", "defend", "deedsc", "kern", "tern", "kerns", "terns", "barns", "darns", "tarns"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "h")
+                || (["queens", "teens", "keens", "sense", "tense", "dense", "defend", "deedsc", "kern", "tern", "kerns", "terns", "barns", "darns", "tarns", "siren", "sirens", "tureen", "tureens", "risen", "vixen", "vixens", "chosen"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "h")
                 || (["dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors"].contains(String(wordRawKeys).lowercased()) && "wimncpt".contains(character.lowercased()))
                 || (["dadas", "charas"].contains(String(wordRawKeys).lowercased()) && "wuymncpt".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "deeds" && "umnpt".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "deeds" && "umnptfrxjc".contains(character.lowercased()))
                 || (["daasu", "datas", "dawns", "downs", "darns", "darnsa", "darnsw", "darnsg", "darnsh", "deems", "deeps", "deers", "deersm", "deersn", "deersc", "deersp", "deerst", "deersu", "dense", "dirs", "dodos", "dojos", "dooms", "doors", "doorsi", "doorsm", "doorsn", "doorsng", "doorsc", "doorsp", "doorst", "doorsw", "donor", "donors", "dots", "dust", "dura", "duri", "dorm", "dorms", "dormsw", "dormso", "derm", "dora", "dosa", "dosai", "diesm", "diesn", "diesc", "diesp", "diest", "diesng", "dues"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if String(wordRawKeys).lowercased() == "won" && "gxfsrxj".contains(character.lowercased()) {
+            } else if String(wordRawKeys).lowercased() == "won" && "gxfsrxjw".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -2321,7 +2337,45 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "darn": ["thanh", "dản"],
         "thorn": ["nhỏ", "bé", "thỏn"],
         "morn": ["nhỏ", "ít", "mỏn"],
-        "corm": ["nhỏ", "gầy", "cỏm"]
+        "corm": ["nhỏ", "gầy", "cỏm"],
+        "harm": ["thảm", "hiểm", "hảm"],
+        "charm": ["xử", "chém", "trảm", "chảm"],
+        "chasm": ["quả", "cây", "bánh", "trái", "chám"],
+        "horn": ["héo", "nhỏ", "gầy", "hỏn"],
+        "torn": ["nhỏ", "bé", "tỏn"],
+        "norm": ["nhỏ", "gầy", "nỏm"],
+        "norms": ["nhỏ", "tóm", "nóm"],
+        "kern": ["bẽn", "rụt", "kẻn"],
+        "tern": ["bẽn", "lẽn", "tẻn"],
+        "terns": ["nhỏ", "bé", "tén"],
+        "berms": ["liếm", "ăn", "bém"],
+        "derm": ["nhỏ", "mỏng", "dẻm"],
+        "term": ["nhỏ", "gọn", "tẻm"],
+        "churn": ["ngủn", "tủn", "ngắn", "cụt", "chủn"],
+        "churns": ["chũn", "mập", "tròn", "chún"],
+        "urn": ["lợn", "kêu"],
+        "defends": ["đi", "về", "chạy", "đưa", "gửi", "tìm", "nhớ", "nghĩ", "nói", "nhắc", "kể", "chờ", "đợi", "sắp", "chưa", "đã", "vừa", "mới", "đến"],
+        "gown": ["cơn", "nổi", "gơn"],
+        "gowns": ["hớn", "lớn", "gớn"],
+        "dawn": ["nhăn", "dăn"],
+        "dawns": ["rắn", "chắc", "dắn"],
+        "lawns": ["sâu", "lắn"],
+        "siren": ["lảo", "xiển", "siển"],
+        "sirens": ["gỗ", "cây", "siến"],
+        "tureen": ["ứng", "sơ", "tuyển", "tuển"],
+        "tureens": ["trực", "chiến", "tuyến", "tuến"],
+        "boron": ["căn", "nguyên", "chính", "bổn"],
+        "moron": ["lổn", "ngổn", "mổn"],
+        "morons": ["cá", "mốn"],
+        "honors": ["hổn", "hốn"],
+        "donors": ["vốn", "của", "dốn"],
+        "buys": ["túy", "quý", "búy"],
+        "guys": ["quý", "gúy"],
+        "dux": ["quyến", "dụ", "rủ", "dũ"],
+        "tux": ["cũ", "mũ", "tũ"],
+        "nix": ["năn", "ỉ", "nĩ"],
+        "hex": ["vui", "hẽ"],
+        "trex": ["trẻ", "trẽ"]
     ]
 
     private static func matchesUyOaOeClusterUnlatch(
