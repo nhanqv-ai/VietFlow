@@ -2450,7 +2450,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (394 Tests)
+    // MARK: - Cycle 57: Mid-Word Tone Overrides on -rn/-rm Stems (barn/darn/tarn/born/corn/horn/morn/torn/burn/turn/churn/urn/harm/charm/norm/dorm/corm/term/berm/derm/kern/tern) and Plural -rns/-rms Circumflex/Palatal Unlatch
+    // =========================================================================
+
+    func test_tier4_395_english_barn_darn_tarn_born_corn_horn_morn_torn_tone_override_unlatch() {
+        let input = "barn barnf barnfg barnfw barnfa barnfag barnj barnjg barnjw barnjwg barnja barnx barnxg darn darnf darnfd darnfgd darnfad darnj darnjd darnjgd darnjwd darnjad darnx darnxd tarn tarnf tarnfg tarnfw tarnfa tarnj tarnjg tarnjw tarnja born bornf bornfg bornfo bornfog bornfw bornj bornjg bornjo bornjog bornjw bornx bornxg borns bornsg bornso bornsog bornsw corn cornf cornfg cornfo cornfog cornj cornjg cornjo cornjog corns cornsg cornso cornsog cornsw horn hornf hornfg hornfo hornfog hornj hornjg hornjo hornjog morn mornf mornfg mornfo mornfog mornj mornjg mornjo mornjog torn tornf tornfg tornfo tornfog tornj tornjg tornjo tornjog torns tornsg tornso tornsog tornsw"
+        let expected = "barn bàn bàng bằn bần bầng bạn bạng bặn bặng bận bãn bãng darn dàn đàn đàng đần dạn đạn đạng đặn đận dãn đãn tarn tàn tàng tằn tần tạn tạng tặn tận born bòn bòng bồn bồng bờn bọn bọng bộn bộng bợn bõn bõng borns bóng bốn bống bớn corn còn còng cồn cồng cọn cọng cộn cộng corns cóng cốn cống cớn horn hòn hòng hồn hồng họn họng hộn hộng morn mòn mòng mồn mồng mọn mọng mộn mộng torn tòn tòng tồn tồng tọn tọng tộn tộng torns tóng tốn tống tớn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_396_english_burn_turn_churn_urn_harm_charm_norm_dorm_corm_tone_override_unlatch() {
+        let input = "burn burnf burnfg burnfw burnfwg burnj burnjg burnjw burnjwg burnx burnxg burnxwg turn turnf turnfg turnfw turnfwg turnj turnjg turnjw turnjwg turnx turnxg churn churnf churnfg churnfwg churnj churnjg churnjwg churnx churnxg churnxwg urn urnf urnfg urnfw urnfwg urnj urnjg urnjw urnjwg urnx urnxg harm harmful harmj harmjw harmja harmx harmxa charm charmf charmfw charmfa charmj charmjw charmja charmx charmxa norm normf normfo normfw normj normjo normjw dorm dormf dormfd dormfod dormfwd dormj dormjd dormjod dormjwd dorms dormsd dormsod dormswd corm cormf cormfo cormfw cormj cormjo cormjw corms cormso cormsw"
+        let expected = "burn bùn bùng bừn bừng bụn bụng bựn bựng bũn bũng bững turn tùn tùng từn từng tụn tụng tựn tựng tũn tũng churn chùn chùng chừng chụn chụng chựng chũn chũng chững urn ùn ùng ừn ừng ụn ụng ựn ựng ũn ũng harm harmful hạm hặm hậm hãm hẫm charm chàm chằm chầm chạm chặm chậm chãm chẫm norm nòm nồm nờm nọm nộm nợm dorm dòm đòm đồm đờm dọm đọm độm đợm dorms đóm đốm đớm corm còm cồm cờm cọm cộm cợm corms cốm cớm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_397_english_term_berm_derm_kern_tern_tone_override_and_plural_e_unlatch() {
+        let input = "term terms termse termf termfe termx termxe termj termje berm berms bermse bermf bermfe bermx bermxe bermj bermje derm dermf dermfd dermfed dermx dermxd dermxed dermj dermjd dermjed derms dermsd dermse dermsed kern kerns kernse kernsg kernseg kernsh kernshe kernf kernfe kernfg kernfeg kernfh kernfeh kernx kernxe kernxg kernxeg kernj kernje kernjg kernjeg kernjh kernjeh terns ternse ternsh ternshe ternf ternfe ternx ternxe ternj ternje"
+        let expected = "term terms tếm tèm tềm tẽm tễm tẹm tệm berm berms bếm bèm bềm bẽm bễm bẹm bệm derm dèm đèm đềm dẽm đẽm đễm dẹm đẹm đệm dém đém dếm đếm kern kerns kến kéng kếng kénh kếnh kèn kền kèng kềng kènh kềnh kẽn kễn kẽng kễng kẹn kện kẹng kệng kẹnh kệnh terns tến ténh tếnh tèn tền tẽn tễn tẹn tện"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_398_english_plural_rns_rms_circumflex_and_palatal_unlatch() {
+        let input = "barns barnsa barnsag barnsh darns darnsa darnsad darnsag darnsh darnshd darnsdh tarns tarnsa tarnsag tarnsh harms harmsa charms charmsa horns hornso hornsog thorns thornso thornsog morns mornso mornsog norms normsw normso"
+        let expected = "barns bấn bấng bánh darns dấn đấn dấng dánh đánh đánh tarns tấn tấng tánh harms hấm charms chấm horns hốn hống thorns thốn thống morns mốn mống norms nớm nốm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_399_scenario65_trilingual_norms_terms_harmful_and_vietnamese_cham_ung_thong_kenh_chat() {
+        let input = "Dù các điều khoản terms và chuẩn mực norms mới không gây harmful cho hệ thống, đội vận hành vẫn thận trọng chạm (charmj) tay vào bảng điều khiển để từng (turnfwg) bước kiểm tra đường kênh (kernfeh) truyền dẫn và thống (thornsog) nhất phương án dự phòng trong đêm (dermsed)!"
+        let expected = "Dù các điều khoản terms và chuẩn mực norms mới không gây harmful cho hệ thống, đội vận hành vẫn thận trọng chạm (chạm) tay vào bảng điều khiển để từng (từng) bước kiểm tra đường kênh (kềnh) truyền dẫn và thống (thống) nhất phương án dự phòng trong đêm (đếm)!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (399 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2856,6 +2890,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_392_english_door_doors_goof_tone_override_and_coda_unlatch", test_tier4_392_english_door_doors_goof_tone_override_and_coda_unlatch),
             ("test_tier4_393_english_soar_coax_tore_hore_lore_chore_ore_lose_hose_chose_those_tone_override_unlatch", test_tier4_393_english_soar_coax_tore_hore_lore_chore_ore_lose_hose_chose_those_tone_override_unlatch),
             ("test_tier4_394_scenario64_trilingual_doors_beers_coax_and_vietnamese_dong_den_soan_ban_chat", test_tier4_394_scenario64_trilingual_doors_beers_coax_and_vietnamese_dong_den_soan_ban_chat),
+            ("test_tier4_395_english_barn_darn_tarn_born_corn_horn_morn_torn_tone_override_unlatch", test_tier4_395_english_barn_darn_tarn_born_corn_horn_morn_torn_tone_override_unlatch),
+            ("test_tier4_396_english_burn_turn_churn_urn_harm_charm_norm_dorm_corm_tone_override_unlatch", test_tier4_396_english_burn_turn_churn_urn_harm_charm_norm_dorm_corm_tone_override_unlatch),
+            ("test_tier4_397_english_term_berm_derm_kern_tern_tone_override_and_plural_e_unlatch", test_tier4_397_english_term_berm_derm_kern_tern_tone_override_and_plural_e_unlatch),
+            ("test_tier4_398_english_plural_rns_rms_circumflex_and_palatal_unlatch", test_tier4_398_english_plural_rns_rms_circumflex_and_palatal_unlatch),
+            ("test_tier4_399_scenario65_trilingual_norms_terms_harmful_and_vietnamese_cham_ung_thong_kenh_chat", test_tier4_399_scenario65_trilingual_norms_terms_harmful_and_vietnamese_cham_ung_thong_kenh_chat),
         ]
     }
 }
