@@ -428,8 +428,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (has3CharRhymeAfterOnset
                     && r1 == "i"
                     && "rsfjx".contains(r2)
-                    && r3 == "u"
-                    && !"kgp".contains(wordRawKeys[0].lowercased())
+                    && "ua".contains(r3)
+                    && !"gp".contains(wordRawKeys[0].lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != r2)
                 || ([
@@ -2065,7 +2065,25 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "tarau": ["đào", "bỏ", "chạy", "ống", "hút", "khói", "tẩu"],
         "harau": ["hào", "ngon", "hẩu"],
         "girui": ["gần", "giủi"],
-        "gisui": ["đâm", "nhét", "giúi"]
+        "gisui": ["đâm", "nhét", "giúi"],
+        "guri": ["gần", "gủi"],
+        "duri": ["con", "chuột", "may", "xui", "dùi", "dủi"],
+        "nuri": ["ngắn", "ít", "trơ", "nủi"],
+        "buri": ["đen", "bụi", "bủi"],
+        "meje": ["bà", "các", "ôn", "chú", "mệ"],
+        "deje": ["bệ", "dệ"],
+        "gofo": ["nổi", "trán", "đầu", "mặt", "đất", "đá", "gồ"],
+        "soxo": ["nói", "cười", "ăn", "sỗ"],
+        "boxo": ["nói", "cười", "vỗ", "bỗ"],
+        "moxo": ["lão", "bần", "mỗ"],
+        "nofo": ["gà", "con", "nồ"],
+        "sese": ["bóng", "chiều", "xế", "sế"],
+        "nese": ["nề", "nế"],
+        "hese": ["cười", "hế"],
+        "kisu": ["cứu", "kêu", "kíu"],
+        "hisu": ["mắt", "cười", "híu"],
+        "kisa": ["đằng", "bên", "chỗ", "kìa", "kía"],
+        "chisa": ["mũi", "súng", "chía"]
     ]
 
     private static func isVietnameseCollocation(candidateWord: String, lastCompletedWord: String) -> Bool {
