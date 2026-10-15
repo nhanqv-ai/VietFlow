@@ -164,7 +164,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = ["y", "e", "s"]
             } else if ([
                 "chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier", "trier", "tries",
-                "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
+                "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
                 "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu",
                 "dues", "hues", "sues", "rues", "tues", "cues", "died", "diets", "duets", "guest", "quiet", "quiets",
                 "use", "ure", "ire", "efu", "eru", "esu"
@@ -325,7 +325,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if ([
                 "kiete", "miete", "hiete", "niete", "iete", "diete", "tiete", "biete", "siete", "giete", "riete", "chiete",
-                "uete", "suete", "nuete", "muete", "duete"
+                "uete", "suete", "nuete", "muete", "duete", "oto"
             ].contains(String(wordRawKeys).lowercased())
                 || (has3CharRhymeAfterOnset
                     && "aoe".contains(r1)
@@ -358,7 +358,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && r1 == "u"
                 && "rsfjx".contains(r2)
                 && "aoui".contains(r3)
-                && "wo".contains(character.lowercased()))
+                && ("wo".contains(character.lowercased())
+                    || (wordRawKeys[0].lowercased() == "d" && "ou".contains(r3) && character.lowercased() == "d")))
                 || ([
                     "ufo", "uro", "uso", "duos",
                     "ufoi", "ufom", "ufon", "uroi", "urom", "uron",
@@ -377,8 +378,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && rhymeAfterOnset[0] == "u"
                     && "rsfjx".contains(rhymeAfterOnset[1])
                     && rhymeAfterOnset[2] == "o"
-                    && ["i", "u", "m", "n", "ng", "p", "t", "c"].contains(rhymeAfterOnset[3...].joined())
-                    && "wo".contains(character.lowercased()))
+                    && ((["i", "u", "m", "n", "ng", "p", "t", "c", "id", "ud", "md", "nd", "ngd", "pd", "td", "cd"].contains(rhymeAfterOnset[3...].joined())
+                        && "wo".contains(character.lowercased()))
+                        || (["i", "u", "m", "n", "ng", "p", "t", "c"].contains(rhymeAfterOnset[3...].joined())
+                            && wordRawKeys[0].lowercased() == "d"
+                            && character.lowercased() == "d")))
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "u"
                     && "rsfjx".contains(rhymeAfterOnset[1])
@@ -394,12 +398,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && r3 == "e"
                 && (character.lowercased() == "e"
                     || (r1 == "i" && "rfx".contains(r2) && "mn".contains(character.lowercased()) && (String(wordRawKeys).lowercased() != "vixe" && (String(wordRawKeys).lowercased() != "sire" || character.lowercased() == "m")))
-                    || (r1 == "i" && "sj".contains(r2) && "cmnpt".contains(character.lowercased()) && (String(wordRawKeys).lowercased() != "rise" || character.lowercased() != "n"))))
+                    || (r1 == "i" && "sj".contains(r2) && "cmnpt".contains(character.lowercased()) && (String(wordRawKeys).lowercased() != "rise" || character.lowercased() != "n"))
+                    || (r1 == "i" && "sfjx".contains(r2) && wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "i"
                     && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
                         || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2])))
-                    && ["u", "m", "n", "ng", "c", "t", "p"].contains(rhymeAfterOnset[3...].joined())
+                    && ["u", "ud", "m", "n", "ng", "c", "t", "p"].contains(rhymeAfterOnset[3...].joined())
                     && character.lowercased() == "e")
                 || ([
                     "yesn", "yesm", "yest", "yesc", "yesp",

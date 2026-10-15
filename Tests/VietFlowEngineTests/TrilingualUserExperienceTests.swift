@@ -2076,7 +2076,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (339 Tests)
+    // MARK: - Cycle 46: Delayed-d on du-o/du-u/di-e Families, oto/ieru Unlatching, and here/there/mere/sere/these Vietnamese Continuations
+    // =========================================================================
+
+    func test_tier4_340_romaji_dufo_duro_duso_duxo_dujo_duru_dusu_dufu_duju_delayed_d_unlatch() {
+        let input = "dufo dufodw dufodngw dufongd dufongdw dufoidw dufoido duro durodw durodngw durongd durongdw duroidw duroido duso dusodw dusodcw dusocdw dusocdo dusoidw dusoido dusotdw dusotdo dujo dujodw dujodcw dujocdw dujocdo dujoidw dujoido dujotdw dujotdo duru durudw dusu dusudw dufu dufudw duju dujudw"
+        let expected = "dufo đườ đường đường đường đười đuồi duro đưở đưởng đưởng đưởng đưởi đuổi duso đướ đước đước đuốc đưới đuối đướt đuốt dujo đượ được được thuộc đượi đuội đượt đuột duru đửu dusu đứu dufu đừu duju đựu".replacingOccurrences(of: "thuộc", with: "đuộc")
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_341_romaji_dife_dise_dije_dire_delayed_d_ie_unlatch() {
+        let input = "dife difede difedm difedn difedue difeude dise disede disedm disedn disedc disedp disedt disedue diseude dije dijede dijedm dijedn dijedc dijedp dijedt dijedue dijeude dire diremd dirend direude"
+        let expected = "dife điề điềm điền điều điều dise điế điếm điến điếc điếp điết điếu điếu dije điệ điệm điện điệc điệp điệt điệu điệu dire điểm điển điểu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_342_romaji_oto_otosu_ieru_preservation_and_vietnamese_ot_ieu_unlatch() {
+        let input = "oto otosu otos otoj ieru ierue"
+        let expected = "oto otosu ốt ột ieru iểu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_343_english_here_there_mere_sere_these_preservation_and_vietnamese_e_coda_unlatch() {
+        let input = "here hereby hereu herem heren herenh there therefore thereu therem theren therenh mere merely mereu merem meren sere serene sereu serem seren these theseu thesem thesen thesenh thesec thesech thesep theset"
+        let expected = "here hereby hểu hểm hển hểnh there therefore thểu thểm thển thểnh mere merely mểu mểm mển sere serene sểu sểm sển these thếu thếm thến thếnh thếc thếch thếp thết"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_344_scenario54_trilingual_otosu_ieru_here_there_and_vietnamese_duong_duoc_dien_dieu_chat() {
+        let input = "Khi nghe âm thanh oto và tránh làm rơi (otosu) thiết bị ở here hay there, chúng tôi đã tìm được (dujocdw) con đường (dufongdw) ngắn nhất dẫn tới điểm (diremd) hẹn, điều (difedue) chỉnh nguồn điện (dijedn) ổn định để vết thương mau lành (ieru) mà không còn chỗ nào dốt (otos) đặc!"
+        let expected = "Khi nghe âm thanh oto và tránh làm rơi (otosu) thiết bị ở here hay there, chúng tôi đã tìm được (được) con đường (đường) ngắn nhất dẫn tới điểm (điểm) hẹn, điều (điều) chỉnh nguồn điện (điện) ổn định để vết thương mau lành (ieru) mà không còn chỗ nào dốt (ốt) đặc!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (344 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2427,6 +2461,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_337_romaji_gifi_gisi_giji_preservation_and_vietnamese_gim_gin_ginh_gic_gich_gip_git_unlatch", test_tier4_337_romaji_gifi_gisi_giji_preservation_and_vietnamese_gim_gin_ginh_gic_gich_gip_git_unlatch),
             ("test_tier4_338_english_rise_sire_hex_trex_preservation_and_vietnamese_riem_riec_riep_riet_siem_heu_treu_unlatch", test_tier4_338_english_rise_sire_hex_trex_preservation_and_vietnamese_riem_riec_riep_riet_siem_heu_treu_unlatch),
             ("test_tier4_339_scenario53_trilingual_cat_let_try_in_var_git_and_vietnamese_cat_let_inh_vang_riet_chat", test_tier4_339_scenario53_trilingual_cat_let_try_in_var_git_and_vietnamese_cat_let_inh_vang_riet_chat),
+            ("test_tier4_340_romaji_dufo_duro_duso_duxo_dujo_duru_dusu_dufu_duju_delayed_d_unlatch", test_tier4_340_romaji_dufo_duro_duso_duxo_dujo_duru_dusu_dufu_duju_delayed_d_unlatch),
+            ("test_tier4_341_romaji_dife_dise_dije_dire_delayed_d_ie_unlatch", test_tier4_341_romaji_dife_dise_dije_dire_delayed_d_ie_unlatch),
+            ("test_tier4_342_romaji_oto_otosu_ieru_preservation_and_vietnamese_ot_ieu_unlatch", test_tier4_342_romaji_oto_otosu_ieru_preservation_and_vietnamese_ot_ieu_unlatch),
+            ("test_tier4_343_english_here_there_mere_sere_these_preservation_and_vietnamese_e_coda_unlatch", test_tier4_343_english_here_there_mere_sere_these_preservation_and_vietnamese_e_coda_unlatch),
+            ("test_tier4_344_scenario54_trilingual_otosu_ieru_here_there_and_vietnamese_duong_duoc_dien_dieu_chat", test_tier4_344_scenario54_trilingual_otosu_ieru_here_there_and_vietnamese_duong_duoc_dien_dieu_chat),
         ]
     }
 }
