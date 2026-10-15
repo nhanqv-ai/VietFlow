@@ -3145,6 +3145,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 78: 17 Collocation Entries, gi- Pre-Vowel Tone Stop-Coda Unlatch, and Post-Coda r->s Tone Override Unlatch
+
+    func test_tier4_500_vietnamese_collocation_phrases_bars_cars_mars_tars_vars_hairs_chairs_lairs_airs_naifs_choirs_coifs_loafs_sofas_oafs_lore_chore() {
+        let input = "bars xuwng bars ddoocj bars cars con cars caau cars kho cars mars ba mars rau mars gof mars tars ddaij tars thuwowngj tars mootj tars vars may vars khaau vars hairs ddi hairs thu hairs chairs hieen chairs mais chairs lairs tay lairs bawngf lairs caamf lairs airs nhaan airs uwu airs thaan airs naifs lownj naifs heo naifs choirs sangs choirs nawngs choirs coifs chieeus coifs ddoongf coifs loafs sangs loafs chois loafs sofas xoas sofas mowf sofas oafs khocs oafs vowx oafs lore sangs lore chore ddor chore"
+        let expected = "bars xưng bá độc bá cars con cá câu cá kho cá mars ba má rau má gò má tars đại tá thượng tá một tá vars may vá khâu vá hairs đi hái thu hái chairs hiên chái mái chái lairs tay lái bằng lái cầm lái airs nhân ái ưu ái thân ái naifs lợn nái heo nái choirs sáng chói nắng chói coifs chiếu cói đồng cói loafs sáng lóa chói lóa sofas xóa sóa mờ sóa oafs khóc óa vỡ óa lore sáng lỏe chore đỏ chỏe"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_501_gi_pre_vowel_tone_stop_coda_and_diacritic_unlatch() {
+        let input = "girats giratj gifats gifatj giracs giracj gifacs gifacj giraps girapj gifaps gifapj girets giretj gifets gifetj girots girotj gifots gifotj girocs girocj giruts girutj gifuts gifutj girucs girucj gifucs gifucj giratws giratwj giratsw giratjw gifatws gifatwj giracws giracwj giracsw giracjw giratas girataj giratsa giratja giracas girawts girawtj giraats giraatj girawcs girawcj giretes giretej giretse giretje gireets gireetj gifetes gifetej gifeets gifeetj girotos girotoj girotso girotjo giroots girootj girutws girutwj girutsw girutjw gifutws gifutwj giruwts giruwtj gifuwts gifuwtj giruowcs giruowts gifuowtj giruocws giruocsw gifuotwj gifuotjw"
+        let expected = "giát giạt giát giạt giác giạc giác giạc giáp giạp giáp giạp giét giẹt giét giẹt giót giọt giót giọt gióc giọc giút giụt giút giụt giúc giục giúc giục giắt giặt giắt giặt giắt giặt giắc giặc giắc giặc giất giật giất giật giấc giắt giặt giất giật giắc giặc giết giệt giết giệt giết giệt giết giệt giết giệt giốt giột giốt giột giốt giột giứt giựt giứt giựt giứt giựt giứt giựt giứt giựt giước giướt giượt giước giước giượt giượt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_502_post_coda_hook_to_acute_monophthong_stop_coda_unlatch() {
+        let input = "meters waters motors rotors actors doctors tutors batrs catrs datrsd datrds hetrs metrs cotrs motrs hoprs mucrs mutrs hachrs ichrs atrs otrs utrs batars batras batrsa catars datarsd datrasd datrsad hetres hetrse metres metrse chetres cotros cotrso motros motrso dotrosd dotrsod"
+        let expected = "meters waters motors rotors actors doctors tutors bát cát đát đát hét mét cót mót hóp múc mút hách ích át ót út bất bất bất cất đất đất đất hết hết mết mết chết cốt cốt mốt mốt đốt đốt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_503_post_coda_hook_to_acute_diphthong_stop_coda_unlatch() {
+        let input = "bietrs bieters bietres bietrse tietrs tieters kietrs kieters dietrsd dietersd dietresd dietrsed tuotrs tuotors tuotros tuotrso tuocrs tuocors tuocros tuocrso duotrsd duotorsd duotrosd tuatrs tuatars tuatras tuatrsa tuacrs tuacars tuacras tuetrs tueters tuetres tuetrse tuyetrs tuyeters tuyetres tuyetrse quyetrs quyeters quyetres quyetrse hoatrs hoacrs hoaprs hoachrs loetrs toetrs khoetrs quytrs tuytrs suytrs huychrs"
+        let expected = "biết biết biết biết tiết tiết kiết kiết điết điết điết điết tuót tuốt tuốt tuốt tuóc tuốc tuốc tuốc đuót đuốt đuốt tuát tuất tuất tuất tuác tuấc tuấc tuét tuết tuết tuết tuyết tuyết tuyết tuyết quyét quyết quyết quyết hoát hoác hoáp hoách loét toét khoét quýt tuýt suýt huých"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_504_scenario86_trilingual_cars_mars_motors_and_vietnamese_con_ca_rau_ma_tay_lai_chieu_coi_chat() {
+        let input = "Trên chuyến xe electric cars sử dụng động cơ motors thế hệ mới, bác tài cầm tay lái (tay lairs) vững vàng chở đoàn tình nguyện viên giàu lòng nhân ái (nhaan airs) về thăm vùng đồng cói (ddoongf coifs): dưới ánh nắng sáng chói (sangs choirs) và tia nắng sáng lóa (sangs loafs), mọi người cùng đi hái (ddi hairs) rau má (rau mars), bắt con cá (con cars) dưới ao để nấu bữa cơm ấm cúng và giúp bà con giặt (giratwj) chiếu cói (chieeus coifs), may vá (may vars) lại tấm lưới rách một cách quyết (quyeters) tâm!"
+        let expected = "Trên chuyến xe electric cars sử dụng động cơ motors thế hệ mới, bác tài cầm tay lái (tay lái) vững vàng chở đoàn tình nguyện viên giàu lòng nhân ái (nhân ái) về thăm vùng đồng cói (đồng cói): dưới ánh nắng sáng chói (sáng chói) và tia nắng sáng lóa (sáng lóa), mọi người cùng đi hái (đi hái) rau má (rau má), bắt con cá (con cá) dưới ao để nấu bữa cơm ấm cúng và giúp bà con giặt (giặt) chiếu cói (chiếu cói), may vá (may vá) lại tấm lưới rách một cách quyết (quyết) tâm!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3653,6 +3685,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_497_english_oe_stems_ores_tores_hores_lores_chores_tone_override_unlatch", test_tier4_497_english_oe_stems_ores_tores_hores_lores_chores_tone_override_unlatch),
             ("test_tier4_498_english_ue_stems_dues_hues_sues_rues_tues_cues_tone_override_and_delayed_d_unlatch", test_tier4_498_english_ue_stems_dues_hues_sues_rues_tues_cues_tone_override_and_delayed_d_unlatch),
             ("test_tier4_499_scenario85_trilingual_moreover_boats_roast_and_vietnamese_top_phot_lanh_toat_ca_le_hue_chat", test_tier4_499_scenario85_trilingual_moreover_boats_roast_and_vietnamese_top_phot_lanh_toat_ca_le_hue_chat),
+            ("test_tier4_500_vietnamese_collocation_phrases_bars_cars_mars_tars_vars_hairs_chairs_lairs_airs_naifs_choirs_coifs_loafs_sofas_oafs_lore_chore", test_tier4_500_vietnamese_collocation_phrases_bars_cars_mars_tars_vars_hairs_chairs_lairs_airs_naifs_choirs_coifs_loafs_sofas_oafs_lore_chore),
+            ("test_tier4_501_gi_pre_vowel_tone_stop_coda_and_diacritic_unlatch", test_tier4_501_gi_pre_vowel_tone_stop_coda_and_diacritic_unlatch),
+            ("test_tier4_502_post_coda_hook_to_acute_monophthong_stop_coda_unlatch", test_tier4_502_post_coda_hook_to_acute_monophthong_stop_coda_unlatch),
+            ("test_tier4_503_post_coda_hook_to_acute_diphthong_stop_coda_unlatch", test_tier4_503_post_coda_hook_to_acute_diphthong_stop_coda_unlatch),
+            ("test_tier4_504_scenario86_trilingual_cars_mars_motors_and_vietnamese_con_ca_rau_ma_tay_lai_chieu_coi_chat", test_tier4_504_scenario86_trilingual_cars_mars_motors_and_vietnamese_con_ca_rau_ma_tay_lai_chieu_coi_chat),
         ]
     }
 }
