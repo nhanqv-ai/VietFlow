@@ -116,10 +116,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         customKeyCombo: CustomKeyCombo = CustomKeyCombo(),
         launchAtLogin: Bool = false,
         perAppInputMode: Bool = true,
-        blacklistedBundleIdentifiers: [String] = [
-            "com.valvesoftware.steam",
-            "com.riotgames.leagueoflegends"
-        ],
+        blacklistedBundleIdentifiers: [String] = [],
         automaticallyCheckForUpdates: Bool = true,
         lastUpdateCheckDate: Date? = nil
     ) {
@@ -173,10 +170,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.customKeyCombo = try container.decodeIfPresent(CustomKeyCombo.self, forKey: .customKeyCombo) ?? CustomKeyCombo()
         self.launchAtLogin = try container.decodeIfPresent(Bool.self, forKey: .launchAtLogin) ?? false
         self.perAppInputMode = try container.decodeIfPresent(Bool.self, forKey: .perAppInputMode) ?? true
-        self.blacklistedBundleIdentifiers = try container.decodeIfPresent([String].self, forKey: .blacklistedBundleIdentifiers) ?? [
-            "com.valvesoftware.steam",
-            "com.riotgames.leagueoflegends"
-        ]
+        self.blacklistedBundleIdentifiers = try container.decodeIfPresent([String].self, forKey: .blacklistedBundleIdentifiers) ?? []
         self.automaticallyCheckForUpdates = try container.decodeIfPresent(Bool.self, forKey: .automaticallyCheckForUpdates) ?? true
         self.lastUpdateCheckDate = try container.decodeIfPresent(Date.self, forKey: .lastUpdateCheckDate)
     }
@@ -313,10 +307,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         }
     }
     
-    @Published public var blacklistedBundleIdentifiers: [String] = [
-        "com.valvesoftware.steam",
-        "com.riotgames.leagueoflegends"
-    ] {
+    @Published public var blacklistedBundleIdentifiers: [String] = [] {
         didSet {
             settings.blacklistedBundleIdentifiers = blacklistedBundleIdentifiers
             updateBlacklistCache()
@@ -857,6 +848,15 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
                 automaticallyCheckForUpdates: automaticallyCheckForUpdates,
                 lastUpdateCheckDate: lastUpdateCheckDate
             )
+        }
+        
+        if !userDefaults.bool(forKey: "didMigrateEmptyDefaultBlacklistV1260") {
+            userDefaults.set(true, forKey: "didMigrateEmptyDefaultBlacklistV1260")
+            if blacklistedBundleIdentifiers == ["com.valvesoftware.steam", "com.riotgames.leagueoflegends"] {
+                blacklistedBundleIdentifiers = []
+                settings.blacklistedBundleIdentifiers = []
+                saveSettings()
+            }
         }
         
         if #available(macOS 13.0, *) {

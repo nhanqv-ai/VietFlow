@@ -79,7 +79,6 @@ public struct SettingsView: View {
     @State private var localKeyMonitor: Any? = nil
     @State private var hotKeyWarningMessage: String? = nil
     @State private var selectedBlacklistId: String? = nil
-    @State private var manualBundleId: String = ""
     @State private var showingResetConfirmation: Bool = false
 
     public init(
@@ -738,23 +737,6 @@ public struct SettingsView: View {
                         .help("Xóa ứng dụng được chọn")
 
                         Spacer()
-                    }
-
-                    HStack(spacing: 6) {
-                        TextField("Nhập Bundle ID thủ công...", text: $manualBundleId)
-                            .textFieldStyle(.roundedBorder)
-                            .font(.system(size: 11, design: .monospaced))
-
-                        Button("Thêm") {
-                            let trimmed = manualBundleId.trimmingCharacters(in: .whitespacesAndNewlines)
-                            if !trimmed.isEmpty {
-                                stateManager.addBlacklistApp(bundleId: trimmed)
-                                manualBundleId = ""
-                            }
-                        }
-                        .buttonStyle(.bordered)
-                        .controlSize(.small)
-                        .disabled(manualBundleId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     }
                 }
             }
