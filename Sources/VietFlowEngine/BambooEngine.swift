@@ -297,7 +297,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "git" && "sj".contains(character.lowercased()))
                 || (["manx", "sans"].contains(String(wordRawKeys).lowercased()) && "awgh".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "chasm" && "aw".contains(character.lowercased()))
-                || (["coast", "coats", "cusp", "swops"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
+                || (["coast", "coats", "cusp", "swops", "soaps"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (String(wordRawKeys).lowercased() == "disc" && "hd".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "minx" && character.lowercased() == "h")
                 || (["oxen", "vixen", "kern", "boron", "moron", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
@@ -359,7 +359,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && "rsfjx".contains(r2)
                 && "aoui".contains(r3)
                 && ("wo".contains(character.lowercased())
-                    || (wordRawKeys[0].lowercased() == "d" && "ou".contains(r3) && character.lowercased() == "d")))
+                    || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
                 || ([
                     "ufo", "uro", "uso", "duos",
                     "ufoi", "ufom", "ufon", "uroi", "urom", "uron",
@@ -387,8 +387,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && rhymeAfterOnset[0] == "u"
                     && "rsfjx".contains(rhymeAfterOnset[1])
                     && rhymeAfterOnset[2] == "a"
-                    && ["m", "n", "ng", "y", "t", "c"].contains(rhymeAfterOnset[3...].joined())
-                    && character.lowercased() == "a") {
+                    && ((["m", "n", "ng", "y", "t", "c", "md", "nd", "ngd", "yd", "td", "cd"].contains(rhymeAfterOnset[3...].joined())
+                        && character.lowercased() == "a")
+                        || (["m", "n", "ng", "y", "t", "c"].contains(rhymeAfterOnset[3...].joined())
+                            && wordRawKeys[0].lowercased() == "d"
+                            && character.lowercased() == "d"))) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -404,7 +407,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && rhymeAfterOnset[0] == "i"
                     && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
                         || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2])))
-                    && ["u", "ud", "m", "n", "ng", "c", "t", "p"].contains(rhymeAfterOnset[3...].joined())
+                    && ["d", "u", "ud", "m", "n", "ng", "c", "t", "p", "md", "nd", "ngd", "cd", "td", "pd"].contains(rhymeAfterOnset[3...].joined())
                     && character.lowercased() == "e")
                 || ([
                     "yesn", "yesm", "yest", "yesc", "yesp",
@@ -417,16 +420,16 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && rhymeAfterOnset[0] == "u"
                     && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
                         || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2])))
-                    && ["m", "n", "p", "t", "nh", "ch"].contains(rhymeAfterOnset[3...].joined())
+                    && ["d", "m", "n", "p", "t", "nh", "ch", "md", "nd", "pd", "td", "nhd", "chd"].contains(rhymeAfterOnset[3...].joined())
                     && character.lowercased() == "e")
                 || (String(wordRawKeys).lowercased() == "tureen" && character.lowercased() == "h")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if has3CharRhymeAfterOnset
-                && ((r1 == "e" && "rsfj".contains(r2) && r3 == "u" && character.lowercased() == "e")
-                    || (r1 == "a" && "rsfjx".contains(r2) && "uy".contains(r3) && character.lowercased() == "a")
-                    || (r1 == "o" && "rsfjx".contains(r2) && r3 == "i" && "ow".contains(character.lowercased()))
+                && ((r1 == "e" && "rsfjx".contains(r2) && r3 == "u" && (character.lowercased() == "e" || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
+                    || (r1 == "a" && "rsfjx".contains(r2) && "uy".contains(r3) && (character.lowercased() == "a" || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
+                    || (r1 == "o" && "rsfjx".contains(r2) && r3 == "i" && ("ow".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
                     || (r1 == "e" && r2 == "r" && "mn".contains(r3) && character.lowercased() == "e")
                     || (["deso", "daru", "dasu"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
                     || (r1 == "o" && "rsfjx".contains(r2) && r3 == "a"
@@ -455,7 +458,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && r2 == "r"
                 && r3 == "m"
                 && (character.lowercased() == "w"
-                    || (character.lowercased() == r1 && wordRawKeys[0].lowercased() != "w")) {
+                    || (character.lowercased() == r1 && wordRawKeys[0].lowercased() != "w")
+                    || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
