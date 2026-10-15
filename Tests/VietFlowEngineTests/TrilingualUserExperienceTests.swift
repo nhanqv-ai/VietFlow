@@ -2382,7 +2382,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (384 Tests)
+    // MARK: - Cycle 55: oars/choirs/moors/boors Unlatch, ores/tores/hores/lores/chores/ore Unlatch, hires/tires/mires/sires/berms Unlatch
+    // =========================================================================
+
+    func test_tier4_385_english_oars_choirs_moors_boors_unlatch_and_preservation() {
+        let input = "oars oarsn oarsng oarst oarsc oarsi oarsy oarso oarsw oarswn oarswt choirs choirso choirsw moors moorsw moorswn moorswt moorsi moorsm moorsn moorsng moorsc moorsp moorst boors boorsw boorswn boorswt boorsi boorsm boorsn boorsng boorsc boorsp boorst"
+        let expected = "oars oán oáng oát oác oái oáy oáo oắ oắn oắt choirs chối chới moors mớ mớn mớt mối mốm mốn mống mốc mốp mốt boors bớ bớn bớt bối bốm bốn bống bốc bốp bốt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_386_english_ores_tores_hores_lores_chores_ore_unlatch_and_preservation() {
+        let input = "ore oreo ores oreso oresn oresm orest oresc oresp tores toreso toresn toresm torest hores horeso horesn horesm horest lores loreso loresn loresm lorest chores choreso choresn choresm chorest"
+        let expected = "ore oẻo ores oéo oén oém oét oéc oép tores toéo toén toém toét hores hoéo hoén hoém hoét lores loéo loén loém loét chores choéo choén choém choét"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_387_english_hires_tires_mires_sires_berms_unlatch_and_preservation() {
+        let input = "hires hirese hiresn hiresm hiresng hirest hiresp hiresc hiresue tires tirese tiresn tiresm tiresng tirest tiresp tiresc tiresue mires mirese miresn miresm miresng mirest miresp miresc miresue sires sirese siresn siresm siresng sirest siresp siresc siresue berms bermse"
+        let expected = "hires hiế hiến hiếm hiếng hiết hiếp hiếc hiếu tires tiế tiến tiếm tiếng tiết tiếp tiếc tiếu mires miế miến miếm miếng miết miếp miếc miếu sires siế siến siếm siếng siết siếp siếc siếu berms bếm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_388_english_plural_midword_tone_override_preservation_and_unlatch_matrix() {
+        let input = "oars choirs moors boors ores tores hores lores chores hires tires mires sires berms oarsm moorsn boorsn hiresng tiresngchores"
+        let expected = "oars choirs moors boors ores tores hores lores chores hires tires mires sires berms oám mốn bốn hiếng tiresngchores"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_389_scenario63_trilingual_choirs_chores_tires_and_vietnamese_choi_bon_hien_toet_chat() {
+        let input = "Sau buổi tập hát của dàn đồng ca choirs và hoàn thành việc nhà chores cũng như thay lốp xe tires, cả bốn (boorsn) thành viên đều từ chối (choirso) nghỉ sớm để hiến (hiresn) kế hoạch mới với nụ cười tươi toét (torest) trên môi (moorsi)!"
+        let expected = "Sau buổi tập hát của dàn đồng ca choirs và hoàn thành việc nhà chores cũng như thay lốp xe tires, cả bốn (bốn) thành viên đều từ chối (chối) nghỉ sớm để hiến (hiến) kế hoạch mới với nụ cười tươi toét (toét) trên môi (mối)!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (389 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2778,6 +2812,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_382_english_ors_urs_curs_burs_midword_tone_override_unlatch_and_preservation", test_tier4_382_english_ors_urs_curs_burs_midword_tone_override_unlatch_and_preservation),
             ("test_tier4_383_english_barf_barfs_nerf_nerfs_serf_serfs_kerf_surf_turf_tone_override_unlatch", test_tier4_383_english_barf_barfs_nerf_nerfs_serf_serfs_kerf_surf_turf_tone_override_unlatch),
             ("test_tier4_384_scenario62_trilingual_cars_bars_surf_and_vietnamese_ban_het_cuu_nen_chat", test_tier4_384_scenario62_trilingual_cars_bars_surf_and_vietnamese_ban_het_cuu_nen_chat),
+            ("test_tier4_385_english_oars_choirs_moors_boors_unlatch_and_preservation", test_tier4_385_english_oars_choirs_moors_boors_unlatch_and_preservation),
+            ("test_tier4_386_english_ores_tores_hores_lores_chores_ore_unlatch_and_preservation", test_tier4_386_english_ores_tores_hores_lores_chores_ore_unlatch_and_preservation),
+            ("test_tier4_387_english_hires_tires_mires_sires_berms_unlatch_and_preservation", test_tier4_387_english_hires_tires_mires_sires_berms_unlatch_and_preservation),
+            ("test_tier4_388_english_plural_midword_tone_override_preservation_and_unlatch_matrix", test_tier4_388_english_plural_midword_tone_override_preservation_and_unlatch_matrix),
+            ("test_tier4_389_scenario63_trilingual_choirs_chores_tires_and_vietnamese_choi_bon_hien_toet_chat", test_tier4_389_scenario63_trilingual_choirs_chores_tires_and_vietnamese_choi_bon_hien_toet_chat),
         ]
     }
 }
