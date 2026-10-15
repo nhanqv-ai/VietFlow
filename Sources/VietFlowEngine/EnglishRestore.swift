@@ -251,7 +251,9 @@ public enum EnglishKeywords {
         "caws", "maws", "haws", "sere",
         "won", "wow", "wows", "yens", "kern",
         "hex", "nix", "tux", "dux",
-        "ufo", "ufos", "nasa", "taxa"
+        "ufo", "ufos", "nasa", "taxa",
+        "memes", "themes", "beset", "besets", "xanax",
+        "dodos", "gotos", "topos", "mamas", "datas", "nonos", "rojos", "toxo", "roxo"
     ]
 }
 
