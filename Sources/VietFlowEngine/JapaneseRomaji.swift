@@ -225,7 +225,13 @@ public enum JapaneseRomajiLexicon {
         "kije", "mije", "nije", "hije", "sije", "tije", "bije", "dije", "rije",
         "nuete", "muete", "tieru", "bieru", "sieru", "gieru", "rieru",
         "tiete", "biete", "siete", "giete", "riete",
-        "kete", "sete", "hete", "mete", "tete", "bete", "rete"
+        "kete", "sete", "hete", "mete", "tete", "bete", "rete",
+        "noto", "hoto", "toto", "boto", "goto", "doto", "roto", "loto",
+        "mata", "nata", "hata", "sata", "tata", "data", "rata",
+        "topo", "hopo", "lopo", "bopo", "copo", "nopo", "dopo", "sopo", "mopo", "ropo",
+        "capa", "tapa", "napa", "lapa", "hapa", "gapa", "dapa", "bapa", "mapa", "sapa", "rapa",
+        "moco", "toco", "soco", "doco", "boco", "hoco", "goco", "roco",
+        "bepe", "sepe", "nepe", "tepe", "depe", "hepe", "kepe", "mepe", "repe"
     ]
 }
 
