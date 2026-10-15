@@ -2786,7 +2786,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (444 Tests)
+    // MARK: - Cycle 67: Extended Collocations (chế/dế/rế/tể/bệ/sệ/chệ/dề/rề/sề/mề/sộ/tộ/mía/rỉa/dủa/chủi), C-[ao]-[pt]-[ao]-w & d-Stop-Coda Unlatch, Nasal -âng/-ông/-ênh/-ến/-ếm, and C-[iu]-[rsfjx]-e Tone Override
+    // =========================================================================
+
+    func test_tier4_445_vietnamese_collocation_phrases_che_de_re_me_te_de_be_se_che_de_re_se_me_so_to_do_mo_mia_ria_dua_chui() {
+        let input = "chese hanj chese cow chese pha chese tais chese dese con dese tieengs dese ddas dese bawts dese rese cais rese ddan rese roor rese mese baf mese cacs mese tere chuas tere ddoof tere moor tere dere khinh dere beje haj beje cais beje chaan beje seje chayr seje bungj seje mawtj seje cheje cheemx cheje treex cheje defe daamf defe uwowts defe refe leef refe chaamj refe sefe lownj sefe heo sefe beos sefe mefe cais mefe longf mefe sojo ddoof sojo keets sojo tojo kho tojo cas kho tojo nooif tojo dofo ngaay dofo ddieen dofo moso cais moso chaan moso misa caay misa nuwowcs misa eps misa rira cawns rira gawmj rira moor rira dura gotj dura trau dura maif dura churi luri churi"
+        let expected = "chese hạn chế cơ chế pha chế tái chế dese con dế tiếng dế đá dế bắt dế rese cái rế đan rế rổ rế mese bà mế các mế tere chúa tể đồ tể mổ tể dere khinh dể beje hạ bệ cái bệ chân bệ seje chảy sệ bụng sệ mặt sệ cheje chễm chệ trễ chệ defe dầm dề ướt dề refe lề rề chậm rề sefe lợn sề heo sề béo sề mefe cái mề lòng mề sojo đồ sộ kết sộ tojo kho tộ cá kho tộ nồi tộ dofo ngây dồ điên dồ moso cái mố chân mố misa cây mía nước mía ép mía rira cắn rỉa gặm rỉa mổ rỉa dura gọt dủa trau dủa mài dủa churi lủi chủi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_446_delayed_circumflex_stop_coda_w_sj_and_d_sj_unlatch() {
+        let input = "tata tataws tatawj mata mataws matawj sata sataws satawj nata nataws natawj hata hataws hatawj data dataws datawj datawsd datawjd datawds datawdj datad datads datadj datadws datadwj tapa tapaws tapawj sapa sapaws sapawj napa napaws napawj lapa lapaws lapawj gapa gapaws gapawj capa capaws capawj dapa dapaws dapawj dapawsd dapawjd dapad dapads dapadj dapadws dapadwj topo topows topowj hopo hopows hopowj lopo lopows lopowj bopo bopows bopowj copo copows copowj nopo nopows nopowj dopo dopowsd dopowjd dopod dopods dopodj dopodws dopodwj toto totows totowj hoto hotows hotowj boto botows botowj goto gotows gotowj doto dotowsd dotowjd dotod dotods dotodj dotodws dotodwj doco docod docods docodj dete deted deteds detedj depe deped depeds depedj dieted dieteds dietedj dueted dueteds duetedj photos photosw"
+        let expected = "tata tắt tặt mata mắt mặt sata sắt sặt nata nắt nặt hata hắt hặt data dắt dặt đắt đặt đắt đặt đât đất đật đắt đặt tapa tắp tặp sapa sắp sặp napa nắp nặp lapa lắp lặp gapa gắp gặp capa cắp cặp dapa dắp dặp đắp đặp đâp đấp đập đắp đặp topo tớp tợp hopo hớp hợp lopo lớp lợp bopo bớp bợp copo cớp cợp nopo nớp nợp dopo đớp đợp đôp đốp độp đớp đợp toto tớt tợt hoto hớt hợt boto bớt bợt goto gớt gợt doto đớt đợt đôt đốt đột đớt đợt doco đôc đốc độc dete đêt đết đệt depe đêp đếp đệp dieted điết điệt đuêt đuết đuệt photos phớt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_447_delayed_circumflex_nasal_coda_ang_ong_enh_en_em_and_managw_unlatch() {
+        let input = "tanag tanags danag danagd danagxd nanag nanagf lanag vanag vanagw vanagws sanag hanag banag chanag managw managws managwf managwr managwx managwj manage manager tonog bonog conog conogs donog donogd donogfd honog lonog nonog ronog sonog tronog chonog phonog keneh beneh benehs benehj leneh lenehr meneh teneh veneh cheneh chenehf deneh denehd heneh henehx seneh denes denesd nenes benes menes senes tenes henes kenes demes demesd nemes temes semes bemes kemes nener bener tener nemer temer memes themes"
+        let expected = "tâng tấng dâng đâng đẫng nâng nầng lâng vâng văng vắng sâng hâng bâng châng măng mắng mằng mẳng mẵng mặng manage manager tông bông công cống dông đông đồng hông lông nông rông sông trông chông phông kênh bênh bếnh bệnh lênh lểnh mênh tênh vênh chênh chềnh dênh đênh hênh hễnh sênh dến đến nến bến mến sến tến hến kến dếm đếm nếm tếm sếm bếm kếm nển bển tển nểm tểm memes themes"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_448_romaji_cire_cise_cife_cije_cure_cuse_cufe_cuje_tone_override_unlatch() {
+        let input = "kire kirese kiresen kirefen kirejen kirexen nire niresen nirefen bire biresen birefen chire chiresen chirefen chireseu chirefeu mise misefen miseren misejen misexen misefeu nise nisefem niserem nisejem tise tisefen tiseren tisejen tisexen tisefeu bise bisefen biseren bisejen hise hisefen hiseren hisejen dise disefend diserend disejend disefeud kife kifesen kiferen kifejen tife tifesen tiferen tifejen kije kijesen kijefen kijeren tije tijesen tijefen tijeren ture turese turefe turexe tureje turejech hure hurese hurefe hureje chure churese chureje churesenh churejech tuse tusere tusefe tusexe tuseje huse husere husefe huseje duse dusejed tufe tufese tufere tufeje hufe hufese hufeje tuje tujese tujefe tujere huje hujese hujefe"
+        let expected = "kire kiế kiến kiền kiện kiễn nire niến niền bire biến biền chire chiến chiền chiếu chiều mise miền miển miện miễn miều nise niềm niểm niệm tise tiền tiển tiện tiễn tiều bise biền biển biện hise hiền hiển hiện dise điền điển điện điều kife kiến kiển kiện tife tiến tiển tiện kije kiến kiền kiển tije tiến tiền tiển ture tuế tuề tuễ tuệ tuệch hure huế huề huệ chure chuế chuệ chuếnh chuệch tuse tuể tuề tuễ tuệ huse huể huề huệ duse đuệ tufe tuế tuể tuệ hufe huế huệ tuje tuế tuề tuể huje huế huề"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_449_scenario75_trilingual_chese_misa_tojo_and_vietnamese_co_che_nuoc_mia_ca_kho_to_chat() {
+        let input = "Theo cơ chế (cow chese) phối hợp (hopowj) mới trên kênh (keneh) truyền thông công (conog) cộng, đoàn kiến (kiresen) trúc sư đến (denesd) thăm công trình đồ sộ (ddoof sojo) tại tojo, thưởng thức cá kho tộ (cas kho tojo) ăn kèm măng (managw) tươi và ly nước mía (nuwowcs misa) pha chế (pha chese) đặc biệt, vừa xem memes vừa đặt (datawjd) vé tàu đi cùng cô bạn misa!"
+        let expected = "Theo cơ chế (cơ chế) phối hợp (hợp) mới trên kênh (kênh) truyền thông công (công) cộng, đoàn kiến (kiến) trúc sư đến (đến) thăm công trình đồ sộ (đồ sộ) tại tojo, thưởng thức cá kho tộ (cá kho tộ) ăn kèm măng (măng) tươi và ly nước mía (nước mía) pha chế (pha chế) đặc biệt, vừa xem memes vừa đặt (đặt) vé tàu đi cùng cô bạn misa!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (449 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -3242,6 +3276,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_442_romaji_curu_cusu_cufu_cuju_cuxu_tone_override_w_unlatch", test_tier4_442_romaji_curu_cusu_cufu_cuju_cuxu_tone_override_w_unlatch),
             ("test_tier4_443_romaji_giro_gifu_giju_gire_gise_tone_override_and_dure_duse_dufe_duje_delayed_d_unlatch", test_tier4_443_romaji_giro_gifu_giju_gire_gise_tone_override_and_dure_duse_dufe_duje_delayed_d_unlatch),
             ("test_tier4_444_scenario74_trilingual_sana_mono_duos_and_vietnamese_nhan_sam_hoang_hon_chieu_hom_chat", test_tier4_444_scenario74_trilingual_sana_mono_duos_and_vietnamese_nhan_sam_hoang_hon_chieu_hom_chat),
+            ("test_tier4_445_vietnamese_collocation_phrases_che_de_re_me_te_de_be_se_che_de_re_se_me_so_to_do_mo_mia_ria_dua_chui", test_tier4_445_vietnamese_collocation_phrases_che_de_re_me_te_de_be_se_che_de_re_se_me_so_to_do_mo_mia_ria_dua_chui),
+            ("test_tier4_446_delayed_circumflex_stop_coda_w_sj_and_d_sj_unlatch", test_tier4_446_delayed_circumflex_stop_coda_w_sj_and_d_sj_unlatch),
+            ("test_tier4_447_delayed_circumflex_nasal_coda_ang_ong_enh_en_em_and_managw_unlatch", test_tier4_447_delayed_circumflex_nasal_coda_ang_ong_enh_en_em_and_managw_unlatch),
+            ("test_tier4_448_romaji_cire_cise_cife_cije_cure_cuse_cufe_cuje_tone_override_unlatch", test_tier4_448_romaji_cire_cise_cife_cije_cure_cuse_cufe_cuje_tone_override_unlatch),
+            ("test_tier4_449_scenario75_trilingual_chese_misa_tojo_and_vietnamese_co_che_nuoc_mia_ca_kho_to_chat", test_tier4_449_scenario75_trilingual_chese_misa_tojo_and_vietnamese_co_che_nuoc_mia_ca_kho_to_chat),
         ]
     }
 }

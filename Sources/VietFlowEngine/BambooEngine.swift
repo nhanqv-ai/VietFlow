@@ -330,13 +330,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "oxen" && character.lowercased() == "s")
                 || (["manx", "sans"].contains(String(wordRawKeys).lowercased()) && "awgh".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "chasm" && "aw".contains(character.lowercased()))
-                || (["coast", "coats", "cusp", "swops", "soaps", "boron", "moron", "morons", "datas", "gotos", "topos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
+                || (["coast", "coats", "cusp", "swops", "soaps", "boron", "moron", "morons", "datas", "gotos", "topos", "photos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (["barns", "darns", "tarns", "harms", "charms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
                 || (["horns", "thorns", "morns", "borns", "corns", "torns", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "o")
                 || (String(wordRawKeys).lowercased() == "disc" && "hdj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "minx" && character.lowercased() == "h")
                 || (["oxen", "vixen", "siren", "risen", "kern", "kerns", "boron", "moron", "morons", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "keens", "teens"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
-                || (String(wordRawKeys).lowercased() == "manag" && "sfrxj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "manag" && "sfrxjw".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "monog" && "sfxj".contains(character.lowercased()))
                 || (["ore", "guree", "gifi", "dired", "tier", "bier", "trier", "chief", "thief"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
                 || (["gisi", "giji", "ties", "dies", "lies", "vies", "pies", "hies", "tries"].contains(String(wordRawKeys).lowercased()) && "mncpt".contains(character.lowercased()))
@@ -381,7 +381,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (has3CharRhymeAfterOnset
                     && "aoe".contains(r1)
                     && "cpt".contains(r2)
-                    && r1 == r3))
+                    && r1 == r3)
+                || (rhymeAfterOnset.count == 4
+                    && "ao".contains(rhymeAfterOnset[0])
+                    && "pt".contains(rhymeAfterOnset[1])
+                    && rhymeAfterOnset[2] == rhymeAfterOnset[0]
+                    && rhymeAfterOnset[3] == "w")
+                || ["dieted", "datawd", "datadw", "dapawd", "dapadw", "dotowd", "dotodw", "dopowd", "dopodw"].contains(String(wordRawKeys).lowercased()))
                 && ("sj".contains(character.lowercased())
                     || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
                     || (character.lowercased() == "w"
@@ -397,6 +403,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && ("fjx".contains(character.lowercased())
                     || ("ao".contains(r1) && "sw".contains(character.lowercased()) && wordRawKeys[0].lowercased() != "k")
                     || ("ao".contains(r1) && character.lowercased() == "r" && !["hono", "dono"].contains(String(wordRawKeys).lowercased()))
+                    || (r1 == "e" && "sr".contains(character.lowercased()) && !["meme", "theme", "gene"].contains(String(wordRawKeys).lowercased()))
+                    || ("ao".contains(r1) && r2 == "n" && character.lowercased() == "g" && !"km".contains(wordRawKeys[0].lowercased()))
+                    || (r1 == "e" && r2 == "n" && character.lowercased() == "h")
                     || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -470,7 +479,20 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && (character.lowercased() == "e"
                     || (r1 == "i" && "rfx".contains(r2) && "mn".contains(character.lowercased()) && (!["vixe", "sire"].contains(String(wordRawKeys).lowercased()) || character.lowercased() == "m"))
                     || (r1 == "i" && "sj".contains(r2) && "cmnpt".contains(character.lowercased()) && (String(wordRawKeys).lowercased() != "rise" || character.lowercased() != "n"))
-                    || ("rsfjx".contains(r2) && wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
+                    || ("rsfjx".contains(r2) && wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
+                    || (!"wf".contains(wordRawKeys[0].lowercased())
+                        && "sfrxj".contains(character.lowercased())
+                        && character.lowercased() != r2
+                        && ((r1 == "i"
+                            && ((r2 == "r" && ("fxj".contains(character.lowercased()) || !["hire", "tire", "mire", "sire", "dire", "lire", "vire"].contains(String(wordRawKeys).lowercased())))
+                                || (r2 == "s" && ("fxj".contains(character.lowercased()) || !["mise", "rise", "wise", "vise"].contains(String(wordRawKeys).lowercased())))
+                                || (r2 == "f" && !["life", "rife", "wife"].contains(String(wordRawKeys).lowercased()))
+                                || r2 == "j"
+                                || (r2 == "x" && ("fj".contains(character.lowercased()) || String(wordRawKeys).lowercased() == "chixe"))))
+                            || (r1 == "u"
+                                && ((r2 == "r" && ("fxj".contains(character.lowercased()) || !["cure", "lure", "sure", "pure"].contains(String(wordRawKeys).lowercased())))
+                                    || (r2 == "s" && ("fxj".contains(character.lowercased()) || !["muse", "ruse", "fuse", "use"].contains(String(wordRawKeys).lowercased())))
+                                    || "fj".contains(r2)))))))
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "i"
                     && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
@@ -483,7 +505,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     "uren", "urem", "urenh",
                     "iren", "irem", "ireng", "ireu",
                     "diesmd", "diesnd", "diescd", "diespd", "diestd", "diesngd",
-                    "duetj", "duetjd", "duetdj", "duetsd", "duetds"
+                    "duetj", "duetjd", "duetdj", "duetsd", "duetds", "miser"
                 ].contains(String(wordRawKeys).lowercased())
                     && character.lowercased() == "e")
                 || (rhymeAfterOnset.count >= 4
@@ -1999,7 +2021,28 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "neje": ["câu", "chấp", "không", "chẳng", "nệ"],
         "reje": ["trễ", "bụng", "mặt", "xệ", "rệ"],
         "rero": ["mảnh", "vùng", "cắt", "miếng", "rẻo"],
-        "misu": ["bấu", "níu", "míu"]
+        "misu": ["bấu", "níu", "míu"],
+        "chese": ["hạn", "cơ", "thể", "pha", "bào", "điều", "sơ", "tinh", "tái", "tự", "ức", "khống", "kiềm", "cưỡng", "quy", "biên", "chuyên", "áp", "độc", "chế"],
+        "dese": ["con", "tiếng", "đá", "bắt", "hang", "chọi", "nuôi", "dế"],
+        "rese": ["cái", "chiếc", "đan", "lót", "rổ", "rế"],
+        "mese": ["bà", "các", "mế"],
+        "tere": ["chúa", "đồ", "mổ", "đại", "tể"],
+        "dere": ["khinh", "dể"],
+        "beje": ["hạ", "cái", "chân", "đài", "lên", "trên", "tượng", "bệ"],
+        "seje": ["chảy", "bụng", "má", "mặt", "xệ", "sệ"],
+        "cheje": ["chễm", "trễ", "chệ"],
+        "defe": ["dầm", "ướt", "dề"],
+        "refe": ["lề", "chậm", "kéo", "rề"],
+        "sefe": ["lợn", "heo", "béo", "bụng", "xề", "sề"],
+        "mefe": ["cái", "chiếc", "lòng", "mề"],
+        "sojo": ["đồ", "kết", "lộ", "sộ"],
+        "tojo": ["kho", "cái", "chiếc", "nồi", "tộ"],
+        "dofo": ["ngây", "khờ", "điên", "dại", "dồ"],
+        "moso": ["cái", "chân", "đầu", "xây", "mố"],
+        "misa": ["cây", "nước", "ép", "bã", "mật", "ngọn", "khúc", "rừng", "ruộng", "mía"],
+        "rira": ["cắn", "gặm", "mổ", "châm", "xỉa", "rỉa"],
+        "dura": ["gọt", "trau", "mài", "rèn", "giũa", "dủa"],
+        "churi": ["lủi", "chủi"]
     ]
 
     private static func isVietnameseCollocation(candidateWord: String, lastCompletedWord: String) -> Bool {
