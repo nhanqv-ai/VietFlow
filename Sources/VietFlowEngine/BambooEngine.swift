@@ -233,10 +233,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if (["toes", "hoes", "lose", "hose", "chose", "those", "ores", "tores", "hores", "lores", "chores"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
+            } else if (["toes", "hoes", "lose", "hose", "chose", "those", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
                 || (["toes", "hoes", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "horse" && character.lowercased() == "o")
-                || (["toes", "hoes", "lose", "hose", "those", "ores", "tores", "hores", "lores", "chores"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
+                || (["toes", "hoes", "lose", "hose", "those", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
                 || (["tore", "hore", "lore", "chore", "ore"].contains(String(wordRawKeys).lowercased()) && "ofjx".contains(character.lowercased()))
                 || (["lose", "hose", "chose", "those"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (["hose", "chose", "those"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "r")
@@ -553,12 +553,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2])))
                     && ((character.lowercased() == "e"
                         && (rhymeAfterOnset[3...].joined() == "d"
-                            || Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: ["u", "m", "n", "ng"], stopCodas: ["c", "t", "p"])))
+                            || Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: ["", "u", "m", "n", "ng"], stopCodas: ["c", "t", "p"], allowD: wordRawKeys[0].lowercased() == "d")))
                         || ("sj".contains(character.lowercased())
                             && Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: [], stopCodas: ["c", "t", "p"], requiredDiacritics: "e", allowToneOverride: false))
                         || (wordRawKeys[0].lowercased() == "d"
                             && character.lowercased() == "d"
-                            && Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: ["u", "m", "n", "ng"], stopCodas: ["c", "t", "p"], requiredDiacritics: "e", allowToneOverride: true, allowD: false))))
+                            && Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: ["", "u", "m", "n", "ng"], stopCodas: ["c", "t", "p"], requiredDiacritics: "e", allowToneOverride: true, allowD: false))))
                 || ([
                     "yesn", "yesm", "yesng", "yest", "yesc", "yesp",
                     "usen", "usem", "usenh", "uset", "usep", "usech",
@@ -574,13 +574,14 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2])))
                     && ((character.lowercased() == "e"
                         && (rhymeAfterOnset[3...].joined() == "d"
-                            || Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: ["m", "n", "nh"], stopCodas: ["p", "t", "ch"])))
+                            || Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: ["", "m", "n", "nh"], stopCodas: ["c", "p", "t", "ch"], allowD: wordRawKeys[0].lowercased() == "d")))
                         || ("sj".contains(character.lowercased())
-                            && Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: [], stopCodas: ["p", "t", "ch"], requiredDiacritics: "e", allowToneOverride: false))
+                            && Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: [], stopCodas: ["c", "p", "t", "ch"], requiredDiacritics: "e", allowToneOverride: false))
                         || (wordRawKeys[0].lowercased() == "d"
                             && character.lowercased() == "d"
-                            && Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: ["m", "n", "nh"], stopCodas: ["p", "t", "ch"], requiredDiacritics: "e", allowToneOverride: true, allowD: false))))
+                            && Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: ["", "m", "n", "nh"], stopCodas: ["c", "p", "t", "ch"], requiredDiacritics: "e", allowToneOverride: true, allowD: false))))
                 || (String(wordRawKeys).lowercased() == "tureen" && character.lowercased() == "h")
+                || Self.matchesIeUeStemDelayedDiacriticUnlatch(wordRawKeys: wordRawKeys, character: character)
                 || Self.matchesVowelInitialDiphthongUnlatch(wordRawKeys: wordRawKeys, character: character)
                 || Self.matchesUyOaOeClusterUnlatch(wordRawKeys: wordRawKeys, prefix2: prefix2, rhymeAfterOnset: rhymeAfterOnset, character: character)
                 || Self.isVietnameseCollocation(candidateWord: (String(wordRawKeys) + String(character)).lowercased(), lastCompletedWord: lastCompletedWord)) {
@@ -2498,8 +2499,82 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "guwa": ["nắng", "mưa", "gưa"],
         "huwa": ["dạ", "vâng", "thưa", "hưa"],
         "ruwa": ["buổi", "giữa", "nắng", "cơm", "nghỉ", "trưa", "rưa"],
-        "giwa": ["cái", "lưỡi", "cưa", "giữa", "giưa"]
+        "giwa": ["cái", "lưỡi", "cưa", "giữa", "giưa"],
+        "auras": ["trứng", "củ", "hạt", "ấu"],
+        "asaru": ["làm", "chạy", "nói", "ẩu"],
+        "aru": ["nóng", "cáu", "gắt"],
+        "iru": ["mềm", "bánh", "hắt"],
+        "isu": ["yếu", "nhỏ", "bé"],
+        "deem": ["nửa", "suốt", "đêm", "dêm"],
+        "seem": ["bọ", "loài", "sêm"],
+        "keen": ["đàn", "kên"],
+        "doom": ["cái", "lôm", "ồm", "dôm"],
+        "dono": ["bồn", "cồn"],
+        "sono": ["cầu", "lầu"],
+        "phono": ["gọi", "máy"],
+        "momo": ["cái", "chiếc", "lôm", "môm"],
+        "nama": ["cái", "chiếc", "mâm", "nâm"],
+        "mana": ["quả", "trái", "cây", "mân"],
+        "nana": ["phân", "nhân", "nân"],
+        "donor": ["lổn", "ngổn"],
+        "honor": ["hấp", "thở"],
+        "vixens": ["thăm", "đi", "đến", "viến"],
+        "sore": ["sức", "khỏe"],
+        "dore": ["dẻo", "khỏe"],
+        "rore": ["rạch", "rõ"],
+        "nora": ["nõn", "nở"],
+        "rora": ["rực", "tỏa"],
+        "beru": ["môi", "trề"],
+        "teru": ["cười", "tếu"],
+        "keru": ["kêu", "kẻo"],
+        "heru": ["hẻo", "vắng"],
+        "neru": ["nẻo", "khắp"],
+        "deru": ["dẻo", "mềm"],
+        "reru": ["rẻo", "miếng"],
+        "kesu": ["kêu", "kéo"],
+        "mesu": ["khóc", "mếu"],
+        "tesu": ["cười", "tếu"],
+        "besu": ["mặt", "bếu"],
+        "hesu": ["khô", "héo"],
+        "sesu": ["xéo", "sẻ"],
+        "resu": ["kêu", "réo"],
+        "nesu": ["bám", "néo"],
+        "befu": ["cánh", "bèo"]
     ]
+
+    private static func matchesIeUeStemDelayedDiacriticUnlatch(
+        wordRawKeys: [Character],
+        character: Character
+    ) -> Bool {
+        let lowerWord = String(wordRawKeys).lowercased()
+        let c = character.lowercased()
+        let ieStems = ["mixers", "chiefs", "tiers", "biers", "hires", "tires", "mires", "sires", "miser", "mixer", "mixes", "sixes"]
+        for stem in ieStems where lowerWord.hasPrefix(stem) {
+            let tail = String(lowerWord.dropFirst(stem.count))
+            guard !tail.isEmpty else { continue }
+            if c == "e" && matchesDiphthongCodaTail(tail, nonStopCodas: ["", "u", "m", "n", "ng"], stopCodas: ["c", "t", "p"], allowD: false) {
+                return true
+            }
+            if "sj".contains(c)
+                && (["c", "p", "t"].contains(tail)
+                    || matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: ["c", "t", "p"], requiredDiacritics: "e", allowToneOverride: false, allowD: false)) {
+                return true
+            }
+        }
+        let ueStems = ["cures", "curse", "nurse", "tuxes"]
+        for stem in ueStems where lowerWord.hasPrefix(stem) {
+            let tail = String(lowerWord.dropFirst(stem.count))
+            guard !tail.isEmpty else { continue }
+            if c == "e" && matchesDiphthongCodaTail(tail, nonStopCodas: ["", "m", "n", "nh"], stopCodas: ["c", "p", "t", "ch"], allowD: false) {
+                return true
+            }
+            if "sj".contains(c)
+                && matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: ["c", "p", "t", "ch"], requiredDiacritics: "e", allowToneOverride: false, allowD: false) {
+                return true
+            }
+        }
+        return false
+    }
 
     private static func matchesUyOaOeClusterUnlatch(
         wordRawKeys: [Character],

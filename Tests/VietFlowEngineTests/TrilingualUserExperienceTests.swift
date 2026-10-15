@@ -3369,6 +3369,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 85: 40 Collocation Entries, ie/ue Stem Coda+Tone+Delayed e Unlatch, and horse Coda Unlatch
+
+    func test_tier4_535_vietnamese_collocation_phrases_auras_asaru_aru_iru_isu_deem_seem_keen_doom_dono_sono_phono_momo_nama_mana_nana_donor_honor_vixens_sore_dore_rore_nora_rora_beru_teru_keru_heru_neru_deru_reru_kesu_mesu_tesu_besu_hesu_sesu_resu_nesu_befu() {
+        let input = "auras truwngs auras cur auras asaru lamf asaru chayj asaru aru nongs aru caus aru iru meemf iru banhs iru isu yeeus isu nhor isu deem nuwra deem suoots deem seem boj seem loaif seem keen ddanf keen doom cais doom oomf doom dono boonf dono coonf dono sono caauf sono laauf sono phono goij phono mays phono momo cais momo chieecs momo nama cais nama maam nama mana quar mana trais mana nana phaan nana nhaan nana donor loorn donor ngoorn donor honor haaps honor thowr honor vixens thawm vixens ddeens vixens sore suwcs sore khoer sore dore deor dore khoer dore rore rachj rore rox rore nora noxn nora nowr nora rora ruwjc rora toar rora beru mooi beru treef beru teru cuwowif teru teeus teru keru keeu keru keor keru heru heor heru vawngs heru neru neor neru khawps neru deru deor deru meemf deru reru reor reru mieengs reru kesu keeu kesu keos kesu mesu khocs mesu meeus mesu tesu cuwowif tesu teeus tesu besu mawjt besu beeus besu hesu khoo hesu heos hesu sesu xeos sesu resu keeu resu reos resu nesu bams nesu neos nesu befu canhs befu beof befu"
+        let expected = "auras trứng ấu củ ấu asaru làm ẩu chạy ẩu aru nóng ảu cáu ảu iru mềm ỉu bánh ỉu isu yếu íu nhỏ íu deem nửa dêm suốt dêm seem bọ sêm loài sêm keen đàn kên doom cái dôm ồm dôm dono bồn dôn cồn dôn sono cầu sôn lầu sôn phono gọi phôn máy phôn momo cái môm chiếc môm nama cái nâm mâm nâm mana quả mân trái mân nana phân nân nhân nân donor lổn dổn ngổn dổn honor hấp hổn thở hổn vixens thăm viến đến viến sore sức sỏe khỏe sỏe dore dẻo dỏe khỏe dỏe rore rạch rỏe rõ rỏe nora nõn nỏa nở nỏa rora rực rỏa tỏa rỏa beru môi bẻu trề bẻu teru cười tẻu tếu tẻu keru kêu kẻu kẻo kẻu heru hẻo hẻu vắng hẻu neru nẻo nẻu khắp nẻu deru dẻo dẻu mềm dẻu reru rẻo rẻu miếng rẻu kesu kêu kéu kéo kéu mesu khóc méu mếu méu tesu cười téu tếu téu besu mặt béu bếu béu hesu khô héu héo héu sesu xéo séu resu kêu réu réo réu nesu bám néu néo néu befu cánh bèu bèo bèu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_536_ties_dies_lies_vies_hies_tries_tier_bier_chief_dues_hues_sues_rues_tues_cues_tone_override_delayed_e_unlatch() {
+        let input = "ties tiesfe tiesre tiesxe tiesje dies diesfe diesre diesxe diesje diesfde diesrde diesxde diesjde diesdfe diesdre diesdxe diesdje diesfed diesred diesxed diesjed lies liesfe liesre liesxe liesje vies viesfe viesre viesxe viesje hies hiesfe hiesre hiesxe hiesje tries triesfe triesre triesxe triesje tier tierfe tierxe tierje bier bierfe bierxe bierje chief chiefse chiefre chiefxe chiefje thief thiefse thiefre thiefxe thiefje dues duesfe duesre duesxe duesje duesfde duesrde duesxde duesjde duesdfe duesdre duesdxe duesdje duesfed duesred duesxed duesjed hues huesfe huesre huesxe huesje sues suesfe suesre suesxe suesje rues ruesfe ruesre ruesxe ruesje tues tuesfe tuesre tuesxe tuesje cues cuesfe cuesre cuesxe cuesje"
+        let expected = "ties tiề tiể tiễ tiệ dies diề diể diễ diệ điề điể điễ điệ điề điể điễ điệ điề điể điễ điệ lies liề liể liễ liệ vies viề viể viễ việ hies hiề hiể hiễ hiệ tries triề triể triễ triệ tier tiề tiễ tiệ bier biề biễ biệ chief chiế chiể chiễ chiệ thief thiế thiể thiễ thiệ dues duề duể duễ duệ đuề đuể đuễ đuệ đuề đuể đuễ đuệ đuề đuể đuễ đuệ hues huề huể huễ huệ sues suề suể suễ suệ rues ruề ruể ruễ ruệ tues tuề tuể tuễ tuệ cues cuề cuể cuễ cuệ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_537_tiers_biers_chiefs_hires_tires_mires_sires_miser_mixer_mixes_mixers_sixes_coda_tone_delayed_e_unlatch() {
+        let input = "tiers tiersfe tiersre tiersxe tiersje tiersufe tiersure tiersuxe tiersuje tiersmfe tiersnfe tiersngfe tierscje tierspje tierstje biers biersfe biersre biersxe biersje biersufe biersuje chiefs chiefsfe chiefsre chiefsxe chiefsje chiefsufe chiefsure chiefsuxe chiefsuje hires hiresfe hiresre hiresxe hiresje hiresufe hiresuje tires tiresfe tiresje tiresufe mires miresfe miresuje sires siresfe siresuje miser miserfe miserxe miserje miserufe miseruje misercs misercj miserps miserpj miserts misertj mixer mixerfe mixerxe mixerje mixerufe mixeruje mixercs mixercj mixerps mixerpj mixerts mixertj mixes mixesfe mixesuje mixers mixersfe mixersuje sixes sixesfe sixesuje"
+        let expected = "tiers tiề tiể tiễ tiệ tiều tiểu tiễu tiệu tiềm tiền tiềng tiệc tiệp tiệt biers biề biể biễ biệ biều biệu chiefs chiề chiể chiễ chiệ chiều chiểu chiễu chiệu hires hiề hiể hiễ hiệ hiều hiệu tires tiề tiệ tiều mires miề miệu sires siề siệu miser miề miễ miệ miều miệu miếc miệc miếp miệp miết miệt mixer miề miễ miệ miều miệu miếc miệc miếp miệp miết miệt mixes miề miệu mixers miề miệu sixes siề siệu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_538_cures_curse_nurse_tuxes_coda_tone_delayed_e_and_horse_coda_unlatch() {
+        let input = "cures curesmfe curesnfe curesnhfe curescje curespje curestje cureschje curescej curestej curse cursemfe cursenfe cursenhfe cursecje cursepje cursetje cursechje cursetej nurse nursemfe nursenfe nursenhfe nursecje nursepje nursetje nursechje nursetej tuxes tuxesmfe tuxesnfe tuxesnhfe tuxescje tuxespje tuxestje tuxeschje tuxestej horse horsem horsen horsec horsep horset"
+        let expected = "cures cuềm cuền cuềnh cuệc cuệp cuệt cuệch cuệc cuệt curse cuềm cuền cuềnh cuệc cuệp cuệt cuệch cuệt nurse nuềm nuền nuềnh nuệc nuệp nuệt nuệch nuệt tuxes tuềm tuền tuềnh tuệc tuệp tuệt tuệch tuệt horse hoém hoén hoéc hoép hoét"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_539_scenario93_trilingual_deem_keen_honor_asaru_and_vietnamese_suot_dem_chieu_hieu_lam_au_tham_vien_chat() {
+        let input = "Dù các chuyên gia deem đây là dự án đòi hỏi sự tỉ mỉ cao độ và luôn keen theo dõi từng bản ghi từ cảm biến phono đến bộ trộn mixer, cả nhóm vẫn thức suốt dêm (suoots deem) để rà soát lỗi tránh làm ẩu (lamf asaru) vào buổi chiều (chiefsufe), kịp thời nắm bắt tín hiệu (hiresuje) cảnh báo trước khi đi thăm viến (thawm vixens) các bậc tiền bối đáng kính với niềm tự hào honor và thưởng thức bánh ngọt momo thơm lừng!"
+        let expected = "Dù các chuyên gia deem đây là dự án đòi hỏi sự tỉ mỉ cao độ và luôn keen theo dõi từng bản ghi từ cảm biến phono đến bộ trộn mixer, cả nhóm vẫn thức suốt dêm (suốt dêm) để rà soát lỗi tránh làm ẩu (làm ẩu) vào buổi chiều (chiều), kịp thời nắm bắt tín hiệu (hiệu) cảnh báo trước khi đi thăm viến (thăm viến) các bậc tiền bối đáng kính với niềm tự hào honor và thưởng thức bánh ngọt momo thơm lừng!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3912,6 +3944,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_532_tuxes_cures_curse_nurse_coda_and_tone_before_delayed_e_unlatch", test_tier4_532_tuxes_cures_curse_nurse_coda_and_tone_before_delayed_e_unlatch),
             ("test_tier4_533_defer_lexer_refer_duet_stop_coda_and_d_stroke_unlatch", test_tier4_533_defer_lexer_refer_duet_stop_coda_and_d_stroke_unlatch),
             ("test_tier4_534_scenario92_trilingual_defer_lexer_corsair_daasu_and_vietnamese_yeu_dau_tieu_diet_ke_le_am_uot_diu_hiu_chat", test_tier4_534_scenario92_trilingual_defer_lexer_corsair_daasu_and_vietnamese_yeu_dau_tieu_diet_ke_le_am_uot_diu_hiu_chat),
+            ("test_tier4_535_vietnamese_collocation_phrases_auras_asaru_aru_iru_isu_deem_seem_keen_doom_dono_sono_phono_momo_nama_mana_nana_donor_honor_vixens_sore_dore_rore_nora_rora_beru_teru_keru_heru_neru_deru_reru_kesu_mesu_tesu_besu_hesu_sesu_resu_nesu_befu", test_tier4_535_vietnamese_collocation_phrases_auras_asaru_aru_iru_isu_deem_seem_keen_doom_dono_sono_phono_momo_nama_mana_nana_donor_honor_vixens_sore_dore_rore_nora_rora_beru_teru_keru_heru_neru_deru_reru_kesu_mesu_tesu_besu_hesu_sesu_resu_nesu_befu),
+            ("test_tier4_536_ties_dies_lies_vies_hies_tries_tier_bier_chief_dues_hues_sues_rues_tues_cues_tone_override_delayed_e_unlatch", test_tier4_536_ties_dies_lies_vies_hies_tries_tier_bier_chief_dues_hues_sues_rues_tues_cues_tone_override_delayed_e_unlatch),
+            ("test_tier4_537_tiers_biers_chiefs_hires_tires_mires_sires_miser_mixer_mixes_mixers_sixes_coda_tone_delayed_e_unlatch", test_tier4_537_tiers_biers_chiefs_hires_tires_mires_sires_miser_mixer_mixes_mixers_sixes_coda_tone_delayed_e_unlatch),
+            ("test_tier4_538_cures_curse_nurse_tuxes_coda_tone_delayed_e_and_horse_coda_unlatch", test_tier4_538_cures_curse_nurse_tuxes_coda_tone_delayed_e_and_horse_coda_unlatch),
+            ("test_tier4_539_scenario93_trilingual_deem_keen_honor_asaru_and_vietnamese_suot_dem_chieu_hieu_lam_au_tham_vien_chat", test_tier4_539_scenario93_trilingual_deem_keen_honor_asaru_and_vietnamese_suot_dem_chieu_hieu_lam_au_tham_vien_chat),
         ]
     }
 }
