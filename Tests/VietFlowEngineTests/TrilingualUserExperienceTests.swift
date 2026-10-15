@@ -1910,7 +1910,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (314 Tests)
+    // MARK: - Cycle 41: Died, -iê- + Coda + e, Ufo/Uro/Uso/Duos + Coda + o/w, Giro/Gifu/Giju/Gire/Gise & -uê- + Coda + e Unlatching
+    // =========================================================================
+
+    func test_tier4_315_english_died_preservation_and_vietnamese_dien_diem_diet_diec_diep_dieu_unlatch() {
+        let input = "died diedne diednef diednej diedme diedmer diedte diedtes diedtej diedce diedces diedcej diedpe diedpej diedue dieduef diedues"
+        let expected = "died điên điền điện điêm điểm điêt điết điệt điêc điếc điệc điêp điệp điêu điều điếu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_316_english_dies_ties_lies_vies_hies_tries_trier_tier_bier_chief_thief_yes_coda_e_unlatch() {
+        let input = "dies diesel diesne diesme dieste diesce diespe ties tiesne tiesme tieste tiesce tiespe lies liesne liesme lieste liesce liespe vies viesne viesme vieste hies hiesne hiesme hieste tries triese triesne triesme trieste triesce triespe triesue trier triere trierne trierme trierue tier tiers tieru tierne tierme bier biers bieru bierne bierme chief chiefs chiefly chiefne chiefme thief thiefne thiefme yes yesterday yesne yesme yeste yesce yespe"
+        let expected = "dies diesel diến diếm diết diếc diếp ties tiến tiếm tiết tiếc tiếp lies liến liếm liết liếc liếp vies viến viếm viết hies hiến hiếm hiết tries triế triến triếm triết triếc triếp triếu trier triể triển triểm triểu tier tiers tieru tiển tiểm bier biers bieru biển biểm chief chiefs chiefly chiền chiềm thief thiền thiềm yes yesterday yến yếm yết yếc yếp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_317_english_and_romaji_ufo_uro_uso_duos_coda_o_w_unlatch() {
+        let input = "ufo ufos ufoio ufono ufonw ufomo ufomw uro uroio urono uronw uromo uromw uso usoio usono usonw usomo usomw usoto usotw usoco usocw usopo usopw duos duoso duosw duosod duoswd duosio duosno duosnw duosmo duosmw duosto duostw duosco duoscw duospo duospw"
+        let expected = "ufo ufos uồi uồn ườn uồm ườm uro uổi uổn ưởn uổm ưởm uso uối uốn ướn uốm ướm uốt ướt uốc ước uốp ướp duos duố dướ đuố đướ duối duốn dướn duốm dướm duốt dướt duốc dước duốp dướp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_318_english_and_romaji_giro_gifu_giju_gire_gise_and_vietnamese_ue_coda_e_unlatch() {
+        let input = "giro giroi giroa giroe giroo girow girom giron girong giroio girono gironw giromo giromw gifu gifua gifuw gifui gifuy gifum gifun gifung gifunw gifumw giju gijua gijuw gijui gijuy gijum gijun gijuc gijup gijut gijung gijutw gijucw gire gireo gise giseo tues tuesne tuesme tueste tuespe tufe tufene tufeme ture tureen tureens turene tureme tuje tujene tujeme chuse chusene chufe chufene chure churene chuje chujene duse dusene dufe dufene dure durene duje dujene huse husene hufe hufene hure hurene huje hujene lure lurene luxe luxene suse susene sufe sufene sure surely surene suje sujene use used user users usene useme usete usepe ure ureshii urene ureme"
+        let expected = "giro giỏi giỏa giỏe giổ giở giỏm giỏn giỏng giổi giổn giởn giổm giởm gifu giùa giừ giùi giùy giùm giùn giùng giừn giừm giju giụa giự giụi giụy giụm giụn giục giụp giụt giụng giựt giực gire giẻo gise giéo tues tuến tuếm tuết tuếp tufe tuền tuềm ture tureen tureens tuển tuểm tuje tuện tuệm chuse chuến chufe chuền chure chuển chuje chuện duse duến dufe duền dure duển duje duện huse huến hufe huền hure huển huje huện lure luển luxe luễn suse suến sufe suền sure surely suển suje suện use used user users uến uếm uết uếp ure ureshii uển uểm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_319_scenario49_trilingual_gifu_diesel_yesterday_and_vietnamese_gioi_dien_tien_trien_uon_chat() {
+        let input = "Hôm qua yesterday tại tỉnh gifu, kỹ sư giỏi (giroi) đã kiểm tra động cơ diesel của đoàn tàu tốc hành trên tuyến (tuesne) đường sắt, phát hiện điểm (diedmer) tiếp (tiespe) xúc điện (diednej) bị uốn (usono) cong và nhanh chóng triển (trierne) khai phương án sửa chữa, giúp giục (gijuc) tiến (tiesne) độ hoàn thành vượt mức dự kiến!"
+        let expected = "Hôm qua yesterday tại tỉnh gifu, kỹ sư giỏi (giỏi) đã kiểm tra động cơ diesel của đoàn tàu tốc hành trên tuyến (tuến) đường sắt, phát hiện điểm (điểm) tiếp (tiếp) xúc điện (điện) bị uốn (uốn) cong và nhanh chóng triển (triển) khai phương án sửa chữa, giúp giục (giục) tiến (tiến) độ hoàn thành vượt mức dự kiến!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (319 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2236,6 +2270,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_312_english_and_romaji_cues_use_ure_ire_efu_eru_esu_duets_diets_guest_quiet_niece_unlatch", test_tier4_312_english_and_romaji_cues_use_ure_ire_efu_eru_esu_duets_diets_guest_quiet_niece_unlatch),
             ("test_tier4_313_english_and_romaji_toes_hoes_chore_aru_asa_ufo_uro_uso_uru_usu_girui_gisui_unlatch", test_tier4_313_english_and_romaji_toes_hoes_chore_aru_asa_ufo_uro_uso_uru_usu_girui_gisui_unlatch),
             ("test_tier4_314_scenario48_trilingual_asa_ufo_guest_and_vietnamese_dua_nia_tuoi_tuong_am_ap_chat", test_tier4_314_scenario48_trilingual_asa_ufo_guest_and_vietnamese_dua_nia_tuoi_tuong_am_ap_chat),
+            ("test_tier4_315_english_died_preservation_and_vietnamese_dien_diem_diet_diec_diep_dieu_unlatch", test_tier4_315_english_died_preservation_and_vietnamese_dien_diem_diet_diec_diep_dieu_unlatch),
+            ("test_tier4_316_english_dies_ties_lies_vies_hies_tries_trier_tier_bier_chief_thief_yes_coda_e_unlatch", test_tier4_316_english_dies_ties_lies_vies_hies_tries_trier_tier_bier_chief_thief_yes_coda_e_unlatch),
+            ("test_tier4_317_english_and_romaji_ufo_uro_uso_duos_coda_o_w_unlatch", test_tier4_317_english_and_romaji_ufo_uro_uso_duos_coda_o_w_unlatch),
+            ("test_tier4_318_english_and_romaji_giro_gifu_giju_gire_gise_and_vietnamese_ue_coda_e_unlatch", test_tier4_318_english_and_romaji_giro_gifu_giju_gire_gise_and_vietnamese_ue_coda_e_unlatch),
+            ("test_tier4_319_scenario49_trilingual_gifu_diesel_yesterday_and_vietnamese_gioi_dien_tien_trien_uon_chat", test_tier4_319_scenario49_trilingual_gifu_diesel_yesterday_and_vietnamese_gioi_dien_tien_trien_uon_chat),
         ]
     }
 }
