@@ -163,7 +163,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 "chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier",
                 "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
                 "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu",
-                "dues", "hues", "sues", "rues", "tues"
+                "dues", "hues", "sues", "rues", "tues", "died"
             ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e" {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -172,12 +172,20 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "diet" && "jd".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if ["beer", "deer"].contains(String(wordRawKeys).lowercased())
                 && ("mnu".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if String(wordRawKeys).lowercased() == "door" && character.lowercased() == "i" {
+            } else if String(wordRawKeys).lowercased() == "door" && "imnd".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "goof" && "mni".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -189,12 +197,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["noop", "goop", "troop", "keep", "peep", "cheep"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j" {
+            } else if ["noop", "goop", "troop", "keep", "peep", "cheep", "deep"].contains(String(wordRawKeys).lowercased())
+                && (character.lowercased() == "j" || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if ["loom", "doom", "deem", "seem", "keen"].contains(String(wordRawKeys).lowercased())
-                && ("fjrx".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
+                && ("fjrx".contains(character.lowercased())
+                    || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
+                    || (String(wordRawKeys).lowercased() == "keen" && character.lowercased() == "h")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -302,7 +313,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && (r1 == "i" || r1 == "u")
                 && "rsfjx".contains(r2)
                 && r3 == "e"
-                && character.lowercased() == "e")
+                && (character.lowercased() == "e"
+                    || (r1 == "i" && "rfx".contains(r2) && "mn".contains(character.lowercased()) && !["sire", "vixe"].contains(String(wordRawKeys).lowercased()))
+                    || (r1 == "i" && "sj".contains(r2) && "cmnpt".contains(character.lowercased()) && String(wordRawKeys).lowercased() != "rise")))
                 || (String(wordRawKeys).lowercased() == "tureen" && character.lowercased() == "h")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys

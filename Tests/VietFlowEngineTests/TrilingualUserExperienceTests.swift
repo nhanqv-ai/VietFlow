@@ -1672,7 +1672,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (279 Tests)
+    // MARK: - Cycle 34: Died/Diet Delayed-D, Door/Goof/Deep/Keen & Single-E -ie- Coda Unlatching
+    // =========================================================================
+
+    func test_tier4_280_english_died_diet_preservation_and_vietnamese_delayed_d_die_unlatch() {
+        let input = "died dieds diede diedef dieder diedes diedex diedej diedem diedems diedemj dieden diedenf diedenr diedens diedenj diedepj diedets diedetj diedeu diedeuf diedeur diedeus diedeuj diet diets dieted dieting dietj dietd dietds dietdj"
+        let expected = "died dieds điê điề điể điế điễ điệ điêm điếm điệm điên điền điển điến điện điệp điết điệt điêu điều điểu điếu điệu diet diets dieted dieting diệt điet điết điệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_281_english_door_goof_deep_keen_preservation_and_vietnamese_doi_gom_dep_kenh_unlatch() {
+        let input = "door doors doori doorm doorn doorng doord doordi doordm doordn doordng goof goofs goofm goofn goofng goofi deep deeps deeper deepj deepd deepds deepdj keen keens keenly keenh keenhf keenhr keenhs keenhx keenhj"
+        let expected = "door doors dổi dổm dổn dổng đổ đổi đổm đổn đổng goof goofs gồm gồn gồng gồi deep deeps deeper dệp đêp đếp đệp keen keens keenly kênh kềnh kểnh kếnh kễnh kệnh"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_282_vietnamese_single_e_ie_sonorant_unlatch_kirem_biren_hifen_chifen_chixen() {
+        let input = "sire sires sired siren sirens vixen kirem mirem hirem tirem birem direm lirem chirem kiren miren niren hiren tiren biren diren liren viren chiren kifem mifem nifem hifem tifem difem chifem kifen mifen nifen hifen sifen tifen bifen difen chifen chixen"
+        let expected = "sire sires sired siren sirens vixen kiểm miểm hiểm tiểm biểm diểm liểm chiểm kiển miển niển hiển tiển biển diển liển viển chiển kiềm miềm niềm hiềm tiềm diềm chiềm kiền miền niền hiền siền tiền biền diền chiền chiễn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_283_vietnamese_single_e_ie_s_j_coda_unlatch_tisen_biset_hijen_dijet_tijec() {
+        let input = "rise rises risen bisect bisects bisected kisem misem hisem tisem disem lisem chisem kisen misen nisen hisen tisen bisen disen chisen kiseng miseng tiseng biseng chiseng kisep hisep tisep disep lisep chisep kiset miset niset hiset tiset biset diset liset chiset kisec hisec tisec bisec disec lisec chisec kijem dijem hijem tijem chijem kijen mijen nijen hijen sijen tijen bijen dijen rijen chijen mijeng kijep hijep tijep dijep chijep kijet mijet nijet hijet sijet tijet bijet dijet rijet chijet tijec dijec"
+        let expected = "rise rises risen bisect bisects bisected kiếm miếm hiếm tiếm diếm liếm chiếm kiến miến niến hiến tiến biến diến chiến kiếng miếng tiếng biếng chiếng kiếp hiếp tiếp diếp liếp chiếp kiết miết niết hiết tiết biết diết liết chiết kiếc hiếc tiếc biếc diếc liếc chiếc kiệm diệm hiệm tiệm chiệm kiện miện niện hiện siện tiện biện diện riện chiện miệng kiệp hiệp tiệp diệp chiệp kiệt miệt niệt hiệt siệt tiệt biệt diệt riệt chiệt tiệc diệc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_284_scenario42_trilingual_diet_deep_keen_siren_and_vietnamese_doi_kenh_gom_hien_chat() {
+        let input = "Dù đang theo chế độ diet lành mạnh và nghiên cứu mô hình deep learning với tinh thần keen học hỏi khi nghe tiếng còi siren báo động diễn tập và dùng thuật toán bisect tìm lỗi, kỹ sư vẫn kiên trì đổi (doordi) mới kênh (keenh) truyền dữ liệu bao gồm (goofm) các điều (diedeuf) khoản hiện (hijen) đại, thực hiện kiểm (kirem) tra biển (biren) báo, biết (biset) cách tiếp (tisep) nhận ý kiến (kisen) hiền (hifen) hòa và tiêu diệt (dietj) triệt để mọi lỗi phát sinh trong bữa tiệc (tijec) mừng dự án!"
+        let expected = "Dù đang theo chế độ diet lành mạnh và nghiên cứu mô hình deep learning với tinh thần keen học hỏi khi nghe tiếng còi siren báo động diễn tập và dùng thuật toán bisect tìm lỗi, kỹ sư vẫn kiên trì đổi (đổi) mới kênh (kênh) truyền dữ liệu bao gồm (gồm) các điều (điều) khoản hiện (hiện) đại, thực hiện kiểm (kiểm) tra biển (biển) báo, biết (biết) cách tiếp (tiếp) nhận ý kiến (kiến) hiền (hiền) hòa và tiêu diệt (diệt) triệt để mọi lỗi phát sinh trong bữa tiệc (tiệc) mừng dự án!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (284 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1963,6 +1997,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_277_english_beer_deer_door_preservation_and_vietnamese_bem_ben_deu_doi_unlatch", test_tier4_277_english_beer_deer_door_preservation_and_vietnamese_bem_ben_deu_doi_unlatch),
             ("test_tier4_278_english_soar_coax_preservation_and_vietnamese_soai_soan_coan_coao_unlatch", test_tier4_278_english_soar_coax_preservation_and_vietnamese_soai_soan_coan_coao_unlatch),
             ("test_tier4_279_scenario41_trilingual_hues_deed_beer_soar_and_vietnamese_hue_dem_deu_soai_chat", test_tier4_279_scenario41_trilingual_hues_deed_beer_soar_and_vietnamese_hue_dem_deu_soai_chat),
+            ("test_tier4_280_english_died_diet_preservation_and_vietnamese_delayed_d_die_unlatch", test_tier4_280_english_died_diet_preservation_and_vietnamese_delayed_d_die_unlatch),
+            ("test_tier4_281_english_door_goof_deep_keen_preservation_and_vietnamese_doi_gom_dep_kenh_unlatch", test_tier4_281_english_door_goof_deep_keen_preservation_and_vietnamese_doi_gom_dep_kenh_unlatch),
+            ("test_tier4_282_vietnamese_single_e_ie_sonorant_unlatch_kirem_biren_hifen_chifen_chixen", test_tier4_282_vietnamese_single_e_ie_sonorant_unlatch_kirem_biren_hifen_chifen_chixen),
+            ("test_tier4_283_vietnamese_single_e_ie_s_j_coda_unlatch_tisen_biset_hijen_dijet_tijec", test_tier4_283_vietnamese_single_e_ie_s_j_coda_unlatch_tisen_biset_hijen_dijet_tijec),
+            ("test_tier4_284_scenario42_trilingual_diet_deep_keen_siren_and_vietnamese_doi_kenh_gom_hien_chat", test_tier4_284_scenario42_trilingual_diet_deep_keen_siren_and_vietnamese_doi_kenh_gom_hien_chat),
         ]
     }
 }
