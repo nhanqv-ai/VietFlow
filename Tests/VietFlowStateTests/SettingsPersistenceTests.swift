@@ -48,9 +48,7 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertEqual(def.customKeyCombo.displayString, "⌃Space")
         XCTAssertFalse(def.launchAtLogin)
         XCTAssertTrue(def.perAppInputMode)
-        XCTAssertEqual(def.blacklistedBundleIdentifiers.count, 2)
-        XCTAssertTrue(def.blacklistedBundleIdentifiers.contains("com.valvesoftware.steam"))
-        XCTAssertTrue(def.blacklistedBundleIdentifiers.contains("com.riotgames.leagueoflegends"))
+        XCTAssertTrue(def.blacklistedBundleIdentifiers.isEmpty)
         XCTAssertTrue(def.automaticallyCheckForUpdates)
         XCTAssertNil(def.lastUpdateCheckDate)
     }
@@ -120,7 +118,7 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertEqual(decoded.customKeyCombo.keyCode, 49)
         XCTAssertFalse(decoded.launchAtLogin)
         XCTAssertTrue(decoded.perAppInputMode)
-        XCTAssertEqual(decoded.blacklistedBundleIdentifiers.count, 2)
+        XCTAssertTrue(decoded.blacklistedBundleIdentifiers.isEmpty)
         XCTAssertTrue(decoded.automaticallyCheckForUpdates)
         XCTAssertNil(decoded.lastUpdateCheckDate)
     }
@@ -275,10 +273,16 @@ public final class SettingsPersistenceTests: TestCase {
     // MARK: - Test 16: Blacklist Containment Fast Path
     func test_16_blacklist_containment() {
         let manager = AppStateManager.shared
-        XCTAssertTrue(manager.isApplicationBlacklisted(bundleId: "com.valvesoftware.steam"))
-        XCTAssertTrue(manager.isApplicationBlacklisted(bundleId: "com.riotgames.leagueoflegends"))
+        XCTAssertTrue(manager.blacklistedBundleIdentifiers.isEmpty)
+        XCTAssertFalse(manager.isApplicationBlacklisted(bundleId: "com.valvesoftware.steam"))
+        XCTAssertFalse(manager.isApplicationBlacklisted(bundleId: "com.riotgames.leagueoflegends"))
         XCTAssertFalse(manager.isApplicationBlacklisted(bundleId: "com.apple.Terminal"))
         XCTAssertFalse(manager.isApplicationBlacklisted(bundleId: "com.google.Chrome"))
+        
+        manager.addBlacklistApp(bundleId: "com.valvesoftware.steam")
+        XCTAssertTrue(manager.isApplicationBlacklisted(bundleId: "com.valvesoftware.steam"))
+        manager.removeBlacklistApp(bundleId: "com.valvesoftware.steam")
+        XCTAssertFalse(manager.isApplicationBlacklisted(bundleId: "com.valvesoftware.steam"))
     }
     
     // MARK: - Test 17: AppSettings.resetToDefaults()
@@ -330,7 +334,7 @@ public final class SettingsPersistenceTests: TestCase {
         XCTAssertEqual(manager.modifierChord, .controlShift)
         XCTAssertEqual(manager.toggleShortcut, .controlShift)
         XCTAssertTrue(manager.perAppInputMode)
-        XCTAssertEqual(manager.blacklistedBundleIdentifiers.count, 2)
+        XCTAssertTrue(manager.blacklistedBundleIdentifiers.isEmpty)
         XCTAssertFalse(manager.isApplicationBlacklisted(bundleId: "com.test.temp"))
         XCTAssertTrue(manager.automaticallyCheckForUpdates)
         XCTAssertNil(manager.lastUpdateCheckDate)

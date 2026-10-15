@@ -245,8 +245,14 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if (["dawn", "lawn", "down", "gown", "town", "own"].contains(String(wordRawKeys).lowercased())
-                && ("frxjg".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
-                || (["dawns", "lawns", "downs", "gowns", "towns", "owns"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g") {
+                && ("frxjg".contains(character.lowercased())
+                    || (["dawn", "lawn"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
+                    || (["down", "gown", "town", "own"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "o")
+                    || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
+                || (["dawns", "lawns", "downs", "gowns", "towns", "owns"].contains(String(wordRawKeys).lowercased())
+                    && ("gfrxj".contains(character.lowercased())
+                        || (["dawns", "lawns"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
+                        || (["downs", "gowns", "towns", "owns"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "o"))) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -298,17 +304,20 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["trexu", "trexn", "trexm", "hexu"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e")
                 || (String(wordRawKeys).lowercased() == "cat" && "awjs".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "let" && "ejs".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "in" && "rx".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "in" && "sfrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "var" && "mnouwfjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "git" && "sj".contains(character.lowercased()))
+                || (["chair", "lair", "hairs", "chairs", "lairs", "airs", "moron", "morons"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "boron" && "sfjx".contains(character.lowercased()))
+                || (["beset", "reset"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j")
                 || (["manx", "sans"].contains(String(wordRawKeys).lowercased()) && "awgh".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "chasm" && "aw".contains(character.lowercased()))
-                || (["coast", "coats", "cusp", "swops", "soaps", "boron", "moron", "datas", "gotos", "topos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
+                || (["coast", "coats", "cusp", "swops", "soaps", "boron", "moron", "morons", "datas", "gotos", "topos", "mamas", "nonos", "noops", "goops", "troops", "looms", "dooms", "rooms", "booms", "goons", "loons", "moons", "roots", "boost", "roost", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "harms", "charms", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (["barns", "darns", "tarns", "harms", "charms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "a")
                 || (["horns", "thorns", "morns", "borns", "corns", "torns", "norms", "corms", "dorms"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "o")
                 || (String(wordRawKeys).lowercased() == "disc" && "hdj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "minx" && character.lowercased() == "h")
-                || (["oxen", "vixen", "siren", "risen", "kern", "kerns", "boron", "moron", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "keens", "teens"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
+                || (["oxen", "vixen", "siren", "risen", "kern", "kerns", "boron", "moron", "morons", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono", "honor", "donor", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "keens", "teens"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
                 || (String(wordRawKeys).lowercased() == "manag" && "sfrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "monog" && "sfxj".contains(character.lowercased()))
                 || (["ore", "guree", "gifi", "dired", "tier", "bier", "trier", "chief", "thief"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
@@ -629,8 +638,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let candidateWord = rawWordString.lowercased()
         let isTelexSwEnglish = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
             && EnglishRestoreDetector.hasInvalidTelexSwPrefix(candidateWord)
-        let isCamOnCollocation = (candidateWord == "own" && (lastCompletedWord == "cảm" || lastCompletedWord.hasSuffix("cảm")))
-        let isKeyword = EnglishRestoreDetector.isEnglishKeyword(candidateWord) && !isCamOnCollocation
+        let isVietCollocation = Self.isVietnameseCollocation(candidateWord: candidateWord, lastCompletedWord: lastCompletedWord)
+        let isKeyword = EnglishRestoreDetector.isEnglishKeyword(candidateWord) && !isVietCollocation
         let isRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: candidateWord)
         if _config.autoCorrectEnglish && (
             isKeyword
@@ -710,9 +719,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
         }
 
-        let isCamOnRaw = (candidateRaw == "own" && (lastCompletedWord == "cảm" || lastCompletedWord.hasSuffix("cảm")))
-        let isKeywordRaw = EnglishRestoreDetector.isEnglishKeyword(candidateRaw) && !isCamOnRaw
-        let isKeywordFull = EnglishRestoreDetector.isEnglishKeyword(fullCandidateRaw) && !isCamOnRaw
+        let isVietCollocationRaw = Self.isVietnameseCollocation(candidateWord: lowerCandidateRaw, lastCompletedWord: lastCompletedWord)
+        let isVietCollocationFull = Self.isVietnameseCollocation(candidateWord: fullCandidateRaw, lastCompletedWord: lastCompletedWord)
+        let isKeywordRaw = EnglishRestoreDetector.isEnglishKeyword(candidateRaw) && !isVietCollocationRaw
+        let isKeywordFull = EnglishRestoreDetector.isEnglishKeyword(fullCandidateRaw) && !isVietCollocationFull
 
         let isCandidateRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerCandidateRaw)
             || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: fullCandidateRaw)
@@ -1477,7 +1487,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         newNucleus = isUpperNuc ? "UÔI" : "uôi"
                     } else if lowerNuc == "oi" {
                         newNucleus = isUpperNuc ? "ÔI" : "ôi"
-                    } else if lowerNuc == "o" && !parsed.coda.isEmpty {
+                    } else if (lowerNuc == "o" || (lowerNuc == "ơ" && rawHistory.filter({ $0.lowercased() == "o" }).count <= 1)) && !parsed.coda.isEmpty {
                         newNucleus = isUpperNuc ? "Ô" : "ô"
                     }
                 }
@@ -1515,7 +1525,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         newNucleus = isUpperNuc ? "ÂY" : "ây"
                     } else if lowerNuc == "au" {
                         newNucleus = isUpperNuc ? "ÂU" : "âu"
-                    } else if lowerNuc == "a" && !parsed.coda.isEmpty {
+                    } else if (lowerNuc == "a" || (lowerNuc == "ă" && rawHistory.filter({ $0.lowercased() == "a" }).count <= 1)) && !parsed.coda.isEmpty {
                         newNucleus = isUpperNuc ? "Â" : "â"
                     }
                 }
@@ -1809,6 +1819,42 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             return pair
         }
         return nil
+    }
+
+    private static let vietnameseCollocationPrefixes: [String: Set<String>] = [
+        "own": ["cảm", "cám", "biết", "nhớ", "mang", "đền", "trả", "tạ", "vô", "bội", "hàm", "chịu", "báo", "ghi", "làm", "nhờ", "đội", "ban", "thấy", "hơi", "rất", "quá", "cũng", "đang", "bị", "nổi", "ngán", "sợ", "phát", "lạnh"],
+        "owns": ["thấy", "hơi", "rất", "quá", "cũng", "đang", "bị", "nổi", "ngán", "sợ", "phát", "lạnh"],
+        "chair": ["bàn", "cây", "lược", "máy", "đầu", "không", "chưa", "đang", "vừa", "mới", "đi", "lấy", "dùng", "mua", "cầm", "ngồi", "đứng", "phải", "cần", "nên", "hãy", "để"],
+        "lair": ["nói", "kêu", "than", "khóc", "cứ", "đang", "mãi", "lải"],
+        "lawn": ["con", "cây", "ống", "bánh", "sơn", "kem", "đá", "bi", "trục", "đang", "cứ", "bị", "ngã", "té", "nằm", "bò", "quay", "xoay", "lăn"],
+        "manx": ["thỏa", "thoả", "viên", "bất", "tự", "ngạo", "mãn", "đã", "sắp", "chưa"],
+        "sans": ["giun", "con", "bệnh", "nhiễm", "tẩy", "thuốc", "trứng", "ấu", "dây", "lá", "gạo"],
+        "root": ["cà", "củ", "dốt", "rốt", "đến", "sau"],
+        "roots": ["cà", "củ", "dốt", "rốt", "đến", "sau"],
+        "loom": ["đốm", "vết", "chấm", "da", "nắng", "lốm"],
+        "looms": ["đốm", "vết", "chấm", "da", "nắng", "lốm"],
+        "the": ["có", "không", "chẳng", "chưa", "cụ", "tập", "cơ", "toàn", "chủ", "vật", "bản", "khả", "thực", "đoàn", "nhập", "giải", "biến", "hợp", "quần", "cá", "đại", "như", "vậy", "rứa", "tình", "xu", "ưu", "vị", "tư", "lợi", "thất", "yếu", "thay", "cứu", "trần", "hậu", "tiền", "tận", "khí", "uy"],
+        "there": ["có", "không", "chẳng", "chưa", "cụ", "tập", "cơ", "toàn", "chủ", "vật", "bản", "khả", "thực", "đoàn", "nhập", "giải", "biến", "hợp", "quần", "cá", "đại"],
+        "these": ["như", "vậy", "rứa", "thực", "tình", "xu", "ưu", "vị", "tư", "lợi", "thất", "yếu", "thay", "cứu", "trần", "hậu", "tiền", "tận", "khí", "uy"],
+        "aura": ["làm", "chạy", "nói", "ăn", "viết", "gõ", "tính", "hơi", "quá", "rất", "cực", "lái"],
+        "def": ["ngôi", "chùa", "miếu", "thờ", "bắt", "phải", "chịu", "bồi"],
+        "defend": ["ngôi", "chùa", "miếu", "thờ", "bắt", "phải", "chịu", "bồi"],
+        "reset": ["con", "loài"],
+        "toe": ["bắn", "tung", "văng", "nổ", "phun", "cười", "sáng"],
+        "toes": ["bắn", "tung", "văng", "nổ", "phun", "cười", "sáng"],
+        "hoe": ["đỏ", "vàng"],
+        "hoes": ["đỏ", "vàng"]
+    ]
+
+    private static func isVietnameseCollocation(candidateWord: String, lastCompletedWord: String) -> Bool {
+        let prev = lastCompletedWord.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard !prev.isEmpty, let prefixes = vietnameseCollocationPrefixes[candidateWord.lowercased()] else {
+            return false
+        }
+        if prefixes.contains(prev) {
+            return true
+        }
+        return prefixes.contains(where: { prev.hasSuffix($0) })
     }
 }
 

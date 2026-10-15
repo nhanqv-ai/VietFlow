@@ -2552,7 +2552,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (409 Tests)
+    // MARK: - Cycle 60: Vietnamese Phrase Collocations (cảm/biết/nhớ ơn, bàn chải, con lăn, thỏa mãn, giun sán, cà rốt, có thể, như thế), Symmetric ă->â / ơ->ô Override, and chair/lair/boron/moron/beset/reset/in Tone Unlatch
+    // =========================================================================
+
+    func test_tier4_410_vietnamese_collocation_phrases_on_chai_lan_man_san_rot_the_au_den_ret() {
+        let input = "camr own cams own bieets own nhows own mang own ddeefn own trar own taj own voo own lafm own thaays owns ngans owns phats owns banf chair caay chair luwowcj chair mays chair ddang chair nois lair con lawn caay lawn sown lawn ddang lawn thoar manx vieen manx baats manx tuwj manx giun sans taayr sans thuoocs sans caf roots cur roots ddooms looms cos there khoong there cuj there taajp there cow there nhuw these xu these uwu these thay these lafm aura chayj aura ngooi defend bawts defend con reset bawns toes tung toes ddor hoes"
+        let expected = "cảm ơn cám ơn biết ơn nhớ ơn mang ơn đền ơn trả ơn tạ ơn vô ơn làm ơn thấy ớn ngán ớn phát ớn bàn chải cây chải lược chải máy chải đang chải nói lải con lăn cây lăn sơn lăn đang lăn thỏa mãn viên mãn bất mãn tự mãn giun sán tẩy sán thuốc sán cà rốt củ rốt đốm lốm có thể không thể cụ thể tập thể cơ thể như thế xu thế ưu thế thay thế làm ẩu chạy ẩu ngôi đền bắt đền con rết bắn tóe tung tóe đỏ hóe"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_411_english_awn_own_awns_owns_circumflex_and_midword_tone_override_unlatch() {
+        let input = "dawn dawna dawnad dawns dawnsa dawnsad dawnsf dawnsfd dawnsr dawnsrd dawnsx dawnsxd dawnsj dawnsjd lawn lawna lawnag lawns lawnsa lawnsag lawnsf lawnsr lawnsx lawnsj down downo downod downs downso downsod downsf downsfd downsr downsrd downsx downsxd downsj downsjd gown gowno gowns gownso gownsf gownsr gownsx gownsj town towno towns townso townsf townsr townsx townsj own owno owns ownso ownsog ownsf ownsr ownsx ownsj"
+        let expected = "dawn dân đân dawns dấn đấn dằn đằn dẳn đẳn dẵn đẵn dặn đặn lawn lân lâng lawns lấn lấng lằn lẳn lẵn lặn down dôn đôn downs dốn đốn dờn đờn dởn đởn dỡn đỡn dợn đợn gown gôn gowns gốn gờn gởn gỡn gợn town tôn towns tốn tờn tởn tỡn tợn own ôn owns ốn ống ờn ởn ỡn ợn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_412_english_chair_lair_hairs_chairs_lairs_airs_tone_override_unlatch() {
+        let input = "chair chairs chairf chairj chairx lair lairs lairf lairj lairx hairs hairsf hairsj hairsx chairsf chairsj chairsx lairsf lairsj lairsx airs airsf airsj airsx"
+        let expected = "chair chairs chài chại chãi lair lairs lài lại lãi hairs hài hại hãi chài chại chãi lài lại lãi airs ài ại ãi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_413_english_boron_moron_morons_beset_reset_in_tone_override_unlatch() {
+        let input = "boron borons boronsg boronf boronfg boronj boronjg boronx boronxg moron morons moronf moronfg moronj moronjg moronx moronxg moronsw moronsg moronsf moronsj moronsx beset besets besetj reset resets resetj in info into inside install instead instant insert insist infant infect infer ins inf inr inx inj"
+        let expected = "boron bốn bống bồn bồng bộn bộng bỗn bỗng moron morons mồn mồng mộn mộng mỗn mỗng mớn mống mồn mộn mỗn beset besets bệt reset resets rệt in info into inside install instead instant insert insist infant infect infer ín ìn ỉn ĩn ịn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_414_scenario68_trilingual_install_inside_reset_and_vietnamese_biet_on_ban_chai_the_he_chat() {
+        let input = "Sau khi install gói cập nhật inside hệ thống và reset cấu hình, cả tập thể (taajp there) đều biết ơn (bieets own) sự hỗ trợ kịp thời để hoàn thành mục tiêu một cách thỏa mãn (thoar manx), mua thêm bàn chải (banf chair) và con lăn (con lawn) sơn tường mới với sự thay đổi rõ rệt (resetj) như thế (nhuw these)!"
+        let expected = "Sau khi install gói cập nhật inside hệ thống và reset cấu hình, cả tập thể (tập thể) đều biết ơn (biết ơn) sự hỗ trợ kịp thời để hoàn thành mục tiêu một cách thỏa mãn (thỏa mãn), mua thêm bàn chải (bàn chải) và con lăn (con lăn) sơn tường mới với sự thay đổi rõ rệt (rệt) như thế (như thế)!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (414 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2973,6 +3007,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_407_vietnamese_ft_xt_midword_acute_tone_override_and_english_plural_preservation", test_tier4_407_vietnamese_ft_xt_midword_acute_tone_override_and_english_plural_preservation),
             ("test_tier4_408_english_and_vietnamese_rch_fch_xch_acute_and_dot_tone_override_unlatch", test_tier4_408_english_and_vietnamese_rch_fch_xch_acute_and_dot_tone_override_unlatch),
             ("test_tier4_409_scenario67_trilingual_gifts_texts_surf_march_and_vietnamese_tu_su_sach_ke_khach_chat", test_tier4_409_scenario67_trilingual_gifts_texts_surf_march_and_vietnamese_tu_su_sach_ke_khach_chat),
+            ("test_tier4_410_vietnamese_collocation_phrases_on_chai_lan_man_san_rot_the_au_den_ret", test_tier4_410_vietnamese_collocation_phrases_on_chai_lan_man_san_rot_the_au_den_ret),
+            ("test_tier4_411_english_awn_own_awns_owns_circumflex_and_midword_tone_override_unlatch", test_tier4_411_english_awn_own_awns_owns_circumflex_and_midword_tone_override_unlatch),
+            ("test_tier4_412_english_chair_lair_hairs_chairs_lairs_airs_tone_override_unlatch", test_tier4_412_english_chair_lair_hairs_chairs_lairs_airs_tone_override_unlatch),
+            ("test_tier4_413_english_boron_moron_morons_beset_reset_in_tone_override_unlatch", test_tier4_413_english_boron_moron_morons_beset_reset_in_tone_override_unlatch),
+            ("test_tier4_414_scenario68_trilingual_install_inside_reset_and_vietnamese_biet_on_ban_chai_the_he_chat", test_tier4_414_scenario68_trilingual_install_inside_reset_and_vietnamese_biet_on_ban_chai_the_he_chat),
         ]
     }
 }

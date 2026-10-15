@@ -53,7 +53,7 @@ public enum EnglishKeywords {
         "public", "private", "fileprivate", "internal", "open", "static", "final",
         "class", "enum", "protocol", "extension", "typealias", "associatedtype",
         "async", "await", "actor", "sendable", "init", "deinit", "subscript", "self",
-        "super", "nil", "null", "none", "some", "any", "where", "for", "in", "repeat",
+        "super", "nil", "null", "none", "some", "any", "where", "for", "in", "info", "into", "inside", "install", "instead", "instant", "insert", "insist", "infant", "infect", "infer", "repeat",
         "guard", "else", "defer", "catch", "throw", "throws", "try",
         "operator", "precedencegroup", "mutating", "nonmutating",
         "override", "convenience", "required", "dynamic", "optional", "lazy",
