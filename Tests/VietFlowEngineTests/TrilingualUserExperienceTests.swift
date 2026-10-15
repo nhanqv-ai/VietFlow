@@ -2718,7 +2718,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (434 Tests)
+    // MARK: - Cycle 65: -ê/-ô Collocations, C-a-[rsfjx]-a Tone Override, C-o-j-o / C-e-j-e Acute Override, and honor/donor Tone Override
+    // =========================================================================
+
+    func test_tier4_435_vietnamese_collocation_phrases_te_ke_be_ne_he_te_be_ke_te_he_ke() {
+        let input = "tese kinh tese quoocs tese thuwcj tese y tese kese thieets kese thoongs kese nhieetj kese bese mej bese boongf bese leex bese nefe nawngj nefe thowj nefe hefe khoong hefe chawrng hefe chus hefe tefe chinhr tefe befe boonj befe boons befe kefe caanj kefe lieenf kefe teje tieenf teje tooif teje heje thees heje quan heje lieen heje keje mawcj keje gias keje tur keje"
+        let expected = "tese kinh tế quốc tế thực tế y tế kese thiết kế thống kế nhiệt kế bese mẹ bế bồng bế lễ bế nefe nặng nề thợ nề hefe không hề chẳng hề chú hề tefe chỉnh tề befe bộn bề bốn bề kefe cận kề liền kề teje tiền tệ tồi tệ heje thế hệ quan hệ liên hệ keje mặc kệ giá kệ tủ kệ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_436_vietnamese_collocation_phrases_ho_to_so_ro_mo_to_so_ho_bo_no_go() {
+        let input = "hoso cais hoso mieengj hoso ddaof hoso toso yeeus toso nguyeen toso baox toso soso con soso chuwx soso taanf soso chir soso daan soso rofo ddieen rofo phats rofo mofo naams mofo ddoor mofo hooi tofo ngaay tofo gaf tofo sofo beos sofo to sofo hojo baor hojo cuwus hojo cawn hojo ungr hojo bojo ddi bojo chayj bojo cans bojo toanf bojo tieens bojo nojo phaanx nojo thinhj nojo goxo caay goxo banf goxo nhaf goxo ddoof goxo"
+        let expected = "hoso cái hố miệng hố đào hố toso yếu tố nguyên tố bão tố soso con số chữ số tần số chỉ số dân số rofo điên rồ phát rồ mofo nấm mồ đổ mồ hôi tofo ngây tồ gà tồ sofo béo sồ to sồ hojo bảo hộ cứu hộ căn hộ ủng hộ bojo đi bộ chạy bộ cán bộ toàn bộ tiến bộ nojo phẫn nộ thịnh nộ goxo cây gỗ bàn gỗ nhà gỗ đồ gỗ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_437_romaji_cara_casa_cafa_caja_caxa_tone_override_and_coda_unlatch() {
+        let input = "mara marafm marafn maraxn marajp hara harafm harafn harajn sara sarafm sarafn sarajp tara tarafm tarafn tarafng tarajn tarajp tarajt dara darafm darafmd darafn darafnd daraxn daraxnd darajm darajmd darajn darajnd darajp darajpd darajt darajtd masa masafm masafn masajp tasa tasafm tasafn tasajp tasajt basa basafm basarm basajp dasa dasafm dasafmd dasarm dasarmd dasajp dasajpd mafa mafasm mafarn mafajp tafa tafasm tafarn tafajp tafajt maja majafm majasm majarn maxa maxafm maxasm maxarn maxajp charas sasaru nasaru masaru tasaru hasaru"
+        let expected = "mara mầm mần mẫn mập hara hầm hần hận sara sầm sần sập tara tầm tần tầng tận tập tật dara dầm đầm dần đần dẫn đẫn dậm đậm dận đận dập đập dật đật masa mầm mần mập tasa tầm tần tập tật basa bầm bẩm bập dasa dầm đầm dẩm đẩm dập đập mafa mấm mẩn mập tafa tấm tẩn tập tật maja mầm mấm mẩn maxa mầm mấm mẩn mập charas sasaru nasaru masaru tasaru hasaru"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_438_romaji_cojo_coxo_ceje_chefe_and_english_honor_donor_tone_override_unlatch() {
+        let input = "nojo nojos nojof nojor nojox hojo hojos hojof hojor hojox sojo sojos sojof sojor sojox tojo tojos tojof tojor tojox bojo bojos bojof bojor bojox gojo gojos gojof gojor gojox dojo dojof dojofd dojor dojord dojox dojoxd dojos rojos moxo moxos moxof moxor moxoj doxo doxos doxosd doxof doxofd doxor doxord doxoj doxojd keje kejes kejef kejer kejex teje tejes tejef tejer tejex deje dejes dejesd dejef dejefd dejer dejerd dejex dejexd cheje chejes chejef chejer chejex honor honorf honorx honorj donor donord donorf donorfd donorx donorxd donorj donorjd"
+        let expected = "nojo nố nồ nổ nỗ hojo hố hồ hổ hỗ sojo số sồ sổ sỗ tojo tố tồ tổ tỗ bojo bố bồ bổ bỗ gojo gố gồ gổ gỗ dojo dồ đồ dổ đổ dỗ đỗ dojos rojos moxo mố mồ mổ mộ doxo dố đố dồ đồ dổ đổ dộ độ keje kế kề kể kễ teje tế tề tể tễ deje dế đế dề đề dể để dễ đễ cheje chế chề chể chễ honor hồn hỗn hộn donor đổn dồn đồn dỗn đỗn dộn độn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_439_scenario73_trilingual_gojo_soso_honor_and_vietnamese_kinh_te_thiet_ke_can_ho_cay_go_chat() {
+        let input = "Dù điểm đánh giá soso nhưng mẫu thiết kế (thieets kese) căn hộ (cawn hojo) tại tầng (tarafng) cao với bàn gỗ (banf goxo) và tủ kệ (tur keje) chỉnh tề (chinhr tefe) không hề (khoong hefe) tồi tệ (tooif teje): các nhà kinh tế (kinh tese) thế hệ (thees heje) mới đánh giá toàn bộ (toanf bojo) yếu tố (yeeus toso) tần số (taanf soso) đều đạt chuẩn, xứng đáng nhận giải honor từ nhà tài trợ donor sau màn biểu diễn của gojo tại các võ đường dojos!"
+        let expected = "Dù điểm đánh giá soso nhưng mẫu thiết kế (thiết kế) căn hộ (căn hộ) tại tầng (tầng) cao với bàn gỗ (bàn gỗ) và tủ kệ (tủ kệ) chỉnh tề (chỉnh tề) không hề (không hề) tồi tệ (tồi tệ): các nhà kinh tế (kinh tế) thế hệ (thế hệ) mới đánh giá toàn bộ (toàn bộ) yếu tố (yếu tố) tần số (tần số) đều đạt chuẩn, xứng đáng nhận giải honor từ nhà tài trợ donor sau màn biểu diễn của gojo tại các võ đường dojos!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (439 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -3164,6 +3198,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_432_romaji_coro_coso_cofo_cojo_coxo_tone_override_unlatch", test_tier4_432_romaji_coro_coso_cofo_cojo_coxo_tone_override_unlatch),
             ("test_tier4_433_romaji_cere_cese_cefe_ceje_tone_override_unlatch_and_english_preservation", test_tier4_433_romaji_cere_cese_cefe_ceje_tone_override_unlatch_and_english_preservation),
             ("test_tier4_434_scenario72_trilingual_sofa_dora_defer_and_vietnamese_goa_noan_cua_so_mat_ho_chat", test_tier4_434_scenario72_trilingual_sofa_dora_defer_and_vietnamese_goa_noan_cua_so_mat_ho_chat),
+            ("test_tier4_435_vietnamese_collocation_phrases_te_ke_be_ne_he_te_be_ke_te_he_ke", test_tier4_435_vietnamese_collocation_phrases_te_ke_be_ne_he_te_be_ke_te_he_ke),
+            ("test_tier4_436_vietnamese_collocation_phrases_ho_to_so_ro_mo_to_so_ho_bo_no_go", test_tier4_436_vietnamese_collocation_phrases_ho_to_so_ro_mo_to_so_ho_bo_no_go),
+            ("test_tier4_437_romaji_cara_casa_cafa_caja_caxa_tone_override_and_coda_unlatch", test_tier4_437_romaji_cara_casa_cafa_caja_caxa_tone_override_and_coda_unlatch),
+            ("test_tier4_438_romaji_cojo_coxo_ceje_chefe_and_english_honor_donor_tone_override_unlatch", test_tier4_438_romaji_cojo_coxo_ceje_chefe_and_english_honor_donor_tone_override_unlatch),
+            ("test_tier4_439_scenario73_trilingual_gojo_soso_honor_and_vietnamese_kinh_te_thiet_ke_can_ho_cay_go_chat", test_tier4_439_scenario73_trilingual_gojo_soso_honor_and_vietnamese_kinh_te_thiet_ke_can_ho_cay_go_chat),
         ]
     }
 }
