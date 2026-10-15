@@ -2650,7 +2650,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (424 Tests)
+    // MARK: - Cycle 63: Vietnamese Diphthong Collocations (-eo/-au/-ui/-iu/-ai/-ao) and Medial-Tone Diphthong Override Unlatch
+    // =========================================================================
+
+    func test_tier4_425_vietnamese_collocation_phrases_heo_neo_keo_meo_beo_heo_teo_neo_sau_bau_nau_tau() {
+        let input = "hero nowi hero lanhs vungf hero lanhs vawngs hero cheets hero nero moij nero dduwowngf khawps nero muoon nero keso cais keso looi keso daay keso khoas keso meso mops meso mawtj meso beso chaats beso thitj beso raats beso heso hoa heso laas heso khoo heso teso tis teso neso daay neso chawngf neso sasu thuws sasu thangs sasu soos sasu muwowif sasu basu quys basu kho basu chaau basu nasu aarn nasu nuwowng nasu tasu goox tasu caay tasu".replacingOccurrences(of: "laas", with: "las")
+        let expected = "hero nơi hẻo lánh vùng hẻo lánh vắng hẻo chết hẻo nero mọi nẻo đường khắp nẻo muôn nẻo keso cái kéo lôi kéo dây kéo khóa kéo meso móp méo mặt méo beso chất béo thịt béo rất béo heso hoa héo lá héo khô héo teso tí téo neso dây néo chằng néo sasu thứ sáu tháng sáu số sáu mười sáu basu quý báu kho báu châu báu nasu ẩn náu nương náu tasu gỗ táu cây táu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_426_vietnamese_collocation_phrases_tui_mui_rui_hui_sui_rai_sao_biu_biu_niu_riu_riu_niu() {
+        let input = "turi buoonf turi ngaamj nguif turi thaan muri thaays muri longf chanhj longf muri longf ruri may ruri xui ruri vaanj ruri huri hawts huri beenhj huri suri vieen suri thuoocs suri awn suri caro rari muwa rari racs nawmf rari racs saso chim saso thooir saso tieengs saso biru def biru chee bai def biru biju baanj biju vuwowngs biju niju nungx niju hay nungx niju riju raauf riju buoonf raauf riju risu lius risu roonj risu nisu bams nisu giuwx nisu"
+        let expected = "turi buồn tủi ngậm ngùi tủi thân muri thấy mủi lòng chạnh lòng mủi lòng ruri may rủi xui rủi vận rủi huri hắt hủi bệnh hủi suri viên sủi thuốc sủi ăn sủi cảo rari mưa rải rác nằm rải rác saso chim sáo thổi sáo tiếng sáo biru dè bỉu chê bai dè bỉu biju bận bịu vướng bịu niju nũng nịu hay nũng nịu riju rầu rịu buồn rầu rịu risu líu ríu rộn ríu nisu bám níu giữ níu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_427_romaji_and_english_ero_eso_maso_saso_rari_nori_rori_tone_override_unlatch() {
+        let input = "hero herof herox heroj nero nerof nerox neroj rero rerof rerox reroj keso kesof kesor kesox kesoj meso mesof mesor mesox mesoj neso nesof nesor nesox nesoj heso hesof hesor hesox hesoj teso tesof tesor tesox tesoj deso desof desor desox desoj beso besof besor besox besoj maso masof masor masox masoj saso sasof sasor sasox sasoj rari rarif raris rarix rarij nori norif noris norix norij rori rorif roris rorix rorij"
+        let expected = "hero hèo hẽo hẹo nero nèo nẽo nẹo rero rèo rẽo rẹo keso kèo kẻo kẽo kẹo meso mèo mẻo mẽo mẹo neso nèo nẻo nẽo nẹo heso hèo hẻo hẽo hẹo teso tèo tẻo tẽo tẹo deso dèo dẻo dẽo dẹo beso bèo bẻo bẽo bẹo maso mào mảo mão mạo saso sào sảo são sạo rari rài rái rãi rại nori nòi nói nõi nọi rori ròi rói rõi rọi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_428_romaji_uri_iru_isu_ifu_iju_aru_asu_tone_override_unlatch() {
+        let input = "muri murif muris murix murij suri surif suris surix surij turi turif turis turix turij nuri nurif nuris nurix nurij buri burif buris burix burij duri durif duris durix durij huri hurif huris hurix hurij ruri rurif ruris rurix rurij churi churif churis churix churij biru biruf birus birux biruj miru miruf mirus mirux miruj niru niruf nirus nirux niruj chiru chiruf chirus chirux chiruj risu risuf risur risux risuj nisu nisuf nisur nisux nisuj misu misuf misur misux misuj hisu hisuf hisur hisux hisuj biju bijuf bijus bijur bijux niju nijuf nijus nijur nijux riju rijuf rijus rijur rijux haru haruf harus harux haruj maru maruf marus marux maruj taru taruf tarus tarux taruj baru baruf barus barux baruj basu basuf basur basux basuj sasu sasuf sasur sasux sasuj nasu nasuf nasur nasux nasuj tasu tasuf tasur tasux tasuj"
+        let expected = "muri mùi múi mũi mụi suri sùi súi sũi sụi turi tùi túi tũi tụi nuri nùi núi nũi nụi buri bùi búi bũi bụi duri dùi dúi dũi dụi huri hùi húi hũi hụi ruri rùi rúi rũi rụi churi chùi chúi chũi chụi biru bìu bíu bĩu bịu miru mìu míu mĩu mịu niru nìu níu nĩu nịu chiru chìu chíu chĩu chịu risu rìu rỉu rĩu rịu nisu nìu nỉu nĩu nịu misu mìu mỉu mĩu mịu hisu hìu hỉu hĩu hịu biju bìu bíu bỉu bĩu niju nìu níu nỉu nĩu riju rìu ríu rỉu rĩu haru hàu háu hãu hạu maru màu máu mãu mạu taru tàu táu tãu tạu baru bàu báu bãu bạu basu bàu bảu bãu bạu sasu sàu sảu sãu sạu nasu nàu nảu nãu nạu tasu tàu tảu tãu tạu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_429_scenario71_trilingual_hero_sasuke_naruto_and_vietnamese_heo_lanh_thu_sau_quy_bau_ban_biu_chat() {
+        let input = "Vào ngày thứ sáu (thuws sasu), dù công việc đang rất bận bịu (baanj biju) nhưng cả nhóm vẫn mang theo cái kéo (cais keso), viên thuốc sủi (thuoocs suri) và bản đồ kho báu (kho basu) để vượt qua mọi nẻo đường (moij nero dduwowngf) mưa rải rác (muwa rari racs) đến thăm ngôi làng vùng hẻo lánh (vungf hero lanhs), nơi có tiếng chim sáo (chim saso) kêu líu ríu (lius risu) như trong phim về nhân vật hero naruto và sasuke!"
+        let expected = "Vào ngày thứ sáu (thứ sáu), dù công việc đang rất bận bịu (bận bịu) nhưng cả nhóm vẫn mang theo cái kéo (cái kéo), viên thuốc sủi (thuốc sủi) và bản đồ kho báu (kho báu) để vượt qua mọi nẻo đường (mọi nẻo đường) mưa rải rác (mưa rải rác) đến thăm ngôi làng vùng hẻo lánh (vùng hẻo lánh), nơi có tiếng chim sáo (chim sáo) kêu líu ríu (líu ríu) như trong phim về nhân vật hero naruto và sasuke!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (429 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -3086,6 +3120,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_422_english_plural_oors_oofs_odos_ojos_adas_aras_tone_override_unlatch", test_tier4_422_english_plural_oors_oofs_odos_ojos_adas_aras_tone_override_unlatch),
             ("test_tier4_423_english_plural_eers_eefs_ees_uys_oars_oafs_oifs_oirs_aifs_iars_toes_hoes_does_unlatch", test_tier4_423_english_plural_eers_eefs_ees_uys_oars_oafs_oifs_oirs_aifs_iars_toes_hoes_does_unlatch),
             ("test_tier4_424_scenario70_trilingual_burn_turn_dorm_and_vietnamese_co_ban_tan_nhiet_bun_run_hang_dom_chat", test_tier4_424_scenario70_trilingual_burn_turn_dorm_and_vietnamese_co_ban_tan_nhiet_bun_run_hang_dom_chat),
+            ("test_tier4_425_vietnamese_collocation_phrases_heo_neo_keo_meo_beo_heo_teo_neo_sau_bau_nau_tau", test_tier4_425_vietnamese_collocation_phrases_heo_neo_keo_meo_beo_heo_teo_neo_sau_bau_nau_tau),
+            ("test_tier4_426_vietnamese_collocation_phrases_tui_mui_rui_hui_sui_rai_sao_biu_biu_niu_riu_riu_niu", test_tier4_426_vietnamese_collocation_phrases_tui_mui_rui_hui_sui_rai_sao_biu_biu_niu_riu_riu_niu),
+            ("test_tier4_427_romaji_and_english_ero_eso_maso_saso_rari_nori_rori_tone_override_unlatch", test_tier4_427_romaji_and_english_ero_eso_maso_saso_rari_nori_rori_tone_override_unlatch),
+            ("test_tier4_428_romaji_uri_iru_isu_ifu_iju_aru_asu_tone_override_unlatch", test_tier4_428_romaji_uri_iru_isu_ifu_iju_aru_asu_tone_override_unlatch),
+            ("test_tier4_429_scenario71_trilingual_hero_sasuke_naruto_and_vietnamese_heo_lanh_thu_sau_quy_bau_ban_biu_chat", test_tier4_429_scenario71_trilingual_hero_sasuke_naruto_and_vietnamese_heo_lanh_thu_sau_quy_bau_ban_biu_chat),
         ]
     }
 }
