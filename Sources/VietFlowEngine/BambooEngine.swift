@@ -146,6 +146,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
 
         // 2. English Bypass Latch Check
+        let wasBypassedBeforeStep2 = isBypassed
         if isBypassed {
             let prefix2 = wordRawKeys.count >= 2 ? String(wordRawKeys[0...1]).lowercased() : ""
             let onsetLen = (["ch", "ph", "th", "kh", "tr", "nh", "gh", "ng", "qu"].contains(prefix2)
@@ -308,8 +309,16 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "monog" && "sfxj".contains(character.lowercased()))
                 || (["ore", "guree", "gifi", "dired", "tier", "bier", "trier", "chief", "thief"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
                 || (["gisi", "giji", "ties", "dies", "lies", "vies", "pies", "hies", "tries"].contains(String(wordRawKeys).lowercased()) && "mncpt".contains(character.lowercased()))
-                || (["leers", "seers", "cheers", "veers", "reefs", "beefs"].contains(String(wordRawKeys).lowercased()) && "mncptu".contains(character.lowercased()))
-                || (["chefs", "refs"].contains(String(wordRawKeys).lowercased()) && "mncptoe".contains(character.lowercased()))
+                || (["leers", "seers", "cheers", "veers", "reefs", "beefs", "sirs", "dirs"].contains(String(wordRawKeys).lowercased()) && "mncptu".contains(character.lowercased()))
+                || (["bars", "cars", "mars", "tars", "barfs"].contains(String(wordRawKeys).lowercased()) && "mncptiouywa".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "barf" && "mniouywa".contains(character.lowercased()))
+                || (["chefs", "refs", "hers", "ers", "nerfs", "serfs"].contains(String(wordRawKeys).lowercased()) && "mncptoe".contains(character.lowercased()))
+                || (["nerf", "serf", "kerf"].contains(String(wordRawKeys).lowercased()) && "mnoe".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "vers" && "mncpto".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "ors" && "mncptoiw".contains(character.lowercased()))
+                || (["urs", "curs"].contains(String(wordRawKeys).lowercased()) && "mncptiuw".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "burs" && "mncpiuw".contains(character.lowercased()))
+                || (["surf", "turf"].contains(String(wordRawKeys).lowercased()) && "mniuw".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "diesd" && "cmnpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "queer" && "umn".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "queue" && "frxj".contains(character.lowercased()))
@@ -319,7 +328,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs"].contains(String(wordRawKeys).lowercased()) && "wimncpt".contains(character.lowercased()))
                 || (["dadas", "charas"].contains(String(wordRawKeys).lowercased()) && "wuymncpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "deeds" && "umnpt".contains(character.lowercased()))
-                || (["daasu", "datas", "dawns", "downs", "darns", "deems", "deeps", "dense", "dojos", "dooms", "donor", "donors", "dura", "duri", "dorm", "derm", "dora", "dosa", "diesm", "diesn", "diesc", "diesp", "diest", "diesng"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
+                || (["daasu", "datas", "dawns", "downs", "darns", "deems", "deeps", "dense", "dirs", "dojos", "dooms", "donor", "donors", "dura", "duri", "dorm", "derm", "dora", "dosa", "diesm", "diesn", "diesc", "diesp", "diest", "diesng"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -675,12 +684,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: fullCandidateRaw)
 
         let strippedActivePreedit = TonePlacement.stripTone(from: activePreedit).lowercased()
-        let hasMidWordToneCluster = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+        let hasMidWordToneCluster = !wasBypassedBeforeStep2
+            && (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
             && activeRawKeys.count >= 3
             && "rs".contains(activeRawKeys[activeRawKeys.count - 2].lowercased())
             && "sfrxj".contains(activeRawKeys[activeRawKeys.count - 1].lowercased())
             && !strippedActivePreedit.contains(where: { "ăâêôơưđ".contains($0) })
-            && strippedActivePreedit != "soa"
             && !"sfrxjz".contains(character.lowercased())
 
         let hasMidWordZAfterTone = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
