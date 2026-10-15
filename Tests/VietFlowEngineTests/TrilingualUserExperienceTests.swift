@@ -3529,6 +3529,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 90: 40 Collocation Entries, ng-Onset e/ee/eo/eu Unlatch, bofe/boje/mofe/moxe/moje/nofe/nore/noxe/noje/dofe/doxe/doje/rofe/roxe/roje Unlatch, and d-Stroke oe Unlatch
+
+    func test_tier4_560_vietnamese_collocation_phrases_kajy_pasy_pafy_pary_paxy_pajy_ngese_ngefe_ngere_ngexe_ngeje_ngeso_ngefo_ngero_ngexo_ngejo_ngesu_ngefu_ngeru_ngexu_ngeju_bose_bofe_boxe_boje_mose_mofe_moxe_moje_nofe_nore_noxe_noje_dofe_doxe_doje_rofe_roxe_roje_sose() {
+        let input = "kajy cayj kajy chayj kajy pasy cays pasy mays pasy pafy cayf pafy dayf pafy pary gayr pary chayr pary paxy cayx paxy gayx paxy pajy cayj pajy chayj pajy ngese nghees ngese ghees ngese ngefe ngheef ngefe keef ngefe ngere keer ngere neer ngere ngexe ngheex ngexe leex ngexe ngeje ngheej ngeje teej ngeje ngeso kheos ngeso keos ngeso ngefo ngheof ngefo treof ngefo ngero ngoeor ngero leor ngero ngexo leox ngexo ddeox ngexo ngejo ngheoj ngejo keoj ngejo ngesu keeu ngesu meeus ngesu ngefu meemf ngefu pheuf ngefu ngeru deor ngeru meemf ngeru ngexu meemf ngexu deor ngexu ngeju nawjng ngeju meemf ngeju bose ddor bose sangs bose bofe ddor bofe hoef bofe boxe ddor boxe hoef boxe boje ddor boje nhoej boje mose ddor mose sangs mose mofe ddor mofe hoef mofe moxe ddor moxe hoef moxe moje ddor moje nhoej moje nofe ddor nofe hoef nofe nore meejt nore khoer nore noxe ddor noxe hoef noxe noje ddor noje nhoej noje dofe ddor dofe hoef dofe doxe ddor doxe hoef doxe doje ddor doje nhoej doje rofe ddor rofe hoef rofe roxe ddor roxe hoef roxe roje ddor roje nhoej roje sose ddor sose sangs sose"
+        let expected = "kajy cạy kạy chạy kạy pasy cáy páy máy páy pafy cày pày dày pày pary gảy pảy chảy pảy paxy cãy pãy gãy pãy pajy cạy pạy chạy pạy ngese nghế ngế ghế ngế ngefe nghề ngề kề ngề ngere kể ngể nể ngể ngexe nghễ ngễ lễ ngễ ngeje nghệ ngệ tệ ngệ ngeso khéo ngéo kéo ngéo ngefo nghèo ngèo trèo ngèo ngero ngoẻo ngẻo lẻo ngẻo ngexo lẽo ngẽo đẽo ngẽo ngejo nghẹo ngẹo kẹo ngẹo ngesu kêu ngéu mếu ngéu ngefu mềm ngèu phèu ngèu ngeru dẻo ngẻu mềm ngẻu ngexu mềm ngẽu dẻo ngẽu ngeju nặng ngẹu mềm ngẹu bose đỏ bóe sáng bóe bofe đỏ bòe hòe bòe boxe đỏ bõe hòe bõe boje đỏ bọe nhọe bọe mose đỏ móe sáng móe mofe đỏ mòe hòe mòe moxe đỏ mõe hòe mõe moje đỏ mọe nhọe mọe nofe đỏ nòe hòe nòe nore mệt nỏe khỏe nỏe noxe đỏ nõe hòe nõe noje đỏ nọe nhọe nọe dofe đỏ dòe hòe dòe doxe đỏ dõe hòe dõe doje đỏ dọe nhọe dọe rofe đỏ ròe hòe ròe roxe đỏ rõe hòe rõe roje đỏ rọe nhọe rọe sose đỏ sóe sáng sóe"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_561_ng_onset_ee_eo_eu_coda_offglide_and_tone_override_unlatch() {
+        let input = "ngese ngesem ngesen ngeseu ngesec ngesep ngeset ngesef ngeser ngesex ngesej ngefe ngefem ngefen ngefeu ngefes ngefer ngefex ngefej ngere ngerem ngeren ngereu ngerex ngerej ngexe ngexem ngexen ngexeu ngexes ngexef ngexer ngexej ngeje ngejem ngejen ngejeu ngejec ngejep ngejet ngejes ngejef ngejer ngejex ngeso ngesof ngesor ngesox ngesoj ngefo ngefos ngefor ngefox ngefoj ngero ngeros ngerof ngerox ngeroj ngexo ngexos ngexof ngexor ngexoj ngejo ngejos ngejof ngejor ngejox ngesu ngesue ngesuf ngesur ngesux ngesuj ngefu ngefue ngefus ngefur ngefux ngefuj ngeru ngerue ngerus ngeruf ngerux ngeruj ngexu ngexue ngexus ngexuf ngexur ngexuj ngeju ngejue ngejus ngejuf ngejur ngejux"
+        let expected = "ngese ngếm ngến ngếu ngếc ngếp ngết ngề ngể ngễ ngệ ngefe ngềm ngền ngều ngế ngể ngễ ngệ ngere ngểm ngển ngểu ngễ ngệ ngexe ngễm ngễn ngễu ngế ngề ngể ngệ ngeje ngệm ngện ngệu ngệc ngệp ngệt ngế ngề ngể ngễ ngeso ngèo ngẻo ngẽo ngẹo ngefo ngéo ngẻo ngẽo ngẹo ngero ngéo ngèo ngẽo ngẹo ngexo ngéo ngèo ngẻo ngẹo ngejo ngéo ngèo ngẻo ngẽo ngesu ngếu ngèu ngẻu ngẽu ngẹu ngefu ngều ngéu ngẻu ngẽu ngẹu ngeru ngểu ngéu ngèu ngẽu ngẹu ngexu ngễu ngéu ngèu ngẻu ngẹu ngeju ngệu ngéu ngèu ngẻu ngẽu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_562_bofe_boje_mofe_moxe_moje_nofe_nore_noxe_noje_unlatch() {
+        let input = "bofe bofeo bofes bofer bofex bofej bofem bofen boje bojeo bojes bojef bojer bojex bojem bojen bojec bojep bojet mofe mofeo mofes mofer mofex mofej mofem mofen moxe moxeo moxes moxef moxer moxej moxem moxen moje mojeo mojes mojef mojer mojex mojem mojen mojec mojep mojet nofe nofeo nofes nofer nofex nofej nofem nofen nore noreo noref norex norej norem noren noxe noxeo noxes noxef noxer noxej noxem noxen noje nojeo nojes nojef nojer nojex nojem nojen nojec nojep nojet"
+        let expected = "bofe boèo bóe bỏe bõe bọe boèm boèn boje boẹo bóe bòe bỏe bõe boẹm boẹn boẹc boẹp boẹt mofe moèo móe mỏe mõe mọe moèm moèn moxe moẽo móe mòe mỏe mọe moẽm moẽn moje moẹo móe mòe mỏe mõe moẹm moẹn moẹc moẹp moẹt nofe noèo nóe nỏe nõe nọe noèm noèn nore noẻo nòe nõe nọe noẻm noẻn noxe noẽo nóe nòe nỏe nọe noẽm noẽn noje noẹo nóe nòe nỏe nõe noẹm noẹn noẹc noẹp noẹt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_563_dofe_doxe_doje_rofe_roxe_roje_and_d_stroke_oe_unlatch() {
+        let input = "dofe dofeo dofes dofer dofex dofej dofem dofen dofed doxe doxeo doxes doxef doxer doxej doxem doxen doxed doje dojeo dojes dojef dojer dojex dojem dojen dojec dojep dojet dojed dore dored rofe rofeo rofes rofer rofex rofej rofem rofen roxe roxeo roxes roxef roxer roxej roxem roxen roje rojeo rojes rojef rojer rojex rojem rojen rojec rojep rojet"
+        let expected = "dofe doèo dóe dỏe dõe dọe doèm doèn đòe doxe doẽo dóe dòe dỏe dọe doẽm doẽn đõe doje doẹo dóe dòe dỏe dõe doẹm doẹn doẹc doẹp doẹt đọe dore đỏe rofe roèo róe rỏe rõe rọe roèm roèn roxe roẽo róe ròe rỏe rọe roẽm roẽn roje roẹo róe ròe rỏe rõe roẹm roẹn roẹc roẹp roẹt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_564_scenario98_trilingual_bose_mose_sose_and_vietnamese_do_boe_sang_moe_nghe_nge_chat() {
+        let input = "Trong buổi triển lãm âm thanh bose kết hợp trình diễn hệ thống mose và sose hiện đại, cả đoàn khách đều trầm trồ trước những chùm đèn đỏ bóe (ddor bose) rực rỡ cùng dải lụa sáng móe (sangs mose) lung linh bên cạnh khu trưng bày làng nghề ngề (ngheef ngefe) truyền thống!"
+        let expected = "Trong buổi triển lãm âm thanh bose kết hợp trình diễn hệ thống mose và sose hiện đại, cả đoàn khách đều trầm trồ trước những chùm đèn đỏ bóe (đỏ bóe) rực rỡ cùng dải lụa sáng móe (sáng móe) lung linh bên cạnh khu trưng bày làng nghề ngề (nghề ngề) truyền thống!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4097,6 +4129,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_557_kofa_kora_koja_pofa_poxa_poja_coda_diphthong_breve_and_tone_unlatch", test_tier4_557_kofa_kora_koja_pofa_poxa_poja_coda_diphthong_breve_and_tone_unlatch),
             ("test_tier4_558_k_and_p_onset_ay_au_aa_tone_override_circumflex_and_breve_unlatch", test_tier4_558_k_and_p_onset_ay_au_aa_tone_override_circumflex_and_breve_unlatch),
             ("test_tier4_559_scenario97_trilingual_kore_gero_kasa_and_vietnamese_met_koe_deo_geo_cap_ka_chat", test_tier4_559_scenario97_trilingual_kore_gero_kasa_and_vietnamese_met_koe_deo_geo_cap_ka_chat),
+            ("test_tier4_560_vietnamese_collocation_phrases_kajy_pasy_pafy_pary_paxy_pajy_ngese_ngefe_ngere_ngexe_ngeje_ngeso_ngefo_ngero_ngexo_ngejo_ngesu_ngefu_ngeru_ngexu_ngeju_bose_bofe_boxe_boje_mose_mofe_moxe_moje_nofe_nore_noxe_noje_dofe_doxe_doje_rofe_roxe_roje_sose", test_tier4_560_vietnamese_collocation_phrases_kajy_pasy_pafy_pary_paxy_pajy_ngese_ngefe_ngere_ngexe_ngeje_ngeso_ngefo_ngero_ngexo_ngejo_ngesu_ngefu_ngeru_ngexu_ngeju_bose_bofe_boxe_boje_mose_mofe_moxe_moje_nofe_nore_noxe_noje_dofe_doxe_doje_rofe_roxe_roje_sose),
+            ("test_tier4_561_ng_onset_ee_eo_eu_coda_offglide_and_tone_override_unlatch", test_tier4_561_ng_onset_ee_eo_eu_coda_offglide_and_tone_override_unlatch),
+            ("test_tier4_562_bofe_boje_mofe_moxe_moje_nofe_nore_noxe_noje_unlatch", test_tier4_562_bofe_boje_mofe_moxe_moje_nofe_nore_noxe_noje_unlatch),
+            ("test_tier4_563_dofe_doxe_doje_rofe_roxe_roje_and_d_stroke_oe_unlatch", test_tier4_563_dofe_doxe_doje_rofe_roxe_roje_and_d_stroke_oe_unlatch),
+            ("test_tier4_564_scenario98_trilingual_bose_mose_sose_and_vietnamese_do_boe_sang_moe_nghe_nge_chat", test_tier4_564_scenario98_trilingual_bose_mose_sose_and_vietnamese_do_boe_sang_moe_nghe_nge_chat),
         ]
     }
 }
