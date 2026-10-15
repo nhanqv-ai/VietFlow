@@ -2820,8 +2820,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (449 Tests)
+    // MARK: - Cycle 68: 5-Letter Romaji Collocations (giải/soái/toái/hoải/hối/mổi/tẩu/hẩu/giủi/giúi) & Tone Override Unlatch (osoi/hosoi/moroi/noroi/soroi/girui/gisui/girai/gisai/horai/torai/hosai/sosai/tosai/arau/harau/sarau/tarau/narau/ieru/kieru/C-e-[rsfjx]-u)
     // =========================================================================
+
+    func test_tier4_450_vietnamese_collocation_phrases_giai_soai_toai_hoai_hoi_moi_tau_hau_giui_giui() {
+        let input = "girai hoaf girai lys girai dieenx girai phaan girai lowif girai trao girai ddoatj girai sosai nguyeen sosai thoongs sosai ddaij sosai tuwowngs sosai tosai phieenf tosai vunj tosai horai bair horai oair horai hosoi sams hosoi haaps hosoi thucs hosoi khoong hosoi moroi noots moroi cais moroi tarau ddaof tarau bor tarau oongs tarau huts tarau harau haof harau ngon harau girui gaanf girui gisui ddaam gisui nhets gisui"
+        let expected = "girai hòa giải lý giải diễn giải phân giải lời giải trao giải đoạt giải sosai nguyên soái thống soái đại soái tướng soái tosai phiền toái vụn toái horai bải hoải oải hoải hosoi sám hối hấp hối thúc hối không hối moroi nốt mổi cái mổi tarau đào tẩu bỏ tẩu ống tẩu hút tẩu harau hào hẩu ngon hẩu girui gần giủi gisui đâm giúi nhét giúi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_451_romaji_osoi_hosoi_moroi_noroi_soroi_girui_gisui_girai_gisai_horai_torai_hosai_sosai_tosai_tone_override_unlatch() {
+        let input = "osoi osoif osoir osoix osoij osoifw osoirw osoixw osoijw hosoi hosoif hosoir hosoix hosoij hosoifw hosoirw hosoixw hosoijw moroi morois moroif moroix moroij moroisw moroifw moroixw moroijw noroi norois noroif noroix noroij noroisw noroifw noroixw noroijw soroi sorois soroif soroix soroij soroisw soroifw soroixw soroijw girui giruis giruif giruix giruij gisui gisuif gisuir gisuix gisuij girai girais giraif giraix giraij gisai gisaif gisair gisaix gisaij horai horais horaif horaix horaij torai torais toraif toraix toraij hosai hosaif hosair hosaix hosaij sosai sosaif sosair sosaix sosaij tosai tosaif tosair tosaix tosaij"
+        let expected = "osoi ồi ổi ỗi ội ời ởi ỡi ợi hosoi hồi hổi hỗi hội hời hởi hỡi hợi moroi mối mồi mỗi mội mới mời mỡi mợi noroi nối nồi nỗi nội nới nời nỡi nợi soroi sối sồi sỗi sội sới sời sỡi sợi girui giúi giùi giũi giụi gisui giùi giủi giũi giụi girai giái giài giãi giại gisai giài giải giãi giại horai hoái hoài hoãi hoại torai toái toài toãi toại hosai hoài hoải hoãi hoại sosai soài soải soãi soại tosai toài toải toãi toại"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_452_romaji_arau_harau_sarau_tarau_narau_and_ieru_kieru_mieru_hieru_nieru_tieru_bieru_sieru_gieru_rieru_chieru_tone_override_unlatch() {
+        let input = "arau araus arauf araux arauj harau haraus harauf haraux harauj sarau sarauf saraux sarauj tarau taraus tarauf taraux tarauj narau naraus narauf naraux narauj ieru ieruse ierufe ieruxe ieruje kieru kieruse kierufe kieruxe kieruje mieru mieruse mierufe mieruxe mieruje hieru hieruse hierufe hieruxe hieruje nieru nieruse nierufe nieruxe nieruje tieru tieruse tierufe tieruxe tieruje bieru bieruse bierufe bieruxe bieruje sieru sieruse sierufe sieruxe sieruje gieru gieruse gierufe gieruxe gieruje rieru rieruse rierufe rieruxe rieruje chieru chieruse chierufe chieruxe chieruje"
+        let expected = "arau ấu ầu ẫu ậu harau hấu hầu hẫu hậu sarau sầu sẫu sậu tarau tấu tầu tẫu tậu narau nấu nầu nẫu nậu ieru iếu iều iễu iệu kieru kiếu kiều kiễu kiệu mieru miếu miều miễu miệu hieru hiếu hiều hiễu hiệu nieru niếu niều niễu niệu tieru tiếu tiều tiễu tiệu bieru biếu biều biễu biệu sieru siếu siều siễu siệu gieru giếu giều giễu giệu rieru riếu riều riễu riệu chieru chiếu chiều chiễu chiệu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_453_romaji_ceru_cesu_cefu_tone_override_neros_reros_and_refuse_preservation() {
+        let input = "keru keruse kerufe keruxe keruje teru teruse terufe teruxe teruje neru neruse nerufe neruxe neruje meru meruse merufe meruxe meruje beru beruse berufe beruxe beruje seru seruse serufe seruxe seruje reru reruse rerufe reruxe reruje cheru cheruse cherufe cheruxe cheruje hesu hesufe hesure hesuxe hesuje tesu tesufe tesure tesuxe tesuje mesu mesufe mesure mesuxe mesuje nesu nesufe nesure nesuxe nesuje besu besufe besure besuxe besuje sesu sesufe sesure sesuxe sesuje resu resufe resure resuxe resuje kefu kefuse kefure kefuxe kefuje tefu tefuse tefure tefuxe tefuje mefu mefuse mefure mefuxe mefuje nefu nefuse nefure nefuxe nefuje befu befuse befure befuxe befuje defu defuse defure defuxe defuje refu refure refuxe refuje neros reros refuse refused refuses"
+        let expected = "keru kếu kều kễu kệu teru tếu tều tễu tệu neru nếu nều nễu nệu meru mếu mều mễu mệu beru bếu bều bễu bệu seru sếu sều sễu sệu reru rếu rều rễu rệu cheru chếu chều chễu chệu hesu hều hểu hễu hệu tesu tều tểu tễu tệu mesu mều mểu mễu mệu nesu nều nểu nễu nệu besu bều bểu bễu bệu sesu sều sểu sễu sệu resu rều rểu rễu rệu kefu kếu kểu kễu kệu tefu tếu tểu tễu tệu mefu mếu mểu mễu mệu nefu nếu nểu nễu nệu befu bếu bểu bễu bệu defu dếu dểu dễu dệu refu rểu rễu rệu néo réo refuse refused refuses"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_454_scenario76_trilingual_kieru_hosoi_sosai_and_vietnamese_ly_giai_nguyen_soai_sam_hoi_chat() {
+        let input = "Để lý giải (lys girai) về nguyên soái (nguyeen sosai) trong tiểu thuyết lịch sử có hiệu (hieruje) ứng ánh sáng kieru và nét vẽ hosoi, tác giả đã diễn giải (dieenx girai) cảnh nhân vật sám hối (sams hosoi) rồi đào tẩu (ddaof tarau) trong đêm tối (tosoi) mà không hề phiền toái (phieenf tosai) hay refuse lời khuyên từ người bạn sosai!"
+        let expected = "Để lý giải (lý giải) về nguyên soái (nguyên soái) trong tiểu thuyết lịch sử có hiệu (hiệu) ứng ánh sáng kieru và nét vẽ hosoi, tác giả đã diễn giải (diễn giải) cảnh nhân vật sám hối (sám hối) rồi đào tẩu (đào tẩu) trong đêm tối (tối) mà không hề phiền toái (phiền toái) hay refuse lời khuyên từ người bạn sosai!"
+        assertBuffer(input, equals: expected)
+    }
 
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -3281,6 +3311,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_447_delayed_circumflex_nasal_coda_ang_ong_enh_en_em_and_managw_unlatch", test_tier4_447_delayed_circumflex_nasal_coda_ang_ong_enh_en_em_and_managw_unlatch),
             ("test_tier4_448_romaji_cire_cise_cife_cije_cure_cuse_cufe_cuje_tone_override_unlatch", test_tier4_448_romaji_cire_cise_cife_cije_cure_cuse_cufe_cuje_tone_override_unlatch),
             ("test_tier4_449_scenario75_trilingual_chese_misa_tojo_and_vietnamese_co_che_nuoc_mia_ca_kho_to_chat", test_tier4_449_scenario75_trilingual_chese_misa_tojo_and_vietnamese_co_che_nuoc_mia_ca_kho_to_chat),
+            ("test_tier4_450_vietnamese_collocation_phrases_giai_soai_toai_hoai_hoi_moi_tau_hau_giui_giui", test_tier4_450_vietnamese_collocation_phrases_giai_soai_toai_hoai_hoi_moi_tau_hau_giui_giui),
+            ("test_tier4_451_romaji_osoi_hosoi_moroi_noroi_soroi_girui_gisui_girai_gisai_horai_torai_hosai_sosai_tosai_tone_override_unlatch", test_tier4_451_romaji_osoi_hosoi_moroi_noroi_soroi_girui_gisui_girai_gisai_horai_torai_hosai_sosai_tosai_tone_override_unlatch),
+            ("test_tier4_452_romaji_arau_harau_sarau_tarau_narau_and_ieru_kieru_mieru_hieru_nieru_tieru_bieru_sieru_gieru_rieru_chieru_tone_override_unlatch", test_tier4_452_romaji_arau_harau_sarau_tarau_narau_and_ieru_kieru_mieru_hieru_nieru_tieru_bieru_sieru_gieru_rieru_chieru_tone_override_unlatch),
+            ("test_tier4_453_romaji_ceru_cesu_cefu_tone_override_neros_reros_and_refuse_preservation", test_tier4_453_romaji_ceru_cesu_cefu_tone_override_neros_reros_and_refuse_preservation),
+            ("test_tier4_454_scenario76_trilingual_kieru_hosoi_sosai_and_vietnamese_ly_giai_nguyen_soai_sam_hoi_chat", test_tier4_454_scenario76_trilingual_kieru_hosoi_sosai_and_vietnamese_ly_giai_nguyen_soai_sam_hoi_chat),
         ]
     }
 }
