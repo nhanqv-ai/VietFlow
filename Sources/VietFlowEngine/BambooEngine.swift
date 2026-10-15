@@ -388,15 +388,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && r1 == r3)
                 || (rhymeAfterOnset.count == 4
                     && "ao".contains(rhymeAfterOnset[0])
-                    && "pt".contains(rhymeAfterOnset[1])
+                    && "cpt".contains(rhymeAfterOnset[1])
                     && rhymeAfterOnset[2] == rhymeAfterOnset[0]
                     && rhymeAfterOnset[3] == "w")
-                || ["dieted", "datawd", "datadw", "dapawd", "dapadw", "dotowd", "dotodw", "dopowd", "dopodw"].contains(String(wordRawKeys).lowercased()))
+                || ["dieted", "datawd", "datadw", "dapawd", "dapadw", "dotowd", "dotodw", "dopowd", "dopodw", "docowd", "docodw"].contains(String(wordRawKeys).lowercased()))
                 && ("sj".contains(character.lowercased())
                     || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
                     || (character.lowercased() == "w"
                         && (String(wordRawKeys).lowercased() == "oto"
-                            || (has3CharRhymeAfterOnset && "ao".contains(r1) && "pt".contains(r2) && r1 == r3)))) {
+                            || (has3CharRhymeAfterOnset && "ao".contains(r1) && "cpt".contains(r2) && r1 == r3)))) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -547,6 +547,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                             && Self.matchesDiphthongCodaTail(rhymeAfterOnset[3...].joined(), nonStopCodas: ["m", "n", "nh"], stopCodas: ["p", "t", "ch"], requiredDiacritics: "e", allowToneOverride: true, allowD: false))))
                 || (String(wordRawKeys).lowercased() == "tureen" && character.lowercased() == "h")
                 || Self.matchesVowelInitialDiphthongUnlatch(wordRawKeys: wordRawKeys, character: character)
+                || Self.matchesUyOaOeClusterUnlatch(wordRawKeys: wordRawKeys, prefix2: prefix2, rhymeAfterOnset: rhymeAfterOnset, character: character)
                 || Self.isVietnameseCollocation(candidateWord: (String(wordRawKeys) + String(character)).lowercased(), lastCompletedWord: lastCompletedWord)) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -2176,8 +2177,122 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "gura": ["góa", "goá", "gủa"],
         "chura": ["chúa", "chủa"],
         "baru": ["châu", "của", "báu", "bảo", "bảu"],
-        "maru": ["mẩu", "miếng", "mảu"]
+        "maru": ["mẩu", "miếng", "mảu"],
+        "noops": ["sưng", "phồng", "nốp"],
+        "goops": ["gồ", "nổi", "cái", "gốp"],
+        "troops": ["bộp", "lộp", "trốp"],
+        "rojos": ["mắt", "lồi", "trợn", "rố"],
+        "gotos": ["vải", "cổ", "gốt"],
+        "nonos": ["bồn", "cồn", "nốn"],
+        "mamas": ["nấm", "rau", "cây", "mấm"],
+        "nura": ["nắng", "chín", "nủa"],
+        "chere": ["trề", "môi", "chể"],
+        "raru": ["rầu", "rau", "rảu"],
+        "taru": ["đào", "tẩu", "tảu"],
+        "garu": ["cái", "múc", "gảu"],
+        "daru": ["yêu", "con", "dảu"],
+        "seru": ["chim", "con", "sẻu"],
+        "meru": ["móm", "mẻu"],
+        "cheru": ["chặt", "chẻu"]
     ]
+
+    private static func matchesUyOaOeClusterUnlatch(
+        wordRawKeys: [Character],
+        prefix2: String,
+        rhymeAfterOnset: [String],
+        character: Character
+    ) -> Bool {
+        guard let firstKey = wordRawKeys.first?.lowercased().first,
+              !"wfjz".contains(firstKey),
+              firstKey != "p" || prefix2 == "ph" else {
+            return false
+        }
+        let c = character.lowercased()
+        let isDOnset = firstKey == "d"
+
+        // 1. 'qu' onset + 'yê' / 'uy' stop-coda & non-stop-coda unlatch (e.g. quyretes -> quyết, quyretej -> quyệt, quyrense -> quyến, quyrts -> quýt)
+        if prefix2 == "qu" && rhymeAfterOnset.count >= 3 && rhymeAfterOnset[0] == "y" {
+            if "rfx".contains(rhymeAfterOnset[1]) && ["t", "p", "ch"].contains(rhymeAfterOnset[2...].joined()) && "sj".contains(c) {
+                return true
+            }
+            if rhymeAfterOnset.count >= 4
+                && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
+                    || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2]))) {
+                let tail = rhymeAfterOnset[3...].joined()
+                if c == "e" && matchesDiphthongCodaTail(tail, nonStopCodas: ["n"], stopCodas: ["t", "c", "ch"], allowD: false) {
+                    return true
+                }
+                if "sj".contains(c) && matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: ["t", "c", "ch"], requiredDiacritics: "e", allowToneOverride: false, allowD: false) {
+                    return true
+                }
+            }
+        }
+
+        let effRhyme = "ou".contains(firstKey) ? wordRawKeys.map({ $0.lowercased() }) : rhymeAfterOnset
+        guard effRhyme.count >= 4 else { return false }
+
+        // 2. 'uy' + stop-coda ('t', 'p', 'ch') + tone override ('s', 'j') (e.g. tuyrts -> tuýt, tuyrtj -> tuỵt, suyrts -> suýt, huyrchs -> huých, uyrchs -> uých)
+        if effRhyme[0] == "u"
+            && ((effRhyme[1] == "y" && "rfx".contains(effRhyme[2]))
+                || ("rfx".contains(effRhyme[1]) && effRhyme[2] == "y")) {
+            let tail = effRhyme[3...].joined()
+            if "sj".contains(c) && ["t", "p", "ch"].contains(tail) {
+                return true
+            }
+        }
+
+        // 3. 'uyê' + coda ('n', 't', 'c', 'ch') + tone override & delayed 'e' (e.g. tuyretes -> tuyết, tuyretej -> tuyệt, chuyrenje -> chuyện, nguyrenxe -> nguyễn)
+        if effRhyme.count >= 5
+            && effRhyme[0] == "u"
+            && ((effRhyme[1] == "y" && (("rsfjx".contains(effRhyme[2]) && effRhyme[3] == "e") || (effRhyme[2] == "e" && "rsfjx".contains(effRhyme[3]))))
+                || ("rsfjx".contains(effRhyme[1]) && effRhyme[2] == "y" && effRhyme[3] == "e")) {
+            let tail = effRhyme[4...].joined()
+            if c == "e" && (tail == "d" || matchesDiphthongCodaTail(tail, nonStopCodas: ["n"], stopCodas: ["t", "c", "ch"], allowD: isDOnset)) {
+                return true
+            }
+            if "sj".contains(c) && matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: ["t", "c", "ch"], requiredDiacritics: "e", allowToneOverride: false, allowD: isDOnset) {
+                return true
+            }
+            if isDOnset && c == "d" && matchesDiphthongCodaTail(tail, nonStopCodas: ["n"], stopCodas: ["t", "c", "ch"], requiredDiacritics: "e", allowToneOverride: true, allowD: false) {
+                return true
+            }
+        }
+
+        // 4. 'oa' / 'oă' + stop-coda ('c', 'p', 't', 'ch') + tone override ('s', 'j') & optional 'w' (e.g. hoarts -> hoát, hoartj -> hoạt, hoartws -> hoắt, ngoarcwj -> ngoặc, oarchs -> oách)
+        if effRhyme[0] == "o"
+            && (("rfx".contains(effRhyme[1]) && effRhyme[2] == "a")
+                || (effRhyme[1] == "a" && "rfx".contains(effRhyme[2]))) {
+            let tail = effRhyme[3...].joined()
+            let oaStopCodas: Set<String> = ["c", "p", "t", "ch"]
+            if c == "w" && matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: oaStopCodas, allowD: isDOnset) {
+                return true
+            }
+            if "sj".contains(c) {
+                if matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: oaStopCodas, allowToneOverride: false, allowD: isDOnset)
+                    || matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: oaStopCodas, requiredDiacritics: "w", allowToneOverride: false, allowD: isDOnset) {
+                    return true
+                }
+            }
+            if isDOnset && c == "d" {
+                if matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: oaStopCodas, allowToneOverride: true, allowD: false)
+                    || matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: oaStopCodas, requiredDiacritics: "w", allowToneOverride: true, allowD: false) {
+                    return true
+                }
+            }
+        }
+
+        // 5. 'oe' + stop-coda ('c', 'p', 't') + tone override ('s', 'j') (e.g. lorets / loerts -> loét, loretj / loertj -> loẹt, torets -> toét, khorets -> khoét, orets -> oét)
+        if effRhyme[0] == "o"
+            && (("rfx".contains(effRhyme[1]) && effRhyme[2] == "e")
+                || (effRhyme[1] == "e" && "rfx".contains(effRhyme[2]))) {
+            let tail = effRhyme[3...].joined()
+            if "sj".contains(c) && ["c", "p", "t"].contains(tail) {
+                return true
+            }
+        }
+
+        return false
+    }
 
     private static func matchesVowelInitialDiphthongUnlatch(
         wordRawKeys: [Character],
