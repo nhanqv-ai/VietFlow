@@ -3497,6 +3497,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 89: 40 Collocation Entries, kore/kofe/koxe/koje/pofe/poxe/poje Unlatch, kofa/kora/koja/pofa/poxa/poja Unlatch, gese/gefe/gere/gexe/geje Unlatch, and k/p-Onset ay/au/aa Tone & Breve Unlatch
+
+    func test_tier4_555_vietnamese_collocation_phrases_gese_gefe_gere_gexe_geje_gefo_gero_gexo_gejo_geru_gexu_geju_kaxu_kaju_paxu_paju_pixu_kora_poxa_kofe_kore_koxe_koje_pofe_poxe_poje_kasa_kafa_kara_kaxa_kaja_pasa_pafa_para_paxa_paja_kasy_kafy_kary_kaxy() {
+        let input = "gese ghees gese kees gese gefe gheef gefe keef gefe gere keer gere neer gere gexe deex gexe leex gexe geje ngheej geje teej geje gefo gheof gefo ngheof gefo gero deor gero leor gero gexo leox gexo ddeox gexo gejo gheoj gejo keoj gejo geru deor geru meemf geru gexu meemf gexu deor gexu geju nawjng geju meemf geju kaxu nhauf kaxu bauf kaxu kaju nhauf kaju bauf kaju paxu nhauf paxu bauf paxu paju nhauf paju bauf paju pixu nawjng pixu trixu pixu kora toar kora xoax kora poxa toar poxa xoax poxa kofe ddor kofe hoef kofe kore meejt kore khoer kore koxe ddor koxe hoef koxe koje ddor koje nhoej koje pofe ddor pofe hoef pofe poxe ddor poxe hoef poxe poje ddor poje nhoej poje kasa caaps kasa taaps kasa kafa caauf kafa traamf kafa kara caanr kara khaanr kara kaxa caamx kaxa daamx kaxa kaja caapj kaja taapj kaja pasa caaps pasa taaps pasa pafa caauf pafa traamf pafa para caanr para khaanr para paxa caamx paxa daamx paxa paja caapj paja taapj paja kasy cays kasy mays kasy kafy cayf kafy dayf kafy kary gayr kary chayr kary kaxy cayx kaxy gayx kaxy"
+        let expected = "gese ghế gế kế gế gefe ghề gề kề gề gere kể gể nể gể gexe dễ gễ lễ gễ geje nghệ gệ tệ gệ gefo ghèo gèo nghèo gèo gero dẻo gẻo lẻo gẻo gexo lẽo gẽo đẽo gẽo gejo ghẹo gẹo kẹo gẹo geru dẻo gẻu mềm gẻu gexu mềm gẽu dẻo gẽu geju nặng gẹu mềm gẹu kaxu nhàu kãu bàu kãu kaju nhàu kạu bàu kạu paxu nhàu pãu bàu pãu paju nhàu pạu bàu pạu pixu nặng pĩu trĩu pĩu kora tỏa kỏa xõa kỏa poxa tỏa põa xõa põa kofe đỏ kòe hòe kòe kore mệt kỏe khỏe kỏe koxe đỏ kõe hòe kõe koje đỏ kọe nhọe kọe pofe đỏ pòe hòe pòe poxe đỏ põe hòe põe poje đỏ pọe nhọe pọe kasa cấp kấ tấp kấ kafa cầu kầ trầm kầ kara cẩn kẩ khẩn kẩ kaxa cẫm kẫ dẫm kẫ kaja cập kậ tập kậ pasa cấp pấ tấp pấ pafa cầu pầ trầm pầ para cẩn pẩ khẩn pẩ paxa cẫm pẫ dẫm pẫ paja cập pậ tập pậ kasy cáy káy máy káy kafy cày kày dày kày kary gảy kảy chảy kảy kaxy cãy kãy gãy kãy"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_556_kore_kofe_koxe_koje_pofe_poxe_poje_and_gese_gefe_gere_gexe_geje_unlatch() {
+        let input = "kore koreo koref korex korej korem koren kofe kofeo kofes kofer kofex kofej kofem kofen koxe koxeo koxes koxef koxer koxej koxem koxen koje kojeo kojes kojef kojer kojex kojec kojep kojet kojem kojen pofe pofeo pofes pofer pofex pofej pofem pofen poxe poxeo poxes poxef poxer poxej poxem poxen poje pojeo pojes pojef pojer pojex pojec pojep pojet pojem pojen gese gesem gesen geseu gesec gesep geset gefe gefem gefen gefeu gere gerem geren gereu gexe gexem gexen gexeu geje gejem gejen gejeu gejec gejep gejet"
+        let expected = "kore koẻo kòe kõe kọe koẻm koẻn kofe koèo kóe kỏe kõe kọe koèm koèn koxe koẽo kóe kòe kỏe kọe koẽm koẽn koje koẹo kóe kòe kỏe kõe koẹc koẹp koẹt koẹm koẹn pofe poèo póe pỏe põe pọe poèm poèn poxe poẽo póe pòe pỏe pọe poẽm poẽn poje poẹo póe pòe pỏe põe poẹc poẹp poẹt poẹm poẹn gese gếm gến gếu gếc gếp gết gefe gềm gền gều gere gểm gển gểu gexe gễm gễn gễu geje gệm gện gệu gệc gệp gệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_557_kofa_kora_koja_pofa_poxa_poja_coda_diphthong_breve_and_tone_unlatch() {
+        let input = "kofa kofas kofar kofax kofaj kofam kofan kofai kofao kofay kofaw kora koras koraf korax koraj koram koran korai korao koray koraw koja kojas kojaf kojar kojax kojam kojan kojac kojap kojat kojai kojao kojay kojaw pofa pofas pofar pofax pofaj pofam pofan pofai pofao pofay pofaw poxa poxas poxaf poxar poxaj poxam poxan poxai poxao poxay poxaw poja pojas pojaf pojar pojax pojam pojan pojac pojap pojat pojai pojao pojay pojaw"
+        let expected = "kofa kóa kỏa kõa kọa koàm koàn koài koào koày koằ kora kóa kòa kõa kọa koảm koản koải koảo koảy koẳ koja kóa kòa kỏa kõa koạm koạn koạc koạp koạt koại koạo koạy koặ pofa póa pỏa põa pọa poàm poàn poài poào poày poằ poxa póa pòa pỏa pọa poãm poãn poãi poão poãy poẵ poja póa pòa pỏa põa poạm poạn poạc poạp poạt poại poạo poạy poặ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_558_k_and_p_onset_ay_au_aa_tone_override_circumflex_and_breve_unlatch() {
+        let input = "kasy kasyf kasyr kasyx kasyj kasya kafy kafys kafyr kafyx kafyj kafya kary karys karyf karyx karyj karya kaxy kaxys kaxyf kaxyr kaxyj kaxya kajy kajys kajyf kajyr kajyx kajya pasy pasyf pasyr pasyx pasyj pasya pafy pafys pafyr pafyx pafyj pafya pary parys paryf paryx paryj parya paxy paxys paxyf paxyr paxyj paxya pajy pajys pajyf pajyr pajyx pajya kaxu kaxus kaxuf kaxur kaxuj kaxua kaju kajus kajuf kajur kajux kajua paxu paxus paxuf paxur paxuj paxua paju pajus pajuf pajur pajux pajua kasa kasaf kasar kasax kasaj kasaw kafa kafas kafar kafax kafaj kafaw kara karaf karax karaj karaw kaxa kaxas kaxaf kaxar kaxaj kaxaw kaja kajas kajaf kajar kajax kajaw pasa pasaf pasar pasax pasaj pasaw pafa pafas pafar pafax pafaj pafaw para paraf parax paraj paraw paxa paxas paxaf paxar paxaj paxaw paja pajas pajaf pajar pajax pajaw"
+        let expected = "kasy kày kảy kãy kạy kấy kafy káy kảy kãy kạy kầy kary káy kày kãy kạy kẩy kaxy káy kày kảy kạy kẫy kajy káy kày kảy kãy kậy pasy pày pảy pãy pạy pấy pafy páy pảy pãy pạy pầy pary páy pày pãy pạy pẩy paxy páy pày pảy pạy pẫy pajy páy pày pảy pãy pậy kaxu káu kàu kảu kạu kẫu kaju káu kàu kảu kãu kậu paxu páu pàu pảu pạu pẫu paju páu pàu pảu pãu pậu kasa kầ kẩ kẫ kậ kắ kafa kấ kẩ kẫ kậ kằ kara kầ kẫ kậ kẳ kaxa kấ kầ kẩ kậ kẵ kaja kấ kầ kẩ kẫ kặ pasa pầ pẩ pẫ pậ pắ pafa pấ pẩ pẫ pậ pằ para pầ pẫ pậ pẳ paxa pấ pầ pẩ pậ pẵ paja pấ pầ pẩ pẫ pặ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_559_scenario97_trilingual_kore_gero_kasa_and_vietnamese_met_koe_deo_geo_cap_ka_chat() {
+        let input = "Khi xem xét mẫu thiết kế kore và thử nghiệm vật liệu gero chống thấm cho dòng ô kasa truyền thống, dù đôi lúc thấy mệt kỏe (meejt kore) sau ca làm việc cấp kấ (caaps kasa), cả nhóm vẫn hào hứng uốn những thanh nhựa dẻo gẻo (deor gero) và đan từng chiếc ghế gế (ghees gese) bền đẹp!"
+        let expected = "Khi xem xét mẫu thiết kế kore và thử nghiệm vật liệu gero chống thấm cho dòng ô kasa truyền thống, dù đôi lúc thấy mệt kỏe (mệt kỏe) sau ca làm việc cấp kấ (cấp kấ), cả nhóm vẫn hào hứng uốn những thanh nhựa dẻo gẻo (dẻo gẻo) và đan từng chiếc ghế gế (ghế gế) bền đẹp!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4060,6 +4092,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_552_kasa_kafa_kara_kaxa_kaja_and_pasa_pafa_para_paxa_paja_coda_and_offglide_unlatch", test_tier4_552_kasa_kafa_kara_kaxa_kaja_and_pasa_pafa_para_paxa_paja_coda_and_offglide_unlatch),
             ("test_tier4_553_k_and_p_onset_oi_ai_ao_eo_ee_tone_override_and_circumflex_horn_unlatch", test_tier4_553_k_and_p_onset_oi_ai_ao_eo_ee_tone_override_and_circumflex_horn_unlatch),
             ("test_tier4_554_scenario96_trilingual_koji_paji_peso_and_vietnamese_tieng_goi_koi_loai_kai_keo_peo_chat", test_tier4_554_scenario96_trilingual_koji_paji_peso_and_vietnamese_tieng_goi_koi_loai_kai_keo_peo_chat),
+            ("test_tier4_555_vietnamese_collocation_phrases_gese_gefe_gere_gexe_geje_gefo_gero_gexo_gejo_geru_gexu_geju_kaxu_kaju_paxu_paju_pixu_kora_poxa_kofe_kore_koxe_koje_pofe_poxe_poje_kasa_kafa_kara_kaxa_kaja_pasa_pafa_para_paxa_paja_kasy_kafy_kary_kaxy", test_tier4_555_vietnamese_collocation_phrases_gese_gefe_gere_gexe_geje_gefo_gero_gexo_gejo_geru_gexu_geju_kaxu_kaju_paxu_paju_pixu_kora_poxa_kofe_kore_koxe_koje_pofe_poxe_poje_kasa_kafa_kara_kaxa_kaja_pasa_pafa_para_paxa_paja_kasy_kafy_kary_kaxy),
+            ("test_tier4_556_kore_kofe_koxe_koje_pofe_poxe_poje_and_gese_gefe_gere_gexe_geje_unlatch", test_tier4_556_kore_kofe_koxe_koje_pofe_poxe_poje_and_gese_gefe_gere_gexe_geje_unlatch),
+            ("test_tier4_557_kofa_kora_koja_pofa_poxa_poja_coda_diphthong_breve_and_tone_unlatch", test_tier4_557_kofa_kora_koja_pofa_poxa_poja_coda_diphthong_breve_and_tone_unlatch),
+            ("test_tier4_558_k_and_p_onset_ay_au_aa_tone_override_circumflex_and_breve_unlatch", test_tier4_558_k_and_p_onset_ay_au_aa_tone_override_circumflex_and_breve_unlatch),
+            ("test_tier4_559_scenario97_trilingual_kore_gero_kasa_and_vietnamese_met_koe_deo_geo_cap_ka_chat", test_tier4_559_scenario97_trilingual_kore_gero_kasa_and_vietnamese_met_koe_deo_geo_cap_ka_chat),
         ]
     }
 }
