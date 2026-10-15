@@ -2052,8 +2052,8 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     func test_tier4_336_english_var_git_deep_preservation_and_vietnamese_var_git_deepsd_unlatch() {
-        let input = "var vary varies varied variable variant variety varm varma varmw varn varng varnh varna varnga varnw varngw varo varu varua varw varwn varwng varwm git github gitlab gits gitj deep deeps deeper deepsd"
-        let expected = "var vary varies varied variable variant variety vảm vẩm vẳm vản vảng vảnh vẩn vẩng vẳn vẳng vảo vảu vẩu vẳ vẳn vẳng vẳm git github gitlab gít gịt deep deeps deeper đếp"
+        let input = "var varr vars vary varies varied variable variant variety varm varma varmw varn varng varnh varna varnga varnw varngw varo varu varua varw varwn varwng varwm git github gitlab gits gitj deep deeps deeper deepsd"
+        let expected = "vả var vars vary varies varied variable variant variety vảm vẩm vẳm vản vảng vảnh vẩn vẩng vẳn vẳng vảo vảu vẩu vẳ vẳn vẳng vẳm git github gitlab gít gịt deep deeps deeper đếp"
         assertBuffer(input, equals: expected)
     }
 
@@ -2070,8 +2070,8 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     func test_tier4_339_scenario53_trilingual_cat_let_try_in_var_git_and_vietnamese_cat_let_inh_vang_riet_chat() {
-        let input = "Chạy lệnh cat và git trong terminal để kiểm tra log, dùng let và var khai báo biến rồi try bắt lỗi, sau đó cắt (catws) gọn dữ liệu, cất (catas) giữ bản sao lưu tại tỉnh (inhr) nhà, gửi (wir) báo cáo vảng (varng) vất siết (riset) chặt quy trình định (inhj) kỳ mà không hề lê lết (letes)!"
-        let expected = "Chạy lệnh cat và git trong terminal để kiểm tra log, dùng let và var khai báo biến rồi try bắt lỗi, sau đó cắt (cắt) gọn dữ liệu, cất (cất) giữ bản sao lưu tại tỉnh (ỉnh) nhà, gửi (ửi) báo cáo vảng (vảng) vất siết (riết) chặt quy trình định (ịnh) kỳ mà không hề lê lết (lết)!"
+        let input = "Chạy lệnh cat và git trong terminal để kiểm tra log, dùng let và varr khai báo biến rồi try bắt lỗi, sau đó cắt (catws) gọn dữ liệu, cất (catas) giữ bản sao lưu tại tỉnh (inhr) nhà, gửi (wir) báo cáo vảng (varng) vất vả (var) siết (riset) chặt quy trình định (inhj) kỳ mà không hề lê lết (letes)!"
+        let expected = "Chạy lệnh cat và git trong terminal để kiểm tra log, dùng let và var khai báo biến rồi try bắt lỗi, sau đó cắt (cắt) gọn dữ liệu, cất (cất) giữ bản sao lưu tại tỉnh (ỉnh) nhà, gửi (ửi) báo cáo vảng (vảng) vất vả (vả) siết (riết) chặt quy trình định (ịnh) kỳ mà không hề lê lết (lết)!"
         assertBuffer(input, equals: expected)
     }
 
@@ -2506,19 +2506,53 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     func test_tier4_403_english_var_and_yes_midword_tone_override_unlatch_and_preservation() {
-        let input = "var vars varf varfn varfng varfm varfo varfy varj varjn varjng varjm varjo varjy varjc varjch varjp varjt varx varxn varxng varxm varxo varxy yes yesfe yesfen yesfne yesfeu yesfue yesre yesren yesrne yesreu yesrue yesxe yesxen yesxne yesxeu yesxue yesje yesjen yesjne yesjeu yesjue yesjet yesjte"
-        let expected = "var vars và vàn vàng vàm vào vày vạ vạn vạng vạm vạo vạy vạc vạch vạp vạt vã vãn vãng vãm vão vãy yes yề yền yền yều yều yể yển yển yểu yểu yễ yễn yễn yễu yễu yệ yện yện yệu yệu yệt yệt"
+        let input = "quar var trais var caay var las var vaats var var laij var chawng bij var awn var var troojn var varr /var/log vars varsn varsm varsng varsc varsp varst varsi varso varsu varsy varsw varswn varswt varsa varsan varsat varf varfn varfng varfm varfo varfy varj varjn varjng varjm varjo varjy varjc varjch varjp varjt varx varxn varxng varxm varxo varxy yes yesfe yesfen yesfne yesfeu yesfue yesre yesren yesrne yesreu yesrue yesxe yesxen yesxne yesxeu yesxue yesje yesjen yesjne yesjeu yesjue yesjet yesjte"
+        let expected = "quả vả trái vả cây vả lá vả vất vả vả lại vả chăng bị vả ăn vả vả trộn vả var /var/log vars ván vám váng vác váp vát vái váo váu váy vắ vắn vắt vấ vấn vất và vàn vàng vàm vào vày vạ vạn vạng vạm vạo vạy vạc vạch vạp vạt vã vãn vãng vãm vão vãy yes yề yền yền yều yều yể yển yển yểu yểu yễ yễn yễn yễu yễu yệ yện yện yệu yệu yệt yệt"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_404_scenario66_trilingual_cost_most_disc_var_yes_and_vietnamese_mot_gap_dich_va_yen_chat() {
-        let input = "Sau khi kiểm tra chi phí cost của ổ đĩa disc và khai báo biến var với phản hồi yes, cả nhóm đã gặp (gaspjw) nhau tại một (mostjo) điểm hẹn yên bình ở vùng yền (yesfne) để dịch (discjh) tài liệu và (varf) đặt (dartjwd) các giỏ hàng carts lên mặt (martjw) bàn!"
-        let expected = "Sau khi kiểm tra chi phí cost của ổ đĩa disc và khai báo biến var với phản hồi yes, cả nhóm đã gặp (gặp) nhau tại một (một) điểm hẹn yên bình ở vùng yền (yền) để dịch (dịch) tài liệu và (và) đặt (đặt) các giỏ hàng carts lên mặt (mặt) bàn!"
+        let input = "Sau khi kiểm tra chi phí cost của ổ đĩa disc và khai báo các biến vars với phản hồi yes, cả nhóm đã hái quả vả (quar var) ngọt mát, gặp (gaspjw) nhau tại một (mostjo) điểm hẹn yên bình ở vùng yền (yesfne) để dịch (discjh) tài liệu và (varf) đặt (dartjwd) các giỏ hàng carts lên mặt (martjw) bàn!"
+        let expected = "Sau khi kiểm tra chi phí cost của ổ đĩa disc và khai báo các biến vars với phản hồi yes, cả nhóm đã hái quả vả (quả vả) ngọt mát, gặp (gặp) nhau tại một (một) điểm hẹn yên bình ở vùng yền (yền) để dịch (dịch) tài liệu và (và) đặt (đặt) các giỏ hàng carts lên mặt (mặt) bàn!"
         assertBuffer(input, equals: expected)
     }
 
     // =========================================================================
-    // MARK: - Test Registration (404 Tests)
+    // MARK: - Cycle 59: Tone Override Unlatch on barf/nerf/serf/kerf/surf/turf (j/x), Stop-Coda -fc/-fp/-ft/-xc/-xp/-xt (s), and Palatal -rch/-fch/-xch (s/j)
+    // =========================================================================
+
+    func test_tier4_405_english_barf_nerf_serf_kerf_surf_turf_dot_and_tilde_tone_override_unlatch() {
+        let input = "barf barfs barfj barfjn barfjm barfjt barfjc barfjch barfjp barfjo barfjw barfjwn barfjwt barfjwc barfja barfjan barfjat barfjac barfx barfxn barfxng barfxo nerf nerfs nerfj nerfje nerfjen nerfjem nerfjet nerfx nerfxe nerfxen serf serfs serfj serfje serfjen serfjet serfx serfxe kerf kerfj kerfje kerfjen kerfjet kerfjenh kerfx kerfxe kerfxenh surf surfs surfj surfjn surfjt surfjp surfjc surfjw surfjwc surfx surfxng surfxw surfxwa surfxwng turf turfs turfj turfjm turfjt turfjc turfjw turfjwa turfjwc turfx turfxng turfxw turfxwng"
+        let expected = "barf barfs bạ bạn bạm bạt bạc bạch bạp bạo bặ bặn bặt bặc bậ bận bật bậc bã bãn bãng bão nerf nerfs nẹ nệ nện nệm nệt nẽ nễ nễn serf serfs sẹ sệ sện sệt sẽ sễ kerf kẹ kệ kện kệt kệnh kẽ kễ kễnh surf surfs sụ sụn sụt sụp sục sự sực sũ sũng sữ sữa sững turf turfs tụ tụm tụt tục tự tựa tực tũ tũng tữ tững"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_406_vietnamese_fc_fp_xc_xp_midword_acute_and_dot_tone_override_unlatch() {
+        let input = "bafcs bafcj cafcs cafcsa cafcsw cafcj khafcs khafcj mafcs mafcj tafcs tafcj xafcs xafcj bafps bafpj cafps cafpsa cafpsw cafpj dafpsd dafpjd gafps gafpj hafps hafpj lafps lafpj mafps mafpj nafps nafpj phafps phafpj rafps rafpj safps safpj tafps tafpj bofcs bofcso bofcj cofcs cofcso cofcj gofcs gofcso gofcj hofcs hofcso hofcj lofcs lofcso lofcj mofcs mofcso mofcj sofcs sofcj tofcs tofcj bofps bofpso bofpsw bofpj gofps gofpso gofpsw gofpj hofps hofpso hofpsw hofpjo hofpjw chufcs chufcj dufcsd dufcjd hufcs hufcj khufcs khufcj lufcs lufcj mufcs mufcj phufcs phufcj sufcs sufcsw sufcj tufcs tufcj thufcs thufcj xufcs xufcj"
+        let expected = "bác bạc các cấc cắc cạc khác khạc mác mạc tác tạc xác xạc báp bạp cáp cấp cắp cạp đáp đạp gáp gạp háp hạp láp lạp máp mạp náp nạp pháp phạm ráp rạp sáp sạp táp tạp bóc bốc bọc cóc cốc cọc góc gốc gọc hóc hốc học lóc lốc lọc móc mốc mọc sóc sọc tóc tọc bóp bốp bớp bọp góp gốp gớp gọp hóp hốp hớp hộp hợp chúc chục đúc đục húc hục khúc khục lúc lục múc mục phúc phục súc sức sục túc tục thúc thục xúc xục".replacingOccurrences(of: "phạm", with: "phạp")
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_407_vietnamese_ft_xt_midword_acute_tone_override_and_english_plural_preservation() {
+        let input = "rafts lofts tufts thefts gifts lifts rifts sifts texts bafts baftsa baftsw cafts caftsa caftsw dafts daftsd daftsad daftswd hafts khafts lafts mafts nafts phafts safts tafts thafts vafts xafts bofts cofts coftso coftsw dofts doftsd gofts hofts mofts moftso moftsw nofts rofts softs softso softsw bufts cufts chufts dufts duftsd hufts lufts mufts nufts phufts rufts sufts suftsw vufts befts beftse chefts cheftse defts deftsd deftsed ghefts kefts keftse khefts mefts meftse nefts neftse phefts refts sefts tefts teftse vefts xefts xeftse bifts chifts difts diftsd hifts kifts khifts mifts nifts phifts tifts thifts vifts xifts caxts caxtsa caxtsw coxts coxtso coxtsw cuxts cuxtsw lexts lextse lixts"
+        let expected = "rafts lofts tufts thefts gifts lifts rifts sifts texts bát bất bắt cát cất cắt dát đát đất đắt hát khát lát mát nát phát sát tát thát vát xát bót cót cốt cớt dót đót gót hót mót mốt mớt nót rót sót sốt sớt bút cút chút dút đút hút lút mút nút phút rút sút sứt vút bét bết chét chết dét đét đết ghét két kết khét mét mết nét nết phét rét sét tét tết vét xét xết bít chít dít đít hít kít khít mít nít phít tít thít vít xít cát cất cắt cót cốt cớt cút cứt lét lết lít"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_408_english_and_vietnamese_rch_fch_xch_acute_and_dot_tone_override_unlatch() {
+        let input = "arch perch merch march marchs marchj barchs barchj carchs carchj garchj harchs harchj kharchs kharchj larchs larchj narchs narchj pharchs pharchj rarchs rarchj sarchs sarchj tarchs tarchj tharchs tharchj varchs varchj xarchs xarchj birchs birchj chirchj dirchs dirchsd dirchj dirchjd hirchs hirchj kirchs kirchj khirchs khirchj lirchs lirchj mirchs mirchj nhirchs nhirchj phirchs phirchj rirchs rirchj sirchs sirchj tirchs tirchj thirchs thirchj virchs virchj xirchs xirchj safchs safchj lifchs lifchj archj irchs irchj"
+        let expected = "arch perch merch march mách mạch bách bạch cách cạch gạch hách hạch khách khạch lách lạch nách nạch phách phạch rách rạch sách sạch tách tạch thách thạch vách vạch xách xạch bích bịch chịch dích đích dịch địch hích hịch kích kịch khích khịch lích lịch mích mịch nhích nhịch phích phịch rích rịch sích sịch tích tịch thích thịch vích vịch xích xịch sách sạch lích lịch ạch ích ịch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_409_scenario67_trilingual_gifts_texts_surf_march_and_vietnamese_tu_su_sach_ke_khach_chat() {
+        let input = "Trong tháng march, sau khi gửi các món quà gifts và tin nhắn texts cho những người bạn (barfjn) đam mê surf sóng, chúng tôi đã tự (turfjw) mình sắp xếp lại kệ (kerfje) sách (sarchs) thật sạch (sarchj) sẽ để đón tiếp quý khách (kharchs) đến hợp (hofpjw) tác thực sự (surfjw) hiệu quả!"
+        let expected = "Trong tháng march, sau khi gửi các món quà gifts và tin nhắn texts cho những người bạn (bạn) đam mê surf sóng, chúng tôi đã tự (tự) mình sắp xếp lại kệ (kệ) sách (sách) thật sạch (sạch) sẽ để đón tiếp quý khách (khách) đến hợp (hợp) tác thực sự (sự) hiệu quả!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (409 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2934,6 +2968,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_402_english_ft_xt_stems_midword_dot_tone_override_unlatch", test_tier4_402_english_ft_xt_stems_midword_dot_tone_override_unlatch),
             ("test_tier4_403_english_var_and_yes_midword_tone_override_unlatch_and_preservation", test_tier4_403_english_var_and_yes_midword_tone_override_unlatch_and_preservation),
             ("test_tier4_404_scenario66_trilingual_cost_most_disc_var_yes_and_vietnamese_mot_gap_dich_va_yen_chat", test_tier4_404_scenario66_trilingual_cost_most_disc_var_yes_and_vietnamese_mot_gap_dich_va_yen_chat),
+            ("test_tier4_405_english_barf_nerf_serf_kerf_surf_turf_dot_and_tilde_tone_override_unlatch", test_tier4_405_english_barf_nerf_serf_kerf_surf_turf_dot_and_tilde_tone_override_unlatch),
+            ("test_tier4_406_vietnamese_fc_fp_xc_xp_midword_acute_and_dot_tone_override_unlatch", test_tier4_406_vietnamese_fc_fp_xc_xp_midword_acute_and_dot_tone_override_unlatch),
+            ("test_tier4_407_vietnamese_ft_xt_midword_acute_tone_override_and_english_plural_preservation", test_tier4_407_vietnamese_ft_xt_midword_acute_tone_override_and_english_plural_preservation),
+            ("test_tier4_408_english_and_vietnamese_rch_fch_xch_acute_and_dot_tone_override_unlatch", test_tier4_408_english_and_vietnamese_rch_fch_xch_acute_and_dot_tone_override_unlatch),
+            ("test_tier4_409_scenario67_trilingual_gifts_texts_surf_march_and_vietnamese_tu_su_sach_ke_khach_chat", test_tier4_409_scenario67_trilingual_gifts_texts_surf_march_and_vietnamese_tu_su_sach_ke_khach_chat),
         ]
     }
 }

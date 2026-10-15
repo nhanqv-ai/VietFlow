@@ -47,7 +47,9 @@ public enum EnglishKeywords {
         "text", "test", "cost", "most", "fast", "broadcast", "terminal",
         "command", "buffer", "buff", "apple", "google", "microsoft", "github", "docker",
         "rust", "golang", "swift", "python", "java", "ruby", "node", "npm", "yarn",
-        "make", "build", "debug", "release", "const", "var", "let", "func", "function",
+        "make", "build", "debug", "release", "const", "vars", "vary", "varies", "varied", "varying",
+        "variable", "variables", "variance", "variant", "variants", "variation", "variations", "variety", "varieties", "various", "varnish", "varsity",
+        "let", "func", "function",
         "public", "private", "fileprivate", "internal", "open", "static", "final",
         "class", "enum", "protocol", "extension", "typealias", "associatedtype",
         "async", "await", "actor", "sendable", "init", "deinit", "subscript", "self",
@@ -272,12 +274,12 @@ public enum EnglishRestoreDetector {
         "md", "ts", "rs", "css", "sh", "swift", "json",
         "co", "jp", "vn", "com", "org", "net", "edu", "gov", "io", "ai",
         "js", "py", "rb", "go", "cpp", "yaml", "yml", "toml", "xml", "html",
-        "sql", "txt", "log", "tar", "gz", "zip", "app", "dev", "me", "cc"
+        "sql", "txt", "log", "tar", "var", "gz", "zip", "app", "dev", "me", "cc"
     ]
 
     /// Specific segments immediately following technical separators that collide with Vietnamese syllables.
     public static let collidingExtensions: Set<String> = [
-        "or", "us", "es", "tw", "aw", "tar"
+        "or", "us", "es", "tw", "aw", "tar", "var"
     ]
 
     public static func isTechnicalSeparator(_ char: Character) -> Bool {
