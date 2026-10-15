@@ -2955,6 +2955,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 72: 16 Collocation Entries, Diphthong Non-Stop Coda Tone+Diacritic Unlatch, Monophthong Stop-Coda Diacritic+Tone Unlatch, and 3-Letter 'ngh' Onset Support
+
+    func test_tier4_470_vietnamese_collocation_phrases_dasu_deso_geso_gero_sora_sosa_dosa_sofa_rori_hisa_miru_riru_chiru_seems_deems_cheeps() {
+        let input = "dasu con dasu yeeu dasu deso tiengs deso reos deso trees cas trees chaamj trees queens boojt queens quyeens queens sora xoxa sora tocs sora sosa xosa sosa dosa ddoas dosa sofa xofa sofa rori rachj rori coir rori hisa hes hisa miru con miru mirm miru riru raauf riru chiru meemf chiru seems nois seems phim seems deems cas deems cheeps banhs cheeps"
+        let expected = "dasu con dáu yêu dáu deso tiếng déo réo déo trees cá trế chậm trế queens bột quến quyến quến sora xõa sỏa tóc sỏa sosa xóa sóa dosa đóa dóa sofa xòa sòa rori rạch rỏi cỏi rỏi hisa hé hía miru con mỉu mỉm mỉu riru rầu rỉu chiru mềm chỉu seems nói sếm phim sếm deems cá dếm cheeps bánh chếp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_471_diphthong_nonstop_coda_tone_override_before_delayed_diacritic_unlatch() {
+        let input = "muroisw curoifw curoixw luroisw luroifw duroifwd hurongsw durongfwd durongfdw curongfo burongfo buromsw luromjw ruroujw turansa turanfa luranja huransa tireuse tireufe kirense kirenje mirengse mirengje direufed direujed churense churenje hurenfe hurenje"
+        let expected = "mưới cười cưỡi lưới lười đười hướng đường đường cuồng buồng bướm lượm rượu tuấn tuần luận huấn tiếu tiều kiến kiện miếng miệng điều điệu chuến chuện huền huện"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_472_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch() {
+        let input = "carts parts sorts ports quarts bartws bartsw cartwj cartjw cartas cartsa quartws quartsw quartas quartsa carpws carpsw carpas carpsa dartwsd dartsdw hertes hertse mertej mertje berpes berpse herches herchse lerchej lerchje cortos cortso tortos tortso mortoj mortjo cortws cortsw horpos horpso horpwj horpjw lorpws lorpsw dorcosd murcws murcsw murcwj murcjw murtws murtsw durcwsd"
+        let expected = "carts parts sorts ports quarts bắt bắt cặt cặt cất cất quắt quắt quất quất cắp cắp cấp cấp đắt đắt hết hết mệt mệt bếp bếp hếch hếch lệch lệch cốt cốt tốt tốt một một cớt cớt hốp hốp hợp hợp lớp lớp đốc mức mức mực mực mứt mứt đức"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_473_three_letter_ngh_onset_stop_coda_and_diphthong_unlatch() {
+        let input = "nghirchj ngherchej ngherches nghertj nghirtj nghirpj nghiretje nghiretse nghirepje nghirense nghirenfe nghirengse"
+        let expected = "nghịch nghệch nghếch nghẹt nghịt nghịp nghiệt nghiết nghiệp nghiến nghiền nghiếng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_474_scenario80_trilingual_sofa_carts_ports_and_vietnamese_con_dau_phim_sem_duong_huong_nghich_ngom_chat() {
+        let input = "Ngồi trên chiếc sofa xem bộ phim sếm (phim seems) về chú mèo mỉu (mirm miru) tinh nghịch (nghirchj) bên đĩa bánh chếp (banhs cheeps), người mẹ nhắc con yêu dáu (yeeu dasu) phải ăn nói rạch rỏi (rachj rori), bắt (bartws) nhịp thật tốt (tortos) với công việc nghề nghiệp (nghirepje) trên con đường (durongfwd) định hướng (hurongsw) hệ thống shopping carts và network ports!"
+        let expected = "Ngồi trên chiếc sofa xem bộ phim sếm (phim sếm) về chú mèo mỉu (mỉm mỉu) tinh nghịch (nghịch) bên đĩa bánh chếp (bánh chếp), người mẹ nhắc con yêu dáu (yêu dáu) phải ăn nói rạch rỏi (rạch rỏi), bắt (bắt) nhịp thật tốt (tốt) với công việc nghề nghiệp (nghiệp) trên con đường (đường) định hướng (hướng) hệ thống shopping carts và network ports!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3433,6 +3465,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_467_romaji_and_english_cie_cue_stop_coda_delayed_circumflex_and_tone_override_unlatch", test_tier4_467_romaji_and_english_cie_cue_stop_coda_delayed_circumflex_and_tone_override_unlatch),
             ("test_tier4_468_english_noop_goop_troop_toast_and_romaji_uru_usu_tone_w_unlatch", test_tier4_468_english_noop_goop_troop_toast_and_romaji_uru_usu_tone_w_unlatch),
             ("test_tier4_469_scenario79_trilingual_mojo_toast_urusai_and_vietnamese_ham_mo_banh_kep_sang_loe_chat", test_tier4_469_scenario79_trilingual_mojo_toast_urusai_and_vietnamese_ham_mo_banh_kep_sang_loe_chat),
+            ("test_tier4_470_vietnamese_collocation_phrases_dasu_deso_geso_gero_sora_sosa_dosa_sofa_rori_hisa_miru_riru_chiru_seems_deems_cheeps", test_tier4_470_vietnamese_collocation_phrases_dasu_deso_geso_gero_sora_sosa_dosa_sofa_rori_hisa_miru_riru_chiru_seems_deems_cheeps),
+            ("test_tier4_471_diphthong_nonstop_coda_tone_override_before_delayed_diacritic_unlatch", test_tier4_471_diphthong_nonstop_coda_tone_override_before_delayed_diacritic_unlatch),
+            ("test_tier4_472_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch", test_tier4_472_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch),
+            ("test_tier4_473_three_letter_ngh_onset_stop_coda_and_diphthong_unlatch", test_tier4_473_three_letter_ngh_onset_stop_coda_and_diphthong_unlatch),
+            ("test_tier4_474_scenario80_trilingual_sofa_carts_ports_and_vietnamese_con_dau_phim_sem_duong_huong_nghich_ngom_chat", test_tier4_474_scenario80_trilingual_sofa_carts_ports_and_vietnamese_con_dau_phim_sem_duong_huong_nghich_ngom_chat),
         ]
     }
 }
