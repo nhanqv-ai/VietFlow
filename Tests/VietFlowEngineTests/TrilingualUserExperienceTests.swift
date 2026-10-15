@@ -1389,8 +1389,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_235_english_memes_themes_beset_xanax_dodos_gotos_topos_datas_and_rojos() {
+        let input = "memes themes beset besets xanax dodos gotos topos mamas datas nonos rojos toxo roxo"
+        let expected = "memes themes beset besets xanax dodos gotos topos mamas datas nonos rojos toxo roxo"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_236_japanese_turu_hufu_tufu_huju_tuju_gisi_gifi_and_vietnamese_w_unlatch() {
+        let input = "turu hufu tufu huju tuju gisi gifi turuw hufuw tufuw hujuw tujuw"
+        let expected = "turu hufu tufu huju tuju gisi gifi tửu hừu từu hựu tựu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_237_romaji_kefe_refe_keje_reje_and_vietnamese_cmnptu_unlatch() {
+        let input = "kefe mefe nefe hefe sefe tefe befe defe refe keje meje neje heje seje teje beje deje reje hefen befen defen bejenh mejeu tejet"
+        let expected = "kefe mefe nefe hefe sefe tefe befe defe refe keje meje neje heje seje teje beje deje reje hền bền dền bệnh mệu tệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_238_romaji_moxo_roxo_and_vietnamese_cmnpti_unlatch() {
+        let input = "moxo noxo hoxo soxo toxo boxo goxo doxo roxo moxoi noxoi doxoi roxoi hoxon"
+        let expected = "moxo noxo hoxo soxo toxo boxo goxo doxo roxo mỗi nỗi dỗi rỗi hỗn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_239_scenario33_trilingual_memes_themes_turu_hufu_and_gotos_refactor_chat() {
+        let input = "Sau khi đổi themes giao diện tối và chia sẻ vài memes vui nhộn về cặp vợ chồng hufu gấp hạc giấy turu, nhóm phát triển đã loại bỏ toàn bộ lệnh gotos rối rắm khiến dự án bị beset bởi lỗi bộ nhớ; mỗi (moxoi) thành viên đều kiên trì bền (befen) bỉ xử lý dứt điểm căn bệnh (bejenh) rò rỉ tài nguyên để đạt thành tựu (tujuw) vượt bậc!"
+        let expected = "Sau khi đổi themes giao diện tối và chia sẻ vài memes vui nhộn về cặp vợ chồng hufu gấp hạc giấy turu, nhóm phát triển đã loại bỏ toàn bộ lệnh gotos rối rắm khiến dự án bị beset bởi lỗi bộ nhớ; mỗi (mỗi) thành viên đều kiên trì bền (bền) bỉ xử lý dứt điểm căn bệnh (bệnh) rò rỉ tài nguyên để đạt thành tựu (tựu) vượt bậc!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (234 Tests)
+    // MARK: - Test Registration (239 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1636,6 +1666,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_232_romaji_mafa_nafa_hafa_safa_tafa_bafa_gafa_dafa_rafa_and_unlatch", test_tier4_232_romaji_mafa_nafa_hafa_safa_tafa_bafa_gafa_dafa_rafa_and_unlatch),
             ("test_tier4_233_romaji_mofo_nofo_hofo_sofo_tofo_bofo_gofo_dofo_rofo_and_unlatch", test_tier4_233_romaji_mofo_nofo_hofo_sofo_tofo_bofo_gofo_dofo_rofo_and_unlatch),
             ("test_tier4_234_scenario32_trilingual_nasa_ufo_taxa_sasa_and_rasa_chatbot_chat", test_tier4_234_scenario32_trilingual_nasa_ufo_taxa_sasa_and_rasa_chatbot_chat),
+            ("test_tier4_235_english_memes_themes_beset_xanax_dodos_gotos_topos_datas_and_rojos", test_tier4_235_english_memes_themes_beset_xanax_dodos_gotos_topos_datas_and_rojos),
+            ("test_tier4_236_japanese_turu_hufu_tufu_huju_tuju_gisi_gifi_and_vietnamese_w_unlatch", test_tier4_236_japanese_turu_hufu_tufu_huju_tuju_gisi_gifi_and_vietnamese_w_unlatch),
+            ("test_tier4_237_romaji_kefe_refe_keje_reje_and_vietnamese_cmnptu_unlatch", test_tier4_237_romaji_kefe_refe_keje_reje_and_vietnamese_cmnptu_unlatch),
+            ("test_tier4_238_romaji_moxo_roxo_and_vietnamese_cmnpti_unlatch", test_tier4_238_romaji_moxo_roxo_and_vietnamese_cmnpti_unlatch),
+            ("test_tier4_239_scenario33_trilingual_memes_themes_turu_hufu_and_gotos_refactor_chat", test_tier4_239_scenario33_trilingual_memes_themes_turu_hufu_and_gotos_refactor_chat),
         ]
     }
 }

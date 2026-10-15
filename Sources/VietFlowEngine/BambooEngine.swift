@@ -180,7 +180,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["moso", "toso", "noso", "nojo", "hojo", "sojo", "tojo", "bojo", "gojo", "mofo", "nofo", "hofo", "sofo", "tofo", "bofo", "gofo", "dofo", "rofo"].contains(String(wordRawKeys).lowercased()) && "cmnpti".contains(character.lowercased()) {
+            } else if wordRawKeys.count == 4
+                && wordRawKeys[1].lowercased() == "o"
+                && "sfjx".contains(wordRawKeys[2].lowercased())
+                && wordRawKeys[3].lowercased() == "o"
+                && "cmnpti".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -192,7 +196,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["tere", "kere", "nere", "bere", "dere", "tese", "kese", "mese", "nese", "hese", "sese", "bese", "dese", "nix"].contains(String(wordRawKeys).lowercased()) && "cmnptu".contains(character.lowercased()) {
+            } else if ((wordRawKeys.count == 4
+                && wordRawKeys[1].lowercased() == "e"
+                && "rsfj".contains(wordRawKeys[2].lowercased())
+                && wordRawKeys[3].lowercased() == "e")
+                || String(wordRawKeys).lowercased() == "nix")
+                && "cmnptu".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)

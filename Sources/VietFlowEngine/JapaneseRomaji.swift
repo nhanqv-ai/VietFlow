@@ -212,7 +212,11 @@ public enum JapaneseRomajiLexicon {
         "nasa", "hasa", "sasa", "tasa", "dasa", "rasa",
         "maxa", "naxa", "haxa", "saxa", "taxa", "baxa", "gaxa", "daxa", "raxa",
         "mafa", "nafa", "hafa", "safa", "tafa", "bafa", "gafa", "dafa", "rafa",
-        "mofo", "nofo", "hofo", "sofo", "tofo", "bofo", "gofo", "dofo", "rofo"
+        "mofo", "nofo", "hofo", "sofo", "tofo", "bofo", "gofo", "dofo", "rofo",
+        "turu", "hufu", "tufu", "huju", "tuju", "gisi", "gifi",
+        "kefe", "mefe", "nefe", "hefe", "sefe", "tefe", "befe", "defe", "refe",
+        "keje", "meje", "neje", "heje", "seje", "teje", "beje", "deje", "reje",
+        "moxo", "noxo", "hoxo", "soxo", "toxo", "boxo", "goxo", "doxo", "roxo"
     ]
 }
 
