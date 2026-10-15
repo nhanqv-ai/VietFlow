@@ -236,7 +236,9 @@ public enum JapaneseRomajiLexicon {
         "chire", "chise", "chife", "chije", "chixe",
         "churu", "chure", "churo", "chusu", "chuse", "chuso",
         "chujo", "chuju", "chufo", "chufu", "chuxu", "chuxo",
-        "chaja", "chafa", "chaxa", "chasa", "chieru", "chiete"
+        "chaja", "chafa", "chaxa", "chasa", "chieru", "chiete", "chara",
+        "mufe", "nufe", "hufe", "sufe", "tufe", "bufe", "gufe", "dufe", "rufe", "chufe",
+        "muje", "nuje", "huje", "suje", "tuje", "buje", "guje", "duje", "ruje", "chuje"
     ]
 }
 
