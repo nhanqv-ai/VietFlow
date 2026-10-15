@@ -1510,7 +1510,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     func test_tier4_255_english_and_romaji_choto_chata_choco_chapa_chopo_chete_chepe_quoto_photo_and_vietnamese_unlatch() {
-        let input = "choto chata choco chapa chopo chete chepe quoto photo photos theta thetas chotos chotoj chatas chataj chocos chocoj chapas chapaj chopos chopoj chetes chetej chepes chepej quotos quotoj photoj thetaj"
+        let input = "choto chata choco chapa chopo chete chepe quoto photo photos theta thetas chotos chotoj chatas chataj chocos chocoj chapas chapaj chopos chopoj chetes chetej chepes chepej quotos quotoj photoj thetej"
         let expected = "choto chata choco chapa chopo chete chepe quoto photo photos theta thetas chốt chột chất chật chốc chộc chấp chập chốp chộp chết chệt chếp chệp quốt quột phột thệt"
         assertBuffer(input, equals: expected)
     }
