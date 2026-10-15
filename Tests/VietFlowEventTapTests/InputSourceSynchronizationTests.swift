@@ -13,6 +13,7 @@
 //
 
 import Foundation
+import Carbon
 import CoreGraphics
 import VietFlowEngine
 import VietFlowState
@@ -1363,6 +1364,31 @@ public final class InputSourceSynchronizationTests: TestCase {
         XCTAssertNil(stateManager.rememberedForeignSourceID)
     }
 
+    // MARK: - Test 41: SystemInputSourceManager Never Enables Unwanted Bundle Sibling Layouts Or Modes
+    func test_41_system_input_source_manager_never_enables_bundle_sibling_layouts_or_modes() {
+        let initialEnabledList = (TISCreateInputSourceList(nil, false)?.takeRetainedValue() as? [TISInputSource]) ?? []
+        let initialEnabledCount = initialEnabledList.count
+        let initialSourceID = SystemInputSourceManager.shared.refreshCurrentInputSource().sourceID
+
+        _ = SystemInputSourceManager.shared.selectLatinInputSource()
+        let afterLatinList = (TISCreateInputSourceList(nil, false)?.takeRetainedValue() as? [TISInputSource]) ?? []
+        XCTAssertEqual(
+            afterLatinList.count,
+            initialEnabledCount,
+            "selectLatinInputSource() must never enable sibling keyboard layouts from com.apple.keyboardlayout.all"
+        )
+
+        if !initialSourceID.isEmpty {
+            _ = SystemInputSourceManager.shared.selectInputSource(byID: initialSourceID)
+        }
+        let afterRestoreList = (TISCreateInputSourceList(nil, false)?.takeRetainedValue() as? [TISInputSource]) ?? []
+        XCTAssertEqual(
+            afterRestoreList.count,
+            initialEnabledCount,
+            "selectInputSource(byID:) must never enable unwanted sibling layouts or input modes"
+        )
+    }
+
     // MARK: - Test Registry Registration
     public override var allTests: [(name: String, test: () throws -> Void)] {
         return [
@@ -1406,6 +1432,7 @@ public final class InputSourceSynchronizationTests: TestCase {
             ("test_38_non_abc_latin_layout_with_async_delay_preserves_foreign_memory", test_38_non_abc_latin_layout_with_async_delay_preserves_foreign_memory),
             ("test_39_manual_switch_to_same_foreign_ime_after_typing_suspends_vietflow", test_39_manual_switch_to_same_foreign_ime_after_typing_suspends_vietflow),
             ("test_40_app_switch_to_foreign_ime_app_after_typing_suspends_vietflow", test_40_app_switch_to_foreign_ime_app_after_typing_suspends_vietflow),
+            ("test_41_system_input_source_manager_never_enables_bundle_sibling_layouts_or_modes", test_41_system_input_source_manager_never_enables_bundle_sibling_layouts_or_modes),
         ]
     }
 }

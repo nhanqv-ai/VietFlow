@@ -302,15 +302,6 @@ public final class SystemInputSourceManager: InputSourceManaging, @unchecked Sen
             return false
         }
         
-        if let bundleIDPtr = TISGetInputSourceProperty(finalTarget, kTISPropertyBundleID) {
-            let bundleID = Unmanaged<CFString>.fromOpaque(bundleIDPtr).takeUnretainedValue() as String
-            if !bundleID.isEmpty, let parentList = TISCreateInputSourceList([kTISPropertyBundleID as String: bundleID] as CFDictionary, true)?.takeRetainedValue() as? [TISInputSource] {
-                for parent in parentList {
-                    TISEnableInputSource(parent)
-                }
-            }
-        }
-        TISEnableInputSource(finalTarget)
         var status = TISSelectInputSource(finalTarget)
         if status != noErr {
             TISEnableInputSource(finalTarget)
@@ -395,17 +386,25 @@ public final class SystemInputSourceManager: InputSourceManaging, @unchecked Sen
             return false
         }
         
-        if let bundleIDPtr = TISGetInputSourceProperty(finalTarget, kTISPropertyBundleID) {
-            let bundleID = Unmanaged<CFString>.fromOpaque(bundleIDPtr).takeUnretainedValue() as String
-            if !bundleID.isEmpty, let parentList = TISCreateInputSourceList([kTISPropertyBundleID as String: bundleID] as CFDictionary, true)?.takeRetainedValue() as? [TISInputSource] {
-                for parent in parentList {
-                    TISEnableInputSource(parent)
-                }
-            }
-        }
-        TISEnableInputSource(finalTarget)
         var status = TISSelectInputSource(finalTarget)
         if status != noErr {
+            // Only enable the parent IME container (never keyboard layout bundles or sibling input modes)
+            if let bundleIDPtr = TISGetInputSourceProperty(finalTarget, kTISPropertyBundleID) {
+                let bundleID = Unmanaged<CFString>.fromOpaque(bundleIDPtr).takeUnretainedValue() as String
+                if !bundleID.isEmpty,
+                   !bundleID.lowercased().contains("keyboardlayout"),
+                   let parentList = TISCreateInputSourceList([kTISPropertyBundleID as String: bundleID] as CFDictionary, true)?.takeRetainedValue() as? [TISInputSource] {
+                    for parent in parentList {
+                        if let typePtr = TISGetInputSourceProperty(parent, kTISPropertyInputSourceType) {
+                            let parentType = Unmanaged<CFString>.fromOpaque(typePtr).takeUnretainedValue() as String
+                            if parentType == (kTISTypeKeyboardInputMethodModeEnabled as String)
+                                || parentType == (kTISTypeKeyboardInputMethodWithoutModes as String) {
+                                TISEnableInputSource(parent)
+                            }
+                        }
+                    }
+                }
+            }
             TISEnableInputSource(finalTarget)
             status = TISSelectInputSource(finalTarget)
         }

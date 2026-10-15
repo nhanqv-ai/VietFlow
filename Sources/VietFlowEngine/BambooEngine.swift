@@ -198,7 +198,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && r1 == "a"
                 && "rsfjx".contains(r2)
                 && r3 == "a"
-                && "cmnptuy".contains(character.lowercased()) {
+                && ("sfjx".contains(r2) ? "cmnptuy" : "cmnpty").contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -268,8 +268,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if has3CharRhymeAfterOnset
-                && "iu".contains(r1)
-                && "rsfjx".contains(r2)
+                && ((r1 == "i" && "rsfjx".contains(r2)) || (r1 == "u" && "sfjx".contains(r2)))
                 && r3 == "e"
                 && character.lowercased() == "e" {
                 isBypassed = false
