@@ -2484,7 +2484,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (399 Tests)
+    // MARK: - Cycle 58: Mid-Word Dot Tone Override (j) on -st/-sp/-sc/-rt/-rp/-rc/-ft/-xt Stems and Tone Override Unlatch on var/yes
+    // =========================================================================
+
+    func test_tier4_400_english_st_sp_sc_keyword_stems_midword_dot_tone_override_unlatch() {
+        let input = "cost costj costjo costjw most mostj mostjo mostjw rust rustj rustjw gasp gasps gaspj gaspjw gaspja rasp rasps raspj raspjw raspja cusp cusps cuspj cuspjw lisp lisps lispj test tests testj testje disc discs discj discjh discjhd discjd coast coasts coastj coastjw coats coatsj coatsjw soaps soapsj soapsjw boost boostj boostjw roost roostj roostjw roots rootsj rootsjw noops noopsj noopsjw goops goopsj goopsjw troops troopsj troopsjw"
+        let expected = "cost cọt cột cợt most mọt một mợt rust rụt rựt gasp gasps gạp gặp gập rasp rasps rạp rặp rập cusp cusps cụp cựp lisp lisps lịp test tests tẹt tệt disc discs dịc dịch địch địc coast coasts coạt coặt coats coạt coặt soaps soạp soặp boost bột bợt roost rột rợt roots rột rợt noops nộp nợp goops gộp gợp troops trộp trợp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_401_english_rt_rp_rc_stems_midword_dot_tone_override_unlatch() {
+        let input = "cart carts cartj cartja cartjw mart marts martj martja martjw tart tarts tartj tartja tartjw dart darts dartj dartjd dartjad dartjwd hart harts hartj hartja hartjw sort sorts sortj sortjo sortjw tort torts tortj tortjo tortjw mort mortj mortjo mortjw curt curtj curtjw hurt hurts hurtj hurtjw dirt dirts dirtj dirtjd carp carps carpj carpja carpjw harp harps harpj harpja harpjw tarp tarps tarpj tarpja tarpjw marc marcj marcja marcjw marcjh torc torcj torcjo art arts artj artja artjw arc arcs arcj arcja arcjw arcjh orc orcs orcj orcjo"
+        let expected = "cart carts cạt cật cặt mart marts mạt mật mặt tart tarts tạt tật tặt dart darts dạt đạt đật đặt hart harts hạt hật hặt sort sorts sọt sột sợt tort torts tọt tột tợt mort mọt một mợt curt cụt cựt hurt hurts hụt hựt dirt dirts dịt địt carp carps cạp cập cặp harp harps hạp hập hặp tarp tarps tạp tập tặp marc mạc mậc mặc mạch torc tọc tộc art arts ạt ật ặt arc arcs ạc ậc ặc ạch orc orcs ọc ộc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_402_english_ft_xt_stems_midword_dot_tone_override_unlatch() {
+        let input = "daft daftj daftjd daftjad daftjwd raft rafts raftj raftja raftjw loft lofts loftj loftjo loftjw soft softj softjo softjw tuft tufts tuftj tuftjw left leftj leftje heft heftj heftje deft deftj deftjd deftjed theft thefts theftj theftje gift gifts giftj lift lifts liftj rift rifts riftj sift sifts siftj next nextj nextje text texts textj textje aft aftj aftja aftjw oft oftj oftjo oftjw"
+        let expected = "daft dạt đạt đật đặt raft rafts rạt rật rặt loft lofts lọt lột lợt soft sọt sột sợt tuft tufts tụt tựt left lẹt lệt heft hẹt hệt deft dẹt đẹt đệt theft thefts thẹt thệt gift gifts gịt lift lifts lịt rift rifts rịt sift sifts sịt next nẹt nệt text texts tẹt tệt aft ạt ật ặt oft ọt ột ợt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_403_english_var_and_yes_midword_tone_override_unlatch_and_preservation() {
+        let input = "var vars varf varfn varfng varfm varfo varfy varj varjn varjng varjm varjo varjy varjc varjch varjp varjt varx varxn varxng varxm varxo varxy yes yesfe yesfen yesfne yesfeu yesfue yesre yesren yesrne yesreu yesrue yesxe yesxen yesxne yesxeu yesxue yesje yesjen yesjne yesjeu yesjue yesjet yesjte"
+        let expected = "var vars và vàn vàng vàm vào vày vạ vạn vạng vạm vạo vạy vạc vạch vạp vạt vã vãn vãng vãm vão vãy yes yề yền yền yều yều yể yển yển yểu yểu yễ yễn yễn yễu yễu yệ yện yện yệu yệu yệt yệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_404_scenario66_trilingual_cost_most_disc_var_yes_and_vietnamese_mot_gap_dich_va_yen_chat() {
+        let input = "Sau khi kiểm tra chi phí cost của ổ đĩa disc và khai báo biến var với phản hồi yes, cả nhóm đã gặp (gaspjw) nhau tại một (mostjo) điểm hẹn yên bình ở vùng yền (yesfne) để dịch (discjh) tài liệu và (varf) đặt (dartjwd) các giỏ hàng carts lên mặt (martjw) bàn!"
+        let expected = "Sau khi kiểm tra chi phí cost của ổ đĩa disc và khai báo biến var với phản hồi yes, cả nhóm đã gặp (gặp) nhau tại một (một) điểm hẹn yên bình ở vùng yền (yền) để dịch (dịch) tài liệu và (và) đặt (đặt) các giỏ hàng carts lên mặt (mặt) bàn!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (404 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2895,6 +2929,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_397_english_term_berm_derm_kern_tern_tone_override_and_plural_e_unlatch", test_tier4_397_english_term_berm_derm_kern_tern_tone_override_and_plural_e_unlatch),
             ("test_tier4_398_english_plural_rns_rms_circumflex_and_palatal_unlatch", test_tier4_398_english_plural_rns_rms_circumflex_and_palatal_unlatch),
             ("test_tier4_399_scenario65_trilingual_norms_terms_harmful_and_vietnamese_cham_ung_thong_kenh_chat", test_tier4_399_scenario65_trilingual_norms_terms_harmful_and_vietnamese_cham_ung_thong_kenh_chat),
+            ("test_tier4_400_english_st_sp_sc_keyword_stems_midword_dot_tone_override_unlatch", test_tier4_400_english_st_sp_sc_keyword_stems_midword_dot_tone_override_unlatch),
+            ("test_tier4_401_english_rt_rp_rc_stems_midword_dot_tone_override_unlatch", test_tier4_401_english_rt_rp_rc_stems_midword_dot_tone_override_unlatch),
+            ("test_tier4_402_english_ft_xt_stems_midword_dot_tone_override_unlatch", test_tier4_402_english_ft_xt_stems_midword_dot_tone_override_unlatch),
+            ("test_tier4_403_english_var_and_yes_midword_tone_override_unlatch_and_preservation", test_tier4_403_english_var_and_yes_midword_tone_override_unlatch_and_preservation),
+            ("test_tier4_404_scenario66_trilingual_cost_most_disc_var_yes_and_vietnamese_mot_gap_dich_va_yen_chat", test_tier4_404_scenario66_trilingual_cost_most_disc_var_yes_and_vietnamese_mot_gap_dich_va_yen_chat),
         ]
     }
 }
