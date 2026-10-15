@@ -3083,6 +3083,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 76: 18 Collocation Entries, Post-Coda Stop-Coda Tone Override Unlatch, and gifi/gisi/giji/peepsj Unlatch
+
+    func test_tier4_490_vietnamese_collocation_phrases_niju_biju_riju_miju_gifu_nisu_risu_kere_bere_nere_tese_kese_bese_horo_moro_toro_soro_noro() {
+        let input = "niju nungx niju binj niju biju baanj biju binj biju riju buoonf riju meetj riju ngotj riju miju meemf miju eem miju gifu dawts gifu naang gifu nisu bams nisu keos nisu risu rocs risu quaans risu kere khoong kere ddangs kere nghe kere bere bowi bere voxw bere nuwowcs bere nere kinhs nere kieeng nere tese kinh tese quoocs tese thuwjc tese kese thieets kese thuwaf kese nhieetj kese bese boongf bese mej bese horo con horo xaaus horo moro ca moro phongf moro toro cais toro xaay toro gioox toro soro cuoons soro cuwar soro noro chays noro bungf noro phats noro hiru hawts hiru kiru keeu kiru"
+        let expected = "niju nũng nịu bịn nịu biju bận bịu bịn bịu riju buồn rịu mệt rịu ngọt rịu miju mềm mịu êm mịu gifu dắt giù nâng giù nisu bám níu kéo níu risu róc ríu quấn ríu kere không kể đáng kể nghe kể bere bơi bể vỡ bể nước bể nere kính nể kiêng nể tese kinh tế quốc tế thực tế kese thiết kế thừa kế nhiệt kế bese bồng bế mẹ bế horo con hổ xấu hổ moro ca mổ phòng mổ toro cái tổ xây tổ giỗ tổ soro cuốn sổ cửa sổ noro cháy nổ bùng nổ phát nổ hiru hắt hỉu kiru kêu kỉu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_491_post_coda_monophthong_stop_coda_tone_override_and_delayed_diacritic_unlatch() {
+        let input = "meters waters motors rotors actors doctors tutors batfs batfj batxs batxj batrj catfs catfj datfsd datfjd datrjd hetfs hetfj hetrj metfj metrj cotfs cotfj cotrj motfj motrj hopfs hopfj hoprj mucfs mucfj mucrj mutfs mutfj mutrj hachfs hachfj hachrj ichfs ichfj atfs atfj otfs otfj utfs utfj batwfs batfws batwrs batrws batrsw batwfj batfwj batwrj batrwj batafs batfas batafj batfaj batarj batraj hetefs hetfes hetefj hetfej heterj hetrej metefj metfej meterj metrej cotofs cotfos cotofj cotfoj cotorj cotroj motofj motfoj motorj motroj cotwfs cotfws cotwrs cotrws cotrsw hopwfj hopfwj hopwrj hoprwj mucwfs mucfws mucwrs mucrws mucrsw mucwfj mucfwj mucwrj mucrwj"
+        let expected = "meters waters motors rotors actors doctors tutors bát bạt bát bạt bạt cát cạt đát đạt đạt hét hẹt hẹt mẹt mẹt cót cọt cọt mọt mọt hóp họp họp múc mục mục mút mụt mụt hách hạch hạch ích ịch át ạt ót ọt út ụt bắt bắt bắt bắt bắt bặt bặt bặt bặt bất bất bật bật bật bật hết hết hệt hệt hệt hệt mệt mệt mệt mệt cốt cốt cột cột cột cột một một một một cớt cớt cớt cớt cớt hợp hợp hợp hợp mức mức mức mức mức mực mực mực mực"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_492_post_coda_diphthong_stop_coda_tone_override_and_delayed_diacritic_unlatch() {
+        let input = "bietfs bietfj bietefs bietfes bietefj bietfej bieterj bietrej tietefs tietefj kietefs kietefj dietefsd dietefjd tuocwfs tuocfws tuocwrs tuocrws tuocrsw tuotwfs tuotfws tuotwrs tuotrws tuotrsw tuotwfj tuotwrj tuotrwj duocwfjd duocfwjd duocwrjd duocrwjd tuotofs tuotfso tuotofj tuatfas tuatafs tuatafj tuetefs tuetfes tuetefj tuyetefs tuyetfes tuyetefj quyetefs quyetfes quyetefj hoatfs hoatfj hoatwfs hoatfws hoatwrs hoatrws hoatwfj hoatwrj ngoacwfj ngoacwrj loetfs loetfj quyts quytfs quytfj tuyts tuytfs tuytfj"
+        let expected = "biết biệt biết biết biệt biệt biệt biệt tiết tiệt kiết kiệt điết điệt tước tước tước tước tước tướt tướt tướt tướt tướt tượt tượt tượt được được được được tuốt tuốt tuột tuất tuất tuật tuết tuết tuệt tuyết tuyết tuyệt quyết quyết quyệt hoát hoạt hoắt hoắt hoắt hoắt hoặt hoặt ngoặc ngoặc loét loẹt quýt quýt quỵt tuýt tuýt tuỵt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_493_romaji_gifi_gisi_giji_tone_override_and_peepsj_unlatch() {
+        let input = "gifi gifis gifir gifix gifij gifijt gifijp gifijc gisi gisif gisir gisix gisij giji gijis gijif gijir gijix keeps keepsj deeps deepsj cheeps cheepsj noops noopsj goops goopsj troops troopsj"
+        let expected = "gifi gií giỉ giĩ giị giịt giịp giịc gisi giì giỉ giĩ giị giji gií giì giỉ giĩ keeps kệp deeps dệp cheeps chệp noops nộp goops gộp troops trộp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_494_scenario84_trilingual_motors_meters_and_vietnamese_kinh_te_thiet_ke_cua_so_chay_no_chat() {
+        let input = "Trong báo cáo kinh tế (kinh tese) quốc tế (quoocs tese) vừa gửi qua cửa sổ (cuwar soro) trình duyệt, bản thiết kế (thieets kese) hệ thống cảm biến nhiệt kế (nhieetj kese) cho các động cơ motors ở khoảng cách vài chục meters đã đạt kết quả đáng kể (ddangs kere): dù người dùng gõ nhầm dấu thanh khi nhập một (motofj) mục (mucwfj) cần biết (bietefs) để phòng chống cháy nổ (chays noro), bộ gõ vẫn xử lý mượt mà khiến ai cũng kính nể (kinhs nere) và hết (hetefs) sức yên tâm mà không còn bận bịu (baanj biju) sửa lỗi!"
+        let expected = "Trong báo cáo kinh tế (kinh tế) quốc tế (quốc tế) vừa gửi qua cửa sổ (cửa sổ) trình duyệt, bản thiết kế (thiết kế) hệ thống cảm biến nhiệt kế (nhiệt kế) cho các động cơ motors ở khoảng cách vài chục meters đã đạt kết quả đáng kể (đáng kể): dù người dùng gõ nhầm dấu thanh khi nhập một (một) mục (mực) cần biết (biết) để phòng chống cháy nổ (cháy nổ), bộ gõ vẫn xử lý mượt mà khiến ai cũng kính nể (kính nể) và hết (hết) sức yên tâm mà không còn bận bịu (bận bịu) sửa lỗi!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3581,6 +3613,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_487_pre_diacritic_diphthong_stop_coda_tone_override_unlatch", test_tier4_487_pre_diacritic_diphthong_stop_coda_tone_override_unlatch),
             ("test_tier4_488_english_dust_burst_and_harmf_tone_diacritic_unlatch", test_tier4_488_english_dust_burst_and_harmf_tone_diacritic_unlatch),
             ("test_tier4_489_scenario83_trilingual_cheers_roofs_hifu_and_vietnamese_co_che_cong_bo_hat_hiu_duoc_biet_chat", test_tier4_489_scenario83_trilingual_cheers_roofs_hifu_and_vietnamese_co_che_cong_bo_hat_hiu_duoc_biet_chat),
+            ("test_tier4_490_vietnamese_collocation_phrases_niju_biju_riju_miju_gifu_nisu_risu_kere_bere_nere_tese_kese_bese_horo_moro_toro_soro_noro", test_tier4_490_vietnamese_collocation_phrases_niju_biju_riju_miju_gifu_nisu_risu_kere_bere_nere_tese_kese_bese_horo_moro_toro_soro_noro),
+            ("test_tier4_491_post_coda_monophthong_stop_coda_tone_override_and_delayed_diacritic_unlatch", test_tier4_491_post_coda_monophthong_stop_coda_tone_override_and_delayed_diacritic_unlatch),
+            ("test_tier4_492_post_coda_diphthong_stop_coda_tone_override_and_delayed_diacritic_unlatch", test_tier4_492_post_coda_diphthong_stop_coda_tone_override_and_delayed_diacritic_unlatch),
+            ("test_tier4_493_romaji_gifi_gisi_giji_tone_override_and_peepsj_unlatch", test_tier4_493_romaji_gifi_gisi_giji_tone_override_and_peepsj_unlatch),
+            ("test_tier4_494_scenario84_trilingual_motors_meters_and_vietnamese_kinh_te_thiet_ke_cua_so_chay_no_chat", test_tier4_494_scenario84_trilingual_motors_meters_and_vietnamese_kinh_te_thiet_ke_cua_so_chay_no_chat),
         ]
     }
 }

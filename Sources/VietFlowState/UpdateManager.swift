@@ -195,7 +195,7 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
     private var _customVersion: String? = nil
     public var currentVersion: String {
         get {
-            let ver = _customVersion ?? (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2.75")
+            let ver = _customVersion ?? (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2.76")
             var clean = ver.trimmingCharacters(in: .whitespacesAndNewlines)
             while clean.lowercased().hasPrefix("v") {
                 clean = String(clean.dropFirst())
