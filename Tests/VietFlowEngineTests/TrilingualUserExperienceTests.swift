@@ -2280,7 +2280,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (369 Tests)
+    // MARK: - Cycle 52: died+Tone+Coda/u+e Unlatch, Plural -rns/-rms w/g Unlatch, Romaji -oi w Unlatch, and dora/dosa/kern/tern Unlatch
+    // =========================================================================
+
+    func test_tier4_370_english_died_tone_coda_and_dieu_unlatch_and_preservation() {
+        let input = "died diedsn diedsm diedsng diedst diedsc diedsp diedfn diedfm diedfng diedrn diedrm diedrng diedxn diedxm diedxng diedjn diedjm diedjng diedjt diedjc diedjp diedsue diedfue diedrue diedxue diedjue dieduse diedufe diedure dieduxe dieduje"
+        let expected = "died điến điếm điếng điết điếc điếp điền điềm điềng điển điểm điểng điễn điễm điễng điện điệm điệng điệt điệc điệp điếu điều điểu điễu điệu điếu điều điểu điễu điệu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_371_english_plural_rns_rms_w_and_g_unlatch_and_preservation() {
+        let input = "barns barnsw barnsg darns darnsw darnswd darnsdw darnsg darnsgd darnsdg tarns tarnsw tarnsg horns hornsw hornsg thorns thornsw thornsg morns mornsw mornsg burns burnsw burnsg turns turnsw turnsg churns churnsw churnsg urns urnsw urnsg harms harmsw charms charmsw"
+        let expected = "barns bắn báng darns dắn đắn đắn dáng đáng đáng tarns tắn táng horns hớn hóng thorns thớn thóng morns mớn móng burns bứn búng turns tứn túng churns chứn chúng urns ứn úng harms hắm charms chắm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_372_romaji_osoi_hosoi_moroi_noroi_soroi_w_unlatch_and_preservation() {
+        let input = "osoi osoiw hosoi hosoiw moroi moroiw noroi noroiw soroi soroiw doroiw doroiwd doroidw tofoiw hofoiw tojoiw hojoiw dojoiwd dojoidw"
+        let expected = "osoi ới hosoi hới moroi mởi noroi nởi soroi sởi dởi đởi đởi tời hời tợi hợi đợi đợi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_373_romaji_dora_dosa_and_english_kern_tern_unlatch_and_preservation() {
+        let input = "dora dorayaki doraid doradi doraod dorado doradn doradng dorady doradw dosa dosai dosaod dosado dosadn dosadt dosadi dosady dosadw kern kernel kerns kernh kernhe kerng terns ternh ternhe"
+        let expected = "dora dorayaki đoải đoải đoảo đoảo đoản đoảng đoảy đoẳ dosa dosai đoáo đoáo đoán đoát đoái đoáy đoắ kern kernel kerns kẻnh kểnh kẻng terns tẻnh tểnh"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_374_scenario60_trilingual_kernel_hosoi_turns_and_vietnamese_dien_dieu_doan_doi_chat() {
+        let input = "Sau khi tiến trình phụ đã died trong nhân kernel, chúng (churnsg) tôi lần lượt turns kiểm tra các chỉ số hosoi để dự đoán (dosadn) nguyên nhân, điều (diedfue) chỉnh nguồn điện (diedjn) và kiên nhẫn đợi (dojoiwd) kết quả đáng (darnsgd) tin cậy trước khi ăn bánh dorayaki!"
+        let expected = "Sau khi tiến trình phụ đã died trong nhân kernel, chúng (chúng) tôi lần lượt turns kiểm tra các chỉ số hosoi để dự đoán (đoán) nguyên nhân, điều (điều) chỉnh nguồn điện (điện) và kiên nhẫn đợi (đợi) kết quả đáng (đáng) tin cậy trước khi ăn bánh dorayaki!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (374 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2661,6 +2695,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_367_romaji_and_english_cvptv_oto_w_before_tone_unlatch_and_preservation", test_tier4_367_romaji_and_english_cvptv_oto_w_before_tone_unlatch_and_preservation),
             ("test_tier4_368_english_and_romaji_honor_donor_asa_w_and_dire_difed_dijed_single_e_unlatch", test_tier4_368_english_and_romaji_honor_donor_asa_w_and_dire_difed_dijed_single_e_unlatch),
             ("test_tier4_369_scenario59_trilingual_chief_tier_sapa_oto_and_vietnamese_tien_viet_bien_dat_chat", test_tier4_369_scenario59_trilingual_chief_tier_sapa_oto_and_vietnamese_tien_viet_bien_dat_chat),
+            ("test_tier4_370_english_died_tone_coda_and_dieu_unlatch_and_preservation", test_tier4_370_english_died_tone_coda_and_dieu_unlatch_and_preservation),
+            ("test_tier4_371_english_plural_rns_rms_w_and_g_unlatch_and_preservation", test_tier4_371_english_plural_rns_rms_w_and_g_unlatch_and_preservation),
+            ("test_tier4_372_romaji_osoi_hosoi_moroi_noroi_soroi_w_unlatch_and_preservation", test_tier4_372_romaji_osoi_hosoi_moroi_noroi_soroi_w_unlatch_and_preservation),
+            ("test_tier4_373_romaji_dora_dosa_and_english_kern_tern_unlatch_and_preservation", test_tier4_373_romaji_dora_dosa_and_english_kern_tern_unlatch_and_preservation),
+            ("test_tier4_374_scenario60_trilingual_kernel_hosoi_turns_and_vietnamese_dien_dieu_doan_doi_chat", test_tier4_374_scenario60_trilingual_kernel_hosoi_turns_and_vietnamese_dien_dieu_doan_doi_chat),
         ]
     }
 }
