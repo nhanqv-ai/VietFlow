@@ -231,7 +231,12 @@ public enum JapaneseRomajiLexicon {
         "topo", "hopo", "lopo", "bopo", "copo", "nopo", "dopo", "sopo", "mopo", "ropo",
         "capa", "tapa", "napa", "lapa", "hapa", "gapa", "dapa", "bapa", "mapa", "sapa", "rapa",
         "moco", "toco", "soco", "doco", "boco", "hoco", "goco", "roco",
-        "bepe", "sepe", "nepe", "tepe", "depe", "hepe", "kepe", "mepe", "repe"
+        "bepe", "sepe", "nepe", "tepe", "depe", "hepe", "kepe", "mepe", "repe",
+        "choto", "chata", "choco", "chapa", "chopo", "chete", "chepe",
+        "chire", "chise", "chife", "chije", "chixe",
+        "churu", "chure", "churo", "chusu", "chuse", "chuso",
+        "chujo", "chuju", "chufo", "chufu", "chuxu", "chuxo",
+        "chaja", "chafa", "chaxa", "chasa", "chieru", "chiete"
     ]
 }
 

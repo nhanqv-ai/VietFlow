@@ -1509,8 +1509,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_255_english_and_romaji_choto_chata_choco_chapa_chopo_chete_chepe_quoto_photo_and_vietnamese_unlatch() {
+        let input = "choto chata choco chapa chopo chete chepe quoto photo photos theta thetas chotos chotoj chatas chataj chocos chocoj chapas chapaj chopos chopoj chetes chetej chepes chepej quotos quotoj photoj thetaj"
+        let expected = "choto chata choco chapa chopo chete chepe quoto photo photos theta thetas chốt chột chất chật chốc chộc chấp chập chốp chộp chết chệt chếp chệp quốt quột phột thệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_256_japanese_chire_chise_chife_chije_chixe_chieru_chiete_and_vietnamese_ie_unlatch() {
+        let input = "chire chise chife chije chixe chieru chiete chireen chiseen chifeen chijeen chixeen chireeu chiseeu chifeeu chijeeu chixeeu chiseet chijeet chiseec chierue chietes chietej"
+        let expected = "chire chise chife chije chixe chieru chiete chiển chiến chiền chiện chiễn chiểu chiếu chiều chiệu chiễu chiết chiệt chiếc chiểu chiết chiệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_257_japanese_churu_chure_churo_chusu_chuse_chuso_chujo_chuju_chufo_chufu_chuxu_chuxo_and_vietnamese_unlatch() {
+        let input = "churu chure churo chusu chuse chuso chujo chuju chufo chufu chuxu chuxo churuw chuxuw churowng chusowng chujowng chufowng chuxowng chusowc chujowc"
+        let expected = "churu chure churo chusu chuse chuso chujo chuju chufo chufu chuxu chuxo chửu chữu chưởng chướng chượng chường chưỡng chước chược"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_258_japanese_chaja_chafa_chaxa_chasa_and_vietnamese_digraph_circumflex_unlatch() {
+        let input = "chaja chafa chaxa chasa chajac chajam chajan chajap chajat chajau chajay chafam chafan chafau chafay chaxam chaxan chaxau chaxay chasac chasam chasan chasap chasat chasau chasay"
+        let expected = "chaja chafa chaxa chasa chậc chậm chận chập chật chậu chậy trầm chần chầu chầy chẫm chẫn chẫu chẫyấc chấm chấn chấp chất chấu chấy".replacingOccurrences(of: "trầm", with: "chầm").replacingOccurrences(of: "chẫyấc", with: "chẫy chấc")
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_259_scenario37_trilingual_choto_choco_chieru_chire_and_vietnamese_digraph_unlatch_chat() {
+        let input = "Trong giờ giải lao choto tại văn phòng Tokyo, cả nhóm thưởng thức bánh choco trước khi đá kịp chieru và ngắm cánh hoa sakura chire ngoài cửa sổ; anh kỹ sư vẫn chăm chú chốt (chotos) phương án thiết kế, chấp (chapas) nhận thử thách, chiết (chietes) xuất dữ liệu buổi chiều (chifeeu) và gửi lời chúc chưởng (churowng) phòng thật chậm (chajam) rãi, chắc chắn!"
+        let expected = "Trong giờ giải lao choto tại văn phòng Tokyo, cả nhóm thưởng thức bánh choco trước khi đá kịp chieru và ngắm cánh hoa sakura chire ngoài cửa sổ; anh kỹ sư vẫn chăm chú chốt (chốt) phương án thiết kế, chấp (chấp) nhận thử thách, chiết (chiết) xuất dữ liệu buổi chiều (chiều) và gửi lời chúc chưởng (chưởng) phòng thật chậm (chậm) rãi, chắc chắn!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (254 Tests)
+    // MARK: - Test Registration (259 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1776,6 +1806,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_252_english_and_romaji_coco_loco_poco_moco_toco_soco_doco_boco_hoco_goco_roco_and_vietnamese_oc_unlatch", test_tier4_252_english_and_romaji_coco_loco_poco_moco_toco_soco_doco_boco_hoco_goco_roco_and_vietnamese_oc_unlatch),
             ("test_tier4_253_vietnamese_nasal_final_en_em_fjx_unlatch_bened_dened_lemed_nemed_remed_semed", test_tier4_253_vietnamese_nasal_final_en_em_fjx_unlatch_bened_dened_lemed_nemed_remed_semed),
             ("test_tier4_254_scenario36_trilingual_data_goto_sata_sapa_toto_coco_and_vietnamese_delayed_circumflex_chat", test_tier4_254_scenario36_trilingual_data_goto_sata_sapa_toto_coco_and_vietnamese_delayed_circumflex_chat),
+            ("test_tier4_255_english_and_romaji_choto_chata_choco_chapa_chopo_chete_chepe_quoto_photo_and_vietnamese_unlatch", test_tier4_255_english_and_romaji_choto_chata_choco_chapa_chopo_chete_chepe_quoto_photo_and_vietnamese_unlatch),
+            ("test_tier4_256_japanese_chire_chise_chife_chije_chixe_chieru_chiete_and_vietnamese_ie_unlatch", test_tier4_256_japanese_chire_chise_chife_chije_chixe_chieru_chiete_and_vietnamese_ie_unlatch),
+            ("test_tier4_257_japanese_churu_chure_churo_chusu_chuse_chuso_chujo_chuju_chufo_chufu_chuxu_chuxo_and_vietnamese_unlatch", test_tier4_257_japanese_churu_chure_churo_chusu_chuse_chuso_chujo_chuju_chufo_chufu_chuxu_chuxo_and_vietnamese_unlatch),
+            ("test_tier4_258_japanese_chaja_chafa_chaxa_chasa_and_vietnamese_digraph_circumflex_unlatch", test_tier4_258_japanese_chaja_chafa_chaxa_chasa_and_vietnamese_digraph_circumflex_unlatch),
+            ("test_tier4_259_scenario37_trilingual_choto_choco_chieru_chire_and_vietnamese_digraph_unlatch_chat", test_tier4_259_scenario37_trilingual_choto_choco_chieru_chire_and_vietnamese_digraph_unlatch_chat),
         ]
     }
 }
