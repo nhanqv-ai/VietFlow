@@ -2619,8 +2619,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_420_vietnamese_collocation_phrases_ban_tan_bun_tun_bon_con_dom_bem() {
+        let input = "barn cow barn vawn barn phieen barn kichj barn bieen barn xuaats barn nguyeen barn nhaatj barn tarn ddi tarn booj keo tarn nhietj quatj tarn nhietj vieets tarn manj burn tay chaan burn rurn sowj burn rurn keo kietj burn xirn tinhs burn xirn turn tinhs toans turn murn nhor nhawtj turn murn born tinhs born xern keo kietj born xern corn nhor corn bes corn dorm hangf dorm ddoof dorm pin dorm berm awn nois berm meps miengj berm meps toes luwar toes"
+        let expected = "barn cơ bản văn bản phiên bản kịch bản biên bản xuất bản nguyên bản nhật bản tarn đi tản bộ keo tản nhiệt quạt tản nhiệt viết tản mạn burn tay chân bủn rủn sợ bủn rủn keo kiệt bủn xỉn tính bủn xỉn turn tính toán tủn mủn nhỏ nhặt tủn mủn born tính bỏn xẻn keo kiệt bỏn xẻn corn nhỏ cỏn bé cỏn dorm hàng dỏm đồ dỏm pin dỏm berm ăn nói bẻm mép miệng bẻm mép toes lửa tóe"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_421_english_plural_rns_rms_midword_tone_override_unlatch() {
+        let input = "barns barnsf barnsr barnsx barnsj darns darnsf darnsfd darnsr darnsrd darnsx darnsxd darnsj darnsjd tarns tarnsf tarnsr tarnsx tarnsj horns hornsf hornsr hornsx hornsj thorns thornsf thornsr thornsx thornsj morns mornsf mornsr mornsx mornsj borns bornsf bornsr bornsx bornsj corns cornsf cornsr cornsx cornsj torns tornsf tornsr tornsx tornsj burns burnsf burnsr burnsx burnsj turns turnsf turnsr turnsx turnsj churns churnsf churnsr churnsx churnsj urns urnsf urnsr urnsx urnsj harms harmsf harmsr harmsx harmsj charms charmsf charmsr charmsx charmsj norms normsf normsr normsx normsj corms cormsf cormsr cormsx cormsj dorms dormsf dormsfd dormsr dormsrd dormsx dormsxd dormsj dormsjd berms bermsf bermsr bermsx bermsj terms termsf termsr termsx termsj kerns kernsf kernsr kernsx kernsj terns ternsf ternsr ternsx ternsj"
+        let expected = "barns bàn bản bãn bạn darns dàn đàn dản đản dãn đãn dạn đạn tarns tàn tản tãn tạn horns hòn hỏn hõn họn thorns thòn thỏn thõn thọn morns mòn mỏn mõn mọn borns bòn bỏn bõn bọn corns còn cỏn cõn cọn torns tòn tỏn tõn tọn burns bùn bủn bũn bụn turns tùn tủn tũn tụn churns chùn chủn chũn chụn urns ùn ủn ũn ụn harms hàm hảm hãm hạm charms chàm chảm chãm chạm norms nòm nỏm nõm nọm corms còm cỏm cõm cọm dorms dòm đòm dỏm đỏm dõm đõm dọm đọm berms bèm bẻm bẽm bẹm terms tèm tẻm tẽm tẹm kerns kèn kẻn kẽn kẹn terns tèn tẻn tẽn tẹn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_422_english_plural_oors_oofs_odos_ojos_adas_aras_tone_override_unlatch() {
+        let input = "dodos dodosf dodosr dodosx dodosj dojos dojosf dojosfd dojosr dojosrd dojosx dojosxd dojosj dojosjd rojos rojosf rojosr rojosx rojosj loofs loofsf loofsr loofsx loofsj oofs oofsf oofsr oofsx oofsj hoofs hoofsf hoofsr hoofsx hoofsj roofs roofsf roofsr roofsx roofsj goofs goofsf goofsr goofsx goofsj moors moorsf moorsr moorsx moorsj boors boorsf boorsr boorsx boorsj doors doorsf doorsfd doorsr doorsrd doorsx doorsxd doorsj doorsjd dadas dadasf dadasr dadasx dadasj charas charasf charasr charasx charasj"
+        let expected = "dodos đồ đổ đỗ độ dojos dồ đồ dổ đổ dỗ đỗ dộ độ rojos rồ rổ rỗ rộ loofs lồ lổ lỗ lộ oofs ồ ổ ỗ ộ hoofs hồ hổ hỗ hộ roofs rồ rổ rỗ rộ goofs gồ gổ gỗ gộ moors mồ mổ mỗ mộ boors bồ bổ bỗ bộ doors dồ đồ dổ đổ dỗ đỗ dộ độ dadas đầ đẩ đẫ đậ charas chầ chẩ chẫ chậ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_423_english_plural_eers_eefs_ees_uys_oars_oafs_oifs_oirs_aifs_iars_toes_hoes_does_unlatch() {
+        let input = "leers leersf leersr leersx leersj seers seersf seersr seersx seersj cheers cheersf cheersr cheersx cheersj veers veersf veersr veersx veersj reefs reefsf reefsr reefsx reefsj beefs beefsf beefsr beefsx beefsj beers beersf beersr beersx beersj deers deersf deersfd deersr deersrd deersx deersxd deersj deersjd trees treesf treesr treesx treesj sees seesf seesr seesx seesj buys buysf buysr buysx buysj guys guysf guysr guysx guysj soars soarsf soarsr soarsx soarsj oars oarsf oarsr oarsx oarsj loafs loafsf loafsr loafsx loafsj oafs oafsf oafsr oafsx oafsj coifs coifsf coifsr coifsx coifsj choirs choirsf choirsr choirsx choirsj naifs naifsf naifsr naifsx naifsj liars liarsf liarsr liarsx liarsj toes toesf toesr toesx toesj hoes hoesf hoesr hoesx hoesj hairs hairsr chairs chairsr lairs lairsr airs airsr morons moronsr"
+        let expected = "leers lề lể lễ lệ seers sề sể sễ sệ cheers chề chể chễ chệ veers về vể vễ vệ reefs rề rể rễ rệ beefs bề bể bễ bệ beers bề bể bễ bệ deers dề đề dể để dễ đễ dệ đệ trees trề trể trễ trệ sees sề sể sễ sệ buys bùy bủy bũy bụy guys gùy gủy gũy gụy soars sòa sỏa sõa sọa oars òa ỏa õa ọa loafs lòa lỏa lõa lọa oafs òa ỏa õa ọa coifs còi cỏi cõi cọi choirs chòi chỏi chõi chọi naifs nài nải nãi nại liars lìa lỉa lĩa lịa toes tòe tỏe tõe tọe hoes hòe hỏe hõe họe hairs hải chairs chải lairs lải airs ải morons mổn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_424_scenario70_trilingual_burn_turn_dorm_and_vietnamese_co_ban_tan_nhiet_bun_run_hang_dom_chat() {
+        let input = "Trong phòng dorm, mình kiểm tra phiên bản (phieen barn) cơ bản (cow barn) của quạt tản nhiệt (quatj tarn nhietj) để máy không bị burn khi render: tránh mua hàng dỏm (hangf dorm) hay pin dỏm (pin dorm), đừng tính toán tủn mủn (tinhs toans turn murn) hay keo kiệt bỏn xẻn (keo kietj born xern) kẻo lúc máy hỏng lại sợ bủn rủn (sowj burn rurn) cả tay chân!"
+        let expected = "Trong phòng dorm, mình kiểm tra phiên bản (phiên bản) cơ bản (cơ bản) của quạt tản nhiệt (quạt tản nhiệt) để máy không bị burn khi render: tránh mua hàng dỏm (hàng dỏm) hay pin dỏm (pin dỏm), đừng tính toán tủn mủn (tính toán tủn mủn) hay keo kiệt bỏn xẻn (keo kiệt bỏn xẻn) kẻo lúc máy hỏng lại sợ bủn rủn (sợ bủn rủn) cả tay chân!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (419 Tests)
+    // MARK: - Test Registration (424 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -3051,6 +3081,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_417_english_stop_coda_plurals_and_stems_dot_tone_override_unlatch", test_tier4_417_english_stop_coda_plurals_and_stems_dot_tone_override_unlatch),
             ("test_tier4_418_english_oxen_vixen_siren_sirens_risen_tureen_chosen_tone_override_unlatch", test_tier4_418_english_oxen_vixen_siren_sirens_risen_tureen_chosen_tone_override_unlatch),
             ("test_tier4_419_scenario69_trilingual_suwa_photos_rooms_and_vietnamese_say_sua_goa_phu_noan_cau_chat", test_tier4_419_scenario69_trilingual_suwa_photos_rooms_and_vietnamese_say_sua_goa_phu_noan_cau_chat),
+            ("test_tier4_420_vietnamese_collocation_phrases_ban_tan_bun_tun_bon_con_dom_bem", test_tier4_420_vietnamese_collocation_phrases_ban_tan_bun_tun_bon_con_dom_bem),
+            ("test_tier4_421_english_plural_rns_rms_midword_tone_override_unlatch", test_tier4_421_english_plural_rns_rms_midword_tone_override_unlatch),
+            ("test_tier4_422_english_plural_oors_oofs_odos_ojos_adas_aras_tone_override_unlatch", test_tier4_422_english_plural_oors_oofs_odos_ojos_adas_aras_tone_override_unlatch),
+            ("test_tier4_423_english_plural_eers_eefs_ees_uys_oars_oafs_oifs_oirs_aifs_iars_toes_hoes_does_unlatch", test_tier4_423_english_plural_eers_eefs_ees_uys_oars_oafs_oifs_oirs_aifs_iars_toes_hoes_does_unlatch),
+            ("test_tier4_424_scenario70_trilingual_burn_turn_dorm_and_vietnamese_co_ban_tan_nhiet_bun_run_hang_dom_chat", test_tier4_424_scenario70_trilingual_burn_turn_dorm_and_vietnamese_co_ban_tan_nhiet_bun_run_hang_dom_chat),
         ]
     }
 }
