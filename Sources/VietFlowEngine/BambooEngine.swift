@@ -349,7 +349,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && r2 == "r"
                 && r3 == "n")
                 || String(wordRawKeys).lowercased() == "urn")
-                && "gw".contains(character.lowercased()) {
+                && ("gw".contains(character.lowercased())
+                    || ("ao".contains(r1) && character.lowercased() == r1 && wordRawKeys[0].lowercased() != "w")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -357,7 +358,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && "ao".contains(r1)
                 && r2 == "r"
                 && r3 == "m"
-                && character.lowercased() == "w" {
+                && (character.lowercased() == "w"
+                    || (character.lowercased() == r1 && wordRawKeys[0].lowercased() != "w")) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if (["cost", "most"].contains(String(wordRawKeys).lowercased()) && "wo".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "rust" && character.lowercased() == "w")
+                || (["gasp", "rasp"].contains(String(wordRawKeys).lowercased()) && "wa".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "test" && character.lowercased() == "e") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)

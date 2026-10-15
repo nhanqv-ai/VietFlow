@@ -1740,7 +1740,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (289 Tests)
+    // MARK: - Cycle 36: Cost/Most/Rust/Gasp/Rasp/Test & -rna/-rma/-rno/-rmo Unlatching
+    // =========================================================================
+
+    func test_tier4_290_english_cost_most_rust_preservation_and_vietnamese_cot_mot_rut_unlatch() {
+        let input = "cost costs costed costly costw costo most mostly mostw mosto rust rusts rusted rusty rustw"
+        let expected = "cost costs costed costly cớt cốt most mostly mớt mốt rust rusts rusted rusty rứt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_291_english_gasp_rasp_test_preservation_and_vietnamese_gap_rap_tet_unlatch() {
+        let input = "gasp gasps gasped gaspw gaspa rasp rasps rasped raspw raspa test tests tested tester testers testing teste"
+        let expected = "gasp gasps gasped gắp gấp rasp rasps rasped rắp rấp test tests tested tester testers testing tết"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_292_english_rn_rm_preservation_and_vietnamese_free_tone_rna_rma_unlatch() {
+        let input = "warn warns warned warm warms warmed barn barns barna barnga darn darns darna darnga tarn tarns tarna tarnga harm harms harma charm charms charma"
+        let expected = "warn warns warned warm warms warmed barn barns bẩn bẩng darn darns dẩn dẩng tarn tarns tẩn tẩng harm harms hẩm charm charms chẩm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_293_english_rn_rm_preservation_and_vietnamese_free_tone_rno_rmo_unlatch() {
+        let input = "worm worms born borne borno borngo corn corns corno corngo horn horns horno horngo torn torno torngo morn morns morno morngo thorn thorns thorno thorngo corm corms cormo"
+        let expected = "worm worms born borne bổn bổng corn corns cổn cổng horn horns hổn hổng torn tổn tổng morn morns mổn mổng thorn thorns thổn thổng corm corms cổm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_294_scenario44_trilingual_cost_most_rust_test_and_vietnamese_cot_mot_tet_ton_chat() {
+        let input = "Để tối ưu chi phí cost cho phần lớn most các dịch vụ viết bằng rust và được đội ngũ tester kiểm thử kỹ lưỡng qua từng bài test trước dịp nghỉ Tết (teste), kỹ sư nắm vững cốt (costo) lõi hệ thống đang rất mốt (mosto), gắp (gaspw) từng phần việc gấp (gaspa) rút mà không để bứt rứt (rustw) hay gây tổn (torno) hại đến tổng (torngo) thể, xóa bỏ mọi đoạn mã bẩn (barna) để không ai phải thở hổn (horno) hển!"
+        let expected = "Để tối ưu chi phí cost cho phần lớn most các dịch vụ viết bằng rust và được đội ngũ tester kiểm thử kỹ lưỡng qua từng bài test trước dịp nghỉ Tết (tết), kỹ sư nắm vững cốt (cốt) lõi hệ thống đang rất mốt (mốt), gắp (gắp) từng phần việc gấp (gấp) rút mà không để bứt rứt (rứt) hay gây tổn (tổn) hại đến tổng (tổng) thể, xóa bỏ mọi đoạn mã bẩn (bẩn) để không ai phải thở hổn (hổn) hển!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (294 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2041,6 +2075,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_287_vietnamese_delayed_d_da_do_de_unlatch_dorod_darad_dered_and_dose_preservation", test_tier4_287_vietnamese_delayed_d_da_do_de_unlatch_dorod_darad_dered_and_dose_preservation),
             ("test_tier4_288_japanese_arau_harau_sarau_tarau_narau_preservation_and_vietnamese_mau_bau_gau_dau_chau_unlatch", test_tier4_288_japanese_arau_harau_sarau_tarau_narau_preservation_and_vietnamese_mau_bau_gau_dau_chau_unlatch),
             ("test_tier4_289_scenario43_trilingual_narau_harau_dose_and_vietnamese_tuong_buoc_hieu_chieu_chat", test_tier4_289_scenario43_trilingual_narau_harau_dose_and_vietnamese_tuong_buoc_hieu_chieu_chat),
+            ("test_tier4_290_english_cost_most_rust_preservation_and_vietnamese_cot_mot_rut_unlatch", test_tier4_290_english_cost_most_rust_preservation_and_vietnamese_cot_mot_rut_unlatch),
+            ("test_tier4_291_english_gasp_rasp_test_preservation_and_vietnamese_gap_rap_tet_unlatch", test_tier4_291_english_gasp_rasp_test_preservation_and_vietnamese_gap_rap_tet_unlatch),
+            ("test_tier4_292_english_rn_rm_preservation_and_vietnamese_free_tone_rna_rma_unlatch", test_tier4_292_english_rn_rm_preservation_and_vietnamese_free_tone_rna_rma_unlatch),
+            ("test_tier4_293_english_rn_rm_preservation_and_vietnamese_free_tone_rno_rmo_unlatch", test_tier4_293_english_rn_rm_preservation_and_vietnamese_free_tone_rno_rmo_unlatch),
+            ("test_tier4_294_scenario44_trilingual_cost_most_rust_test_and_vietnamese_cot_mot_tet_ton_chat", test_tier4_294_scenario44_trilingual_cost_most_rust_test_and_vietnamese_cot_mot_tet_ton_chat),
         ]
     }
 }
