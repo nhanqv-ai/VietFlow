@@ -2110,7 +2110,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (344 Tests)
+    // MARK: - Cycle 47: Delayed-d on du-a/du-i/du-e/di-e/de-u/da-u/da-y/do-i/da-rm/do-rm Families, soapsw, and lure/sure/cure/muse/ruse/hire/tire/mire Vietnamese Continuations
+    // =========================================================================
+
+    func test_tier4_345_romaji_du_a_du_i_delayed_d_unlatch_and_soaps_preservation() {
+        let input = "dura duradw duri durid duridw dusa dusadw dufa dufadw duxa duxadw duja dujadw duranda dusanda dufanda duxanda dujanda dusatda dujatda durayda dusayda dufayda duxayda dujayda soaps soapsw"
+        let expected = "dura đửa duri đủi đửi dúa đứa dùa đừa dũa đữa dụa đựa đuẩn đuấn đuần đuẫn đuận đuất đuật đuẩy đuấy đuầy đuẫy đuậy soaps soắp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_346_romaji_du_e_di_e_delayed_d_before_final_e_unlatch() {
+        let input = "dufe dufede dufende dure durede durende duse dusede dusende dusetde duje dujede dujende dujetde dues duesde duesnde duestde dire direde dirende diremde difende difemde disende disemde disetde disepde disecde dijende dijemde dijetde dijepde dijecde"
+        let expected = "dufe đuề đuền dure đuể đuển duse đuế đuến đuết duje đuệ đuện đuệt dues đuế đuến đuết dire điể điển điểm điền điềm điến điếm điết điếp điếc điện điệm điệt điệp điệc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_347_romaji_de_u_da_u_da_y_do_i_dorm_delayed_d_unlatch() {
+        let input = "defu defude deru derude desu desude dexude dejude daru daruda dasu dasuda dafuda daxuda dajuda dafyda daryda dasyda daxyda dajyda dofido dofidw dorido doridw dosido dosidw dojido dojidw dorm dormd dormdo dormdw darmd darmda darmdw"
+        let expected = "defu đều deru đểu desu đếu đễu đệu daru đẩu dasu đấu đầu đẫu đậu đầy đẩy đấy đẫy đậy đồi đời đổi đởi đối đới đội đợi dorm đỏm đổm đởm đảm đẩm đẳm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_348_english_lure_sure_cure_muse_ruse_hire_tire_mire_preservation_and_vietnamese_unlatch() {
+        let input = "lure luree lurene sure surely suree surene cure cures cured curee curene cureme muse muses mused musee musene museme musete ruse ruses rusee rusene rusete hire hires hired hiree hirem hiren hireng hireue tire tires tired tiree tirem tiren tireng tireue mire mires mired miree mirem miren mireng mireue"
+        let expected = "lure luể luển sure surely suể suển cure cures cured cuể cuển cuểm muse muses mused muế muến muếm muết ruse ruses ruế ruến ruết hire hires hired hiể hiểm hiển hiểng hiểu tire tires tired tiể tiểm tiển tiểng tiểu mire mires mired miể miểm miễn miểng miểu".replacingOccurrences(of: "miễn", with: "miển")
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_349_scenario55_trilingual_soaps_sure_hire_and_vietnamese_duoc_dieu_dau_doi_chat() {
+        let input = "Mình sure là sau khi hire thêm kỹ sư và mua các bánh xà phòng soaps thơm mát, cả nhóm sẽ hiểu (hireue) rõ mục tiêu (tireue) tiểu dự án, cùng nhau đẩy (daryda) nhanh tiến độ từ đầu (dafuda) đến cuối, chủ động thay đổi (dorido) để mọi việc đều (defude) đạt điểm (diremde) số cao và không còn đứa (dusadw) nào phải chờ đợi (dojidw)!"
+        let expected = "Mình sure là sau khi hire thêm kỹ sư và mua các bánh xà phòng soaps thơm mát, cả nhóm sẽ hiểu (hiểu) rõ mục tiêu (tiểu) tiểu dự án, cùng nhau đẩy (đẩy) nhanh tiến độ từ đầu (đầu) đến cuối, chủ động thay đổi (đổi) để mọi việc đều (đều) đạt điểm (điểm) số cao và không còn đứa (đứa) nào phải chờ đợi (đợi)!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (349 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2466,6 +2500,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_342_romaji_oto_otosu_ieru_preservation_and_vietnamese_ot_ieu_unlatch", test_tier4_342_romaji_oto_otosu_ieru_preservation_and_vietnamese_ot_ieu_unlatch),
             ("test_tier4_343_english_here_there_mere_sere_these_preservation_and_vietnamese_e_coda_unlatch", test_tier4_343_english_here_there_mere_sere_these_preservation_and_vietnamese_e_coda_unlatch),
             ("test_tier4_344_scenario54_trilingual_otosu_ieru_here_there_and_vietnamese_duong_duoc_dien_dieu_chat", test_tier4_344_scenario54_trilingual_otosu_ieru_here_there_and_vietnamese_duong_duoc_dien_dieu_chat),
+            ("test_tier4_345_romaji_du_a_du_i_delayed_d_unlatch_and_soaps_preservation", test_tier4_345_romaji_du_a_du_i_delayed_d_unlatch_and_soaps_preservation),
+            ("test_tier4_346_romaji_du_e_di_e_delayed_d_before_final_e_unlatch", test_tier4_346_romaji_du_e_di_e_delayed_d_before_final_e_unlatch),
+            ("test_tier4_347_romaji_de_u_da_u_da_y_do_i_dorm_delayed_d_unlatch", test_tier4_347_romaji_de_u_da_u_da_y_do_i_dorm_delayed_d_unlatch),
+            ("test_tier4_348_english_lure_sure_cure_muse_ruse_hire_tire_mire_preservation_and_vietnamese_unlatch", test_tier4_348_english_lure_sure_cure_muse_ruse_hire_tire_mire_preservation_and_vietnamese_unlatch),
+            ("test_tier4_349_scenario55_trilingual_soaps_sure_hire_and_vietnamese_duoc_dieu_dau_doi_chat", test_tier4_349_scenario55_trilingual_soaps_sure_hire_and_vietnamese_duoc_dieu_dau_doi_chat),
         ]
     }
 }
