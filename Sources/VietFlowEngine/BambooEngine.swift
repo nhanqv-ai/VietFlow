@@ -233,17 +233,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             ].contains(String(wordRawKeys).lowercased())
                 || (wordRawKeys.count == 4
                     && "aoe".contains(wordRawKeys[1].lowercased())
-                    && wordRawKeys[2].lowercased() == "t"
+                    && "cpt".contains(wordRawKeys[2].lowercased())
                     && wordRawKeys[1].lowercased() == wordRawKeys[3].lowercased()))
-                && "sj".contains(character.lowercased()) {
+                && ("sj".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if wordRawKeys.count == 4
-                && "ao".contains(wordRawKeys[1].lowercased())
+                && "aoe".contains(wordRawKeys[1].lowercased())
                 && "mn".contains(wordRawKeys[2].lowercased())
                 && wordRawKeys[1].lowercased() == wordRawKeys[3].lowercased()
-                && "fjx".contains(character.lowercased()) {
+                && ("fjx".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)

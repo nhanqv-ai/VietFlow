@@ -255,7 +255,7 @@ public enum EnglishKeywords {
         "memes", "themes", "beset", "besets", "xanax",
         "dodos", "gotos", "topos", "mamas", "datas", "nonos", "rojos", "toxo", "roxo",
         "noop", "noops", "dadas", "hies", "lire", "lise", "vire", "vise", "vises", "quasar", "quasars", "hangars",
-        "loofs", "siete"
+        "loofs", "siete", "data", "goto", "sata", "toto", "loto", "topo", "sapa", "napa", "tapa", "capa", "poco"
     ]
 }
 

@@ -1479,8 +1479,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_250_english_and_romaji_data_goto_sata_toto_loto_mata_hata_noto_and_vietnamese_unlatch() {
+        let input = "data goto sata toto loto mata nata hata tata rata noto hoto boto doto roto datas gotos dataj datad datads gotoj gotos matas mataj natas nataj hatas hataj satas sataj tatas tataj ratas rataj notos notoj hotos hotoj totos totoj botos botoj dotos dotoj dotods dotodj rotos rotoj lotos lotoj"
+        let expected = "data goto sata toto loto mata nata hata tata rata noto hoto boto doto roto datas gotos dật đât đất gột gotos mất mật nất nật hất hật sất sật tất tật rất rật nốt nột hốt hột tốt tột bốt bột dốt dột đốt đột rốt rột lốt lột"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_251_english_and_romaji_sapa_napa_tapa_capa_topo_lapa_hopo_and_vietnamese_ap_op_ep_unlatch() {
+        let input = "sapa napa tapa capa lapa hapa gapa dapa bapa mapa rapa topo hopo lopo bopo copo nopo dopo sopo mopo ropo bepe sepe nepe tepe depe hepe kepe mepe repe sapas sapaj napas napaj tapas tapaj capas capaj lapas lapaj hapas hapaj gapas gapaj dapas dapaj dapads dapadj bapas bapaj mapas mapaj rapas rapaj topos topoj hopos hopoj lopos lopoj bopos bopoj copos copoj nopos nopoj dopos dopoj dopods dopodj sopos sopoj mopos mopoj ropos ropoj bepes bepej sepes sepej nepes nepej tepes tepej depes depej depeds depedj hepes hepej mepes mepej repes repej"
+        let expected = "sapa napa tapa capa lapa hapa gapa dapa bapa mapa rapa topo hopo lopo bopo copo nopo dopo sopo mopo ropo bepe sepe nepe tepe depe hepe kepe mepe repe sấp sập nấp nập tấp tập cấp cập lấp lập hấp hập gấp gập dấp dập đấp đập bấp bập mấp mập rấp rập topos tộp hốp hộp lốp lộp bốp bộp cốp cộp nốp nộp dốp dộp đốp độp sốp sộp mốp mộp rốp rộp bếp bệp sếp sệp nếp nệp tếp tệp dếp dệp đếp đệp hếp hệp mếp mệp rếp rệp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_252_english_and_romaji_coco_loco_poco_moco_toco_soco_doco_boco_hoco_goco_roco_and_vietnamese_oc_unlatch() {
+        let input = "coco loco poco moco toco soco doco boco hoco goco roco cocos cocoj locos locoj mocos mocoj tocos tocoj socos socoj docos docoj docods docodj bocos bocoj hocos hocoj gocos gocoj rocos rocoj"
+        let expected = "coco loco poco moco toco soco doco boco hoco goco roco cốc cộc lốc lộc mốc mộc tốc tộc sốc sộc dốc dộc đốc độc bốc bộc hốc hộc gốc gộc rốc rộc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_253_vietnamese_nasal_final_en_em_fjx_unlatch_bened_dened_lemed_nemed_remed_semed() {
+        let input = "bene dene mene nene rene sene tene leme meme neme reme seme teme benef benej benex denef denej denex denedf denedj menef menej menex nenef nenej nenex renef renej renex senef senej senex tenef tenej tenex lemef lemej lemex memef memej memex nemef nemej nemex remef remej remex semef semej semex temef temej temex"
+        let expected = "bên dên mên nên rên sên tên lêm mêm nêm rêm sêm têm bền bện bễn dền dện dễn đền đện mền mện mễn nền nện nễn rền rện rễn sền sện sễn tền tện tễn lềm lệm lễm mềm mệm mễm nềm nệm nễm rềm rệm rễm sềm sệm sễm tềm tệm tễm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_254_scenario36_trilingual_data_goto_sata_sapa_toto_coco_and_vietnamese_delayed_circumflex_chat() {
+        let input = "Khi phân tích data trên ổ cứng sata và loại bỏ lệnh goto cũ ở dự án toto tại vùng noto, kỹ sư đi du lịch sapa và napa vẫn kịp đóng hộp (hopoj) tài liệu, cập (capaj) nhật tập (tapaj) hồ sơ, lập (lapaj) tức xuống bếp (bepes) pha một cốc (cocos) cacao coco nóng để giữ tốc (tocos) độ làm việc tốt (totos) nhất bất (batas) chấp cơn lốc (locos) mùa đông!"
+        let expected = "Khi phân tích data trên ổ cứng sata và loại bỏ lệnh goto cũ ở dự án toto tại vùng noto, kỹ sư đi du lịch sapa và napa vẫn kịp đóng hộp (hộp) tài liệu, cập (cập) nhật tập (tập) hồ sơ, lập (lập) tức xuống bếp (bếp) pha một cốc (cốc) cacao coco nóng để giữ tốc (tốc) độ làm việc tốt (tốt) nhất bất (bất) chấp cơn lốc (lốc) mùa đông!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (249 Tests)
+    // MARK: - Test Registration (254 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1741,6 +1771,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_247_vietnamese_stop_final_cvtv_unlatch_motoj_sotos_batas_bataj_gatas_gataj", test_tier4_247_vietnamese_stop_final_cvtv_unlatch_motoj_sotos_batas_bataj_gatas_gataj),
             ("test_tier4_248_vietnamese_nasal_final_cvnv_cvmv_fjx_unlatch_honof_donof_hanaj_manaj_hamaf", test_tier4_248_vietnamese_nasal_final_cvnv_cvmv_fjx_unlatch_honof_donof_hanaj_manaj_hamaf),
             ("test_tier4_249_scenario35_trilingual_nuete_hete_moto_and_vietnamese_delayed_circumflex_chat", test_tier4_249_scenario35_trilingual_nuete_hete_moto_and_vietnamese_delayed_circumflex_chat),
+            ("test_tier4_250_english_and_romaji_data_goto_sata_toto_loto_mata_hata_noto_and_vietnamese_unlatch", test_tier4_250_english_and_romaji_data_goto_sata_toto_loto_mata_hata_noto_and_vietnamese_unlatch),
+            ("test_tier4_251_english_and_romaji_sapa_napa_tapa_capa_topo_lapa_hopo_and_vietnamese_ap_op_ep_unlatch", test_tier4_251_english_and_romaji_sapa_napa_tapa_capa_topo_lapa_hopo_and_vietnamese_ap_op_ep_unlatch),
+            ("test_tier4_252_english_and_romaji_coco_loco_poco_moco_toco_soco_doco_boco_hoco_goco_roco_and_vietnamese_oc_unlatch", test_tier4_252_english_and_romaji_coco_loco_poco_moco_toco_soco_doco_boco_hoco_goco_roco_and_vietnamese_oc_unlatch),
+            ("test_tier4_253_vietnamese_nasal_final_en_em_fjx_unlatch_bened_dened_lemed_nemed_remed_semed", test_tier4_253_vietnamese_nasal_final_en_em_fjx_unlatch_bened_dened_lemed_nemed_remed_semed),
+            ("test_tier4_254_scenario36_trilingual_data_goto_sata_sapa_toto_coco_and_vietnamese_delayed_circumflex_chat", test_tier4_254_scenario36_trilingual_data_goto_sata_sapa_toto_coco_and_vietnamese_delayed_circumflex_chat),
         ]
     }
 }
