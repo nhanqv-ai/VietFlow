@@ -2752,7 +2752,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (439 Tests)
+    // MARK: - Cycle 66: Delayed-Circumflex Collocations (sân/hân/hâm/sâm/hôn/môn/hôm), C-u-[rsfjx]-[ou] Tone Override, and giro/gifu/giju/gire/gise/duos/dure-d Unlatch
+    // =========================================================================
+
+    func test_tier4_440_vietnamese_collocation_phrases_san_han_ham_sam_hon_mon_hom_ro_ro_do_ho_no_ne_re_reo_miu() {
+        let input = "sana ra sana treen sana giwax sana hana raats hana vinh hana hama bij hama lof hama sama nhaan sama hoongf sama traf sama hono keets hono ddinhs hono hoangf hono mono booj mono chuyeen mono thur mono homo chieeuf homo ddeem homo maays homo roro cais roro ddan roro roxo mawtj roxo loox roxo doxo duj doxo khuyeen doxo hoxo tuwowng hoxo cuwus hoxo noxo suwj noxo luwcj luoon noxo luwcj neje caau neje chaaps neje reje treex reje bungj reje rero manhr rero vungf rero misu baaus misu nius misu"
+        let expected = "sana ra sân trên sân giữa sân hana rất hân vinh hân hama bị hâm lò hâm sama nhân sâm hồng sâm trà sâm hono kết hôn đính hôn hoàng hôn mono bộ môn chuyên môn thủ môn homo chiều hôm đêm hôm mấy hôm roro cái rổ đan rổ roxo mặt rỗ lỗ rỗ doxo dụ dỗ khuyên dỗ hoxo tương hỗ cứu hỗ noxo sự nỗ lực luôn nỗ lực neje câu nệ chấp nệ reje trễ rệ bụng rệ rero mảnh rẻo vùng rẻo misu bấu míu níu míu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_441_romaji_curo_cuso_cufo_cujo_cuxo_tone_override_and_duos_unlatch() {
+        let input = "turo turoswng turofwng turojwng turoswc turosoc suro suroswng surofwng muro muroswp murofwn murojwn murojwt duro durofwng durofwngd durojwcd durojotd huro huroswng hurofwng hurojwng churo churoswng churofwng churojwng churoswc churojwc tuso tusorwng tusofwng tusojwng tufo tufoswng tuforwng tufojwng tujo tujoswng tujofwng tujorwng duos duosfwngd duosrwngd duosxwngd duosjwngd duosjwcd duosfond duosjond"
+        let expected = "turo tướng tường tượng tước tuốc suro sướng sường muro mướp mườn mượn mượt duro dường đường được đuột huro hướng hường hượng churo chướng chường chượng chước chược tuso tưởng tường tượng tufo tướng tưởng tượng tujo tướng tường tưởng duos đường đưởng đưỡng đượng được đuồn đuộn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_442_romaji_curu_cusu_cufu_cuju_cuxu_tone_override_w_unlatch() {
+        let input = "turu turusw turufw turuxw turujw suru surusw surufw suruxw surujw huru hurusw hurufw huruxw hurujw churu churusw churufw churuxw churujw duru durusw durufw duruxw durujw durujwd tufu tufusw tufurw tufuxw tufujw hufu hufusw hufurw hufuxw hufujw tuju tujusw tujufw tujurw tujuxw huju hujusw hujufw hujurw hujuxw"
+        let expected = "turu tứu từu tữu tựu suru sứu sừu sữu sựu huru hứu hừu hữu hựu churu chứu chừu chữu chựu duru dứu dừu dữu dựu đựu tufu tứu tửu tữu tựu hufu hứu hửu hữu hựu tuju tứu từu tửu tữu huju hứu hừu hửu hữu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_443_romaji_giro_gifu_giju_gire_gise_tone_override_and_dure_duse_dufe_duje_delayed_d_unlatch() {
+        let input = "giro giros girof girox giroj girosng girofng gifu gifus gifur gifux gifuj gifusw gifurw gifuxw gifujw giju gijus gijuf gijur gijux gijusw gijufw gijurw gijuxw gire gires giref girex girej gise gisef giser gisex gisej dure dured durede duse dused dusede dufe dufed dufede duje dujed dujede"
+        let expected = "giro gió giò giõ giọ gióng giòng gifu giú giủ giũ giụ giứ giử giữ giự giju giú giù giủ giũ giứ giừ giử giữ gire gié giè giẽ giẹ gise giè giẻ giẽ giẹ dure đủe đuể duse đúe đuế dufe đùe đuề duje đụe đuệ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_444_scenario74_trilingual_sana_mono_duos_and_vietnamese_nhan_sam_hoang_hon_chieu_hom_chat() {
+        let input = "Dưới ánh hoàng hôn (hoangf hono) chiều hôm (chieeuf homo) ấy tại tỉnh gifu, bộ đôi duos vận động viên của bộ môn (booj mono) điền kinh bước ra sân (ra sana) trong làn gió (giros) mát, uống trà nhân sâm (nhaan sama) và giữ (gifuxw) vững sự nỗ lực (suwj noxo luwcj) phi thường trên con đường (durofwngd) chinh phục thành tựu (turujw) mới cùng cô bạn sana!"
+        let expected = "Dưới ánh hoàng hôn (hoàng hôn) chiều hôm (chiều hôm) ấy tại tỉnh gifu, bộ đôi duos vận động viên của bộ môn (bộ môn) điền kinh bước ra sân (ra sân) trong làn gió (gió) mát, uống trà nhân sâm (nhân sâm) và giữ (giữ) vững sự nỗ lực (sự nỗ lực) phi thường trên con đường (đường) chinh phục thành tựu (tựu) mới cùng cô bạn sana!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (444 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -3203,6 +3237,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_437_romaji_cara_casa_cafa_caja_caxa_tone_override_and_coda_unlatch", test_tier4_437_romaji_cara_casa_cafa_caja_caxa_tone_override_and_coda_unlatch),
             ("test_tier4_438_romaji_cojo_coxo_ceje_chefe_and_english_honor_donor_tone_override_unlatch", test_tier4_438_romaji_cojo_coxo_ceje_chefe_and_english_honor_donor_tone_override_unlatch),
             ("test_tier4_439_scenario73_trilingual_gojo_soso_honor_and_vietnamese_kinh_te_thiet_ke_can_ho_cay_go_chat", test_tier4_439_scenario73_trilingual_gojo_soso_honor_and_vietnamese_kinh_te_thiet_ke_can_ho_cay_go_chat),
+            ("test_tier4_440_vietnamese_collocation_phrases_san_han_ham_sam_hon_mon_hom_ro_ro_do_ho_no_ne_re_reo_miu", test_tier4_440_vietnamese_collocation_phrases_san_han_ham_sam_hon_mon_hom_ro_ro_do_ho_no_ne_re_reo_miu),
+            ("test_tier4_441_romaji_curo_cuso_cufo_cujo_cuxo_tone_override_and_duos_unlatch", test_tier4_441_romaji_curo_cuso_cufo_cujo_cuxo_tone_override_and_duos_unlatch),
+            ("test_tier4_442_romaji_curu_cusu_cufu_cuju_cuxu_tone_override_w_unlatch", test_tier4_442_romaji_curu_cusu_cufu_cuju_cuxu_tone_override_w_unlatch),
+            ("test_tier4_443_romaji_giro_gifu_giju_gire_gise_tone_override_and_dure_duse_dufe_duje_delayed_d_unlatch", test_tier4_443_romaji_giro_gifu_giju_gire_gise_tone_override_and_dure_duse_dufe_duje_delayed_d_unlatch),
+            ("test_tier4_444_scenario74_trilingual_sana_mono_duos_and_vietnamese_nhan_sam_hoang_hon_chieu_hom_chat", test_tier4_444_scenario74_trilingual_sana_mono_duos_and_vietnamese_nhan_sam_hoang_hon_chieu_hom_chat),
         ]
     }
 }

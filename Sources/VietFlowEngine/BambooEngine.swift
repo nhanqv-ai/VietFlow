@@ -415,7 +415,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && "aoui".contains(r3)
                 && ("wo".contains(character.lowercased())
                     || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
-                    || ("ai".contains(r3) && !"kp".contains(wordRawKeys[0].lowercased()) && "sfrxj".contains(character.lowercased()) && character.lowercased() != r2)))
+                    || (!"kp".contains(wordRawKeys[0].lowercased()) && "sfrxj".contains(character.lowercased()) && character.lowercased() != r2)))
                 || (has3CharRhymeAfterOnset
                     && r1 == "i"
                     && "rsfjx".contains(r2)
@@ -430,6 +430,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     "duosi", "duosu", "duosm", "duosn", "duosng", "duosc", "duosp", "duost",
                     "duosid", "duosud", "duosmd", "duosnd", "duosngd", "duoscd", "duospd", "duostd"
                 ].contains(String(wordRawKeys).lowercased()) && "wo".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "duos" && "frxj".contains(character.lowercased()))
                 || ([
                     "duos", "duoso", "duosw",
                     "duosi", "duosu", "duosm", "duosn", "duosng", "duosc", "duosp", "duost"
@@ -437,10 +438,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["uru", "usu", "girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (String(wordRawKeys).lowercased() == "aru" && character.lowercased() == "a")
                 || (String(wordRawKeys).lowercased() == "asa" && "cmntuyw".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "giro" && "aeowimn".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "gifu" && "aowiymn".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "giju" && "aowiymncpt".contains(character.lowercased()))
-                || (["gire", "gise"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "o")
+                || (String(wordRawKeys).lowercased() == "giro" && "aeowimnsfxj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "gifu" && "aowiymnsrxj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "giju" && "aowiymncptsfrx".contains(character.lowercased()))
+                || (["gire", "gise"].contains(String(wordRawKeys).lowercased()) && ("osfrxj".contains(character.lowercased()) && character.lowercased() != r2))
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "u"
                     && "rsfjx".contains(rhymeAfterOnset[1])
@@ -469,7 +470,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && (character.lowercased() == "e"
                     || (r1 == "i" && "rfx".contains(r2) && "mn".contains(character.lowercased()) && (!["vixe", "sire"].contains(String(wordRawKeys).lowercased()) || character.lowercased() == "m"))
                     || (r1 == "i" && "sj".contains(r2) && "cmnpt".contains(character.lowercased()) && (String(wordRawKeys).lowercased() != "rise" || character.lowercased() != "n"))
-                    || (r1 == "i" && "rsfjx".contains(r2) && wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
+                    || ("rsfjx".contains(r2) && wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "i"
                     && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
@@ -1982,7 +1983,23 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "hojo": ["bảo", "cứu", "ủng", "căn", "biện", "làm", "mua", "nhờ", "cầm", "giữ", "xem", "hộ"],
         "bojo": ["đi", "chạy", "cán", "toàn", "lạc", "nội", "cục", "tiến", "nhượng", "đồng", "sơ", "chi", "đảng", "một", "hai", "ba", "vài", "mấy", "bộ"],
         "nojo": ["phẫn", "thịnh", "giận", "cuồng", "hỉ", "nộ"],
-        "goxo": ["cây", "khúc", "tấm", "miếng", "bàn", "ghế", "nhà", "cửa", "sàn", "tủ", "thùng", "bằng", "đồ", "thợ", "xưởng", "rừng", "chặt", "xẻ", "gỗ"]
+        "goxo": ["cây", "khúc", "tấm", "miếng", "bàn", "ghế", "nhà", "cửa", "sàn", "tủ", "thùng", "bằng", "đồ", "thợ", "xưởng", "rừng", "chặt", "xẻ", "gỗ"],
+        "sana": ["ra", "trên", "ngoài", "giữa", "quét", "mặt", "góc", "cuối", "vào", "sân"],
+        "hana": ["rất", "vinh", "hân"],
+        "hama": ["bị", "hơi", "đồ", "nồi", "máy", "lò", "hâm"],
+        "sama": ["nhân", "củ", "hồng", "trà", "rượu", "nước", "hầm", "mứt", "kẹo", "cao", "sâm"],
+        "hono": ["kết", "đính", "cầu", "ly", "li", "tân", "nụ", "hoàng", "tái", "ngoại", "hôn"],
+        "mono": ["bộ", "chuyên", "thủ", "nhập", "hậu", "các", "mấy", "nhiều", "môn"],
+        "homo": ["chiều", "buổi", "đêm", "sớm", "mấy", "vài", "những", "cả", "suốt", "từ", "đến", "hôm"],
+        "roro": ["cái", "chiếc", "đan", "đựng", "một", "vài", "mấy", "rổ"],
+        "roxo": ["mặt", "bị", "nổi", "lỗ", "vết", "sẹo", "rỗ"],
+        "doxo": ["dụ", "khuyên", "vỗ", "nịnh", "dỗ"],
+        "hoxo": ["tương", "cứu", "hỗ"],
+        "noxo": ["sự", "nhiều", "mọi", "luôn", "nỗ"],
+        "neje": ["câu", "chấp", "không", "chẳng", "nệ"],
+        "reje": ["trễ", "bụng", "mặt", "xệ", "rệ"],
+        "rero": ["mảnh", "vùng", "cắt", "miếng", "rẻo"],
+        "misu": ["bấu", "níu", "míu"]
     ]
 
     private static func isVietnameseCollocation(candidateWord: String, lastCompletedWord: String) -> Bool {
