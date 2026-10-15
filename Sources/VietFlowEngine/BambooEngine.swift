@@ -277,7 +277,6 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if has3CharRhymeAfterOnset
-                && wordRawKeys[0].lowercased() != "k"
                 && r1 == "o"
                 && "rsfjx".contains(r2)
                 && r3 == "o"
@@ -291,7 +290,6 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if has3CharRhymeAfterOnset
-                && wordRawKeys[0].lowercased() != "k"
                 && r1 == "a"
                 && "rsfjx".contains(r2)
                 && r3 == "a"
@@ -601,19 +599,26 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         && ((wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
                             || (r2 == "s" && !"gz".contains(wordRawKeys[0].lowercased()) && "frxj".contains(character.lowercased()))
                             || (r2 == "r" && ["hero", "nero", "rero"].contains(String(wordRawKeys).lowercased()) && "fxj".contains(character.lowercased()))
-                            || (["nero", "rero"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s")))
+                            || (["nero", "rero"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s")
+                            || (wordRawKeys[0].lowercased() == "p" && prefix2 != "ph" && "sfrxj".contains(character.lowercased()) && character.lowercased() != r2)))
                     || (r1 == "a" && "rsfjx".contains(r2) && "uy".contains(r3)
                         && (character.lowercased() == "a"
                             || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
                             || (r3 == "u" && "sfrxj".contains(character.lowercased()) && character.lowercased() != r2)))
-                    || (r1 == "a" && r2 == "r" && r3 == "i"
-                        && ("fxj".contains(character.lowercased())
-                            || (String(wordRawKeys).lowercased() == "rari" && character.lowercased() == "s")
-                            || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
+                    || (r1 == "a" && "rsfjx".contains(r2) && r3 == "i"
+                        && ((r2 == "r" && ("fxj".contains(character.lowercased()) || (String(wordRawKeys).lowercased() == "rari" && character.lowercased() == "s") || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")))
+                            || ("kp".contains(wordRawKeys[0].lowercased()) && prefix2 != "kh" && prefix2 != "ph" && "sfrxj".contains(character.lowercased()) && character.lowercased() != r2 && !(String(wordRawKeys).lowercased() == "pari" && character.lowercased() == "s"))))
+                    || (r1 == "a" && "rsfjx".contains(r2) && r3 == "o"
+                        && "kp".contains(wordRawKeys[0].lowercased())
+                        && prefix2 != "kh"
+                        && prefix2 != "ph"
+                        && "sfrxj".contains(character.lowercased())
+                        && character.lowercased() != r2)
                     || (r1 == "o" && "rsfjx".contains(r2) && r3 == "i"
                         && ("ow".contains(character.lowercased())
                             || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")
-                            || (["nori", "rori"].contains(String(wordRawKeys).lowercased()) && "sfxj".contains(character.lowercased()))))
+                            || (["nori", "rori"].contains(String(wordRawKeys).lowercased()) && "sfxj".contains(character.lowercased()))
+                            || ("kp".contains(wordRawKeys[0].lowercased()) && prefix2 != "kh" && prefix2 != "ph" && "sfrxj".contains(character.lowercased()) && character.lowercased() != r2)))
                     || (r1 == "e" && r2 == "r" && "mn".contains(r3) && ("efjx".contains(character.lowercased()) || (String(wordRawKeys).lowercased() == "derm" && character.lowercased() == "s")))
                     || (["deso", "daru", "dasu"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
                     || (["maso", "saso"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
@@ -2624,7 +2629,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "kufi": ["cùi", "bùi"],
         "kuji": ["cụi", "bụi"],
         "kuxi": ["cũi", "gũi"],
-        "pusi": ["túi", "búi"]
+        "pusi": ["túi", "búi"],
+        "pufi": ["cùi", "bùi"],
+        "puji": ["cụi", "bụi"],
+        "puxi": ["cũi", "gũi"],
+        "kosi": ["nói", "chói"],
+        "kofi": ["còi", "lòi"],
+        "kori": ["cỏi", "hỏi"],
+        "koxi": ["cõi", "lõi"],
+        "koji": ["cọi", "gọi"],
+        "posi": ["nói", "bói"],
+        "pofi": ["còi", "vòi"],
+        "pori": ["cỏi", "hỏi"],
+        "poxi": ["cõi", "dõi"],
+        "poji": ["cọi", "gọi"],
+        "kasi": ["cái", "hái"],
+        "kafi": ["cài", "dài"],
+        "kari": ["cải", "phải"],
+        "kaxi": ["cãi", "mãi"],
+        "kaji": ["cại", "loại"],
+        "pasi": ["cái", "bái"],
+        "pafi": ["bài", "dài"],
+        "paxi": ["bãi", "mãi"],
+        "paji": ["bại", "loại"],
+        "kafo": ["cào", "vào"],
+        "karo": ["cảo", "bảo"],
+        "kaxo": ["bão", "não"],
+        "kajo": ["cạo", "gạo"],
+        "paso": ["báo", "pháo"],
+        "pafo": ["bào", "vào"],
+        "paro": ["bảo", "hảo"],
+        "paxo": ["bão", "lão"],
+        "pajo": ["bạo", "tạo"],
+        "peso": ["béo", "kéo"],
+        "pefo": ["bèo", "nghèo"],
+        "pero": ["dẻo", "lẻo"],
+        "pexo": ["bẽo", "lẽo"],
+        "pejo": ["bẹo", "kẹo"],
+        "kofa": ["chìa", "xòa"],
+        "koja": ["đọa", "dọa"],
+        "pofa": ["xòa", "tòa"],
+        "poja": ["đọa", "tọa"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
