@@ -3241,6 +3241,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 81: 38 Collocation Entries, -aws/-wows/worm/worn Unlatch, nix/tux/dux/hex/trex/minx/nginx Unlatch, and biers/tiers/chiefs/queers/sense/defends Unlatch
+
+    func test_tier4_515_vietnamese_collocation_phrases_harm_charm_chasm_horn_torn_norm_norms_kern_tern_terns_berms_derm_term_churn_churns_urn_defends_gown_gowns_dawn_dawns_lawns_siren_sirens_tureen_tureens_boron_moron_morons_honors_donors_buys_guys_dux_tux_nix_hex_trex() {
+        let input = "harm tharm harm charm xuwr charm chasm quar chasm horn heos horn torn nhor torn norm gaayf norm norms toms norms kern bexn kern terns nhor terns berms lieems berms derm morng derm term gojn term churn ngurn churn churns maajp churns urn lownj urn defends ddi defends veef defends gown cown gown gowns lowns gowns dawn nhawn dawn dawns chawcs dawns lawns saau lawns siren xieern siren sirens goox sirens tureen uwngs tureen tureens chiense tureens boron cawn boron moron loorn moron morons cas morons honors hoorn honors donors voons donors buys quys buys guys quys guys dux quyeens dux tux cux tux nix nawn nix hex vui hex trex trer trex"
+        let expected = "harm thảm hảm charm xử chảm chasm quả chám horn héo hỏn torn nhỏ tỏn norm gầy nỏm norms tóm nóm kern bẽn kẻn terns nhỏ tén berms liếm bém derm mỏng dẻm term gọn tẻm churn ngủn chủn churns mập chún urn lợn ủn defends đi đến về đến gown cơn gơn gowns lớn gớn dawn nhăn dăn dawns chắc dắn lawns sâu lắn siren xiển siển sirens gỗ siến tureen ứng tuển tureens chiến tuến boron căn bổn moron lổn mổn morons cá mốn honors hổn hốn donors vốn dốn buys quý búy guys quý gúy dux quyến dũ tux cũ tũ nix năn nĩ hex vui hẽ trex trẻ trẽ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_516_aws_wows_worm_worms_worn_worst_won_wars_arms_unlatch() {
+        let input = "lawsf lawsr lawsx lawsj lawsfm lawsfn lawsfng lawsjm lawsjn rawsf rawsr rawsx rawsj rawsrn rawsjn sawsf sawsr sawsx sawsj sawsxn sawsxm thawsf thawsr thawsx thawsj thawsrng thawsfng cawsf cawsr cawsx cawsj cawsjm cawsjn mawsf mawsr mawsx mawsj mawsjn mawsjm hawsf hawsr hawsx hawsj hawsfng hawsrng hawsjng wowsf wowsr wowsx wowsj wowsfi wowsfn wowsjm wowsjn wormf wormx wormj wormsf wormsr wormsx wormsj wormsw worns wornf wornx wornj worng wornsg wornfg wornxg wornjg worstw wonw wonws wonwf wonwr wonwx wonwj wonwg warsf warsr warsx warsj armsf armsr armsx armsj armsa armsw chasmf chasmr chasmx chasmj"
+        let expected = "lằ lẳ lẵ lặ lằm lằn lằng lặm lặn rằ rẳ rẵ rặ rẳn rặn sằ sẳ sẵ sặ sẵn sẵm thằ thẳ thẵ thặ thẳng thằng cằ cẳ cẵ cặ cặm cặn mằ mẳ mẵ mặ mặn mặm hằ hẳ hẵ hặ hằng hẳng hặng ườ ưở ưỡ ượ ười ườn ượm ượn ườm ưỡm ượm ườm ưởm ưỡm ượm ướm ướn ườn ưỡn ượn ưởng ướng ường ưỡng ượng ướt ươn ướn ườn ưởn ưỡn ượn ương ừa ửa ữa ựa àm ảm ãm ạm ấm ắm chàm chảm chãm chạm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_517_nix_tux_dux_hex_trex_minx_nginx_xanax_xerox_thorax_exo_ajar_ajax_quasar_unlatch() {
+        let input = "nixs nixf nixr nixj nixsu nixfu tuxs tuxf tuxr tuxj duxs duxf duxr duxj duxsd duxfd duxrd duxjd hexs hexf hexr hexj trexs trexf trexr trexj trexcs trexcj trexpse trextse minxs minxf minxr minxj minxg nginxs nginxf nginxr nginxj nginxg nginxh xanaxs xanaxf xanaxr xanaxj xanaxw xeroxs xeroxf xeroxr xeroxj exos exof exor exoj thoraxs thoraxf thoraxr thoraxj thoraxo thoraxw thoraxi thoraxy thoraxm thoraxn ajars ajarf ajarx ajarj ajarw ajaru ajary ajarm ajarn ajaxs ajaxf ajaxr ajaxj ajaxw ajaxu ajaxy ajaxm ajaxn quasarf quasarx quasarj quasarw quasaru quasary quasarm quasarn quasarsf quasarsr quasarsx quasarsj quasarsw quasarsu quasarsy quasarsm quasarsn quasarsc quasarsp quasarst"
+        let expected = "ní nì nỉ nị níu nìu tú tù tủ tụ dú dù dủ dụ đú đù đủ đụ hé hè hẻ hẹ tré trè trẻ trẹ tréc trẹc trếp trết mín mìn mỉn mịn mĩng ngín ngìn ngỉn ngịn ngĩng ngĩnh xấn xần xẩn xận xẵn xéo xèo xẻo xẹo éo èo ẻo ẹo thóa thòa thỏa thọa thoão thoẵ thoãi thoãy thoãm thoãn ấ ầ ẫ ậ ẳ ẩu ẩy ẩm ẩn ấ ầ ẩ ậ ẵ ẫu ẫy ẫm ẫn quầ quẫ quậ quẳ quẩu quẩy quẩm quẩn quầ quẩ quẫ quậ quắ quấu quấy quấm quấn quấc quấp quất"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_518_biers_tiers_chiefs_queer_queers_queues_sense_tense_dense_defend_defends_and_tone_override_unlatch() {
+        let input = "bierse biersm biersn biersc biersp bierst tierse tiersm tiersn tiersc tiersp tierst chiefse chiefsm chiefsn chiefsc chiefsp chiefst queerf queerx queerj queersf queersr queersx queersj queersu queersm queersn queersc queersp queerst queuesf queuesr queuesx queuesj queensg sensef sensex sensej senseg tensef tensex tensej tenseg densef densex densej denseg defendr defendx defendj defendg defendsf defendsr defendsx defendsj defendsg defendsh honorsw honorsg donorsw donorsg sirensg sirenh sirensh tureeng tureensg tureenh tureensh ternsh ternsg taxif taxir taxij taxisf taxisr taxisx taxisj maxif maxir maxij maxisf maxisr maxisx maxisj varys varyf varyx varyj virusf virusr virusx virusj lorisf lorisr lorisx lorisj loriso lorisw hangarsf hangarsr hangarsx hangarsj hangarsw aurasf aurasr aurasx aurasj axisf axisr axisx axisj biasf biasr biasx biasj horsef horser horsex horsej horseo irsf irsr irsx irsj irsa irsu irsm irsn irsc irsp irst sirsa dirsa barsr carsr marsr tarsr varsr barfsr barfr chefsr refsr hersr ersr nerfsr serfsr nerfr serfr kerfs kerfr versr orsr orsa orse ursr cursr bursr surfr surfa turfr turfa deedsf deedsr deedsx deedsj deedsc"
+        let expected = "biế biếm biến biếc biếp biết tiế tiếm tiến tiếc tiếp tiết chiế chiếm chiến chiếc chiếp chiết quề quễ quệ quề quể quễ quệ quếu quếm quến quếc quếp quết quều quểu quễu quệu quếng sền sễn sện sếng tền tễn tện tếng dền dễn dện dếng đển đễn đện đềng đền đển đễn đện đếng đếnh hớn hống dớn dống siếng siểnh siếnh tuểng tuếng tuểnh tuếnh ténh téng tài tải tại tài tải tãi tại mài mải mại mài mải mãi mại váy vày vãy vạy vìu vỉu vĩu vịu lòi lỏi lõi lọi lối lới hầng hẩng hẫng hậng hắng ầu ẩu ẫu ậu ài ải ãi ại bìa bỉa bĩa bịa hòe hỏe hõe họe hoéo ì ỉ ĩ ị ía íu ím ín íc íp ít sía día bả cả mả tả vả bả bả chẻ rẻ hẻ ẻ nẻ sẻ nẻ sẻ ké kẻ vẻ ỏ óa óe ủ củ bủ sủ sùa tủ tùa đề để đễ đệ đếc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_519_scenario89_trilingual_defends_taxi_nginx_and_vietnamese_di_den_ung_tuyen_san_sang_thang_than_chat() {
+        let input = "Trong khi hệ thống defends máy chủ nginx khỏi các cuộc tấn công mạng và khách gọi taxi đi đến (ddi defends) buổi phỏng vấn ứng tuyển (uwngs tureen) tại văn phòng trung tâm, đội ngũ kỹ sư luôn sẵn (sawsxn) sàng trao đổi thẳng (thawsrng) thắn với tinh thần quyến dũ (quyeens dux) và cởi mở để cùng nhau tiến (tiersn) bộ hằng (hawsfng) ngày mà không chút bẽn kẻn (bexn kern)!"
+        let expected = "Trong khi hệ thống defends máy chủ nginx khỏi các cuộc tấn công mạng và khách gọi taxi đi đến (đi đến) buổi phỏng vấn ứng tuyển (ứng tuển) tại văn phòng trung tâm, đội ngũ kỹ sư luôn sẵn (sẵn) sàng trao đổi thẳng (thẳng) thắn với tinh thần quyến dũ (quyến dũ) và cởi mở để cùng nhau tiến (tiến) bộ hằng (hằng) ngày mà không chút bẽn kẻn (bẽn kẻn)!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3764,6 +3796,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_512_pre_coda_vowel_diacritic_with_post_coda_stop_tone_override_unlatch", test_tier4_512_pre_coda_vowel_diacritic_with_post_coda_stop_tone_override_unlatch),
             ("test_tier4_513_romaji_owa_and_english_manx_sans_bars_hers_vers_sirs_curs_tone_override_unlatch", test_tier4_513_romaji_owa_and_english_manx_sans_bars_hers_vers_sirs_curs_tone_override_unlatch),
             ("test_tier4_514_scenario88_trilingual_barns_burns_terms_and_vietnamese_mua_ban_an_bun_con_ken_duoc_viec_chat", test_tier4_514_scenario88_trilingual_barns_burns_terms_and_vietnamese_mua_ban_an_bun_con_ken_duoc_viec_chat),
+            ("test_tier4_515_vietnamese_collocation_phrases_harm_charm_chasm_horn_torn_norm_norms_kern_tern_terns_berms_derm_term_churn_churns_urn_defends_gown_gowns_dawn_dawns_lawns_siren_sirens_tureen_tureens_boron_moron_morons_honors_donors_buys_guys_dux_tux_nix_hex_trex", test_tier4_515_vietnamese_collocation_phrases_harm_charm_chasm_horn_torn_norm_norms_kern_tern_terns_berms_derm_term_churn_churns_urn_defends_gown_gowns_dawn_dawns_lawns_siren_sirens_tureen_tureens_boron_moron_morons_honors_donors_buys_guys_dux_tux_nix_hex_trex),
+            ("test_tier4_516_aws_wows_worm_worms_worn_worst_won_wars_arms_unlatch", test_tier4_516_aws_wows_worm_worms_worn_worst_won_wars_arms_unlatch),
+            ("test_tier4_517_nix_tux_dux_hex_trex_minx_nginx_xanax_xerox_thorax_exo_ajar_ajax_quasar_unlatch", test_tier4_517_nix_tux_dux_hex_trex_minx_nginx_xanax_xerox_thorax_exo_ajar_ajax_quasar_unlatch),
+            ("test_tier4_518_biers_tiers_chiefs_queer_queers_queues_sense_tense_dense_defend_defends_and_tone_override_unlatch", test_tier4_518_biers_tiers_chiefs_queer_queers_queues_sense_tense_dense_defend_defends_and_tone_override_unlatch),
+            ("test_tier4_519_scenario89_trilingual_defends_taxi_nginx_and_vietnamese_di_den_ung_tuyen_san_sang_thang_than_chat", test_tier4_519_scenario89_trilingual_defends_taxi_nginx_and_vietnamese_di_den_ung_tuyen_san_sang_thang_than_chat),
         ]
     }
 }
