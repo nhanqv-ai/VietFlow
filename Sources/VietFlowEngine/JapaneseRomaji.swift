@@ -216,7 +216,13 @@ public enum JapaneseRomajiLexicon {
         "turu", "hufu", "tufu", "huju", "tuju", "gisi", "gifi",
         "kefe", "mefe", "nefe", "hefe", "sefe", "tefe", "befe", "defe", "refe",
         "keje", "meje", "neje", "heje", "seje", "teje", "beje", "deje", "reje",
-        "moxo", "noxo", "hoxo", "soxo", "toxo", "boxo", "goxo", "doxo", "roxo"
+        "moxo", "noxo", "hoxo", "soxo", "toxo", "boxo", "goxo", "doxo", "roxo",
+        "hieru", "hiete", "nieru", "niete", "iete", "kujo",
+        "kufo", "mufo", "nufo", "hufo", "sufo", "tufo", "bufo", "gufo", "dufo", "rufo",
+        "muxu", "nuxu", "huxu", "suxu", "buxu", "guxu", "ruxu",
+        "kuxo", "muxo", "nuxo", "huxo", "suxo", "tuxo", "buxo", "guxo", "duxo", "ruxo",
+        "kife", "mife", "nife", "hife", "sife", "tife", "bife", "dife",
+        "kije", "mije", "nije", "hije", "sije", "tije", "bije", "dije", "rije"
     ]
 }
 

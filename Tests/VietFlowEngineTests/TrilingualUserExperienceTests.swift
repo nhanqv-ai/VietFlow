@@ -1419,8 +1419,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_240_english_noop_noops_dadas_hies_lire_lise_vire_vise_quasar_hangars_and_noopj_unlatch() {
+        let input = "noop noops dadas hies lire lise vire vise vises quasar quasars hangars noopj"
+        let expected = "noop noops dadas hies lire lise vire vise vises quasar quasars hangars nộp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_241_japanese_hieru_hiete_nieru_niete_iete_kujo_and_vietnamese_ieu_iet_unlatch() {
+        let input = "hieru hiete nieru niete iete kujo kierue mierue hierue nierue hietes hietej nietes nietej ietes ietej dietes dietej"
+        let expected = "hieru hiete nieru niete iete kujo kiểu miểu hiểu niểu hiết hiệt niết niệt iết iệt diết diệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_242_vietnamese_free_tone_unlatch_tier_bier_pier_ties_dies_lies_vies_pies_hies_chief_thief() {
+        let input = "tierue tiereu tierem tieren bierue biereu bieren tiesue diesue liesue hiesue diesec diesem diesen diesep dieset liesec liesem liesen liesep lieset chiefen chiefeu chiefue thiefen thiefeu thiefue diesel"
+        let expected = "tiểu tiểu tiểm tiển biểu biểu biển tiếu diếu liếu hiếu diếc diếm diến diếp diết liếc liếm liến liếp liết chiền chiều chiều thiền thiều thiều diesel"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_243_japanese_kufo_rufo_muxu_ruxu_kuxo_ruxo_kife_dife_kije_rije_and_vietnamese_unlatch() {
+        let input = "kufo mufo nufo hufo sufo tufo bufo gufo dufo rufo muxu nuxu huxu suxu buxu guxu ruxu kuxo muxo nuxo huxo suxo tuxo buxo guxo duxo ruxo kife mife nife hife sife tife bife dife kije mije nije hije sije tije bije dije rije huxuw buxuw muxuw nuxuw suxuw ruxuw duxowng huxowng tuxowng muxow ruxow tifeen mifeen hifeen bifeen tijeen hijeen bijeen dijeen"
+        let expected = "kufo mufo nufo hufo sufo tufo bufo gufo dufo rufo muxu nuxu huxu suxu buxu guxu ruxu kuxo muxo nuxo huxo suxo tuxo buxo guxo duxo ruxo kife mife nife hife sife tife bife dife kije mije nije hije sije tije bije dije rije hữu bữu mữu nữu sữu rữu dưỡng hưỡng tưỡng mưỡ rưỡ tiền miền hiền biền tiện hiện biện diện"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_244_scenario34_trilingual_noop_quasar_kujo_hieru_and_free_tone_ieu_iet_chat() {
+        let input = "Trong ca trực đêm tại kujo, kỹ sư đã thay các hàm noop và noops thừa trong module quasar trước khi trà kịp hieru và món canh nieru trên bếp; cả nhóm đều hiểu (hierue) rõ từng kiểu (kierue) biểu (bierue) đồ dữ liệu, kiểm tra kỹ mặt tiền (tifeen) giao diện (dijeen) và tiêu diệt (dietej) triệt để mọi lỗi phát sinh trước khi nộp (noopj) báo cáo buổi chiều (chiefue)!"
+        let expected = "Trong ca trực đêm tại kujo, kỹ sư đã thay các hàm noop và noops thừa trong module quasar trước khi trà kịp hieru và món canh nieru trên bếp; cả nhóm đều hiểu (hiểu) rõ từng kiểu (kiểu) biểu (biểu) đồ dữ liệu, kiểm tra kỹ mặt tiền (tiền) giao diện (diện) và tiêu diệt (diệt) triệt để mọi lỗi phát sinh trước khi nộp (nộp) báo cáo buổi chiều (chiều)!"
+        assertBuffer(input, equals: expected)
+    }
+
     // =========================================================================
-    // MARK: - Test Registration (239 Tests)
+    // MARK: - Test Registration (244 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1671,6 +1701,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_237_romaji_kefe_refe_keje_reje_and_vietnamese_cmnptu_unlatch", test_tier4_237_romaji_kefe_refe_keje_reje_and_vietnamese_cmnptu_unlatch),
             ("test_tier4_238_romaji_moxo_roxo_and_vietnamese_cmnpti_unlatch", test_tier4_238_romaji_moxo_roxo_and_vietnamese_cmnpti_unlatch),
             ("test_tier4_239_scenario33_trilingual_memes_themes_turu_hufu_and_gotos_refactor_chat", test_tier4_239_scenario33_trilingual_memes_themes_turu_hufu_and_gotos_refactor_chat),
+            ("test_tier4_240_english_noop_noops_dadas_hies_lire_lise_vire_vise_quasar_hangars_and_noopj_unlatch", test_tier4_240_english_noop_noops_dadas_hies_lire_lise_vire_vise_quasar_hangars_and_noopj_unlatch),
+            ("test_tier4_241_japanese_hieru_hiete_nieru_niete_iete_kujo_and_vietnamese_ieu_iet_unlatch", test_tier4_241_japanese_hieru_hiete_nieru_niete_iete_kujo_and_vietnamese_ieu_iet_unlatch),
+            ("test_tier4_242_vietnamese_free_tone_unlatch_tier_bier_pier_ties_dies_lies_vies_pies_hies_chief_thief", test_tier4_242_vietnamese_free_tone_unlatch_tier_bier_pier_ties_dies_lies_vies_pies_hies_chief_thief),
+            ("test_tier4_243_japanese_kufo_rufo_muxu_ruxu_kuxo_ruxo_kife_dife_kije_rije_and_vietnamese_unlatch", test_tier4_243_japanese_kufo_rufo_muxu_ruxu_kuxo_ruxo_kife_dife_kije_rije_and_vietnamese_unlatch),
+            ("test_tier4_244_scenario34_trilingual_noop_quasar_kujo_hieru_and_free_tone_ieu_iet_chat", test_tier4_244_scenario34_trilingual_noop_quasar_kujo_hieru_and_free_tone_ieu_iet_chat),
         ]
     }
 }

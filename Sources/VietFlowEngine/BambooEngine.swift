@@ -153,21 +153,23 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 didBackspace = true
                 activePreedit = "yé"
                 activeRawKeys = ["y", "e", "s"]
-            } else if String(wordRawKeys).lowercased() == "chief" && character.lowercased() == "u" {
+            } else if ["chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier"].contains(String(wordRawKeys).lowercased()) && "eu".contains(character.lowercased()) {
                 isBypassed = false
-                didBackspace = true
-                activePreedit = "chìe"
-                activeRawKeys = ["c", "h", "i", "e", "f"]
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["kieru", "mieru", "hieru", "nieru"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e" {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "noop" && character.lowercased() == "j" {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if String(wordRawKeys).lowercased() == "two" && "wn".contains(character.lowercased()) {
                 isBypassed = false
                 didBackspace = true
                 activePreedit = "tưo"
                 activeRawKeys = ["t", "w", "o"]
-            } else if String(wordRawKeys).lowercased() == "ties" && character.lowercased() == "e" {
-                isBypassed = false
-                didBackspace = true
-                activePreedit = "tíe"
-                activeRawKeys = ["t", "i", "e", "s"]
             } else if ["laws", "raws", "saws", "thaws", "caws", "maws", "haws"].contains(String(wordRawKeys).lowercased()) && "cmnpt".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -225,7 +227,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if ["kiete", "miete", "uete", "suete"].contains(String(wordRawKeys).lowercased()) && "sj".contains(character.lowercased()) {
+            } else if ["kiete", "miete", "hiete", "niete", "iete", "diete", "uete", "suete"].contains(String(wordRawKeys).lowercased()) && "sj".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -239,7 +241,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if wordRawKeys.count == 4
                 && wordRawKeys[1].lowercased() == "u"
-                && "rsfj".contains(wordRawKeys[2].lowercased())
+                && "rsfjx".contains(wordRawKeys[2].lowercased())
                 && "aoui".contains(wordRawKeys[3].lowercased())
                 && "wo".contains(character.lowercased()) {
                 isBypassed = false
@@ -247,7 +249,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
             } else if wordRawKeys.count == 4
                 && wordRawKeys[1].lowercased() == "i"
-                && "rsfj".contains(wordRawKeys[2].lowercased())
+                && "rsfjx".contains(wordRawKeys[2].lowercased())
                 && wordRawKeys[3].lowercased() == "e"
                 && character.lowercased() == "e" {
                 isBypassed = false
