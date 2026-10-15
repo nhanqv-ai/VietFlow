@@ -2212,7 +2212,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (359 Tests)
+    // MARK: - Cycle 50: w Unlatch on door/goof/loom/doom & Plural -oo- Words, dojos/rojos/loofs/oofs/charas Unlatch, and duetj/duetsd/duetds Delayed-e Unlatch
+    // =========================================================================
+
+    func test_tier4_360_english_door_goof_loom_doom_w_unlatch_and_preservation() {
+        let input = "door doorw doorwd doordw doorwn doorwm doorwi doordwn goof goofs goofw goofwm goofwn goofwi loom looms loomw loomwf loomws loomwr loomwx loomwj doom dooms doomw doomwd doomdw doomwdf doomwds doomwdr doomwdx doomwdj"
+        let expected = "door dở đở đở dởn dởm dởi đởn goof goofs gờ gờm gờn gời loom looms lơm lờm lớm lởm lỡm lợm doom dooms dơm đơm đơm đờm đớm đởm đỡm đợm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_361_english_plural_oo_words_and_mamas_nonos_w_unlatch() {
+        let input = "mamas mamasw nonos nonosw noops noopsw goops goopsw goopjw troops troopsw troopjw looms loomsw dooms doomsw doomswd doomsdw rooms roomsw booms boomsw goons goonsw loons loonsw moons moonsw roots rootsw boost boostw roost roostw"
+        let expected = "mamas mắm nonos nớn noops nớp goops gớp gợp troops trớp trợp looms lớm dooms dớm đớm đớm rooms rớm booms bớm goons gớn loons lớn moons mớn roots rớt boost bớt roost rớt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_362_english_and_romaji_dojos_rojos_loofs_oofs_charas_unlatch() {
+        let input = "dojos dojosw dojoswd dojosi dojosid dojosm dojosn dojosng dojosc dojosp dojost rojos rojosw rojoswn rojoswt rojosi rojosm rojosn rojosng rojosc rojosp rojost loofs loofsw loofswm loofswn loofsi loofsm loofsn loofsng loofsc loofsp loofst oofs oofsw oofswm oofswn oofswt oofswp oofsi oofsm oofsn oofsng oofsc oofsp oofst charas charasw charaswn charaswng charaswm charaswt charaswc charaswp charasn charasng charasm charast charasc charasp charasy charasu"
+        let expected = "dojos dớ đớ đối đối dốm dốn dống dốc dốp dốt rojos rớ rớn rớt rối rốm rốn rống rốc rốp rốt loofs lớ lớm lớn lối lốm lốn lống lốc lốp lốt oofs ớ ớm ớn ớt ớp ối ốm ốn ống ốc ốp ốt charas chắ chắn chẳng chắm chắt chắc chắp chấn chấng chấm chấtấc chấp chấy chấu".replacingOccurrences(of: "chẳng", with: "chắng").replacingOccurrences(of: "đối đối", with: "dối đối").replacingOccurrences(of: "chấtấc", with: "chất chấc")
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_363_english_duet_duets_preservation_and_vietnamese_duetj_duetsd_duetds_delayed_e_unlatch() {
+        let input = "duet duets duetse duetsed duetsde duetdse duetje duetjed duetjde duetdje"
+        let expected = "duet duets duết đuết đuết đuết duệt đuệt đuệt đuệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_364_scenario58_trilingual_rooms_troops_roots_boost_and_vietnamese_lon_rot_chac_chan_chat() {
+        let input = "Sau khi kiểm tra các phòng rooms và bổ sung thêm lực lượng troops để boost hiệu suất từ gốc roots, cả đội đã chắc (charaswc) chắn (charaswn) vượt qua nỗi sợ bóng tối sau cánh cửa door để bước ra thế giới rộng lớn (loonsw), hái những trái ớt (oofswt) chín đỏ và ăn bữa cơm sớm (loomsw) ấm áp!"
+        let expected = "Sau khi kiểm tra các phòng rooms và bổ sung thêm lực lượng troops để boost hiệu suất từ gốc roots, cả đội đã chắc (chắc) chắn (chắn) vượt qua nỗi sợ bóng tối sau cánh cửa door để bước ra thế giới rộng lớn (lớn), hái những trái ớt (ớt) chín đỏ và ăn bữa cơm sớm (lớm) ấm áp!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (364 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2583,6 +2617,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_357_english_and_romaji_boron_moron_datas_gotos_topos_dodos_dadas_and_cvnv_cvmv_w_unlatch", test_tier4_357_english_and_romaji_boron_moron_datas_gotos_topos_dodos_dadas_and_cvnv_cvmv_w_unlatch),
             ("test_tier4_358_english_siren_risen_vixen_died_dies_preservation_and_vietnamese_sireng_riseng_vixem_dired_diesd_unlatch", test_tier4_358_english_siren_risen_vixen_died_dies_preservation_and_vietnamese_sireng_riseng_vixem_dired_diesd_unlatch),
             ("test_tier4_359_scenario57_trilingual_moron_datas_siren_dojo_and_vietnamese_mo_han_dat_diem_chat", test_tier4_359_scenario57_trilingual_moron_datas_siren_dojo_and_vietnamese_mo_han_dat_diem_chat),
+            ("test_tier4_360_english_door_goof_loom_doom_w_unlatch_and_preservation", test_tier4_360_english_door_goof_loom_doom_w_unlatch_and_preservation),
+            ("test_tier4_361_english_plural_oo_words_and_mamas_nonos_w_unlatch", test_tier4_361_english_plural_oo_words_and_mamas_nonos_w_unlatch),
+            ("test_tier4_362_english_and_romaji_dojos_rojos_loofs_oofs_charas_unlatch", test_tier4_362_english_and_romaji_dojos_rojos_loofs_oofs_charas_unlatch),
+            ("test_tier4_363_english_duet_duets_preservation_and_vietnamese_duetj_duetsd_duetds_delayed_e_unlatch", test_tier4_363_english_duet_duets_preservation_and_vietnamese_duetj_duetsd_duetds_delayed_e_unlatch),
+            ("test_tier4_364_scenario58_trilingual_rooms_troops_roots_boost_and_vietnamese_lon_rot_chac_chan_chat", test_tier4_364_scenario58_trilingual_rooms_troops_roots_boost_and_vietnamese_lon_rot_chac_chan_chat),
         ]
     }
 }
