@@ -1638,7 +1638,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (274 Tests)
+    // MARK: - Cycle 33: Dues/Hues/Tues, Deed Delayed-D, Beer/Deer/Door & Soar/Coax Unlatching
+    // =========================================================================
+
+    func test_tier4_275_english_dues_hues_sues_rues_tues_preservation_and_vietnamese_free_tone_ue_unlatch() {
+        let input = "dues duess hues huess cues cuess sues suess rues ruess tues tuess duese dueset huese huesenh huesech tuese tueset tuesenh tuesech suese sueset ruese"
+        let expected = "dues dues hues hues cues cues sues sues rues rues tues tues duế duết huế huếnh huếch tuế tuết tuếnh tuếch suế suết ruế"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_276_english_deed_preservation_and_vietnamese_delayed_d_de_unlatch() {
+        let input = "deed deeds deeded deedf deedr deedx deedj deedm deedms deedmj deednf deedns deeduf deedur deedus deeduj"
+        let expected = "deed deeds deeded đề để đễ đệ đêm đếm đệm đền đến đều đểu đếu đệu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_277_english_beer_deer_door_preservation_and_vietnamese_bem_ben_deu_doi_unlatch() {
+        let input = "beer beers beeru beerm beern deer deers deerm deern deeru deerd deerdu deerdm deerdn door doors doori"
+        let expected = "beer beers beeru bểm bển deer deers dểm dển dểu để đểu đểm đển door doors dổi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_278_english_soar_coax_preservation_and_vietnamese_soai_soan_coan_coao_unlatch() {
+        let input = "soar soars soared soarm soarn soari soaro soary soarw coax coaxes coaxed coaxial coaxm coaxn coaxo coaxy coaxw"
+        let expected = "soar soars soared soảm soản soải soảo soảy soẳ coax coaxes coaxed coaxial coãm coãn coão coãy coẵ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_279_scenario41_trilingual_hues_deed_beer_soar_and_vietnamese_hue_dem_deu_soai_chat() {
+        let input = "Sau khi thanh toán các khoản dues và chọn bảng màu hues cho giao diện bản đồ cố đô Huế (huese) chuẩn bị cho kỳ nghỉ Tết (tuese), cả đội thưởng thức ly beer mát lạnh bên cánh cửa door gỗ sồi, ghi nhận nghĩa cử deed cao đẹp của đồng nghiệp đã thức đêm (deedm) làm việc đều (deeduf) đặn để doanh số soar vọt, ngồi sải chân thoải mái soải (soari) người đọc bản soản (soarn) thảo hợp đồng cáp đồng trục coaxial mà không hề đổi (doori) ý!"
+        let expected = "Sau khi thanh toán các khoản dues và chọn bảng màu hues cho giao diện bản đồ cố đô Huế (huế) chuẩn bị cho kỳ nghỉ Tết (tuế), cả đội thưởng thức ly beer mát lạnh bên cánh cửa door gỗ sồi, ghi nhận nghĩa cử deed cao đẹp của đồng nghiệp đã thức đêm (đêm) làm việc đều (đều) đặn để doanh số soar vọt, ngồi sải chân thoải mái soải (soải) người đọc bản soản (soản) thảo hợp đồng cáp đồng trục coaxial mà không hề đổi (dổi) ý!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (279 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -1924,6 +1958,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_272_english_sees_trees_toes_hoes_preservation_and_vietnamese_sep_sen_seu_toet_hoet_unlatch", test_tier4_272_english_sees_trees_toes_hoes_preservation_and_vietnamese_sep_sen_seu_toet_hoet_unlatch),
             ("test_tier4_273_japanese_hure_ture_dure_chure_preservation_and_vietnamese_huenh_tuenh_chuenh_unlatch", test_tier4_273_japanese_hure_ture_dure_chure_preservation_and_vietnamese_huenh_tuenh_chuenh_unlatch),
             ("test_tier4_274_scenario40_trilingual_goop_loom_keen_sees_toes_and_vietnamese_gop_lom_ken_sep_toet_chat", test_tier4_274_scenario40_trilingual_goop_loom_keen_sees_toes_and_vietnamese_gop_lom_ken_sep_toet_chat),
+            ("test_tier4_275_english_dues_hues_sues_rues_tues_preservation_and_vietnamese_free_tone_ue_unlatch", test_tier4_275_english_dues_hues_sues_rues_tues_preservation_and_vietnamese_free_tone_ue_unlatch),
+            ("test_tier4_276_english_deed_preservation_and_vietnamese_delayed_d_de_unlatch", test_tier4_276_english_deed_preservation_and_vietnamese_delayed_d_de_unlatch),
+            ("test_tier4_277_english_beer_deer_door_preservation_and_vietnamese_bem_ben_deu_doi_unlatch", test_tier4_277_english_beer_deer_door_preservation_and_vietnamese_bem_ben_deu_doi_unlatch),
+            ("test_tier4_278_english_soar_coax_preservation_and_vietnamese_soai_soan_coan_coao_unlatch", test_tier4_278_english_soar_coax_preservation_and_vietnamese_soai_soan_coan_coao_unlatch),
+            ("test_tier4_279_scenario41_trilingual_hues_deed_beer_soar_and_vietnamese_hue_dem_deu_soai_chat", test_tier4_279_scenario41_trilingual_hues_deed_beer_soar_and_vietnamese_hue_dem_deu_soai_chat),
         ]
     }
 }
