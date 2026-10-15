@@ -3209,6 +3209,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 80: 24 Collocation Entries, dd- Onset Unlatch, Pre-Coda Diacritic + Post-Coda Stop Tone Override, and owa/manx/sans Unlatch
+
+    func test_tier4_510_vietnamese_collocation_phrases_barns_darns_tarns_morns_borns_corns_horns_thorns_harms_charms_corms_dorms_burns_turns_urns_terms_kerns_door_goof_oofs_darn_thorn_morn_corm() {
+        let input = "barns mua barns buoon barns darns bawng darns keo darns tarns phats tarns phaan tarns morns mootj morns hai morns awn morns borns chawm borns phaan borns corns nhor corns con corns horns nhor horns thorns awn thorns laays thorns harms tham harms raats harms charms quar charms caay charms corms gaayf corms nhor corms dorms nhen dorms luwar dorms burns awn burns too burns bats burns turns cuwowif turns turm turns urns maajp urns beos urns terms gojn terms vens terms kerns con kerns toor kerns door gaay door caix door goof trans goof ddaats goof oofs keeu oofs hoen oofs darn thanh darn thorn nhor thorn morn nhor morn corm gaayf corm"
+        let expected = "barns mua bán buôn bán darns băng dán keo dán tarns phát tán phân tán morns một món hai món ăn món borns chăm bón phân bón corns nhỏ cón con cón horns nhỏ hón thorns ăn thón lấy thón harms tham hám rất hám charms quả chám cây chám corms gầy cóm nhỏ cóm dorms nhen dóm lửa dóm burns ăn bún tô bún bát bún turns cười tún tủm tún urns mập ún béo ún terms gọn tém vén tém kerns con kén tổ kén door gây dổ cãi dổ goof trán gồ đất gồ oofs kêu ố hoen ố darn thanh dản thorn nhỏ thỏn morn nhỏ mỏn corm gầy cỏm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_511_dd_onset_stop_coda_and_diphthong_tone_override_unlatch() {
+        let input = "ddarts ddartj ddafts ddaftj ddarcs ddarcj ddarps ddarpj ddarchs ddarchj ddorts ddortj ddurts ddurtj ddurcs ddurcj ddirts ddirtj ddirchs ddirchj ddartws ddartwj ddartsw ddartjw ddartas ddartaj ddartsa ddartja ddortos ddortoj ddortso ddortjo ddortws ddortwj ddortsw ddortjw ddurtws ddurtwj ddurcws ddurcwj ddoarts ddoartj ddoartws ddoartwj ddurocso ddurocjo ddurocws ddurocwj ddufocjw ddiretes ddiretej ddirepse ddirepje dduyretes dduyretej"
+        let expected = "đát đạt đát đạt đác đạc đáp đạp đách đạch đót đọt đút đụt đúc đục đít địt đích địch đắt đặt đắt đặt đất đật đất đật đốt đột đốt đột đớt đợt đớt đợt đứt đựt đức được đoát đoạt đoắt đoặt đuốc đuộc đước được được điết điệt điếp điệp đuyết đuyệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_512_pre_coda_vowel_diacritic_with_post_coda_stop_tone_override_unlatch() {
+        let input = "mawtrs mawtfj maatrs maatfj mawcrs mawcfj aacrs aacfj heetrs heetfj keetrs keetfj tootrs tootfj coocrs coocfj howtrs howtfj muwtrs muwtfj duwcrsd duwcfjd ddawtrs ddawtfj ddaatrs ddaatfj ddeetrs ddeetfj ddootrs ddootfj ddowtrs ddowtfj dduwcrs dduwcfj tieetrs tieetfj kieetrs kieetfj vieecrs vieecfj tieeprs tieepfj ddieepfj nuowcrs nuwowcrs duowcfjd duwowcfjd dduowcfj dduwowcfj muowprs luowtfj thuoocrs cuoocrs chuootfj xuaatrs luaatfj tuyeetrs tuyeetfj quyeetrs quyeetfj hoawtrs howatrs ngoawcfj ngowacfj hueetrs"
+        let expected = "mắt mặt mất mật mắc mặc ấc ậc hết hệt kết kệt tốt tột cốc cộc hớt hợt mứt mựt đức được đắt đặt đất đật đết đệt đốt đột đớt đợt đức được tiết tiệt kiết kiệt viếc việc tiếp tiệp điệp nước nước được được được được mướp lượt thuốc cuốc chuột xuất luật tuyết tuyệt quyết quyệt hoắt hoắt ngoặc ngoặc huết"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_513_romaji_owa_and_english_manx_sans_bars_hers_vers_sirs_curs_tone_override_unlatch() {
+        let input = "owa owats owatj owacs owacj owans owanf owanr owanx owanj howarts howrats ngowarcj nuwrocws duwfocwjd manx manxs manxf manxr manxj sans sansf sansr sansx sansj barsf barsj carsf carsj marsf marsx marsj tarsf tarsj varsf varsj hersf hersx hersj chefsf refsf versf versx versj sirsf sirsj dirsf dirsx dirsj orsf orsj ursf ursj cursf cursx cursj bursf bursj"
+        let expected = "owa oắt oặt oắc oặc oắn oằn oẳn oẵn oặn hoắt hoắt ngoặc nước được manx mán màn mản mạn sans sàn sản sãn sạn bà bạ cà cạ mà mã mạ tà tạ và vạ hè hẽ hẹ chè rè vè vẽ vẹ sì sị dì dĩ dị ò ọ ù ụ cù cũ cụ bù bụ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_514_scenario88_trilingual_barns_burns_terms_and_vietnamese_mua_ban_an_bun_con_ken_duoc_viec_chat() {
+        let input = "Giữa khu trang trại barns cổ kính, sau khi thống nhất các điều khoản terms hợp đồng mua bán (mua barns) tơ tằm từ những tổ kén (toor kerns) chất lượng cao và thưởng thức tô bún (too burns) cùng nhiều món (nhieeuf morns) đặc sản được chăm bón (chawm borns) kỹ lưỡng, cả nhóm quyết (quyeetrs) định bắt tay vào giải quyết công việc (vieecfj) để đạt (ddartj) kết quả tốt (ddootrs) đẹp nhất như mong ước (dduowcfj)!"
+        let expected = "Giữa khu trang trại barns cổ kính, sau khi thống nhất các điều khoản terms hợp đồng mua bán (mua bán) tơ tằm từ những tổ kén (tổ kén) chất lượng cao và thưởng thức tô bún (tô bún) cùng nhiều món (nhiều món) đặc sản được chăm bón (chăm bón) kỹ lưỡng, cả nhóm quyết (quyết) định bắt tay vào giải quyết công việc (việc) để đạt (đạt) kết quả tốt (đốt) đẹp nhất như mong ước (được)!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3727,6 +3759,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_507_uwoc_uwot_uwop_post_coda_and_pre_coda_tone_override_unlatch", test_tier4_507_uwoc_uwot_uwop_post_coda_and_pre_coda_tone_override_unlatch),
             ("test_tier4_508_non_m_eters_and_non_mr_otors_post_coda_hook_to_acute_unlatch", test_tier4_508_non_m_eters_and_non_mr_otors_post_coda_hook_to_acute_unlatch),
             ("test_tier4_509_scenario87_trilingual_chefs_surf_meters_and_vietnamese_mua_ve_ong_ba_chim_cu_quoc_te_chat", test_tier4_509_scenario87_trilingual_chefs_surf_meters_and_vietnamese_mua_ve_ong_ba_chim_cu_quoc_te_chat),
+            ("test_tier4_510_vietnamese_collocation_phrases_barns_darns_tarns_morns_borns_corns_horns_thorns_harms_charms_corms_dorms_burns_turns_urns_terms_kerns_door_goof_oofs_darn_thorn_morn_corm", test_tier4_510_vietnamese_collocation_phrases_barns_darns_tarns_morns_borns_corns_horns_thorns_harms_charms_corms_dorms_burns_turns_urns_terms_kerns_door_goof_oofs_darn_thorn_morn_corm),
+            ("test_tier4_511_dd_onset_stop_coda_and_diphthong_tone_override_unlatch", test_tier4_511_dd_onset_stop_coda_and_diphthong_tone_override_unlatch),
+            ("test_tier4_512_pre_coda_vowel_diacritic_with_post_coda_stop_tone_override_unlatch", test_tier4_512_pre_coda_vowel_diacritic_with_post_coda_stop_tone_override_unlatch),
+            ("test_tier4_513_romaji_owa_and_english_manx_sans_bars_hers_vers_sirs_curs_tone_override_unlatch", test_tier4_513_romaji_owa_and_english_manx_sans_bars_hers_vers_sirs_curs_tone_override_unlatch),
+            ("test_tier4_514_scenario88_trilingual_barns_burns_terms_and_vietnamese_mua_ban_an_bun_con_ken_duoc_viec_chat", test_tier4_514_scenario88_trilingual_barns_burns_terms_and_vietnamese_mua_ban_an_bun_con_ken_duoc_viec_chat),
         ]
     }
 }
