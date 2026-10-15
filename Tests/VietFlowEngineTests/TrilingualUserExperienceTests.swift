@@ -3401,6 +3401,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 86: 40 Collocation Entries, pier/piers/trier/tries/purse/purses/curses/muses/ruses/lexus/nexus Unlatch, and oe/ore Stem Coda & Tone Unlatch
+
+    func test_tier4_540_vietnamese_collocation_phrases_kefu_mefu_nefu_hefu_sefu_tefu_defu_gefu_refu_pefu_gesu_pesu_peru_geso_kaso_kosa_posa_pora_kose_rose_pose_nose_dose_more_bore_pore_yoso_pura_puri_pari_paru_piru_pasu_pisu_pafu_paasu_paaru_peesu_kono_kama() {
+        let input = "kefu keeu kefu tieengs kefu mefu beof mefu mawjt mefu nefu leuf nefu hefu pheuf hefu sefu leuf sefu tefu nhor tefu defu meemf defu deor defu gefu keeu gefu tieengs gefu refu meemf refu rux refu pefu meemf pefu beof pefu gesu keeu gesu reos gesu pesu khocs pesu meeus pesu peru cuwowif peru mooi peru geso keeu geso tieengs geso kaso caos kaso baos kaso kosa chiaf kosa oor kosa posa xoas posa toas posa pora toar pora xoax pora kose khocs kose keeu kose rose khocs rose cuwowif rose pose sangs pose ddor pose nose sangs nose anhs nose dose ddor dose sangs dose more meejt more suwcs more bore nhor bore bor bore pore nhor pore suwcs pore koxa cor koxa xoax koxa pura muas pura tuar pura puri buij puri phuir puri pari bair pari phair pari paru baus paru baur paru piru meemf piru biur piru pasu chaau pasu baus pasu pisu bius pisu nius pisu pafu nhauf pafu bauf pafu paasu baaus paasu daaus paasu paaru maaur paaru taaur paaru peesu meeus peesu beeus peesu kono coonf kono boonf kono kama maam kama taam kama"
+        let expected = "kefu kêu kèu tiếng kèu mefu bèo mèu mặt mèu nefu lèu nèu hefu phèu hèu sefu lèu sèu tefu nhỏ tèu defu mềm dèu dẻo dèu gefu kêu gèu tiếng gèu refu mềm rèu rũ rèu pefu mềm pèu bèo pèu gesu kêu géu réo géu pesu khóc péu mếu péu peru cười pẻu môi pẻu geso kêu géo tiếng géo kaso cáo káo báo káo kosa chìa kóa ổ kóa posa xóa póa tóa póa pora tỏa pỏa xõa pỏa kose khóc kóe kêu kóe rose khóc róe cười róe pose sáng póe đỏ póe nose sáng nóe ánh nóe dose đỏ dóe sáng dóe more mệt mỏe sức mỏe bore nhỏ bỏe bỏ bỏe pore nhỏ pỏe sức pỏe koxa cỏ kõa xõa kõa pura múa pủa tủa pủa puri bụi pủi phủi pủi pari bải pải phải pải paru báu pảu bảu pảu piru mềm pỉu bỉu pỉu pasu châu páu báu páu pisu bíu píu níu píu pafu nhàu pàu bàu pàu paasu bấu pấu dấu pấu paaru mẩu pẩu tẩu pẩu peesu mếu pếu bếu pếu kono cồn kôn bồn kôn kama mâm kâm tâm kâm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_541_pier_piers_pies_trier_tries_coda_tone_delayed_e_unlatch() {
+        let input = "pier pierse pierfe pierxe pierje pierue pierufe pieruje piermfe piernfe piercs piercj pierps pierpj pierts piertj piers piersfe piersre piersxe piersje piersue piersufe piersure piersuxe piersuje piersmfe piersnfe piersngfe pies piesfe piesre piesxe piesje piesufe piesuje piesmfe piesnfe trier trierse trierfe trierxe trierje trierufe trieruje triermfe triernfe triercje trierpje triertje triercs triercj trierps trierpj trierts triertj tries triesufe triesure triesuxe triesuje triesmfe triesnfe triesngfe triescje triespje triestje"
+        let expected = "pier piế piề piễ piệ piểu piều piệu piềm piền piếc piệc piếp piệp piết piệt piers piề piể piễ piệ piếu piều piểu piễu piệu piềm piền piềng pies piề piể piễ piệ piều piệu piềm piền trier triế triề triễ triệ triều triệu triềm triền triệc triệp triệt triếc triệc triếp triệp triết triệt tries triều triểu triễu triệu triềm triền triềng triệc triệp triệt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_542_purse_cures_curse_nurse_lexus_nexus_paasu_paaru_peesu_unlatch() {
+        let input = "purse pursee pursefe purseje pursemfe pursenfe pursece pursecje pursepe pursepje pursete pursetje purseche pursechje cures curesce curescej curespe curespej cureste curestej curse cursece cursecej cursepe cursepej cursete cursetej nurse nursece nursecej nursepe nursepej nursete nursetej lexus lexusfe lexusre lexusxe lexusje nexus nexusfe nexusre nexusxe nexusje paasu paasuf paasur paasux paasuj paaru paarus paaruf paarux paaruj peesu peesuf peesur peesux peesuj"
+        let expected = "purse puế puề puệ puềm puền puếc puệc puếp puệp puết puệt puếch puệch cures cuếc cuệc cuếp cuệp cuết cuệt curse cuếc cuệc cuếp cuệp cuết cuệt nurse nuếc nuệc nuếp nuệp nuết nuệt lexus lều lểu lễu lệu nexus nều nểu nễu nệu paasu pầu pẩu pẫu pậu paaru pấu pầu pẫu pậu peesu pều pểu pễu pệu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_543_roes_noes_rose_nose_pose_dose_kose_sore_dore_rore_more_bore_pore_unlatch() {
+        let input = "roes roesf roesr roesx roesj roesm roesn roesc roesp roest noes noesf noesr noesx noesj noesm noesn noesc noesp noest rose rosef roser rosex rosej rosem rosen rosec rosep roset nose nosef noser nosex nosej nosem nosen nosec nosep noset pose posef posex posej posem posen posec posep poset dose dosef doser dosex dosej dosem dosen dosec dosep doset kose kosef koser kosex kosej kosem kosen kosec kosep koset sore soref sorex sorej sorem soren dore doref dorex dorej dorem doren rore roref rorex rorej rorem roren more moref morex morej morem moren bore boref borex borej borem boren pore poref porex porej porem poren"
+        let expected = "roes ròe rỏe rõe rọe roém roén roéc roép roét noes nòe nỏe nõe nọe noém noén noéc noép noét rose ròe rỏe rõe rọe roém roén roéc roép roét nose nòe nỏe nõe nọe noém noén noéc noép noét pose pòe põe pọe poém poén poéc poép poét dose dòe dỏe dõe dọe doém doén doéc doép doét kose kòe kỏe kõe kọe koém koén koéc koép koét sore sòe sõe sọe soẻm soẻn dore dòe dõe dọe doẻm doẻn rore ròe rõe rọe roẻm roẻn more mòe mõe mọe moẻm moẻn bore bòe bõe bọe boẻm boẻn pore pòe põe pọe poẻm poẻn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_544_scenario94_trilingual_pier_purse_lexus_and_vietnamese_trieu_dai_cuoi_roe_suc_moe_chia_koa_chat() {
+        let input = "Khi dạo bước dọc bến tàu pier cùng chiếc túi purse nhỏ gọn bên cạnh mẫu xe lexus sang trọng ở khu kono, dù đôi lúc thấy mệt mỏe (meejt more) sau hành trình dài nghiên cứu các triều (trierufe) đại lịch sử với hàng triệu (triesuje) tư liệu quý, cả nhóm vẫn cười róe (cuwowif rose) vui vẻ khi tìm thấy chìa kóa (chiaf kosa) mở cánh cửa bước vào căn lều (lexusfe) ấm cúng!"
+        let expected = "Khi dạo bước dọc bến tàu pier cùng chiếc túi purse nhỏ gọn bên cạnh mẫu xe lexus sang trọng ở khu kono, dù đôi lúc thấy mệt mỏe (mệt mỏe) sau hành trình dài nghiên cứu các triều (triều) đại lịch sử với hàng triệu (triệu) tư liệu quý, cả nhóm vẫn cười róe (cười róe) vui vẻ khi tìm thấy chìa kóa (chìa kóa) mở cánh cửa bước vào căn lều (lều) ấm cúng!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3949,6 +3981,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_537_tiers_biers_chiefs_hires_tires_mires_sires_miser_mixer_mixes_mixers_sixes_coda_tone_delayed_e_unlatch", test_tier4_537_tiers_biers_chiefs_hires_tires_mires_sires_miser_mixer_mixes_mixers_sixes_coda_tone_delayed_e_unlatch),
             ("test_tier4_538_cures_curse_nurse_tuxes_coda_tone_delayed_e_and_horse_coda_unlatch", test_tier4_538_cures_curse_nurse_tuxes_coda_tone_delayed_e_and_horse_coda_unlatch),
             ("test_tier4_539_scenario93_trilingual_deem_keen_honor_asaru_and_vietnamese_suot_dem_chieu_hieu_lam_au_tham_vien_chat", test_tier4_539_scenario93_trilingual_deem_keen_honor_asaru_and_vietnamese_suot_dem_chieu_hieu_lam_au_tham_vien_chat),
+            ("test_tier4_540_vietnamese_collocation_phrases_kefu_mefu_nefu_hefu_sefu_tefu_defu_gefu_refu_pefu_gesu_pesu_peru_geso_kaso_kosa_posa_pora_kose_rose_pose_nose_dose_more_bore_pore_yoso_pura_puri_pari_paru_piru_pasu_pisu_pafu_paasu_paaru_peesu_kono_kama", test_tier4_540_vietnamese_collocation_phrases_kefu_mefu_nefu_hefu_sefu_tefu_defu_gefu_refu_pefu_gesu_pesu_peru_geso_kaso_kosa_posa_pora_kose_rose_pose_nose_dose_more_bore_pore_yoso_pura_puri_pari_paru_piru_pasu_pisu_pafu_paasu_paaru_peesu_kono_kama),
+            ("test_tier4_541_pier_piers_pies_trier_tries_coda_tone_delayed_e_unlatch", test_tier4_541_pier_piers_pies_trier_tries_coda_tone_delayed_e_unlatch),
+            ("test_tier4_542_purse_cures_curse_nurse_lexus_nexus_paasu_paaru_peesu_unlatch", test_tier4_542_purse_cures_curse_nurse_lexus_nexus_paasu_paaru_peesu_unlatch),
+            ("test_tier4_543_roes_noes_rose_nose_pose_dose_kose_sore_dore_rore_more_bore_pore_unlatch", test_tier4_543_roes_noes_rose_nose_pose_dose_kose_sore_dore_rore_more_bore_pore_unlatch),
+            ("test_tier4_544_scenario94_trilingual_pier_purse_lexus_and_vietnamese_trieu_dai_cuoi_roe_suc_moe_chia_koa_chat", test_tier4_544_scenario94_trilingual_pier_purse_lexus_and_vietnamese_trieu_dai_cuoi_roe_suc_moe_chia_koa_chat),
         ]
     }
 }

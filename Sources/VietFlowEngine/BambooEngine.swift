@@ -169,14 +169,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
                 "kiseru", "hiseru", "niseru",
                 "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu",
-                "tiersu", "biersu", "triesu", "chiefsu", "sixesu", "mixesu", "mixersu", "miseru", "mixeru", "trieru",
+                "tiersu", "biersu", "triesu", "chiefsu", "sixesu", "mixesu", "mixersu", "miseru", "mixeru", "trieru", "pieru", "piersu",
                 "yensf", "yensr", "yensx", "yensj", "yensg", "yensh",
+                "lexusf", "lexusr", "lexusx", "lexusj", "nexusf", "nexusr", "nexusx", "nexusj",
                 "tuxesm", "tuxesn", "tuxesc", "tuxesp", "tuxest", "tuxesf", "tuxesr", "tuxesx", "tuxesj",
                 "curesm", "curesn", "curesc", "curesp", "curest", "curesf", "curesr", "curesx", "curesj",
                 "cursem", "cursen", "cursec", "cursep", "curset", "cursef", "curser", "cursex", "cursej",
                 "nursem", "nursen", "nursec", "nursep", "nurset", "nursef", "nurser", "nursex", "nursej",
                 "duetsj", "duetsjd", "duetsdj",
-                "dues", "hues", "sues", "rues", "tues", "cues", "cures", "curse", "nurse", "true", "vue", "lexus", "nexus", "tuxes", "mixer", "died", "diets", "duets", "guest", "quiet", "quiets",
+                "dues", "hues", "sues", "rues", "tues", "cues", "cures", "curse", "curses", "nurse", "purse", "purses", "muses", "ruses", "true", "vue", "lexus", "nexus", "tuxes", "mixer", "died", "diets", "duets", "guest", "quiet", "quiets",
                 "use", "ure", "ire", "efu", "eru", "esu",
                 "ires", "iref", "irex", "irej", "ures", "uref", "urex", "urej", "usef", "usex", "usej",
                 "erus", "eruf", "erux", "eruj", "esuf", "esur", "esux", "esuj", "efus", "efur", "efux", "efuj"
@@ -233,14 +234,14 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if (["toes", "hoes", "lose", "hose", "chose", "those", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
-                || (["toes", "hoes", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
+            } else if (["toes", "hoes", "roes", "noes", "lose", "hose", "chose", "those", "rose", "nose", "pose", "dose", "kose", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
+                || (["toes", "hoes", "roes", "noes", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "horse" && character.lowercased() == "o")
-                || (["toes", "hoes", "lose", "hose", "those", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
-                || (["tore", "hore", "lore", "chore", "ore"].contains(String(wordRawKeys).lowercased()) && "ofjx".contains(character.lowercased()))
-                || (["lose", "hose", "chose", "those"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
-                || (["hose", "chose", "those"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "r")
-                || (["tore", "hore", "chore"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
+                || (["toes", "hoes", "roes", "noes", "lose", "hose", "those", "rose", "nose", "pose", "dose", "kose", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
+                || (["tore", "hore", "lore", "chore", "ore", "sore", "dore", "rore", "bore", "pore"].contains(String(wordRawKeys).lowercased()) && "ofjx".contains(character.lowercased()))
+                || (["lose", "hose", "chose", "those", "rose", "nose", "pose", "dose", "kose", "more"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
+                || (["hose", "chose", "those", "rose", "nose", "dose", "kose"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "r")
+                || (["tore", "hore", "chore", "sore", "dore", "rore", "more", "bore", "pore"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "lore" && character.lowercased() == "n") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
@@ -339,7 +340,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["chair", "lair", "moron"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "boron" && "sfjx".contains(character.lowercased()))
                 || (["beset", "reset", "keeps", "peeps", "deeps", "cheeps", "noops", "goops", "troops", "topos", "gotos", "photos", "datas", "basta", "rasta", "coats", "coast", "toast", "diets", "quiets", "nieces", "sorts", "burst", "worst", "thirst", "swops", "tester", "testers"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j")
-                || (["hairs", "chairs", "lairs", "airs", "morons", "booms", "dooms", "looms", "rooms", "goons", "loons", "moons", "nonos", "deems", "seems", "teems", "keens", "teens", "queens", "mamas", "memes", "themes", "donors", "honors", "oxen", "vixen", "vixens", "sirens", "risen", "chosen", "tureens", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "arms", "harms", "charms", "chasm", "norms", "corms", "dorms", "berms", "terms", "kerns", "terns", "dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors", "dadas", "charas", "leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "trees", "sees", "buys", "guys", "soars", "sofas", "oars", "loafs", "oafs", "coifs", "choirs", "naifs", "liars", "dues", "hues", "sues", "rues", "tues", "cues", "sirs", "dirs", "sans", "auras", "axis", "bias", "taxis", "maxis", "virus", "wars", "worms", "hangars", "queers", "queues", "majors", "baasu", "daasu", "garasu", "naasu", "beesu", "keesu", "reesu", "corsairs"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
+                || (["hairs", "chairs", "lairs", "airs", "morons", "booms", "dooms", "looms", "rooms", "goons", "loons", "moons", "nonos", "deems", "seems", "teems", "keens", "teens", "queens", "mamas", "memes", "themes", "donors", "honors", "oxen", "vixen", "vixens", "sirens", "risen", "chosen", "tureens", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "arms", "harms", "charms", "chasm", "norms", "corms", "dorms", "berms", "terms", "kerns", "terns", "dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors", "dadas", "charas", "leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "trees", "sees", "buys", "guys", "soars", "sofas", "oars", "loafs", "oafs", "coifs", "choirs", "naifs", "liars", "dues", "hues", "sues", "rues", "tues", "cues", "sirs", "dirs", "sans", "auras", "axis", "bias", "taxis", "maxis", "virus", "wars", "worms", "hangars", "queers", "queues", "majors", "baasu", "daasu", "garasu", "naasu", "paasu", "beesu", "keesu", "reesu", "peesu", "corsairs"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
                 || (["siren", "tureen", "honor", "donor", "worm", "refuse", "reuse", "major", "corsair"].contains(String(wordRawKeys).lowercased()) && "fxj".contains(character.lowercased()))
                 || (["lexer", "refer", "defer"].contains(String(wordRawKeys).lowercased()) && "fxjumn".contains(character.lowercased()))
                 || (["refers", "verse", "vexes", "hexes", "sexes"].contains(String(wordRawKeys).lowercased()) && "frxjumncpt".contains(character.lowercased()))
@@ -372,7 +373,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "manag" && "sfrxjw".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "monog" && "sfxj".contains(character.lowercased()))
                 || (["ore", "guree", "gifi", "dired", "tier", "bier", "trier", "chief", "thief", "miser", "mixer"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
-                || (["gisi", "giji", "ties", "dies", "lies", "vies", "pies", "hies", "tries", "tiers", "biers", "chiefs"].contains(String(wordRawKeys).lowercased()) && "mncpt".contains(character.lowercased()))
+                || (["gisi", "giji", "ties", "dies", "lies", "vies", "hies", "tries", "tiers", "biers", "chiefs"].contains(String(wordRawKeys).lowercased()) && "mncpt".contains(character.lowercased()))
                 || (["hires", "tires", "mires", "sires"].contains(String(wordRawKeys).lowercased()) && "mncpteu".contains(character.lowercased()))
                 || (["berms", "terms", "kerns", "terns"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e")
                 || (["leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "terse", "sirs", "dirs", "queers"].contains(String(wordRawKeys).lowercased()) && "mncptu".contains(character.lowercased()))
@@ -485,7 +486,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi", "girai", "gisai", "horai", "torai", "hosai", "sosai", "tosai"].contains(String(wordRawKeys).lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys[wordRawKeys.count - 3].lowercased())
-                || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
+                || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
                     && "sfxj".contains(character.lowercased()))
                 || (["haafu", "saafu", "taafu", "seefu"].contains(String(wordRawKeys).lowercased())
                     && "srxj".contains(character.lowercased()))
@@ -771,6 +772,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 return nil
             }
         }
+        let wasUnlatchedInStep2 = wasBypassedBeforeStep2 && !isBypassed
 
         // 2b. Legacy Backspace Vowel Recovery (for RapidTypingTests / TerminalCompatibilityTests)
         if let deleted = lastDeletedChar {
@@ -1028,14 +1030,14 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && (parsed.coda.isEmpty || parsed.coda.lowercased() == "n")
                     && parsed.tone == .tilde
                     && (lowerCandidateRaw.hasPrefix("noa") || lowerCandidateRaw.hasPrefix("noxa") || lowerCandidateRaw.hasPrefix("nora"))
-                let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!))
+                let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedInStep2)
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
-                    || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!))
-                    || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc))
-                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull)
+                    || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && !isVietCollocationFull)
+                    || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc) && !isVietCollocationFull)
+                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull && !wasUnlatchedInStep2)
                     || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull)
-                    || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y"))
-                    || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })))
+                    || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y") && !isVietCollocationFull)
+                    || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })) && !isVietCollocationFull && !wasUnlatchedInStep2)
                     || (lowerOnset == "z")
                 let hasInvalidTransformedOnset = isTransformed
                     && !candidateState.isBypassed
@@ -2539,7 +2541,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "sesu": ["xéo", "sẻ"],
         "resu": ["kêu", "réo"],
         "nesu": ["bám", "néo"],
-        "befu": ["cánh", "bèo"]
+        "befu": ["cánh", "bèo"],
+        "kefu": ["kêu", "tiếng"],
+        "mefu": ["bèo", "mặt"],
+        "nefu": ["lèu", "bèu"],
+        "hefu": ["phèu", "lèu"],
+        "sefu": ["lèu", "phèu"],
+        "tefu": ["nhỏ", "bèu"],
+        "defu": ["mềm", "dẻo"],
+        "gefu": ["kêu", "tiếng"],
+        "refu": ["mềm", "rũ"],
+        "pefu": ["mềm", "bèo"],
+        "gesu": ["kêu", "réo"],
+        "pesu": ["khóc", "mếu"],
+        "peru": ["cười", "môi"],
+        "geso": ["kêu", "tiếng"],
+        "kaso": ["cáo", "báo"],
+        "kosa": ["chìa", "ổ"],
+        "posa": ["xóa", "tóa"],
+        "pora": ["tỏa", "xõa"],
+        "kose": ["khóc", "kêu"],
+        "rose": ["khóc", "cười"],
+        "pose": ["sáng", "đỏ"],
+        "nose": ["sáng", "ánh"],
+        "dose": ["đỏ", "sáng"],
+        "more": ["mệt", "sức"],
+        "bore": ["nhỏ", "bỏ"],
+        "pore": ["nhỏ", "sức"],
+        "koxa": ["cỏ", "xõa"],
+        "pura": ["múa", "tủa"],
+        "puri": ["bụi", "phủi"],
+        "pari": ["bải", "phải"],
+        "paru": ["báu", "bảu"],
+        "piru": ["mềm", "bỉu"],
+        "pasu": ["châu", "báu"],
+        "pisu": ["bíu", "níu"],
+        "pafu": ["nhàu", "bàu"],
+        "paasu": ["bấu", "dấu"],
+        "paaru": ["mẩu", "tẩu"],
+        "peesu": ["mếu", "bếu"],
+        "kono": ["cồn", "bồn"],
+        "kama": ["mâm", "tâm"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
@@ -2548,7 +2590,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     ) -> Bool {
         let lowerWord = String(wordRawKeys).lowercased()
         let c = character.lowercased()
-        let ieStems = ["mixers", "chiefs", "tiers", "biers", "hires", "tires", "mires", "sires", "miser", "mixer", "mixes", "sixes"]
+        let ieStems = ["mixers", "chiefs", "tiers", "biers", "piers", "hires", "tires", "mires", "sires", "miser", "mixer", "mixes", "sixes", "trier", "tries", "pier", "pies"]
         for stem in ieStems where lowerWord.hasPrefix(stem) {
             let tail = String(lowerWord.dropFirst(stem.count))
             guard !tail.isEmpty else { continue }
@@ -2561,7 +2603,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 return true
             }
         }
-        let ueStems = ["cures", "curse", "nurse", "tuxes"]
+        let ueStems = ["purses", "curses", "cures", "curse", "nurse", "purse", "muses", "ruses", "tuxes"]
         for stem in ueStems where lowerWord.hasPrefix(stem) {
             let tail = String(lowerWord.dropFirst(stem.count))
             guard !tail.isEmpty else { continue }
