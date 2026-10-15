@@ -2987,6 +2987,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 73: 16 Collocation Entries, Vowel-Initial Diphthong Coda+Tone+Diacritic Unlatch, and Vowel-Initial Monophthong Stop-Coda Diacritic+Tone Unlatch
+
+    func test_tier4_475_vietnamese_collocation_phrases_dooms_teems_keens_moons_goons_loons_gojo_dojo_toxo_noso_mura_hura_gura_chura_baru_maru() {
+        let input = "dooms chos dooms ddooms dooms teems toom teems mawms teems keens con keens ddanf keens moons cas moons rau moons goons voons goons loons lowns loons gojo ngooj gojo dojo ddooj dojo toxo cais toxo bats toxo noso loos noso mura muas mura hura hufa hura gura goas gura chura chuas chura baru chaau baru baus baru maru maaur maru"
+        let expected = "dooms chó dốm đốm dốm teems tôm tếm mắm tếm keens con kến đàn kến moons cá mốn rau mốn goons vốn gốn loons lớn lốn gojo ngộ gộ dojo độ dộ toxo cái tỗ bát tỗ noso lố nố mura múa mủa hura hùa hủa gura góa gủa chura chúa chủa baru châu bảu báu bảu maru mẩu mảu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_476_vowel_initial_diphthong_coda_tone_override_and_delayed_diacritic_unlatch() {
+        let input = "urotws urotvj urotwj urotsw urotjw urocws urocwj urocsw urocjw uropws uropwj uropsw uropjw uroisw urongsw urongjw uromsw uronfw usotwj usocwj usopwj urana uratsa uratas uratja urataj uransa uranfa iretes iretej iretse iretje irense uretes uretej usetej usechej yestej yestje yertes yertej yesnfe yesnre"
+        let expected = "ướt urotvj ượt ướt ượt ước ược ước ược ướp ượp ướp ượp ưới ướng ượng ướm ườn ượt ược ượp urana uất uất uật uật uấn uần iết iệt iết iệt iến uết uệt uệt uệch yệt yệt yết yệt yền yển"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_477_vowel_initial_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch() {
+        let input = "art arts arc arcs orc orcs arch arches artws artsw artwj artjw artas artsa artaj artja arcws arcsw arcwj arcjw arcas arcsa arcaj arcja arpws arpsw arpwj arpjw arpas arpsa arpaj arpja ertes ertse ertej ertje erches erchse erchej erchje orcos orcso orcoj orcjo orcws orcsw orcwj orcjw orpos orpso orpoj orpjo orpws orpsw orpwj orpjw ortos ortso ortoj ortjo ortws ortsw ortwj ortjw urcws urcsw urcwj urcjw urtws urtsw urtwj urtjw"
+        let expected = "art arts arc arcs orc orcs arch arches ắt ắt ặt ặt ất ất ật ật ắc ắc ặc ặc ấc ấc ậc ậc ắp ắp ặp ặp ấp ấp ập ập ết ết ệt ệt ếch ếch ệch ệch ốc ốc ộc ộc ớc ớc ợc ợc ốp ốp ộp ộp ớp ớp ợp ợp ốt ốt ột ột ớt ớt ợt ợt ức ức ực ực ứt ứt ựt ựt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_478_mixed_diphthong_and_monophthong_stop_coda_backspace_and_retype() {
+        let input = "urotwx<BS>s urocwx<BS>j bartwx<BS>s cartwx<BS>j hertx<BS>es cortx<BS>os murcx<BS>ws"
+        let expected = "ướt ược bắt cặt hết cốt mức"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_479_scenario81_trilingual_arts_arches_urana_and_vietnamese_con_ken_cho_dom_chau_bau_uoc_mo_chat() {
+        let input = "Tại triển lãm fine arts dưới những mái vòm arches cổ kính ở vùng urana, chú chó dốm (chos dooms) tinh nghịch chạy quanh đàn kến (ddanf keens) tìm kho châu bảu (chaau baru): ai cũng ấp (arpas) ủ ước (urocws) mơ vượt (vurotwj) qua thử thách khắc nghiệt (nghiretje) để đạt mức (murcws) điểm tốt (tortos) nhất!"
+        let expected = "Tại triển lãm fine arts dưới những mái vòm arches cổ kính ở vùng urana, chú chó dốm (chó dốm) tinh nghịch chạy quanh đàn kến (đàn kến) tìm kho châu bảu (châu bảu): ai cũng ấp (ấp) ủ ước (ước) mơ vượt (vượt) qua thử thách khắc nghiệt (nghiệt) để đạt mức (mức) điểm tốt (tốt) nhất!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3470,6 +3502,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_472_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch", test_tier4_472_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch),
             ("test_tier4_473_three_letter_ngh_onset_stop_coda_and_diphthong_unlatch", test_tier4_473_three_letter_ngh_onset_stop_coda_and_diphthong_unlatch),
             ("test_tier4_474_scenario80_trilingual_sofa_carts_ports_and_vietnamese_con_dau_phim_sem_duong_huong_nghich_ngom_chat", test_tier4_474_scenario80_trilingual_sofa_carts_ports_and_vietnamese_con_dau_phim_sem_duong_huong_nghich_ngom_chat),
+            ("test_tier4_475_vietnamese_collocation_phrases_dooms_teems_keens_moons_goons_loons_gojo_dojo_toxo_noso_mura_hura_gura_chura_baru_maru", test_tier4_475_vietnamese_collocation_phrases_dooms_teems_keens_moons_goons_loons_gojo_dojo_toxo_noso_mura_hura_gura_chura_baru_maru),
+            ("test_tier4_476_vowel_initial_diphthong_coda_tone_override_and_delayed_diacritic_unlatch", test_tier4_476_vowel_initial_diphthong_coda_tone_override_and_delayed_diacritic_unlatch),
+            ("test_tier4_477_vowel_initial_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch", test_tier4_477_vowel_initial_monophthong_stop_coda_delayed_diacritic_and_tone_override_unlatch),
+            ("test_tier4_478_mixed_diphthong_and_monophthong_stop_coda_backspace_and_retype", test_tier4_478_mixed_diphthong_and_monophthong_stop_coda_backspace_and_retype),
+            ("test_tier4_479_scenario81_trilingual_arts_arches_urana_and_vietnamese_con_ken_cho_dom_chau_bau_uoc_mo_chat", test_tier4_479_scenario81_trilingual_arts_arches_urana_and_vietnamese_con_ken_cho_dom_chau_bau_uoc_mo_chat),
         ]
     }
 }
