@@ -162,13 +162,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 didBackspace = true
                 activePreedit = "yé"
                 activeRawKeys = ["y", "e", "s"]
-            } else if [
-                "chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier",
+            } else if ([
+                "chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier", "trier", "tries",
                 "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
                 "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu",
-                "dues", "hues", "sues", "rues", "tues", "cues", "died", "diets", "duets", "guest",
+                "dues", "hues", "sues", "rues", "tues", "cues", "died", "diets", "duets", "guest", "quiets",
                 "use", "ure", "ire", "efu", "eru", "esu"
-            ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e" {
+            ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e")
+                || (String(wordRawKeys).lowercased() == "died" && "mncptu".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased().hasPrefix("died") && wordRawKeys.count == 5 && "mncptusfrxj".contains(wordRawKeys[4].lowercased()) && character.lowercased() == "e") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -319,10 +321,20 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && "rsfjx".contains(r2)
                 && "aoui".contains(r3)
                 && "wo".contains(character.lowercased()))
-                || (["ufo", "uro", "uso"].contains(String(wordRawKeys).lowercased()) && "wo".contains(character.lowercased()))
+                || ([
+                    "ufo", "uro", "uso", "duos",
+                    "ufoi", "ufom", "ufon", "uroi", "urom", "uron",
+                    "usoi", "usom", "uson", "usoc", "usop", "usot",
+                    "duosi", "duosm", "duosn", "duosc", "duosp", "duost"
+                ].contains(String(wordRawKeys).lowercased()) && "wo".contains(character.lowercased()))
+                || (["duos", "duoso", "duosw"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
                 || (["uru", "usu", "girui", "gisui"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
                 || (String(wordRawKeys).lowercased() == "aru" && character.lowercased() == "a")
                 || (String(wordRawKeys).lowercased() == "asa" && "cmntuy".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "giro" && "aeowimn".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "gifu" && "awiymn".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "giju" && "awiymncpt".contains(character.lowercased()))
+                || (["gire", "gise"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "o")
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "u"
                     && "rsfjx".contains(rhymeAfterOnset[1])
@@ -347,15 +359,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     || (r1 == "i" && "sj".contains(r2) && "cmnpt".contains(character.lowercased()) && String(wordRawKeys).lowercased() != "rise")))
                 || (rhymeAfterOnset.count == 4
                     && rhymeAfterOnset[0] == "i"
-                    && "rsfjx".contains(rhymeAfterOnset[1])
-                    && rhymeAfterOnset[2] == "e"
-                    && "unt".contains(rhymeAfterOnset[3])
+                    && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
+                        || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2])))
+                    && "umnctp".contains(rhymeAfterOnset[3])
+                    && character.lowercased() == "e")
+                || (["yesn", "yesm", "yest", "yesc", "yesp", "usen", "usem", "uset", "usep", "uren", "urem"].contains(String(wordRawKeys).lowercased())
                     && character.lowercased() == "e")
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "u"
-                    && "rsfjx".contains(rhymeAfterOnset[1])
-                    && rhymeAfterOnset[2] == "e"
-                    && ["t", "nh", "ch"].contains(rhymeAfterOnset[3...].joined())
+                    && (("rsfjx".contains(rhymeAfterOnset[1]) && rhymeAfterOnset[2] == "e")
+                        || (rhymeAfterOnset[1] == "e" && "rsfjx".contains(rhymeAfterOnset[2])))
+                    && ["m", "n", "p", "t", "nh", "ch"].contains(rhymeAfterOnset[3...].joined())
                     && character.lowercased() == "e")
                 || (String(wordRawKeys).lowercased() == "tureen" && character.lowercased() == "h")) {
                 isBypassed = false
