@@ -3273,6 +3273,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 82: 25 Collocation Entries, basta/rasta/tester/cursor/major Unlatch, lexer/refer/verse/vexes/hexes/sexes/mixes/sixes Unlatch, and refuse/reuse/lexus/nexus/cures/nurse/true/vue Unlatch
+
+    func test_tier4_520_vietnamese_collocation_phrases_basta_rasta_beset_boost_roost_burst_thirst_sorts_cost_most_rust_gasp_rasp_cusp_lisp_swops_sense_tense_dense_risen_vixen_chosen_virus_loris_bias() {
+        let input = "basta khar basta rasta nhieeuf rasta beset dinhs beset boost giayf boost roost cuoocj roost burst ngoif burst caay burst thirst thawst thirst sorts thieeus sorts cost chieeus cost most luwowmj most rust daay rust gasp thowr gasp rasp lawps rasp cusp ddoatj cusp lisp xichs lisp swops uwowts swops sense nhacj sense tense muix tense dense thawps dense risen luwown risen vixen vinhx vixen chosen chens chosen virus baaus virus vary mieengs vary loris chois loris bias taams bias"
+        let expected = "basta khả bất rasta nhiều rất beset dính bết boost giày bốt roost cuộc rốt burst ngòi bút cây bút thirst thắt thít sorts thiếu sót cost chiếu cót most lượm mót rust dây rút gasp thở gáp rasp lắp ráp cusp đoạt cúp lisp xích líp swops ướt sướp sense nhạc sến tense mũi tến dense thắp dến risen lươn riến vixen vĩnh viễn chosen chén choén virus bấu víu vary miếng vảy loris chói lói bias tấm bía"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_521_basta_rasta_tester_testers_major_majors_cursor_cursors_unlatch() {
+        let input = "basta bastaw bastawj rasta rastaw rastawj tester testers testerj testersj major majors majorf majorx majorj majorsf majorsr majorsx majorsj cursor cursors cursoro cursorw cursoroi cursorwi cursoron cursorwn cursorso cursorsw cursorsof cursorswf cursorsoj cursorswj cursorsoi cursorswi cursorson cursorswn cursorsot cursorswt"
+        let expected = "basta bắt bặt rasta rắt rặt tester testers tệt tệt major majors mào mão mạo mào mảo mão mạo cursor cursors cuổ cưở cuổi cưởi cuổn cưởn cuố cướ cuồ cườ cuộ cượ cuối cưới cuốn cướn cuốt cướt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_522_lexer_refer_refers_verse_vexes_hexes_sexes_mixes_mixers_sixes_unlatch() {
+        let input = "lexer lexers lexerf lexerx lexerj lexeru lexerm lexern refer refers referf referx referj referu referm refern refersf refersr refersx refersj refersu refersm refersn refersc refersp referst verse versed versef verser versex versej verseu versem versen versec versep verset vexes vexesf vexesr vexesx vexesj vexesu vexesm vexesn vexesc vexesp vexest hexes hexesf hexesr hexesx hexesj hexesu hexesm hexesn hexesc hexesp hexest sexes sexesf sexesr sexesx sexesj sexesu sexesm sexesn sexesc sexesp sexest mixes mixese mixesm mixesn mixesc mixesp mixest mixers mixerse mixersm mixersn mixersc mixersp mixerst sixes sixese sixesm sixesn sixesc sixesp sixest"
+        let expected = "lexer lexers lề lễ lệ lểu lểm lển refer refers rề rễ rệ rểu rểm rển rề rể rễ rệ rếu rếm rến rếc rếp rết verse versed về vể vễ vệ vếu vếm vến vếc vếp vết vexes về vể vễ vệ vếu vếm vến vếc vếp vết hexes hề hể hễ hệ hếu hếm hến hếc hếp hết sexes sề sể sễ sệ sếu sếm sến sếc sếp sết mixes miế miếm miến miếc miếp miết mixers miế miếm miến miếc miếp miết sixes siế siếm siến siếc siếp siết"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_523_refuse_reuse_lexus_nexus_cures_curse_nurse_true_vue_unlatch() {
+        let input = "refuse refuses refused refuser refusef refusex refusej reuse reuses reused reuser reusef reusex reusej lexus lexuse lexusef lexuser lexusex lexusej nexus nexuse nexusef nexuser nexusex nexusej cures curese curesef cureser curesex curesej curesem curesen cureset curse cursed cursee curseej curset nurse nursed nurses nursee nurseej true truee truees trueef trueer trueex trueej vue vuee vuees vueef vueer vueex vueej"
+        let expected = "refuse refuses refused refuser rều rễu rệu reuse reuses reused reuser rều rễu rệu lexus lếu lều lểu lễu lệu nexus nếu nều nểu nễu nệu cures cuế cuề cuể cuễ cuệ cuếm cuến cuết curse cursed cuế cuệ curset nurse nursed nurses nuế nuệ true truê truế truề truể truễ truệ vue vuê vuế vuề vuể vuễ vuệ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_524_scenario90_trilingual_cursor_lexer_tester_and_vietnamese_thap_den_lap_rap_doat_cup_vinh_vien_chat() {
+        let input = "Trong khi tester kiểm tra bộ phân tích từ vựng lexer cùng con trỏ cursor trên giao diện ứng dụng xây dựng bằng vue, các thành viên trong đội thắp dến (thawps dense) sáng rực để hoàn tất công đoạn lắp ráp (lawps rasp) mô hình với quyết tâm không để xảy ra bất kỳ thiếu sót (thieeus sorts) nào và hướng tới mục tiêu đoạt cúp (ddoatj cusp) danh giá sẽ được lưu giữ vĩnh viễn (vinhx vixen) đến (versen) phút cuối (cursorsoi)!"
+        let expected = "Trong khi tester kiểm tra bộ phân tích từ vựng lexer cùng con trỏ cursor trên giao diện ứng dụng xây dựng bằng vue, các thành viên trong đội thắp dến (thắp dến) sáng rực để hoàn tất công đoạn lắp ráp (lắp ráp) mô hình với quyết tâm không để xảy ra bất kỳ thiếu sót (thiếu sót) nào và hướng tới mục tiêu đoạt cúp (đoạt cúp) danh giá sẽ được lưu giữ vĩnh viễn (vĩnh viễn) đến (vến) phút cuối (cuối)!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3801,6 +3833,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_517_nix_tux_dux_hex_trex_minx_nginx_xanax_xerox_thorax_exo_ajar_ajax_quasar_unlatch", test_tier4_517_nix_tux_dux_hex_trex_minx_nginx_xanax_xerox_thorax_exo_ajar_ajax_quasar_unlatch),
             ("test_tier4_518_biers_tiers_chiefs_queer_queers_queues_sense_tense_dense_defend_defends_and_tone_override_unlatch", test_tier4_518_biers_tiers_chiefs_queer_queers_queues_sense_tense_dense_defend_defends_and_tone_override_unlatch),
             ("test_tier4_519_scenario89_trilingual_defends_taxi_nginx_and_vietnamese_di_den_ung_tuyen_san_sang_thang_than_chat", test_tier4_519_scenario89_trilingual_defends_taxi_nginx_and_vietnamese_di_den_ung_tuyen_san_sang_thang_than_chat),
+            ("test_tier4_520_vietnamese_collocation_phrases_basta_rasta_beset_boost_roost_burst_thirst_sorts_cost_most_rust_gasp_rasp_cusp_lisp_swops_sense_tense_dense_risen_vixen_chosen_virus_loris_bias", test_tier4_520_vietnamese_collocation_phrases_basta_rasta_beset_boost_roost_burst_thirst_sorts_cost_most_rust_gasp_rasp_cusp_lisp_swops_sense_tense_dense_risen_vixen_chosen_virus_loris_bias),
+            ("test_tier4_521_basta_rasta_tester_testers_major_majors_cursor_cursors_unlatch", test_tier4_521_basta_rasta_tester_testers_major_majors_cursor_cursors_unlatch),
+            ("test_tier4_522_lexer_refer_refers_verse_vexes_hexes_sexes_mixes_mixers_sixes_unlatch", test_tier4_522_lexer_refer_refers_verse_vexes_hexes_sexes_mixes_mixers_sixes_unlatch),
+            ("test_tier4_523_refuse_reuse_lexus_nexus_cures_curse_nurse_true_vue_unlatch", test_tier4_523_refuse_reuse_lexus_nexus_cures_curse_nurse_true_vue_unlatch),
+            ("test_tier4_524_scenario90_trilingual_cursor_lexer_tester_and_vietnamese_thap_den_lap_rap_doat_cup_vinh_vien_chat", test_tier4_524_scenario90_trilingual_cursor_lexer_tester_and_vietnamese_thap_den_lap_rap_doat_cup_vinh_vien_chat),
         ]
     }
 }
