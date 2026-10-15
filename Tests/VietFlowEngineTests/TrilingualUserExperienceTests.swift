@@ -1842,7 +1842,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (304 Tests)
+    // MARK: - Cycle 39: Tore/Hore/Lore/Lose/Hose/Chose/Those + o/m/n, -oa- + y/i, -ura+ng+a & Delayed-d on Deso/Daru/Dasu
+    // =========================================================================
+
+    func test_tier4_305_english_lose_hose_chose_those_preservation_and_vietnamese_oeo_oem_oen_unlatch() {
+        let input = "hose hoses hoseo hosem hosen lose loses loseo losem losen chose chosen choseo chosem those thoseo thosem"
+        let expected = "hose hoses hoéo hoém hoén lose loses loéo loém loén chose chosen choéo choém those thoéo thoém"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_306_english_and_romaji_tore_hore_lore_preservation_and_vietnamese_oeo_oem_oen_unlatch() {
+        let input = "tore toreo torem toren hore horeo horem horen lore lores loreo"
+        let expected = "tore toẻo toẻm toẻn hore hoẻo hoẻm hoẻn lore lores loẻo"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_307_japanese_tosa_sosa_sora_lora_sofa_preservation_and_vietnamese_oay_oai_unlatch() {
+        let input = "tosa tosai tosay sosa sosai sosay sora soray sorai lora loray lorai sofa sofas sofay sofai dora dorayaki horai torai gosai hosai"
+        let expected = "tosa tosai toáy sosa sosai soáy sora soảy soải lora loảy loải sofa sofas soày soài dora dorayaki horai torai gosai hosai"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_308_japanese_tura_chura_hura_sura_deso_daru_dasu_and_vietnamese_uang_delayed_d_unlatch() {
+        let input = "tura turanga chura churanga hura huranga sura suranga deso desod daru darud dasu dasud"
+        let expected = "tura tuẩng chura chuẩng hura huẩng sura suẩng deso đéo daru đảu dasu đáu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_309_scenario47_trilingual_dorayaki_tosai_lore_and_vietnamese_soai_loai_hoeo_toay_chat() {
+        let input = "Sau khi bé 5 tuổi (gosai) và 10 tuổi (tosai) ăn bánh dorayaki trên chiếc sofa êm ái rồi nghe kể truyền thuyết lore cổ xưa, cả nhà vươn vai sảng khoái soải (sorai) bước ngắm đủ các loài (lofai) chim quý hiếm, khéo léo xoay sở không để dây nước hose bị xoắn tròn toáy (tosay) hay uốn cong hoéo (hoseo) và toẻo (toreo) lệch chuẩn!"
+        let expected = "Sau khi bé 5 tuổi (gosai) và 10 tuổi (tosai) ăn bánh dorayaki trên chiếc sofa êm ái rồi nghe kể truyền thuyết lore cổ xưa, cả nhà vươn vai sảng khoái soải (soải) bước ngắm đủ các loài (loài) chim quý hiếm, khéo léo xoay sở không để dây nước hose bị xoắn tròn toáy (toáy) hay uốn cong hoéo (hoéo) và toẻo (toẻo) lệch chuẩn!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (309 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2158,6 +2192,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_302_japanese_tura_chura_hura_sura_and_english_vary_chose_those_with_vietnamese_unlatch", test_tier4_302_japanese_tura_chura_hura_sura_and_english_vary_chose_those_with_vietnamese_unlatch),
             ("test_tier4_303_japanese_tosa_sosa_dosa_sora_dora_lora_sofa_preservation_and_vietnamese_oa_coda_unlatch", test_tier4_303_japanese_tosa_sosa_dosa_sora_dora_lora_sofa_preservation_and_vietnamese_oa_coda_unlatch),
             ("test_tier4_304_scenario46_trilingual_tosa_dorayaki_sofa_and_vietnamese_buoi_muon_chuan_toan_soat_chat", test_tier4_304_scenario46_trilingual_tosa_dorayaki_sofa_and_vietnamese_buoi_muon_chuan_toan_soat_chat),
+            ("test_tier4_305_english_lose_hose_chose_those_preservation_and_vietnamese_oeo_oem_oen_unlatch", test_tier4_305_english_lose_hose_chose_those_preservation_and_vietnamese_oeo_oem_oen_unlatch),
+            ("test_tier4_306_english_and_romaji_tore_hore_lore_preservation_and_vietnamese_oeo_oem_oen_unlatch", test_tier4_306_english_and_romaji_tore_hore_lore_preservation_and_vietnamese_oeo_oem_oen_unlatch),
+            ("test_tier4_307_japanese_tosa_sosa_sora_lora_sofa_preservation_and_vietnamese_oay_oai_unlatch", test_tier4_307_japanese_tosa_sosa_sora_lora_sofa_preservation_and_vietnamese_oay_oai_unlatch),
+            ("test_tier4_308_japanese_tura_chura_hura_sura_deso_daru_dasu_and_vietnamese_uang_delayed_d_unlatch", test_tier4_308_japanese_tura_chura_hura_sura_deso_daru_dasu_and_vietnamese_uang_delayed_d_unlatch),
+            ("test_tier4_309_scenario47_trilingual_dorayaki_tosai_lore_and_vietnamese_soai_loai_hoeo_toay_chat", test_tier4_309_scenario47_trilingual_dorayaki_tosai_lore_and_vietnamese_soai_loai_hoeo_toay_chat),
         ]
     }
 }
