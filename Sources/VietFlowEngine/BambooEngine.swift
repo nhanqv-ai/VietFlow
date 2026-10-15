@@ -162,8 +162,30 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             } else if [
                 "chief", "thief", "ties", "dies", "lies", "vies", "pies", "hies", "tier", "bier", "pier",
                 "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "pieru", "sieru", "gieru", "rieru", "chieru",
-                "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu"
+                "tiesu", "diesu", "liesu", "viesu", "piesu", "hiesu", "chiefu", "thiefu",
+                "dues", "hues", "sues", "rues", "tues"
             ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e" {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "deed" && "frxjcmnptu".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if ["beer", "deer"].contains(String(wordRawKeys).lowercased())
+                && ("mnu".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "door" && character.lowercased() == "i" {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "soar" && "mnioyw".contains(character.lowercased()) {
+                isBypassed = false
+                activeRawKeys = wordRawKeys
+                (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+            } else if String(wordRawKeys).lowercased() == "coax" && "mnoyw".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -310,7 +332,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws", "thaws", "caws", "maws", "haws", "toes", "hoes", "roes", "noes"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
+            } else if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws", "thaws", "caws", "maws", "haws", "toes", "hoes", "roes", "noes", "dues", "hues", "cues", "sues", "rues", "tues"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
                 return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
             } else {
                 lastDeletedChar = nil
