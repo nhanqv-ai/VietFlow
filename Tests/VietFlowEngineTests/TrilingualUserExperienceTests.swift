@@ -2853,6 +2853,40 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // =========================================================================
+    // MARK: - Cycle 69: Collocations (gủi/dủi/nủi/bủi/mệ/dệ/gồ/sỗ/bỗ/mỗ/nồ/sế/nế/hế/kíu/híu/kía/chía) & Tone Override Unlatch (C-i-[rsfjx]-[ua]/nora/rora/gosa/gosai)
+    // =========================================================================
+
+    func test_tier4_455_vietnamese_collocation_phrases_gui_dui_nui_bui_me_de_go_so_bo_mo_no_se_ne_he_kiu_hiu_kia_chia() {
+        let input = "guri gaanf guri duri con duri chuootj duri may duri xui duri nuri ngawns nuri its nuri trow nuri buri dden buri buij buri meje baf meje cacs meje oon meje deje beej deje gofo nooir gofo trans gofo ddaauf gofo mawtj gofo soxo nois soxo cuwowif soxo boxo nois boxo cuwowif boxo moxo laox moxo baanf moxo nofo gaf nofo con nofo sese bongs sese chieeuf sese xees sese nese neef nese hese cuwowif hese kisu cuwus kisu keeu kisu hisu mawts hisu cuwowif hisu kisa ddawngf kisa been kisa choox kisa chisa muix chisa sungs chisa"
+        let expected = "guri gần gủi duri con dủi chuột dủi may dủi xui dủi nuri ngắn nủi ít nủi trơ nủi buri đen bủi bụi bủi meje bà mệ các mệ ôn mệ deje bệ dệ gofo nổi gồ trán gồ đầu gồ mặt gồ soxo nói sỗ cười sỗ boxo nói bỗ cười bỗ moxo lão mỗ bần mỗ nofo gà nồ con nồ sese bóng sế chiều sế xế sế nese nề nế hese cười hế kisu cứu kíu kêu kíu hisu mắt híu cười híu kisa đằng kía bên kía chỗ kía chisa mũi chía súng chía"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_456_romaji_cira_cisa_rira_misa_kisa_hisa_chisa_tone_override_unlatch() {
+        let input = "rira riras riraf rirax riraj misa misaf misar misax misaj kisa kisaf kisar kisax kisaj hisa hisaf hisar hisax hisaj chisa chisaf chisar chisax chisaj"
+        let expected = "rira ría rìa rĩa rịa misa mìa mỉa mĩa mịa kisa kìa kỉa kĩa kịa hisa hìa hỉa hĩa hịa chisa chìa chỉa chĩa chịa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_457_romaji_kiru_kisu_kifu_kiju_tone_override_unlatch() {
+        let input = "kiru kirus kiruf kirux kiruj kisu kisuf kisur kisux kisuj kifu kifus kifur kifux kifuj kiju kijus kijuf kijur kijux"
+        let expected = "kiru kíu kìu kĩu kịu kisu kìu kỉu kĩu kịu kifu kíu kỉu kĩu kịu kiju kíu kìu kỉu kĩu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_458_romaji_sora_lora_dora_sosa_tosa_dosa_sofa_and_nora_tone_and_vowel_unlatch() {
+        let input = "sora sorai sorao soras soraf sorax soraj lora lorai lorao loras loraf lorax loraj dora doras doraf dorax doraj dorasd dorafd doraxd dorajd sosa sosao sosaf sosar sosax sosaj tosa tosao tosaf tosar tosax tosaj dosa dosaf dosar dosax dosaj dosafd dosard dosaxd dosajd sofa sofai sofar sofax sofaj nora norax noraxn"
+        let expected = "sora soải soảo sóa sòa sõa sọa lora loải loảo lóa lòa lõa lọa dora dóa dòa dõa dọa đóa đòa đõa đọa sosa soáo sòa sỏa sõa sọa tosa toáo tòa tỏa tõa tọa dosa dòa dỏa dõa dọa đòa đỏa đõa đọa sofa soài sỏa sõa sọa nora nõa noãn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_459_scenario77_trilingual_kisu_meje_gofo_and_vietnamese_gan_gui_ngan_nui_ba_me_bong_se_chat() {
+        let input = "Trong chuyến thăm ngắn nủi (ngawns nuri) nhưng gần gủi (gaanf guri) bên bà mệ (baf meje) ở vùng đồi đá nổi gồ (nooir gofo) khi bóng sế (bongs sese) đổ dài đằng kía (ddawngf kisa), bé gosai cười híu (cuwowif hisu) mắt nhìn chú mèo nora nằm sát rìa (riraf) hiên nhà nghe nhạc kisu!"
+        let expected = "Trong chuyến thăm ngắn nủi (ngắn nủi) nhưng gần gủi (gần gủi) bên bà mệ (bà mệ) ở vùng đồi đá nổi gồ (nổi gồ) khi bóng sế (bóng sế) đổ dài đằng kía (đằng kía), bé gosai cười híu (cười híu) mắt nhìn chú mèo nora nằm sát rìa (rìa) hiên nhà nghe nhạc kisu!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -3316,6 +3350,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_452_romaji_arau_harau_sarau_tarau_narau_and_ieru_kieru_mieru_hieru_nieru_tieru_bieru_sieru_gieru_rieru_chieru_tone_override_unlatch", test_tier4_452_romaji_arau_harau_sarau_tarau_narau_and_ieru_kieru_mieru_hieru_nieru_tieru_bieru_sieru_gieru_rieru_chieru_tone_override_unlatch),
             ("test_tier4_453_romaji_ceru_cesu_cefu_tone_override_neros_reros_and_refuse_preservation", test_tier4_453_romaji_ceru_cesu_cefu_tone_override_neros_reros_and_refuse_preservation),
             ("test_tier4_454_scenario76_trilingual_kieru_hosoi_sosai_and_vietnamese_ly_giai_nguyen_soai_sam_hoi_chat", test_tier4_454_scenario76_trilingual_kieru_hosoi_sosai_and_vietnamese_ly_giai_nguyen_soai_sam_hoi_chat),
+            ("test_tier4_455_vietnamese_collocation_phrases_gui_dui_nui_bui_me_de_go_so_bo_mo_no_se_ne_he_kiu_hiu_kia_chia", test_tier4_455_vietnamese_collocation_phrases_gui_dui_nui_bui_me_de_go_so_bo_mo_no_se_ne_he_kiu_hiu_kia_chia),
+            ("test_tier4_456_romaji_cira_cisa_rira_misa_kisa_hisa_chisa_tone_override_unlatch", test_tier4_456_romaji_cira_cisa_rira_misa_kisa_hisa_chisa_tone_override_unlatch),
+            ("test_tier4_457_romaji_kiru_kisu_kifu_kiju_tone_override_unlatch", test_tier4_457_romaji_kiru_kisu_kifu_kiju_tone_override_unlatch),
+            ("test_tier4_458_romaji_sora_lora_dora_sosa_tosa_dosa_sofa_and_nora_tone_and_vowel_unlatch", test_tier4_458_romaji_sora_lora_dora_sosa_tosa_dosa_sofa_and_nora_tone_and_vowel_unlatch),
+            ("test_tier4_459_scenario77_trilingual_kisu_meje_gofo_and_vietnamese_gan_gui_ngan_nui_ba_me_bong_se_chat", test_tier4_459_scenario77_trilingual_kisu_meje_gofo_and_vietnamese_gan_gui_ngan_nui_ba_me_bong_se_chat),
         ]
     }
 }
