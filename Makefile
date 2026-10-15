@@ -3,7 +3,7 @@
 
 SHELL := /bin/bash
 BUILD_DIR := .build
-VERSION ?= 1.2.33
+VERSION ?= 1.2.34
 
 .PHONY: all test app build package install clean help
 
