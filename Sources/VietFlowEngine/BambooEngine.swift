@@ -219,12 +219,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             } else if (["toes", "hoes", "roes", "noes", "lose", "hose", "chose", "those"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
                 || (["toes", "hoes", "lose", "hose", "those"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
                 || (["tore", "hore", "lore", "chore"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "o")
-                || (["tore", "hore", "chore"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased())) {
+                || (["tore", "hore", "chore"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "lore" && character.lowercased() == "n") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if (String(wordRawKeys).lowercased() == "two" && "wnimcptu".contains(character.lowercased()))
-                || (String(wordRawKeys).lowercased() == "twos" && "imncptuw".contains(character.lowercased())) {
+            } else if (String(wordRawKeys).lowercased() == "two" && "wnimcptufrxj".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "twos" && "imncptuw".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "wow" && "frxjiumnptc".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "wows" && "iumncpt".contains(character.lowercased())) {
                 isBypassed = false
                 didBackspace = true
                 activeRawKeys = wordRawKeys
@@ -285,9 +288,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             } else if (String(wordRawKeys).lowercased() == "hex" && "eocmnpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "trex" && "eomn".contains(character.lowercased()))
                 || (["trexu", "trexn", "trexm"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "e")
-                || (String(wordRawKeys).lowercased() == "manx" && "awgh".contains(character.lowercased()))
+                || (["manx", "sans"].contains(String(wordRawKeys).lowercased()) && "awgh".contains(character.lowercased()))
+                || (String(wordRawKeys).lowercased() == "chasm" && "aw".contains(character.lowercased()))
+                || (["coast", "coats", "cusp", "swops"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
+                || (String(wordRawKeys).lowercased() == "disc" && "hd".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "minx" && character.lowercased() == "h")
-                || (["oxen", "vixen", "kern", "boron", "moron", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
+                || (["oxen", "vixen", "kern", "boron", "moron", "goons", "loons", "moons", "nonos", "chosen", "urana", "xanax", "hana", "nana", "sana", "hono", "dono", "sono", "phono"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "g")
                 || (String(wordRawKeys).lowercased() == "ore" && "mn".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "guree" && "mn".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "queer" && "umn".contains(character.lowercased()))
@@ -326,7 +332,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && "aoe".contains(r1)
                 && "mn".contains(r2)
                 && r1 == r3
-                && ("fjx".contains(character.lowercased()) || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
+                && ("fjx".contains(character.lowercased())
+                    || ("ao".contains(r1) && character.lowercased() == "s")
+                    || ("ao".contains(r1) && character.lowercased() == "r" && !["hono", "dono"].contains(String(wordRawKeys).lowercased()))
+                    || (wordRawKeys[0].lowercased() == "d" && character.lowercased() == "d")) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)

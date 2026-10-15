@@ -2012,7 +2012,41 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     // =========================================================================
-    // MARK: - Test Registration (329 Tests)
+    // MARK: - Cycle 44: Delayed Circumflex on Nasal Finals (s/r/g), Two + Tones/Codas, Wow/Wows + Codas/Tones & Sans/Chasm/Coast/Coats/Cusp/Swops/Disc/Lore Unlatching
+    // =========================================================================
+
+    func test_tier4_330_vietnamese_nasal_final_cvnv_cvmv_s_r_g_unlatch_and_honor_donor_preservation() {
+        let input = "hana hanas hanar hanag hanags hanagf hanagr hanagx hanagj mana manas manar nana nanas nanar nanag nanags nanagf nanagr nanagx nanagj sana sanas sanar sanag sanags sanagf sanagr sanagx sanagj hama hamas hamar nama namas namar sama samas samar momo momos momor homo homos homor mono monos monor sono sonos sonor sonog sonogs sonogf sonogr sonogj hono honor honos honog honogs honogf honogr honogx honogj dono donor donos donosd donog donogd donogds donogdf donogdr donogdx donogdj phono phonos phonor phonog phonogs phonogf phonogr phonogj"
+        let expected = "hana hấn hẩn hâng hấng hầng hẩng hẫng hậng mana mấn mẩn nana nấn nẩn nâng nấng nầng nẩng nẫng nậng sana sấn sẩn sâng sấng sầng sẩng sẫng sậng hama hấm hẩm nama nấm nẩm sama sấm sẩm momo mốm mổm homo hốm hổm mono mốn mổn sono sốn sổn sông sống sồng sổng sộng hono honor hốn hông hống hồng hổng hỗng hộng dono donor dốn đốn dông đông đống đồng đổng đỗng động phono phốn phổn phông phống phồng phổng phộng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_331_english_two_preservation_and_vietnamese_two_frxj_unlatch() {
+        let input = "two twos twofold twofw tworw twoxw twojw twofi twori twoxi twoji twofn tworn twoxn twojn twofm tworm twoxm twojm twofng tworng twoxng twojng twojt twojc twojp"
+        let expected = "two twos twofold tườ tưở tưỡ tượ tười tưởi tưỡi tượi tườn tưởn tưỡn tượn tườm tưởm tưỡm tượm tường tưởng tưỡng tượng tượt tược tượp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_332_english_wow_wows_preservation_and_vietnamese_uo_coda_tone_unlatch() {
+        let input = "wow wows wowf wowr wowx wowj wowi wowis wowif wowir wowix wowij wowu wowus wowuf wowuj wowm wowms wowmf wowmr wowmj wown wowns wownf wownr wownx wownj wowng wowngs wowngf wowngr wowngx wowngj wowcs wowcj wowps wowpj wowts wowtj wowsi wowsu wowsm wowsn wowsng wowsc wowsp wowst"
+        let expected = "wow wows ườ ưở ưỡ ượ ươi ưới ười ưởi ưỡi ượi ươu ướu ườu ượu ươm ướm ườm ưởm ượm ươn ướn ườn ưởn ưỡn ượn ương ướng ường ưởng ưỡng ượng ước ược ướp ượp ướt ượt ưới ướu ướm ướn ướng ước ướp ướt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_333_english_sans_chasm_coast_coats_cusp_swops_disc_lore_preservation_and_vietnamese_unlatch() {
+        let input = "sans sansa sansw sansg sansh sansga sansgw chasm chasms chasma chasmw coast coasts coastw coats coatsw cusp cusps cuspw swops swopsw disc discs disch discd dischd discdh lore loren loreng"
+        let expected = "sans sấn sắn sáng sánh sấng sắng chasm chasms chấm chắm coast coasts coắt coats coắt cusp cusps cứp swops sướp disc discs dích đíc đích đích lore loẻn loẻng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_334_scenario52_trilingual_sans_coast_disc_and_vietnamese_nam_nang_song_tuong_uoc_chat() {
+        let input = "Dọc bờ biển coast mùa thu, chúng tôi thưởng thức món nấm (namas) nướng thơm lừng, nâng (nanag) ly chúc mừng cuộc sống (sonogs) bình yên bên dòng sông (sonog) hiền hòa, cùng nhau ngắm bức tượng (twojng) cổ và gửi gắm ước (wowsc) mơ vươn tới đích (dischd) đến dưới ánh nắng sáng (sansg) trong!"
+        let expected = "Dọc bờ biển coast mùa thu, chúng tôi thưởng thức món nấm (nấm) nướng thơm lừng, nâng (nâng) ly chúc mừng cuộc sống (sống) bình yên bên dòng sông (sông) hiền hòa, cùng nhau ngắm bức tượng (tượng) cổ và gửi gắm ước (ước) mơ vươn tới đích (đích) đến dưới ánh nắng sáng (sáng) trong!"
+        assertBuffer(input, equals: expected)
+    }
+
+    // =========================================================================
+    // MARK: - Test Registration (334 Tests)
     // =========================================================================
 
     public override var allTests: [(name: String, test: TestMethod)] {
@@ -2353,6 +2387,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_327_romaji_bura_chura_dura_gura_hura_mura_nura_rura_sura_tura_and_vietnamese_uay_uam_uan_unlatch", test_tier4_327_romaji_bura_chura_dura_gura_hura_mura_nura_rura_sura_tura_and_vietnamese_uay_uam_uan_unlatch),
             ("test_tier4_328_english_and_romaji_queue_quiet_buys_guys_coax_sora_lora_sofa_sosa_tosa_dora_dosa_derm_unlatch", test_tier4_328_english_and_romaji_queue_quiet_buys_guys_coax_sora_lora_sofa_sosa_tosa_dora_dosa_derm_unlatch),
             ("test_tier4_329_scenario51_trilingual_dawn_queue_sofa_and_vietnamese_lang_banh_buyt_quiet_bong_chat", test_tier4_329_scenario51_trilingual_dawn_queue_sofa_and_vietnamese_lang_banh_buyt_quiet_bong_chat),
+            ("test_tier4_330_vietnamese_nasal_final_cvnv_cvmv_s_r_g_unlatch_and_honor_donor_preservation", test_tier4_330_vietnamese_nasal_final_cvnv_cvmv_s_r_g_unlatch_and_honor_donor_preservation),
+            ("test_tier4_331_english_two_preservation_and_vietnamese_two_frxj_unlatch", test_tier4_331_english_two_preservation_and_vietnamese_two_frxj_unlatch),
+            ("test_tier4_332_english_wow_wows_preservation_and_vietnamese_uo_coda_tone_unlatch", test_tier4_332_english_wow_wows_preservation_and_vietnamese_uo_coda_tone_unlatch),
+            ("test_tier4_333_english_sans_chasm_coast_coats_cusp_swops_disc_lore_preservation_and_vietnamese_unlatch", test_tier4_333_english_sans_chasm_coast_coats_cusp_swops_disc_lore_preservation_and_vietnamese_unlatch),
+            ("test_tier4_334_scenario52_trilingual_sans_coast_disc_and_vietnamese_nam_nang_song_tuong_uoc_chat", test_tier4_334_scenario52_trilingual_sans_coast_disc_and_vietnamese_nam_nang_song_tuong_uoc_chat),
         ]
     }
 }
