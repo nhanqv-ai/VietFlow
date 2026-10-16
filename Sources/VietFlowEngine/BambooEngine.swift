@@ -561,7 +561,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     "duosi", "duosu", "duosm", "duosn", "duosng", "duosc", "duosp", "duost"
                 ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
                 || (["uru", "usu", "urus", "uruf", "urux", "uruj", "usuf", "usur", "usux", "usuj", "girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
-                || (["girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi", "girai", "gisai", "horai", "torai", "hosai", "sosai", "tosai", "bosai", "bofai", "borai", "boxai", "bojai", "mosai", "mofai", "morai", "moxai", "mojai", "vosai", "vofai", "vorai", "voxai", "vojai", "nosai", "nofai", "noxai", "nojai", "rosai", "rofai", "roxai", "rojai", "gosai", "gofai", "gorai", "goxai", "gojai", "phosai", "phofai", "phorai", "phoxai", "phojai", "trosai", "trofai", "trorai", "troxai", "trojai", "dosai", "dofai", "doxai", "dojai", "noxay", "dofay", "doxay", "dojay", "noxao", "dofao", "doxao", "dojao"].contains(String(wordRawKeys).lowercased())
+                || (["girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi", "girai", "gisai", "horai", "torai", "hosai", "sosai", "tosai", "bosai", "bofai", "borai", "boxai", "bojai", "mosai", "mofai", "morai", "moxai", "mojai", "vosai", "vofai", "vorai", "voxai", "vojai", "nosai", "nofai", "noxai", "nojai", "rosai", "rofai", "roxai", "rojai", "gosai", "gofai", "gorai", "goxai", "gojai", "phosai", "phofai", "phorai", "phoxai", "phojai", "trosai", "trofai", "trorai", "troxai", "trojai", "dosai", "dofai", "doxai", "dojai", "noxay", "dofay", "doxay", "dojay", "noxao", "dofao", "doxao", "dojao", "sosen", "chosen"].contains(String(wordRawKeys).lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys[wordRawKeys.count - 3].lowercased())
                 || (["boais", "boaif", "boair", "boaix", "boaij", "moais", "moaif", "moair", "moaix", "moaij", "voais", "voaif", "voair", "voaix", "voaij", "noais", "noaif", "noair", "noaix", "noaij", "roais", "roaif", "roair", "roaix", "roaij", "goais", "goaif", "goair", "goaix", "goaij", "poais", "poaif", "poair", "poaix", "poaij", "phoais", "phoaif", "phoair", "phoaix", "phoaij", "troais", "troaif", "troair", "troaix", "troaij", "koais", "koaif", "koair", "koaix", "koaij", "doais", "doaif", "doair", "doaix", "doaij", "boays", "boayf", "boayr", "boayx", "boayj", "moays", "moayf", "moayr", "moayx", "moayj", "voays", "voayf", "voayr", "voayx", "voayj", "noays", "noayf", "noayr", "noayx", "noayj", "roays", "roayf", "roayr", "roayx", "roayj", "goays", "goayf", "goayr", "goayx", "goayj", "poays", "poayf", "poayr", "poayx", "poayj", "phoays", "phoayf", "phoayr", "phoayx", "phoayj", "troays", "troayf", "troayr", "troayx", "troayj", "koays", "koayf", "koayr", "koayx", "koayj", "doays", "doayf", "doayr", "doayx", "doayj", "boaos", "boaof", "boaor", "boaox", "boaoj", "moaos", "moaof", "moaor", "moaox", "moaoj", "voaos", "voaof", "voaor", "voaox", "voaoj", "noaos", "noaof", "noaor", "noaox", "noaoj", "roaos", "roaof", "roaor", "roaox", "roaoj", "goaos", "goaof", "goaor", "goaox", "goaoj", "poaos", "poaof", "poaor", "poaox", "poaoj", "phoaos", "phoaof", "phoaor", "phoaox", "phoaoj", "troaos", "troaof", "troaor", "troaox", "troaoj", "koaos", "koaof", "koaor", "koaox", "koaoj", "doaos", "doaof", "doaor", "doaox", "doaoj", "boanhs", "boanhf", "boanhr", "boanhx", "boanhj", "moanhs", "moanhf", "moanhr", "moanhx", "moanhj", "voanhs", "voanhf", "voanhr", "voanhx", "voanhj", "noanhs", "noanhf", "noanhr", "noanhx", "noanhj", "roanhs", "roanhf", "roanhr", "roanhx", "roanhj", "goanhs", "goanhf", "goanhr", "goanhx", "goanhj", "poanhs", "poanhf", "poanhr", "poanhx", "poanhj", "phoanhs", "phoanhf", "phoanhr", "phoanhx", "phoanhj", "troanhs", "troanhf", "troanhr", "troanhx", "troanhj", "koanhs", "koanhf", "koanhr", "koanhx", "koanhj", "boeos", "boeof", "boeor", "boeox", "boeoj", "moeos", "moeof", "moeor", "moeox", "moeoj", "voeos", "voeof", "voeor", "voeox", "voeoj", "noeos", "noeof", "noeor", "noeox", "noeoj", "roeos", "roeof", "roeor", "roeox", "roeoj", "goeos", "goeof", "goeor", "goeox", "goeoj", "poeos", "poeof", "poeor", "poeox", "poeoj", "phoeos", "phoeof", "phoeor", "phoeox", "phoeoj", "troeos", "troeof", "troeor", "troeox", "troeoj", "koeos", "koeof", "koeor", "koeox", "koeoj", "doeos", "doeof", "doeor", "doeox", "doeoj", "boens", "boenf", "boenr", "boenx", "boenj", "moens", "moenf", "moenr", "moenx", "moenj", "voens", "voenf", "voenr", "voenx", "voenj", "noens", "noenf", "noenr", "noenx", "noenj", "roens", "roenf", "roenr", "roenx", "roenj", "goens", "goenf", "goenr", "goenx", "goenj", "poens", "poenf", "poenr", "poenx", "poenj", "phoens", "phoenf", "phoenr", "phoenx", "phoenj", "troens", "troenf", "troenr", "troenx", "troenj", "koens", "koenf", "koenr", "koenx", "koenj", "doens", "doenf", "doenr", "doenx", "doenj", "boems", "boemf", "boemr", "boemx", "boemj", "moems", "moemf", "moemr", "moemx", "moemj", "voems", "voemf", "voemr", "voemx", "voemj", "noems", "noemf", "noemr", "noemx", "noemj", "roems", "roemf", "roemr", "roemx", "roemj", "goems", "goemf", "goemr", "goemx", "goemj", "poemf", "poemr", "poemx", "poemj", "phoems", "phoemf", "phoemr", "phoemx", "phoemj", "troems", "troemf", "troemr", "troemx", "troemj", "koems", "koemf", "koemr", "koemx", "koemj", "doems", "doemf", "doemr", "doemx", "doemj"].contains(String(wordRawKeys).lowercased())
@@ -3919,7 +3919,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "boenx": ["hoen", "nhoèn"],
         "boenj": ["hoen", "nhoèn"],
         "moens": ["hoen", "nhoèn"],
-        "moenf": ["hoen", "nhoèn"]
+        "moenf": ["hoen", "nhoèn"],
+        "moenr": ["hoen", "nhoèn"],
+        "moenx": ["hoen", "nhoèn"],
+        "moenj": ["hoen", "nhoèn"],
+        "voens": ["hoen", "nhoèn"],
+        "voenf": ["hoen", "nhoèn"],
+        "voenr": ["hoen", "nhoèn"],
+        "voenx": ["hoen", "nhoèn"],
+        "voenj": ["hoen", "nhoèn"],
+        "noens": ["hoen", "nhoèn"],
+        "noenf": ["hoen", "nhoèn"],
+        "noenr": ["hoen", "nhoèn"],
+        "noenx": ["hoen", "nhoèn"],
+        "noenj": ["hoen", "nhoèn"],
+        "roens": ["hoen", "nhoèn"],
+        "roenf": ["hoen", "nhoèn"],
+        "roenr": ["hoen", "nhoèn"],
+        "roenx": ["hoen", "nhoèn"],
+        "roenj": ["hoen", "nhoèn"],
+        "goens": ["hoen", "nhoèn"],
+        "goenf": ["hoen", "nhoèn"],
+        "goenr": ["hoen", "nhoèn"],
+        "goenx": ["hoen", "nhoèn"],
+        "goenj": ["hoen", "nhoèn"],
+        "poens": ["hoen", "nhoèn"],
+        "poenf": ["hoen", "nhoèn"],
+        "poenr": ["hoen", "nhoèn"],
+        "poenx": ["hoen", "nhoèn"],
+        "poenj": ["hoen", "nhoèn"],
+        "phoens": ["hoen", "nhoèn"],
+        "phoenf": ["hoen", "nhoèn"],
+        "phoenr": ["hoen", "nhoèn"],
+        "phoenx": ["hoen", "nhoèn"],
+        "phoenj": ["hoen", "nhoèn"],
+        "troens": ["hoen", "nhoèn"],
+        "troenf": ["hoen", "nhoèn"],
+        "troenr": ["hoen", "nhoèn"],
+        "troenx": ["hoen", "nhoèn"],
+        "troenj": ["hoen", "nhoèn"],
+        "koens": ["hoen", "nhoèn"],
+        "koenf": ["hoen", "nhoèn"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
