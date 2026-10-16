@@ -483,7 +483,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     "duosi", "duosu", "duosm", "duosn", "duosng", "duosc", "duosp", "duost"
                 ].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
                 || (["uru", "usu", "urus", "uruf", "urux", "uruj", "usuf", "usur", "usux", "usuj", "girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "w")
-                || (["girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi", "girai", "gisai", "horai", "torai", "hosai", "sosai", "tosai"].contains(String(wordRawKeys).lowercased())
+                || (["girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi", "girai", "gisai", "horai", "torai", "hosai", "sosai", "tosai", "bosai", "bofai", "borai", "boxai", "bojai", "mosai", "mofai", "morai", "moxai", "mojai", "vosai", "vofai", "vorai", "voxai", "vojai", "nosai", "nofai", "noxai", "nojai", "rosai", "rofai", "roxai", "rojai", "gosai", "gofai", "gorai", "goxai", "gojai", "phosai", "phofai", "phorai", "phoxai", "phojai", "trosai", "trofai", "trorai", "troxai", "trojai"].contains(String(wordRawKeys).lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys[wordRawKeys.count - 3].lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
@@ -2872,7 +2872,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "efu": ["mềm", "phèu"],
         "eru": ["dẻo", "lẻo"],
         "pexu": ["mềm", "phèu"],
-        "peju": ["mếu", "bệu"]
+        "peju": ["mếu", "bệu"],
+        "bosai": ["ngoái", "xoái"],
+        "bofai": ["ngoài", "hoài"],
+        "borai": ["oải", "thoải"],
+        "boxai": ["oải", "xoãi"],
+        "bojai": ["loại", "ngoại"],
+        "mosai": ["ngoái", "xoái"],
+        "mofai": ["ngoài", "hoài"],
+        "morai": ["oải", "thoải"],
+        "moxai": ["oải", "xoãi"],
+        "mojai": ["loại", "ngoại"],
+        "vosai": ["ngoái", "xoái"],
+        "vofai": ["ngoài", "hoài"],
+        "vorai": ["oải", "thoải"],
+        "voxai": ["oải", "xoãi"],
+        "vojai": ["loại", "ngoại"],
+        "nosai": ["ngoái", "xoái"],
+        "nofai": ["ngoài", "hoài"],
+        "noxai": ["oải", "xoãi"],
+        "nojai": ["loại", "ngoại"],
+        "rosai": ["ngoái", "xoái"],
+        "rofai": ["ngoài", "hoài"],
+        "roxai": ["oải", "xoãi"],
+        "rojai": ["loại", "ngoại"],
+        "gosai": ["ngoái", "xoái"],
+        "gofai": ["ngoài", "hoài"],
+        "gorai": ["oải", "thoải"],
+        "goxai": ["oải", "xoãi"],
+        "gojai": ["loại", "ngoại"],
+        "phosai": ["ngoái", "xoái"],
+        "phofai": ["ngoài", "hoài"],
+        "phorai": ["oải", "thoải"],
+        "phoxai": ["oải", "xoãi"],
+        "phojai": ["loại", "ngoại"],
+        "trosai": ["ngoái", "xoái"],
+        "trofai": ["ngoài", "hoài"],
+        "trorai": ["oải", "thoải"],
+        "troxai": ["oải", "xoãi"],
+        "trojai": ["loại", "ngoại"],
+        "dosai": ["ngoái", "xoái"],
+        "dofai": ["ngoài", "hoài"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
