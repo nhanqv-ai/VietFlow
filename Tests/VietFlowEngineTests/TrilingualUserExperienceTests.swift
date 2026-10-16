@@ -4293,6 +4293,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 114: 40 Collocation Entries (2,562 Total) and bosen..dojen Pre-E Tone Nasal Unlatch
+
+    func test_tier4_680_vietnamese_collocation_phrases_roeor_to_moenf() {
+        let input = "roeor ngoeos roeor ngoeoj roeor roeox ngoeos roeox ngoeoj roeox roeoj ngoeos roeoj ngoeoj roeoj goeos ngoeos goeos ngoeoj goeos goeof ngoeos goeof ngoeoj goeof goeor ngoeos goeor ngoeoj goeor goeox ngoeos goeox ngoeoj goeox goeoj ngoeos goeoj ngoeoj goeoj poeos ngoeos poeos ngoeoj poeos poeof ngoeos poeof ngoeoj poeof poeor ngoeos poeor ngoeoj poeor poeox ngoeos poeox ngoeoj poeox poeoj ngoeos poeoj ngoeoj poeoj phoeos ngoeos phoeos ngoeoj phoeos phoeof ngoeos phoeof ngoeoj phoeof phoeor ngoeos phoeor ngoeoj phoeor phoeox ngoeos phoeox ngoeoj phoeox phoeoj ngoeos phoeoj ngoeoj phoeoj troeos ngoeos troeos ngoeoj troeos troeof ngoeos troeof ngoeoj troeof troeor ngoeos troeor ngoeoj troeor troeox ngoeos troeox ngoeoj troeox troeoj ngoeos troeoj ngoeoj troeoj koeos ngoeos koeos ngoeoj koeos koeof ngoeos koeof ngoeoj koeof koeor ngoeos koeor ngoeoj koeor koeox ngoeos koeox ngoeoj koeox koeoj ngoeos koeoj ngoeoj koeoj doeos ngoeos doeos ngoeoj doeos doeof ngoeos doeof ngoeoj doeof doeor ngoeos doeor ngoeoj doeor doeox ngoeos doeox ngoeoj doeox doeoj ngoeos doeoj ngoeoj doeoj boens hoen boens nhoenf boens boenf hoen boenf nhoenf boenf boenr hoen boenr nhoenf boenr boenx hoen boenx nhoenf boenx boenj hoen boenj nhoenf boenj moens hoen moens nhoenf moens moenf hoen moenf nhoenf moenf"
+        let expected = "roeor ngoéo roẻo ngoẹo roẻo roeox ngoéo roẽo ngoẹo roẽo roeoj ngoéo roẹo ngoẹo roẹo goeos ngoéo goéo ngoẹo goéo goeof ngoéo goèo ngoẹo goèo goeor ngoéo goẻo ngoẹo goẻo goeox ngoéo goẽo ngoẹo goẽo goeoj ngoéo goẹo ngoẹo goẹo poeos ngoéo poéo ngoẹo poéo poeof ngoéo poèo ngoẹo poèo poeor ngoéo poẻo ngoẹo poẻo poeox ngoéo poẽo ngoẹo poẽo poeoj ngoéo poẹo ngoẹo poẹo phoeos ngoéo phoéo ngoẹo phoéo phoeof ngoéo phoèo ngoẹo phoèo phoeor ngoéo phoẻo ngoẹo phoẻo phoeox ngoéo phoẽo ngoẹo phoẽo phoeoj ngoéo phoẹo ngoẹo phoẹo troeos ngoéo troéo ngoẹo troéo troeof ngoéo troèo ngoẹo troèo troeor ngoéo troẻo ngoẹo troẻo troeox ngoéo troẽo ngoẹo troẽo troeoj ngoéo troẹo ngoẹo troẹo koeos ngoéo koéo ngoẹo koéo koeof ngoéo koèo ngoẹo koèo koeor ngoéo koẻo ngoẹo koẻo koeox ngoéo koẽo ngoẹo koẽo koeoj ngoéo koẹo ngoẹo koẹo doeos ngoéo doéo ngoẹo doéo doeof ngoéo doèo ngoẹo doèo doeor ngoéo doẻo ngoẹo doẻo doeox ngoéo doẽo ngoẹo doẽo doeoj ngoéo doẹo ngoẹo doẹo boens hoen boén nhoèn boén boenf hoen boèn nhoèn boèn boenr hoen boẻn nhoèn boẻn boenx hoen boẽn nhoèn boẽn boenj hoen boẹn nhoèn boẹn moens hoen moén nhoèn moén moenf hoen moèn nhoèn moèn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_681_bosen_to_vojen_pre_e_tone_nasal_and_tone_override_unlatch() {
+        let input = "bosen bosenf bosenr bosenx bosenj bofen bofens bofenr bofenx bofenj boren borens borenf borenx borenj boxen boxens boxenf boxenr boxenj bojen bojens bojenf bojenr bojenx mosen mosenf mosenr mosenx mosenj mofen mofens mofenr mofenx mofenj moren morens morenf morenx morenj moxen moxens moxenf moxenr moxenj mojen mojens mojenf mojenr mojenx vosen vosenf vosenr vosenx vosenj vofen vofens vofenr vofenx vofenj voren vorens vorenf vorenx vorenj voxen voxens voxenf voxenr voxenj vojen vojens vojenf vojenr vojenx"
+        let expected = "boén boèn boẻn boẽn boẹn boèn boén boẻn boẽn boẹn boẻn boén boèn boẽn boẹn boẽn boén boèn boẻn boẹn boẹn boén boèn boẻn boẽn moén moèn moẻn moẽn moẹn moèn moén moẻn moẽn moẹn moẻn moén moèn moẽn moẹn moẽn moén moèn moẻn moẹn moẹn moén moèn moẻn moẽn voén voèn voẻn voẽn voẹn voèn voén voẻn voẽn voẹn voẻn voén voèn voẽn voẹn voẽn voén voèn voẻn voẹn voẹn voén voèn voẻn voẽn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_682_nosen_to_gojen_pre_e_tone_nasal_and_tone_override_unlatch() {
+        let input = "nosen nosenf nosenr nosenx nosenj nofen nofens nofenr nofenx nofenj noren norens norenf norenx norenj noxen noxens noxenf noxenr noxenj nojen nojens nojenf nojenr nojenx rosen rosenf rosenr rosenx rosenj rofen rofens rofenr rofenx rofenj roren rorens rorenf rorenx rorenj roxen roxens roxenf roxenr roxenj rojen rojens rojenf rojenr rojenx gosen gosenf gosenr gosenx gosenj gofen gofens gofenr gofenx gofenj goren gorens gorenf gorenx gorenj goxen goxens goxenf goxenr goxenj gojen gojens gojenf gojenr gojenx"
+        let expected = "noén noèn noẻn noẽn noẹn noèn noén noẻn noẽn noẹn noẻn noén noèn noẽn noẹn noẽn noén noèn noẻn noẹn noẹn noén noèn noẻn noẽn roén roèn roẻn roẽn roẹn roèn roén roẻn roẽn roẹn roẻn roén roèn roẽn roẹn roẽn roén roèn roẻn roẹn roẹn roén roèn roẻn roẽn goén goèn goẻn goẽn goẹn goèn goén goẻn goẽn goẹn goẻn goén goèn goẽn goẹn goẽn goén goèn goẻn goẹn goẹn goén goèn goẻn goẽn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_683_posen_to_dojen_pre_e_tone_nasal_tone_override_and_d_stroke_unlatch() {
+        let input = "posen posenf posenr posenx posenj pofen pofens pofenr pofenx pofenj poren porens porenf porenx porenj poxen poxens poxenf poxenr poxenj pojen pojens pojenf pojenr pojenx phosen phosenf phosenr phosenx phosenj phofen phofens phofenr phofenx phofenj phoren phorens phorenf phorenx phorenj phoxen phoxens phoxenf phoxenr phoxenj phojen phojens phojenf phojenr phojenx trosen trosenf trosenr trosenx trosenj trofen trofens trofenr trofenx trofenj troren trorens trorenf trorenx trorenj troxen troxens troxenf troxenr troxenj trojen trojens trojenf trojenr trojenx kosen kosenf kosenr kosenx kosenj kofen kofens kofenr kofenx kofenj koren korens korenf korenx korenj koxen koxens koxenf koxenr koxenj kojen kojens kojenf kojenr kojenx dosen dosenf dosenr dosenx dosenj dosend dofen dofens dofenr dofenx dofenj dofend doren dorens dorenf dorenx dorenj dorend doxen doxens doxenf doxenr doxenj doxend dojen dojens dojenf dojenr dojenx dojend lorem lorems loremf loremx loremj"
+        let expected = "poén poèn poẻn poẽn poẹn poèn poén poẻn poẽn poẹn poẻn poén poèn poẽn poẹn poẽn poén poèn poẻn poẹn poẹn poén poèn poẻn poẽn phoén phoèn phoẻn phoẽn phoẹn phoèn phoén phoẻn phoẽn phoẹn phoẻn phoén phoèn phoẽn phoẹn phoẽn phoén phoèn phoẻn phoẹn phoẹn phoén phoèn phoẻn phoẽn troén troèn troẻn troẽn troẹn troèn troén troẻn troẽn troẹn troẻn troén troèn troẽn troẹn troẽn troén troèn troẻn troẹn troẹn troén troèn troẻn troẽn koén koèn koẻn koẽn koẹn koèn koén koẻn koẽn koẹn koẻn koén koèn koẽn koẹn koẽn koén koèn koẻn koẹn koẹn koén koèn koẻn koẽn doén doèn doẻn doẽn doẹn đoén doèn doén doẻn doẽn doẹn đoèn doẻn doén doèn doẽn doẹn đoẻn doẽn doén doèn doẻn doẹn đoẽn doẹn doén doèn doẻn doẽn đoẹn loẻm loém loèm loẽm loẹm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_684_scenario122_trilingual_roeos_goeos_boens_and_vietnamese_ngoeo_roeo_ngoeo_goeo_hoen_boen_chat() {
+        let input = "Khi kiểm tra các khâu dẫn hướng roeos, khớp nối đàn hồi goeos và lớp phủ chống gỉ boens trên dây chuyền sản xuất cơ khí, các kỹ sư vừa chỉnh lại góc ngoéo roéo (ngoeos roeos), vừa cân đối đường ngoéo goéo (ngoeos goeos) và xử lý vết hoen boén (hoen boens) thật sạch sẽ!"
+        let expected = "Khi kiểm tra các khâu dẫn hướng roeos, khớp nối đàn hồi goeos và lớp phủ chống gỉ boens trên dây chuyền sản xuất cơ khí, các kỹ sư vừa chỉnh lại góc ngoéo roéo (ngoéo roéo), vừa cân đối đường ngoéo goéo (ngoéo goéo) và xử lý vết hoen boén (hoen boén) thật sạch sẽ!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4981,6 +5013,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_677_noseo_to_gojeo_pre_e_tone_offglide_and_tone_override_unlatch", test_tier4_677_noseo_to_gojeo_pre_e_tone_offglide_and_tone_override_unlatch),
             ("test_tier4_678_poseo_to_dojeo_pre_e_tone_offglide_tone_override_and_d_stroke_unlatch", test_tier4_678_poseo_to_dojeo_pre_e_tone_offglide_tone_override_and_d_stroke_unlatch),
             ("test_tier4_679_scenario121_trilingual_roecs_boeos_moeos_and_vietnamese_hoec_roec_ngoeo_boeo_ngoeo_moeo_chat", test_tier4_679_scenario121_trilingual_roecs_boeos_moeos_and_vietnamese_hoec_roec_ngoeo_boeo_ngoeo_moeo_chat),
+            ("test_tier4_680_vietnamese_collocation_phrases_roeor_to_moenf", test_tier4_680_vietnamese_collocation_phrases_roeor_to_moenf),
+            ("test_tier4_681_bosen_to_vojen_pre_e_tone_nasal_and_tone_override_unlatch", test_tier4_681_bosen_to_vojen_pre_e_tone_nasal_and_tone_override_unlatch),
+            ("test_tier4_682_nosen_to_gojen_pre_e_tone_nasal_and_tone_override_unlatch", test_tier4_682_nosen_to_gojen_pre_e_tone_nasal_and_tone_override_unlatch),
+            ("test_tier4_683_posen_to_dojen_pre_e_tone_nasal_tone_override_and_d_stroke_unlatch", test_tier4_683_posen_to_dojen_pre_e_tone_nasal_tone_override_and_d_stroke_unlatch),
+            ("test_tier4_684_scenario122_trilingual_roeos_goeos_boens_and_vietnamese_ngoeo_roeo_ngoeo_goeo_hoen_boen_chat", test_tier4_684_scenario122_trilingual_roeos_goeos_boens_and_vietnamese_ngoeo_roeo_ngoeo_goeo_hoen_boen_chat),
         ]
     }
 }

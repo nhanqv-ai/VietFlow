@@ -318,10 +318,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["tore", "hore", "lore", "chore", "ore", "sore", "dore", "rore", "more", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "core", "doer", "goer", "boer", "coer", "koer", "moer", "noer", "poer", "phoer", "roer", "soer", "troer", "voer"].contains(String(wordRawKeys).lowercased()) && "ofjx".contains(character.lowercased()))
                 || (["lose", "hose", "chose", "those", "rose", "nose", "pose", "dose", "kose", "more"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (["hose", "chose", "those", "rose", "nose", "dose", "kose"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "r")
-                || (["tore", "hore", "chore", "sore", "dore", "rore", "more", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "core", "doer", "goer", "boer", "coer", "koer", "moer", "noer", "poer", "phoer", "roer", "soer", "troer", "voer", "boef", "coef", "doef", "goef", "koef", "moef", "noef", "poef", "phoef", "roef", "soef", "troef", "voef", "boex", "coex", "doex", "goex", "koex", "moex", "noex", "poex", "phoex", "roex", "soex", "troex", "voex", "kofe", "koxe", "pofe", "poxe", "bofe", "boxe", "mofe", "moxe", "nofe", "noxe", "dofe", "doxe", "rofe", "roxe", "sofe", "soxe", "vofe", "voxe", "gofe", "goxe", "phofe", "phoxe", "trofe", "troxe", "cofe", "coxe"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
+                || (["tore", "hore", "lore", "chore", "sore", "dore", "rore", "more", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "core", "doer", "goer", "boer", "coer", "koer", "moer", "noer", "poer", "phoer", "roer", "soer", "troer", "voer", "boef", "coef", "doef", "goef", "koef", "moef", "noef", "poef", "phoef", "roef", "soef", "troef", "voef", "boex", "coex", "doex", "goex", "koex", "moex", "noex", "poex", "phoex", "roex", "soex", "troex", "voex", "kofe", "koxe", "pofe", "poxe", "bofe", "boxe", "mofe", "moxe", "nofe", "noxe", "dofe", "doxe", "rofe", "roxe", "sofe", "soxe", "vofe", "voxe", "gofe", "goxe", "phofe", "phoxe", "trofe", "troxe", "cofe", "coxe"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
                 || (["boef", "coef", "doef", "goef", "koef", "moef", "noef", "poef", "phoef", "roef", "soef", "troef", "voef", "boex", "coex", "doex", "goex", "koex", "moex", "noex", "poex", "phoex", "roex", "soex", "troex", "voex", "boej", "coej", "doej", "goej", "koej", "moej", "noej", "poej", "phoej", "roej", "soej", "troej", "voej", "kofe", "koxe", "koje", "pofe", "poxe", "poje", "bose", "bofe", "boxe", "boje", "mose", "mofe", "moxe", "moje", "nofe", "noxe", "noje", "dofe", "doxe", "doje", "rofe", "roxe", "roje", "sose", "sofe", "soxe", "soje", "vose", "vofe", "voxe", "voje", "gose", "gofe", "goxe", "goje", "phose", "phofe", "phoxe", "phoje", "trose", "trofe", "troxe", "troje", "cose", "cofe", "coxe", "coje"].contains(String(wordRawKeys).lowercased()) && ("osfrxj".contains(character.lowercased()) && character.lowercased() != r2 && character.lowercased() != wordRawKeys.last?.lowercased() && !(String(wordRawKeys).lowercased() == "boxe" && "sr".contains(character.lowercased()))))
-                || (["dofe", "dore", "doxe", "doje", "does", "dores", "doer", "doers", "doef", "doex", "doej"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
-                || (String(wordRawKeys).lowercased() == "lore" && character.lowercased() == "n") {
+                || (["dofe", "dore", "doxe", "doje", "does", "dores", "doer", "doers", "doef", "doex", "doej"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -3880,7 +3879,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "noeox": ["ngoéo", "ngoẹo"],
         "noeoj": ["ngoéo", "ngoẹo"],
         "roeos": ["ngoéo", "ngoẹo"],
-        "roeof": ["ngoéo", "ngoẹo"]
+        "roeof": ["ngoéo", "ngoẹo"],
+        "roeor": ["ngoéo", "ngoẹo"],
+        "roeox": ["ngoéo", "ngoẹo"],
+        "roeoj": ["ngoéo", "ngoẹo"],
+        "goeos": ["ngoéo", "ngoẹo"],
+        "goeof": ["ngoéo", "ngoẹo"],
+        "goeor": ["ngoéo", "ngoẹo"],
+        "goeox": ["ngoéo", "ngoẹo"],
+        "goeoj": ["ngoéo", "ngoẹo"],
+        "poeos": ["ngoéo", "ngoẹo"],
+        "poeof": ["ngoéo", "ngoẹo"],
+        "poeor": ["ngoéo", "ngoẹo"],
+        "poeox": ["ngoéo", "ngoẹo"],
+        "poeoj": ["ngoéo", "ngoẹo"],
+        "phoeos": ["ngoéo", "ngoẹo"],
+        "phoeof": ["ngoéo", "ngoẹo"],
+        "phoeor": ["ngoéo", "ngoẹo"],
+        "phoeox": ["ngoéo", "ngoẹo"],
+        "phoeoj": ["ngoéo", "ngoẹo"],
+        "troeos": ["ngoéo", "ngoẹo"],
+        "troeof": ["ngoéo", "ngoẹo"],
+        "troeor": ["ngoéo", "ngoẹo"],
+        "troeox": ["ngoéo", "ngoẹo"],
+        "troeoj": ["ngoéo", "ngoẹo"],
+        "koeos": ["ngoéo", "ngoẹo"],
+        "koeof": ["ngoéo", "ngoẹo"],
+        "koeor": ["ngoéo", "ngoẹo"],
+        "koeox": ["ngoéo", "ngoẹo"],
+        "koeoj": ["ngoéo", "ngoẹo"],
+        "doeos": ["ngoéo", "ngoẹo"],
+        "doeof": ["ngoéo", "ngoẹo"],
+        "doeor": ["ngoéo", "ngoẹo"],
+        "doeox": ["ngoéo", "ngoẹo"],
+        "doeoj": ["ngoéo", "ngoẹo"],
+        "boens": ["hoen", "nhoèn"],
+        "boenf": ["hoen", "nhoèn"],
+        "boenr": ["hoen", "nhoèn"],
+        "boenx": ["hoen", "nhoèn"],
+        "boenj": ["hoen", "nhoèn"],
+        "moens": ["hoen", "nhoèn"],
+        "moenf": ["hoen", "nhoèn"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
