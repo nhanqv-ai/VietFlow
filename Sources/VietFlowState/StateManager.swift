@@ -350,10 +350,37 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         adaptiveActiveRulesCount = AdaptiveLearningManager.shared.activeRulesCount
     }
 
+    public static let textEditBundleIdentifier = "com.apple.TextEdit"
+    public static var textEditApplicationURL: URL {
+        NSWorkspace.shared.urlForApplication(withBundleIdentifier: textEditBundleIdentifier)
+            ?? URL(fileURLWithPath: "/System/Applications/TextEdit.app")
+    }
+
+    public var logFileOpener: ((URL, URL) -> Void)? = nil
+
     public func openTypingErrorLog() {
         let fileURL = AdaptiveLearningManager.shared.fileURL
         AdaptiveLearningManager.shared.flushSync()
-        if !NSWorkspace.shared.open(fileURL) {
+        let textEditURL = Self.textEditApplicationURL
+
+        if let customOpener = logFileOpener {
+            customOpener(fileURL, textEditURL)
+            return
+        }
+
+        if FileManager.default.fileExists(atPath: textEditURL.path) {
+            let config = NSWorkspace.OpenConfiguration()
+            config.activates = true
+            NSWorkspace.shared.open([fileURL], withApplicationAt: textEditURL, configuration: config) { _, error in
+                if error != nil {
+                    DispatchQueue.main.async {
+                        if !NSWorkspace.shared.open(fileURL) {
+                            NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+                        }
+                    }
+                }
+            }
+        } else if !NSWorkspace.shared.open(fileURL) {
             NSWorkspace.shared.activateFileViewerSelecting([fileURL])
         }
     }

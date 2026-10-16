@@ -764,6 +764,34 @@ public final class AdaptiveLearningTests: TestCase {
         XCTAssertEqual(outputAllCaps, "IN ", "Uppercase 'IM ' must auto-correct to 'IN '")
     }
 
+    // MARK: - Test 23: Open Typing Error Log Defaults to macOS TextEdit.app
+    func test_23_open_typing_error_log_defaults_to_textedit() {
+        let stateManager = AppStateManager.shared
+        let previousOpener = stateManager.logFileOpener
+        defer { stateManager.logFileOpener = previousOpener }
+
+        var openedFileURL: URL?
+        var openedAppURL: URL?
+        stateManager.logFileOpener = { fileURL, appURL in
+            openedFileURL = fileURL
+            openedAppURL = appURL
+        }
+
+        stateManager.openTypingErrorLog()
+
+        XCTAssertEqual(AppStateManager.textEditBundleIdentifier, "com.apple.TextEdit")
+        XCTAssertEqual(openedFileURL, AdaptiveLearningManager.shared.fileURL)
+        XCTAssertNotNil(openedAppURL)
+        XCTAssertTrue(
+            openedAppURL?.lastPathComponent == "TextEdit.app",
+            "Expected typing_error_log.json to open with TextEdit.app, got: \(openedAppURL?.path ?? "nil")"
+        )
+        XCTAssertTrue(
+            FileManager.default.fileExists(atPath: AdaptiveLearningManager.shared.fileURL.path),
+            "openTypingErrorLog() must flush typing_error_log.json to disk before opening in TextEdit"
+        )
+    }
+
     // MARK: - Registration of All Tests
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -789,6 +817,7 @@ public final class AdaptiveLearningTests: TestCase {
             ("test_20_clear_data_cancels_pending_save_and_prevents_resurrection", test_20_clear_data_cancels_pending_save_and_prevents_resurrection),
             ("test_21_proper_noun_capitalization_preservation", test_21_proper_noun_capitalization_preservation),
             ("test_22_single_character_casing_normalization", test_22_single_character_casing_normalization),
+            ("test_23_open_typing_error_log_defaults_to_textedit", test_23_open_typing_error_log_defaults_to_textedit),
         ]
     }
 }
