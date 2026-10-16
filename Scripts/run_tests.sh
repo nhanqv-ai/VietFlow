@@ -146,6 +146,18 @@ swiftc $SDK_FLAG \
     Tests/SettingsLayoutTests.swift \
     -o "$BUILD_DIR/libSettingsLayoutTests.dylib"
 
+echo "==> Step 7c: Compiling AdaptiveLearningTests module..."
+swiftc $SDK_FLAG \
+    -O \
+    -emit-library \
+    -emit-module \
+    -module-name AdaptiveLearningTests \
+    -I "$BUILD_DIR" -L "$BUILD_DIR" \
+    -lVietFlowEngine -lVietFlowState -lVietFlowEventTap -lVietFlowApp -lVietFlowEngineTests \
+    -emit-module-path "$BUILD_DIR/AdaptiveLearningTests.swiftmodule" \
+    Tests/AdaptiveLearningTests.swift \
+    -o "$BUILD_DIR/libAdaptiveLearningTests.dylib"
+
 echo "==> Step 8: Compiling TestRunner executable..."
 TEST_BINARY="$BUILD_DIR/vietflow_test_runner"
 swiftc $SDK_FLAG \
@@ -154,7 +166,7 @@ swiftc $SDK_FLAG \
     -I "$BUILD_DIR" -L "$BUILD_DIR" \
     -lVietFlowEngine -lVietFlowState -lVietFlowEventTap -lVietFlowApp \
     -lVietFlowEngineTests -lVietFlowTerminalBufferTests \
-    -lVietFlowStateTests -lVietFlowEventTapTests -lSettingsLayoutTests \
+    -lVietFlowStateTests -lVietFlowEventTapTests -lSettingsLayoutTests -lAdaptiveLearningTests \
     -Xlinker -rpath -Xlinker "@loader_path" \
     -Xlinker -rpath -Xlinker "$BUILD_DIR" \
     Tests/TestRunnerMain.swift \

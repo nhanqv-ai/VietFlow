@@ -101,6 +101,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var blacklistedBundleIdentifiers: [String]
     public var automaticallyCheckForUpdates: Bool
     public var lastUpdateCheckDate: Date?
+    public var adaptiveLearningEnabled: Bool
     
     public static let `default` = AppSettings()
     
@@ -118,7 +119,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
         perAppInputMode: Bool = true,
         blacklistedBundleIdentifiers: [String] = [],
         automaticallyCheckForUpdates: Bool = true,
-        lastUpdateCheckDate: Date? = nil
+        lastUpdateCheckDate: Date? = nil,
+        adaptiveLearningEnabled: Bool = true
     ) {
         self.inputMode = inputMode
         self.inputMethod = inputMethod
@@ -134,6 +136,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.blacklistedBundleIdentifiers = blacklistedBundleIdentifiers
         self.automaticallyCheckForUpdates = automaticallyCheckForUpdates
         self.lastUpdateCheckDate = lastUpdateCheckDate
+        self.adaptiveLearningEnabled = adaptiveLearningEnabled
     }
     
     public mutating func resetToDefaults() {
@@ -155,6 +158,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case blacklistedBundleIdentifiers
         case automaticallyCheckForUpdates
         case lastUpdateCheckDate
+        case adaptiveLearningEnabled
     }
     
     public init(from decoder: Decoder) throws {
@@ -173,6 +177,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         self.blacklistedBundleIdentifiers = try container.decodeIfPresent([String].self, forKey: .blacklistedBundleIdentifiers) ?? []
         self.automaticallyCheckForUpdates = try container.decodeIfPresent(Bool.self, forKey: .automaticallyCheckForUpdates) ?? true
         self.lastUpdateCheckDate = try container.decodeIfPresent(Date.self, forKey: .lastUpdateCheckDate)
+        self.adaptiveLearningEnabled = try container.decodeIfPresent(Bool.self, forKey: .adaptiveLearningEnabled) ?? true
     }
 }
 
@@ -328,6 +333,35 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             saveSettings()
         }
     }
+
+    @Published public var adaptiveLearningEnabled: Bool = true {
+        didSet {
+            settings.adaptiveLearningEnabled = adaptiveLearningEnabled
+            saveSettings()
+            AdaptiveLearningManager.shared.isEnabled = adaptiveLearningEnabled
+        }
+    }
+
+    @Published public var adaptiveLoggedPatternsCount: Int = 0
+    @Published public var adaptiveActiveRulesCount: Int = 0
+
+    public func refreshAdaptiveLearningCounts() {
+        adaptiveLoggedPatternsCount = AdaptiveLearningManager.shared.loggedPatternsCount
+        adaptiveActiveRulesCount = AdaptiveLearningManager.shared.activeRulesCount
+    }
+
+    public func openTypingErrorLog() {
+        let fileURL = AdaptiveLearningManager.shared.fileURL
+        AdaptiveLearningManager.shared.flushSync()
+        if !NSWorkspace.shared.open(fileURL) {
+            NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+        }
+    }
+
+    public func clearAdaptiveLearningData() {
+        AdaptiveLearningManager.shared.clearData()
+        refreshAdaptiveLearningCounts()
+    }
     
     @Published public var activeAppBundleId: String = ""
     @Published public var activeAppName: String = ""
@@ -336,6 +370,9 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
     public weak var engine: BambooEngine? {
         didSet {
             syncEngineConfig()
+            if engine?.adaptiveLearner == nil {
+                engine?.adaptiveLearner = .shared
+            }
         }
     }
     public var onToggleInputMode: (() -> Void)?
@@ -751,6 +788,7 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         userDefaults.set(blacklistedBundleIdentifiers, forKey: "blacklistedBundleIdentifiers")
         userDefaults.set(automaticallyCheckForUpdates, forKey: "automaticallyCheckForUpdates")
         userDefaults.set(lastUpdateCheckDate, forKey: "lastUpdateCheckDate")
+        userDefaults.set(adaptiveLearningEnabled, forKey: "adaptiveLearningEnabled")
         
         userDefaults.set(customKeyCombo.keyCode, forKey: "customKeyComboKeyCode")
         userDefaults.set(customKeyCombo.carbonModifiers, forKey: "customKeyComboModifiers")
@@ -780,6 +818,9 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             self.blacklistedBundleIdentifiers = loaded.blacklistedBundleIdentifiers
             self.automaticallyCheckForUpdates = loaded.automaticallyCheckForUpdates
             self.lastUpdateCheckDate = loaded.lastUpdateCheckDate
+            self.adaptiveLearningEnabled = loaded.adaptiveLearningEnabled
+            AdaptiveLearningManager.shared.isEnabled = loaded.adaptiveLearningEnabled
+            refreshAdaptiveLearningCounts()
         } else {
             if let modeStr = userDefaults.string(forKey: "currentInputMode"),
                let mode = InputMode(rawValue: modeStr) {
@@ -831,6 +872,13 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
             if let checkDate = userDefaults.object(forKey: "lastUpdateCheckDate") as? Date {
                 lastUpdateCheckDate = checkDate
             }
+            if userDefaults.object(forKey: "adaptiveLearningEnabled") != nil {
+                adaptiveLearningEnabled = userDefaults.bool(forKey: "adaptiveLearningEnabled")
+            } else {
+                adaptiveLearningEnabled = true
+            }
+            AdaptiveLearningManager.shared.isEnabled = adaptiveLearningEnabled
+            refreshAdaptiveLearningCounts()
             
             settings = AppSettings(
                 inputMode: currentInputMode,
@@ -846,7 +894,8 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
                 perAppInputMode: perAppInputMode,
                 blacklistedBundleIdentifiers: blacklistedBundleIdentifiers,
                 automaticallyCheckForUpdates: automaticallyCheckForUpdates,
-                lastUpdateCheckDate: lastUpdateCheckDate
+                lastUpdateCheckDate: lastUpdateCheckDate,
+                adaptiveLearningEnabled: adaptiveLearningEnabled
             )
         }
         
@@ -895,6 +944,9 @@ public final class AppStateManager: ObservableObject, @unchecked Sendable {
         blacklistedBundleIdentifiers = settings.blacklistedBundleIdentifiers
         automaticallyCheckForUpdates = settings.automaticallyCheckForUpdates
         lastUpdateCheckDate = settings.lastUpdateCheckDate
+        adaptiveLearningEnabled = settings.adaptiveLearningEnabled
+        AdaptiveLearningManager.shared.isEnabled = settings.adaptiveLearningEnabled
+        refreshAdaptiveLearningCounts()
         syncEngineConfig()
         saveSettings()
         checkInitialInputSource()

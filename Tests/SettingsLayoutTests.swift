@@ -368,7 +368,11 @@ public final class SettingsLayoutTests: TestCase {
             "Có bản mới",
             "Đang tải bản cập nhật...",
             "Sẵn sàng khởi động lại",
-            "Cập nhật phần mềm"
+            "Cập nhật phần mềm",
+            "Tự học từ lỗi xóa Backspace",
+            "Ghi nhận các lần sửa phím bằng Backspace để tự động thích ứng với thói quen gõ và từ khóa riêng của bạn.",
+            "Mở file log",
+            "Xóa dữ liệu học"
         ]
 
         for s in stringsToCheck {

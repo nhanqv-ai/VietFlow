@@ -47,11 +47,30 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     private var transformState: SyllableTransformState
     private var lastCompletedWord: String
     private var spaceHistory: [WordSnapshot]
+
+    // MARK: - Adaptive Learning State
+    public var adaptiveLearner: AdaptiveLearningManager?
+    private struct PreBackspaceSnapshot {
+        var displayedText: String
+        var rawKeys: String
+        var wasBypassed: Bool
+    }
+    private struct AppliedCorrection {
+        var originalWord: String
+        var correctedWord: String
+        var ruleTrigger: String
+        var category: CorrectionCategory
+        var boundaryChar: Character
+    }
+    private var tokenDidBackspace: Bool = false
+    private var preBackspaceSnapshot: PreBackspaceSnapshot? = nil
+    private var lastAppliedCorrection: AppliedCorrection? = nil
     
     // MARK: - Initialization
-    public init(config: EngineConfig = EngineConfig()) {
+    public init(config: EngineConfig = EngineConfig(), adaptiveLearner: AdaptiveLearningManager? = nil) {
         self.lock = OSAllocatedUnfairLock()
         self._config = config
+        self.adaptiveLearner = adaptiveLearner
         self.committedPrefix = ""
         self.activePreedit = ""
         self.activeRawKeys = []
@@ -86,6 +105,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     }
 
     private func internalProcessKey(_ character: Character) -> TextDelta? {
+        lastAppliedCorrection = nil
         let prevDisplay = committedPrefix + activePreedit
 
         // Special CLI detection: if preceding word was 'tả' (typed as 'tar') and user types CLI flag '-'
@@ -107,6 +127,56 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let isAdjacentToToken = prevChar != nil && (prevChar!.isLetter || prevChar!.isNumber || EnglishRestoreDetector.isTechnicalSeparator(prevChar!))
 
         if EnglishRestoreDetector.isWordDelimiter(character) {
+            let finishedWord = prevDisplay
+            if !finishedWord.isEmpty, let learner = adaptiveLearner, learner.isEnabled, learner.hasActiveTypoRules {
+                let lower = finishedWord.lowercased()
+                if let replacement = learner.replacementForPersonalTypo(word: lower) {
+                    let casedReplacement = Self.matchCase(source: finishedWord, target: replacement)
+                    let fullReplacement = casedReplacement + String(character)
+                    let delta = MinimalDiff.calculate(previous: prevDisplay, next: fullReplacement)
+                    lastAppliedCorrection = AppliedCorrection(
+                        originalWord: finishedWord,
+                        correctedWord: casedReplacement,
+                        ruleTrigger: lower,
+                        category: .personalTypo,
+                        boundaryChar: character
+                    )
+                    lastCompletedWord = casedReplacement.lowercased()
+                    tokenDidBackspace = false
+                    preBackspaceSnapshot = nil
+                    if character == " " {
+                        spaceHistory.append(
+                            WordSnapshot(
+                                committedPrefix: "",
+                                activePreedit: casedReplacement,
+                                activeRawKeys: Array(casedReplacement),
+                                wordRawKeys: Array(casedReplacement),
+                                isBypassed: true,
+                                transformState: SyllableTransformState()
+                            )
+                        )
+                        if spaceHistory.count > 16 {
+                            spaceHistory.removeFirst()
+                        }
+                    } else {
+                        spaceHistory.removeAll(keepingCapacity: true)
+                    }
+                    internalReset()
+                    return delta
+                }
+            }
+
+            if tokenDidBackspace, let snapshot = preBackspaceSnapshot, !finishedWord.isEmpty {
+                adaptiveLearner?.recordCorrection(
+                    rawKeysBeforeBackspace: snapshot.rawKeys,
+                    displayedBeforeBackspace: snapshot.displayedText,
+                    finalCommittedText: finishedWord,
+                    wasBypassedBeforeBackspace: snapshot.wasBypassed
+                )
+            }
+            tokenDidBackspace = false
+            preBackspaceSnapshot = nil
+
             if isTechSep && (isAdjacentToToken || character == "/") {
                 if !prevDisplay.isEmpty {
                     lastCompletedWord = prevDisplay.lowercased()
@@ -406,7 +476,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors"].contains(String(wordRawKeys).lowercased()) && "wimncpt".contains(character.lowercased()))
                 || (["dadas", "charas"].contains(String(wordRawKeys).lowercased()) && "wuymncpt".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "deeds" && "umnptfrxjc".contains(character.lowercased()))
-                || (["daasu", "datas", "dawns", "downs", "darns", "darnsa", "darnsw", "darnsg", "darnsh", "deems", "deeps", "deers", "deersm", "deersn", "deersc", "deersp", "deerst", "deersu", "defer", "defercs", "defercj", "deferps", "deferpj", "deferts", "defertj", "dense", "dirs", "dodos", "dojos", "dooms", "doors", "doorsi", "doorsm", "doorsn", "doorsng", "doorsc", "doorsp", "doorst", "doorsw", "donor", "donors", "dots", "dust", "dura", "duri", "dorm", "dorms", "dormsw", "dormso", "derm", "dora", "dosa", "dosai", "diesm", "diesn", "diesc", "diesp", "diest", "diesng", "dues", "duetsje"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
+                || (["daasu", "datas", "dawns", "downs", "darns", "darnsa", "darnsw", "darnsg", "darnsh", "deems", "deeps", "deers", "deersm", "deersn", "deersc", "deersp", "deerst", "deersu", "defer", "defercs", "defercj", "deferps", "deferpj", "deferts", "defertj", "dense", "dirs", "dodos", "dojos", "dooms", "doors", "doorsi", "doorsm", "doorsn", "doorsng", "doorsc", "doorsp", "doorst", "doorsw", "donor", "donors", "dots", "dust", "dura", "duri", "dorm", "dorms", "dormsw", "dormso", "derm", "dora", "dosa", "dosai", "diesm", "diesn", "diesc", "diesp", "diest", "diesng", "dues", "duetsje", "doets", "doetj", "doeps", "doepj", "doecs", "doecj"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d") {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -520,6 +590,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["boacs", "boacj", "moacs", "moacj", "voacs", "voacj", "noacs", "noacj", "roacs", "roacj", "goacs", "goacj", "poacs", "poacj", "phoacs", "phoacj", "troacs", "troacj", "koacs", "koacj"].contains(String(wordRawKeys).lowercased())
                     && "hwsj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["boets", "boetj", "moets", "moetj", "voets", "voetj", "noets", "noetj", "roets", "roetj", "goets", "goetj", "poets", "poetj", "phoets", "phoetj", "troets", "troetj", "koets", "koetj", "doets", "doetj", "boeps", "boepj", "moeps", "moepj", "voeps", "voepj", "noeps", "noepj", "roeps", "roepj", "goeps", "goepj", "poeps", "poepj", "phoeps", "phoepj", "troeps", "troepj", "koeps", "koepj", "doeps", "doepj", "boecs", "boecj", "moecs", "moecj", "voecs", "voecj", "noecs", "noecj", "roecs", "roecj", "goecs", "goecj", "poecs", "poecj", "phoecs", "phoecj", "troecs", "troecj", "koecs", "koecj", "doecs", "doecj"].contains(String(wordRawKeys).lowercased())
+                    && "sj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
                     && "sfxj".contains(character.lowercased()))
@@ -849,14 +922,26 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let isTelexSwEnglish = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
             && EnglishRestoreDetector.hasInvalidTelexSwPrefix(candidateWord)
         let isVietCollocation = Self.isVietnameseCollocation(candidateWord: candidateWord, lastCompletedWord: lastCompletedWord)
-        let isKeyword = EnglishRestoreDetector.isEnglishKeyword(candidateWord) && !isVietCollocation
-        let isRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: candidateWord) && !isVietCollocation
-        if _config.autoCorrectEnglish && (
+        var isKeyword = EnglishRestoreDetector.isEnglishKeyword(candidateWord) && !isVietCollocation
+        var isRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: candidateWord) && !isVietCollocation
+
+        var isLearnedBypass = false
+        if let learner = adaptiveLearner, learner.isEnabled {
+            if learner.shouldBypassForImeFriction(word: candidateWord) {
+                isKeyword = true
+                isLearnedBypass = true
+            } else if learner.shouldPreserveVietnameseForImeFriction(word: candidateWord) {
+                isKeyword = false
+                isRomaji = false
+            }
+        }
+
+        if isLearnedBypass || (_config.autoCorrectEnglish && (
             isKeyword
             || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(candidateWord)
             || isTelexSwEnglish
             || isRomaji
-        ) {
+        )) {
             isBypassed = true
             wordRawKeys.append(character)
             if hasPrecedingTechSep {
@@ -957,7 +1042,16 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             && character.isLetter
 
         // 5b. Known English Keyword & Romaji Check (Zero-Flicker Pre-Validation)
-        if _config.autoCorrectEnglish && (
+        var shouldPreserveInStep5b = false
+        if let learner = adaptiveLearner, learner.isEnabled {
+            if learner.shouldPreserveVietnameseForImeFriction(word: lowerCandidateRaw)
+                || learner.shouldPreserveVietnameseForImeFriction(word: fullCandidateRaw)
+                || learner.shouldPreserveVietnameseForImeFriction(word: candidateWord) {
+                shouldPreserveInStep5b = true
+            }
+        }
+
+        if !shouldPreserveInStep5b && _config.autoCorrectEnglish && (
             isKeywordRaw
             || isKeywordFull
             || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(fullCandidateRaw)
@@ -1162,8 +1256,37 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     // MARK: - Backspace Handling
     public func handleBackspace() -> Bool {
         lock.withLock {
-            let prevDisplay = committedPrefix + activePreedit
-            if prevDisplay.isEmpty && activeRawKeys.isEmpty {
+            if let applied = lastAppliedCorrection {
+                if applied.boundaryChar == " " {
+                    _ = spaceHistory.popLast()
+                }
+                adaptiveLearner?.demoteRule(trigger: applied.ruleTrigger, category: applied.category)
+                lastAppliedCorrection = nil
+                activePreedit = applied.originalWord
+                committedPrefix = ""
+                activeRawKeys = Array(applied.originalWord)
+                wordRawKeys = Array(applied.originalWord)
+                transformState = SyllableTransformState()
+                isBypassed = true
+                return true
+            }
+
+            return internalHandleBackspaceLocked()
+        }
+    }
+
+    private func internalHandleBackspaceLocked() -> Bool {
+        let prevDisplay = committedPrefix + activePreedit
+        if !tokenDidBackspace && (!prevDisplay.isEmpty || !wordRawKeys.isEmpty) {
+            preBackspaceSnapshot = PreBackspaceSnapshot(
+                displayedText: prevDisplay,
+                rawKeys: String(wordRawKeys),
+                wasBypassed: isBypassed
+            )
+            tokenDidBackspace = true
+        }
+
+        if prevDisplay.isEmpty && activeRawKeys.isEmpty {
                 if let snapshot = spaceHistory.popLast() {
                     committedPrefix = snapshot.committedPrefix
                     activePreedit = snapshot.activePreedit
@@ -1175,6 +1298,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     transformState.lastDiacriticKey = nil
                     didBackspace = false
                     lastDeletedChar = nil
+                    tokenDidBackspace = false
+                    preBackspaceSnapshot = nil
                     return true
                 }
                 return false
@@ -1248,6 +1373,27 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             }
 
             return true
+    }
+
+    /// Handles backspace and returns a revert TextDelta if an automatic correction was self-healed.
+    public func handleBackspaceWithRevertDelta() -> TextDelta? {
+        lock.withLock {
+            guard let applied = lastAppliedCorrection else {
+                return nil
+            }
+            if applied.boundaryChar == " " {
+                _ = spaceHistory.popLast()
+            }
+            adaptiveLearner?.demoteRule(trigger: applied.ruleTrigger, category: applied.category)
+            lastAppliedCorrection = nil
+            activePreedit = applied.originalWord
+            committedPrefix = ""
+            activeRawKeys = Array(applied.originalWord)
+            wordRawKeys = Array(applied.originalWord)
+            transformState = SyllableTransformState()
+            isBypassed = true
+            let fullPrevious = applied.correctedWord + String(applied.boundaryChar)
+            return MinimalDiff.calculate(previous: fullPrevious, next: applied.originalWord)
         }
     }
 
@@ -1322,11 +1468,35 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     public func reset() {
         lock.withLock {
             let prev = committedPrefix + activePreedit
+            if tokenDidBackspace, let snapshot = preBackspaceSnapshot, !prev.isEmpty {
+                adaptiveLearner?.recordCorrection(
+                    rawKeysBeforeBackspace: snapshot.rawKeys,
+                    displayedBeforeBackspace: snapshot.displayedText,
+                    finalCommittedText: prev,
+                    wasBypassedBeforeBackspace: snapshot.wasBypassed
+                )
+            }
+            tokenDidBackspace = false
+            preBackspaceSnapshot = nil
+            lastAppliedCorrection = nil
             if !prev.isEmpty {
                 lastCompletedWord = prev.lowercased()
             }
             spaceHistory.removeAll(keepingCapacity: true)
             internalReset()
+        }
+    }
+
+    private static func matchCase(source: String, target: String) -> String {
+        guard let first = source.first else { return target }
+        if source.allSatisfy({ $0.isUppercase }) && source.count > 1 {
+            return target.uppercased()
+        } else if first.isUppercase {
+            return target.prefix(1).uppercased() + target.dropFirst()
+        } else if source.allSatisfy({ $0.isLowercase }) && (target.count == 1 || target.dropFirst().allSatisfy({ $0.isLowercase })) {
+            return target.lowercased()
+        } else {
+            return target
         }
     }
 
@@ -3550,7 +3720,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "boatj": ["toát", "thoát"],
         "moatj": ["toát", "thoát"],
         "voats": ["toát", "thoát"],
-        "voatj": ["toát", "thoát"]
+        "voatj": ["toát", "thoát"],
+        "noats": ["toát", "thoát"],
+        "noatj": ["toát", "thoát"],
+        "roats": ["toát", "thoát"],
+        "roatj": ["toát", "thoát"],
+        "goatj": ["toát", "thoát"],
+        "poats": ["toát", "thoát"],
+        "poatj": ["toát", "thoát"],
+        "phoats": ["toát", "thoát"],
+        "phoatj": ["toát", "thoát"],
+        "troats": ["toát", "thoát"],
+        "troatj": ["toát", "thoát"],
+        "koats": ["toát", "thoát"],
+        "koatj": ["toát", "thoát"],
+        "boaps": ["táp", "nháp"],
+        "boapj": ["táp", "nháp"],
+        "moaps": ["táp", "nháp"],
+        "moapj": ["táp", "nháp"],
+        "voaps": ["táp", "nháp"],
+        "voapj": ["táp", "nháp"],
+        "noaps": ["táp", "nháp"],
+        "noapj": ["táp", "nháp"],
+        "roaps": ["táp", "nháp"],
+        "roapj": ["táp", "nháp"],
+        "goaps": ["táp", "nháp"],
+        "goapj": ["táp", "nháp"],
+        "poaps": ["táp", "nháp"],
+        "poapj": ["táp", "nháp"],
+        "phoaps": ["táp", "nháp"],
+        "phoapj": ["táp", "nháp"],
+        "troaps": ["táp", "nháp"],
+        "troapj": ["táp", "nháp"],
+        "koaps": ["táp", "nháp"],
+        "koapj": ["táp", "nháp"],
+        "boachs": ["tách", "vách"],
+        "boachj": ["tách", "vách"],
+        "moachs": ["tách", "vách"],
+        "moachj": ["tách", "vách"],
+        "voachs": ["tách", "vách"],
+        "voachj": ["tách", "vách"],
+        "noachs": ["tách", "vách"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(

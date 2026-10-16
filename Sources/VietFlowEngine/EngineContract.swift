@@ -55,5 +55,12 @@ public protocol VietnameseEngineProtocol: AnyObject, Sendable {
     var currentSyllable: String { get }
     func processKey(_ character: Character) -> TextDelta?
     func handleBackspace() -> Bool
+    func handleBackspaceWithRevertDelta() -> TextDelta?
     func reset()
+}
+
+public extension VietnameseEngineProtocol {
+    func handleBackspaceWithRevertDelta() -> TextDelta? {
+        return nil
+    }
 }

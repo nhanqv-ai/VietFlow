@@ -16,6 +16,7 @@ import VietFlowTerminalBufferTests
 import VietFlowStateTests
 import VietFlowEventTapTests
 import SettingsLayoutTests
+import AdaptiveLearningTests
 
 @main
 struct TestRunnerMain {
@@ -40,6 +41,7 @@ struct TestRunnerMain {
         registry.register(name: "RealWorldTypingAndBackspaceTests") { RealWorldTypingAndBackspaceTests() }
         registry.register(name: "TrilingualUserExperienceTests") { TrilingualUserExperienceTests() }
         registry.register(name: "UpdateManagerTests") { UpdateManagerTests() }
+        registry.register(name: "AdaptiveLearningTests") { AdaptiveLearningTests() }
         
         let args = CommandLine.arguments
         let verbose = args.contains("--verbose") || args.contains("-v")
