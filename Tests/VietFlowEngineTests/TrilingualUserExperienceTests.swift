@@ -3813,6 +3813,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 99: 40 Collocation Entries, koas..koaj Unlatch, koes..koers Unlatch, and voaf..troaj Unlatch
+
+    func test_tier4_605_vietnamese_collocation_phrases_poas_phoas_troas_boaf_roaf_moaf_voaf_noaf_goaf_poaf_phoaf_troaf_moar_voar_noar_goar_poar_phoar_troar_boax_roax_moax_voax_goax_poax_phoax_troax_boaj_roaj_moaj_voaj_noaj_goaj_poaj_phoaj_troaj_koas_koaf_koar_koax() {
+        let input = "poas xoas poas toas poas phoas xoas phoas toas phoas troas xoas troas toas troas boaf xoaf boaf toaf boaf roaf xoaf roaf toaf roaf moaf xoaf moaf toaf moaf voaf xoaf voaf toaf voaf noaf xoaf noaf toaf noaf goaf xoaf goaf toaf goaf poaf xoaf poaf toaf poaf phoaf xoaf phoaf toaf phoaf troaf xoaf troaf toaf troaf moar toar moar xoax moar voar toar voar xoax voar noar toar noar xoax noar goar toar goar xoax goar poar toar poar xoax poar phoar toar phoar xoax phoar troar toar troar xoax troar boax toar boax xoax boax roax toar roax xoax roax moax toar moax xoax moax voax toar voax xoax voax goax toar goax xoax goax poax toar poax xoax poax phoax toar phoax xoax phoax troax toar troax xoax troax boaj ddoaj boaj toaj boaj roaj ddoaj roaj toaj roaj moaj ddoaj moaj toaj moaj voaj ddoaj voaj toaj voaj noaj ddoaj noaj toaj noaj goaj ddoaj goaj toaj goaj poaj ddoaj poaj toaj poaj phoaj ddoaj phoaj toaj phoaj troaj ddoaj troaj toaj troaj koas xoas koas toas koas koaf xoaf koaf toaf koaf koar toar koar xoax koar koax toar koax xoax koax"
+        let expected = "poas xóa póa tóa póa phoas xóa phóa tóa phóa troas xóa tróa tóa tróa boaf xòa bòa tòa bòa roaf xòa ròa tòa ròa moaf xòa mòa tòa mòa voaf xòa vòa tòa vòa noaf xòa nòa tòa nòa goaf xòa gòa tòa gòa poaf xòa pòa tòa pòa phoaf xòa phòa tòa phòa troaf xòa tròa tòa tròa moar tỏa mỏa xõa mỏa voar tỏa vỏa xõa vỏa noar tỏa nỏa xõa nỏa goar tỏa gỏa xõa gỏa poar tỏa pỏa xõa pỏa phoar tỏa phỏa xõa phỏa troar tỏa trỏa xõa trỏa boax tỏa bõa xõa bõa roax tỏa rõa xõa rõa moax tỏa mõa xõa mõa voax tỏa võa xõa võa goax tỏa gõa xõa gõa poax tỏa põa xõa põa phoax tỏa phõa xõa phõa troax tỏa trõa xõa trõa boaj đọa bọa tọa bọa roaj đọa rọa tọa rọa moaj đọa mọa tọa mọa voaj đọa vọa tọa vọa noaj đọa nọa tọa nọa goaj đọa gọa tọa gọa poaj đọa pọa tọa pọa phoaj đọa phọa tọa phọa troaj đọa trọa tọa trọa koas xóa kóa tóa kóa koaf xòa kòa tòa kòa koar tỏa kỏa xõa kỏa koax tỏa kõa xõa kõa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_606_koas_koaf_koar_koax_koaj_coda_offglide_breve_and_tone_override_unlatch() {
+        let input = "koas koasm koasn koasc koasp koast koasw koasi koasy koaso koasf koasr koasx koasj koaf koafm koafn koafw koafi koafy koafo koafs koafr koafx koafj koar koarm koarn koarw koari koary koaro koars koarf koarx koarj koax koaxm koaxn koaxw koaxi koaxy koaxo koaxs koaxf koaxr koaxj koaj koajm koajn koajc koajp koajt koajw koaji koajy koajo koajs koajf koajr koajx"
+        let expected = "koas koám koán koác koáp koát koắ koái koáy koáo kòa kỏa kõa kọa koaf koàm koàn koằ koài koày koào kóa kỏa kõa kọa koar koảm koản koẳ koải koảy koảo kóa kòa kõa kọa koax koãm koãn koẵ koãi koãy koão kóa kòa kỏa kọa koaj koạm koạn koạc koạp koạt koặ koại koạy koạo kóa kòa kỏa kõa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_607_koes_koef_koer_koex_koej_kores_koers_coda_offglide_and_tone_override_unlatch() {
+        let input = "koes koeso koesf koesr koesx koesj koesm koesn koesc koesp koest koef koefo koefs koefr koefx koefj koefm koefn koer koero koerf koerx koerj koerm koern koex koexo koexs koexf koexr koexj koexm koexn koej koejo koejs koejf koejr koejx koejm koejn koejc koejp koejt kores koreso koresf koresr koresx koresj koresm koresn koresc koresp korest koers koerso koersf koersr koersx koersj koersm koersn koersc koersp koerst"
+        let expected = "koes koéo kòe kỏe kõe kọe koém koén koéc koép koét koef koèo kóe kỏe kõe kọe koèm koèn koer koẻo kòe kõe kọe koẻm koẻn koex koẽo kóe kòe kỏe kọe koẽm koẽn koej koẹo kóe kòe kỏe kõe koẹm koẹn koẹc koẹp koẹt kores koéo kòe kỏe kõe kọe koém koén koéc koép koét koers koéo kòe kỏe kõe kọe koém koén koéc koép koét"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_608_voaf_noaf_poaf_phoaf_troaf_voax_goax_poax_phoax_troax_voaj_noaj_goaj_poaj_phoaj_troaj_unlatch() {
+        let input = "voaf voafm voafn voafw voafi voafy voafo voafs voafr voafx voafj noaf noafm noafn noafw noafi noafy noafo noafs noafr noafx noafj poaf poafm poafn poafw poafi poafy poafo poafs poafr poafx poafj phoaf phoafm phoafn phoafw phoafi phoafy phoafo phoafs phoafr phoafx phoafj troaf troafm troafn troafw troafi troafy troafo troafs troafr troafx troafj voax voaxm voaxn voaxw voaxi voaxy voaxo voaxs voaxf voaxr voaxj goax goaxm goaxn goaxw goaxi goaxy goaxo goaxs goaxf goaxr goaxj poax poaxm poaxn poaxw poaxi poaxy poaxo poaxs poaxf poaxr poaxj phoax phoaxm phoaxn phoaxw phoaxi phoaxy phoaxo phoaxs phoaxf phoaxr phoaxj troax troaxm troaxn troaxw troaxi troaxy troaxo troaxs troaxf troaxr troaxj voaj voajm voajn voajc voajp voajt voajw voaji voajy voajo voajs voajf voajr voajx noaj noajm noajn noajc noajp noajt noajw noaji noajy noajo noajs noajf noajr noajx goaj goajm goajn goajc goajp goajt goajw goaji goajy goajo goajs goajf goajr goajx poaj poajm poajn poajc poajp poajt poajw poaji poajy poajo poajs poajf poajr poajx phoaj phoajm phoajn phoajc phoajp phoajt phoajw phoaji phoajy phoajo phoajs phoajf phoajr phoajx troaj troajm troajn troajc troajp troajt troajw troaji troajy troajo troajs troajf troajr troajx"
+        let expected = "voaf voàm voàn voằ voài voày voào vóa vỏa võa vọa noaf noàm noàn noằ noài noày noào nóa nỏa nõa nọa poaf poàm poàn poằ poài poày poào póa pỏa põa pọa phoaf phoàm phoàn phoằ phoài phoày phoào phóa phỏa phõa phọa troaf troàm troàn troằ troài troày troào tróa trỏa trõa trọa voax voãm voãn voẵ voãi voãy voão vóa vòa vỏa vọa goax goãm goãn goẵ goãi goãy goão góa gòa gỏa gọa poax poãm poãn poẵ poãi poãy poão póa pòa pỏa pọa phoax phoãm phoãn phoẵ phoãi phoãy phoão phóa phòa phỏa phọa troax troãm troãn troẵ troãi troãy troão tróa tròa trỏa trọa voaj voạm voạn voạc voạp voạt voặ voại voạy voạo vóa vòa vỏa võa noaj noạm noạn noạc noạp noạt noặ noại noạy noạo nóa nòa nỏa nõa goaj goạm goạn goạc goạp goạt goặ goại goạy goạo góa gòa gỏa gõa poaj poạm poạn poạc poạp poạt poặ poại poạy poạo póa pòa pỏa põa phoaj phoạm phoạn phoạc phoạp phoạt phoặ phoại phoạy phoạo phóa phòa phỏa phõa troaj troạm troạn troạc troạp troạt troặ troại troạy troạo tróa tròa trỏa trõa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_609_scenario107_trilingual_moar_boaf_koar_and_vietnamese_toa_moa_xoa_boa_toa_koa_chat() {
+        let input = "Khi cộng đồng game thủ bình luận moar về bản đồ chiến thuật koar và hiệu ứng sương mù boaf, làn khói tỏa mỏa (toar moar) rồi xòa bòa (xoaf boaf) khắp sườn núi cùng ánh sáng tỏa kỏa (toar koar) tạo nên khung cảnh huyền ảo!"
+        let expected = "Khi cộng đồng game thủ bình luận moar về bản đồ chiến thuật koar và hiệu ứng sương mù boaf, làn khói tỏa mỏa (tỏa mỏa) rồi xòa bòa (xòa bòa) khắp sườn núi cùng ánh sáng tỏa kỏa (tỏa kỏa) tạo nên khung cảnh huyền ảo!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4426,6 +4458,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_602_boej_coej_doej_goej_moej_noej_poej_phoej_roej_soej_troej_voej_coda_offglide_tone_override_and_d_stroke_unlatch", test_tier4_602_boej_coej_doej_goej_moej_noej_poej_phoej_roej_soej_troej_voej_coda_offglide_tone_override_and_d_stroke_unlatch),
             ("test_tier4_603_boaf_roaf_moaf_voaf_noaf_goaf_poaf_phoaf_troaf_and_boax_to_troaj_unlatch", test_tier4_603_boaf_roaf_moaf_voaf_noaf_goaf_poaf_phoaf_troaf_and_boax_to_troaj_unlatch),
             ("test_tier4_604_scenario106_trilingual_coef_doej_boas_and_vietnamese_do_coe_nhoe_doe_xoa_boa_chat", test_tier4_604_scenario106_trilingual_coef_doej_boas_and_vietnamese_do_coe_nhoe_doe_xoa_boa_chat),
+            ("test_tier4_605_vietnamese_collocation_phrases_poas_phoas_troas_boaf_roaf_moaf_voaf_noaf_goaf_poaf_phoaf_troaf_moar_voar_noar_goar_poar_phoar_troar_boax_roax_moax_voax_goax_poax_phoax_troax_boaj_roaj_moaj_voaj_noaj_goaj_poaj_phoaj_troaj_koas_koaf_koar_koax", test_tier4_605_vietnamese_collocation_phrases_poas_phoas_troas_boaf_roaf_moaf_voaf_noaf_goaf_poaf_phoaf_troaf_moar_voar_noar_goar_poar_phoar_troar_boax_roax_moax_voax_goax_poax_phoax_troax_boaj_roaj_moaj_voaj_noaj_goaj_poaj_phoaj_troaj_koas_koaf_koar_koax),
+            ("test_tier4_606_koas_koaf_koar_koax_koaj_coda_offglide_breve_and_tone_override_unlatch", test_tier4_606_koas_koaf_koar_koax_koaj_coda_offglide_breve_and_tone_override_unlatch),
+            ("test_tier4_607_koes_koef_koer_koex_koej_kores_koers_coda_offglide_and_tone_override_unlatch", test_tier4_607_koes_koef_koer_koex_koej_kores_koers_coda_offglide_and_tone_override_unlatch),
+            ("test_tier4_608_voaf_noaf_poaf_phoaf_troaf_voax_goax_poax_phoax_troax_voaj_noaj_goaj_poaj_phoaj_troaj_unlatch", test_tier4_608_voaf_noaf_poaf_phoaf_troaf_voax_goax_poax_phoax_troax_voaj_noaj_goaj_poaj_phoaj_troaj_unlatch),
+            ("test_tier4_609_scenario107_trilingual_moar_boaf_koar_and_vietnamese_toa_moa_xoa_boa_toa_koa_chat", test_tier4_609_scenario107_trilingual_moar_boaf_koar_and_vietnamese_toa_moa_xoa_boa_toa_koa_chat),
         ]
     }
 }
