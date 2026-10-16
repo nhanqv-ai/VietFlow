@@ -4421,6 +4421,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 118: 40 Collocation Entries (2,722 Total), doesn Unlatch & ddoe..ddoecj Direct Typing
+
+    func test_tier4_700_vietnamese_collocation_phrases_soemx_to_hies() {
+        let input = "soemx thomf soemx themf soemx soemj thomf soemj themf soemj coets khoets coets toets coets coetj khoets coetj toets coetj soets khoets soets toets soets soetj khoets soetj toets soetj coeps bepj coeps nhepj coeps coepj bepj coepj nhepj coepj soeps bepj soeps nhepj soeps soepj bepj soepj nhepj soepj coecs hoecs coecs ngoecs coecs coecj hoecs coecj ngoecs coecj soecs hoecs soecs ngoecs soecs soecj hoecs soecj ngoecs soecj goast toats goast thoats goast goasp toats goasp thoats goasp goasc khacs goasc toacs goasc sosen hoen sosen nhoenf sosen doesn hoen doesn nhoenf doesn howa xoas howa toas howa dowa xoas dowa toas dowa nowa xoas nowa toas nowa sowa xoas sowa toas sowa towa xoas towa toas towa rowa xoas rowa toas rowa gifi cais gifi gif gifi gisi cais gisi gif gisi giji cais giji gif giji chixe vui chixe ver chixe dues vui dues ver dues hues vui hues ver hues sues vui sues ver sues rues vui rues ver rues tues vui tues ver tues ties vui ties ver ties dies vui dies ver dies lies vui lies ver lies vies vui vies ver vies hies vui hies ver hies pies vui pies ver pies"
+        let expected = "soemx thòm soẽm thèm soẽm soemj thòm soẹm thèm soẹm coets khoét coét toét coét coetj khoét coẹt toét coẹt soets khoét soét toét soét soetj khoét soẹt toét soẹt coeps bẹp coép nhẹp coép coepj bẹp coẹp nhẹp coẹp soeps bẹp soép nhẹp soép soepj bẹp soẹp nhẹp soẹp coecs hoéc coéc ngoéc coéc coecj hoéc coẹc ngoéc coẹc soecs hoéc soéc ngoéc soéc soecj hoéc soẹc ngoéc soẹc goast toát goát thoát goát goasp toát goáp thoát goáp goasc khác goác toác goác sosen hoen soén nhoèn soén doesn hoen doén nhoèn doén howa xóa hoă tóa hoă dowa xóa doă tóa doă nowa xóa noă tóa noă sowa xóa soă tóa soă towa xóa toă tóa toă rowa xóa roă tóa roă gifi cái giì gì giì gisi cái gií gì gií giji cái giị gì giị chixe vui chĩe vẻ chĩe dues vui dúe vẻ dúe hues vui húe vẻ húe sues vui súe vẻ súe rues vui rúe vẻ rúe tues vui túe vẻ túe ties vui tíe vẻ tíe dies vui díe vẻ díe lies vui líe vẻ líe vies vui víe vẻ víe hies vui híe vẻ híe pies vui píe vẻ píe"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_701_gosa_extensions_gosay_to_gosac_and_doesn_unlatch() {
+        let input = "gosa gosay gosayf gosayr gosayx gosayj gosao gosaof gosaor gosaox gosaoj gosan gosang gosanh gosanhr gosanw gosanf gosanr gosanx gosanj gosam gosamw gosamf gosamr gosamx gosamj gosat gosatw gosatj gosap gosapw gosapj gosac gosach gosachj gosacw gosacj doesn doesnf doesnr doesnx doesnj doesnd"
+        let expected = "gosa goáy goày goảy goãy goạy goáo goào goảo goão goạo goán goáng goánh goảnh goắn goàn goản goãn goạn goám goắm goàm goảm goãm goạm goát goắt goạt goáp goắp goạp goác goách goạch goắc goạc doesn doèn doẻn doẽn doẹn đoén"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_702_ddoe_ddoes_ddoeo_ddoen_ddoem_ddoet_ddoep_ddoec_direct_dd_onset_typing() {
+        let input = "ddoe ddoes ddoef ddoer ddoex ddoej ddoeo ddoeos ddoeof ddoeor ddoeox ddoeoj ddoen ddoens ddoenf ddoenr ddoenx ddoenj ddoem ddoems ddoemf ddoemr ddoemx ddoemj ddoets ddoetj ddoeps ddoepj ddoecs ddoecj"
+        let expected = "đoe đóe đòe đỏe đõe đọe đoeo đoéo đoèo đoẻo đoẽo đoẹo đoen đoén đoèn đoẻn đoẽn đoẹn đoem đoém đoèm đoẻm đoẽm đoẹm đoét đoẹt đoép đoẹp đoéc đoẹc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_703_ddoseo_to_ddojec_pre_e_tone_with_dd_onset() {
+        let input = "ddoseo ddofeo ddoreo ddoxeo ddojeo ddosen ddofen ddoren ddoxen ddojen ddosem ddofem ddorem ddoxem ddojem ddoset ddojet ddosep ddojep ddosec ddojec"
+        let expected = "đoéo đoèo đoẻo đoẽo đoẹo đoén đoèn đoẻn đoẽn đoẹn đoém đoèm đoẻm đoẽm đoẹm đoét đoẹt đoép đoẹp đoéc đoẹc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_704_scenario126_trilingual_coets_goast_doesn_and_vietnamese_khoet_coet_toat_goat_hoen_doen_chat() {
+        let input = "Khi đối chiếu các mẫu vật liệu coets, goast và kiểm tra biến cờ doesn trong kịch bản kiểm thử tự động, nhóm kỹ sư vừa ghi nhận vết khoét coét (khoets coets), vừa kiểm tra đường thoát goát (thoats goast) và làm sạch vết hoen doén (hoen doesn) thật chuẩn xác!"
+        let expected = "Khi đối chiếu các mẫu vật liệu coets, goast và kiểm tra biến cờ doesn trong kịch bản kiểm thử tự động, nhóm kỹ sư vừa ghi nhận vết khoét coét (khoét coét), vừa kiểm tra đường thoát goát (thoát goát) và làm sạch vết hoen doén (hoen doén) thật chuẩn xác!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5129,6 +5161,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_697_coets_to_soecj_tone_override_unlatch", test_tier4_697_coets_to_soecj_tone_override_unlatch),
             ("test_tier4_698_coseo_to_sojem_pre_e_tone_unlatch", test_tier4_698_coseo_to_sojem_pre_e_tone_unlatch),
             ("test_tier4_699_scenario125_trilingual_roems_goems_coens_and_vietnamese_thom_roem_them_goem_hoen_coen_chat", test_tier4_699_scenario125_trilingual_roems_goems_coens_and_vietnamese_thom_roem_them_goem_hoen_coen_chat),
+            ("test_tier4_700_vietnamese_collocation_phrases_soemx_to_hies", test_tier4_700_vietnamese_collocation_phrases_soemx_to_hies),
+            ("test_tier4_701_gosa_extensions_gosay_to_gosac_and_doesn_unlatch", test_tier4_701_gosa_extensions_gosay_to_gosac_and_doesn_unlatch),
+            ("test_tier4_702_ddoe_ddoes_ddoeo_ddoen_ddoem_ddoet_ddoep_ddoec_direct_dd_onset_typing", test_tier4_702_ddoe_ddoes_ddoeo_ddoen_ddoem_ddoet_ddoep_ddoec_direct_dd_onset_typing),
+            ("test_tier4_703_ddoseo_to_ddojec_pre_e_tone_with_dd_onset", test_tier4_703_ddoseo_to_ddojec_pre_e_tone_with_dd_onset),
+            ("test_tier4_704_scenario126_trilingual_coets_goast_doesn_and_vietnamese_khoet_coet_toat_goat_hoen_doen_chat", test_tier4_704_scenario126_trilingual_coets_goast_doesn_and_vietnamese_khoet_coet_toat_goat_hoen_doen_chat),
         ]
     }
 }
