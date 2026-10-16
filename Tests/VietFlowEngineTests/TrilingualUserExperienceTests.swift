@@ -3625,6 +3625,36 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_575_vietnamese_collocation_phrases_hafa_hara_haxa_haja_masa_mafa_mara_maxa_maja_nasa_nafa_nara_naxa_naja_rasa_rafa_rara_raxa_raja_sasa_safa_sara_saxa_saja_tasa_tafa_tara_taxa_taja_chasa_chafa_chara_chaxa_chaja_asa_esu_efu_eru_pexu_peju() {
+        let input = "hafa caauf hafa traamf hafa hara caanr hara khaanr hara haxa caamx haxa daamx haxa haja caapj haja taapj haja masa caaps masa taaps masa mafa caauf mafa traamf mafa mara caanr mara khaanr mara maxa caamx maxa daamx maxa maja caapj maja taapj maja nasa caaps nasa taaps nasa nafa caauf nafa traamf nafa nara caanr nara khaanr nara naxa caamx naxa daamx naxa naja caapj naja taapj naja rasa caaps rasa taaps rasa rafa caauf rafa traamf rafa rara caanr rara khaanr rara raxa caamx raxa daamx raxa raja caapj raja taapj raja sasa caaps sasa taaps sasa safa caauf safa traamf safa sara caanr sara khaanr sara saxa caamx saxa daamx saxa saja caapj saja taapj saja tasa caaps tasa taaps tasa tafa caauf tafa traamf tafa tara caanr tara khaanr tara taxa caamx taxa daamx taxa taja caapj taja taapj taja chasa caaps chasa taaps chasa chafa caauf chafa traamf chafa chara caanr chara khaanr chara chaxa caamx chaxa daamx chaxa chaja caapj chaja taapj chaja asa caaps asa taaps asa esu keeu esu meesu esu efu meemf efu phefu efu eru dero eru lero eru pexu meemf pexu phefu pexu peju meesu peju beeju peju"
+        let expected = "hafa cầu hầ trầm hầ hara cẩn hẩ khẩn hẩ haxa cẫm hẫ dẫm hẫ haja cập hậ tập hậ masa cấp mấ tấp mấ mafa cầu mầ trầm mầ mara cẩn mẩ khẩn mẩ maxa cẫm mẫ dẫm mẫ maja cập mậ tập mậ nasa cấp nấ tấp nấ nafa cầu nầ trầm nầ nara cẩn nẩ khẩn nẩ naxa cẫm nẫ dẫm nẫ naja cập nậ tập nậ rasa cấp rấ tấp rấ rafa cầu rầ trầm rầ rara cẩn rẩ khẩn rẩ raxa cẫm rẫ dẫm rẫ raja cập rậ tập rậ sasa cấp sấ tấp sấ safa cầu sầ trầm sầ sara cẩn sẩ khẩn sẩ saxa cẫm sẫ dẫm sẫ saja cập sậ tập sậ tasa cấp tấ tấp tấ tafa cầu tầ trầm tầ tara cẩn tẩ khẩn tẩ taxa cẫm tẫ dẫm tẫ taja cập tậ tập tậ chasa cấp chấ tấp chấ chafa cầu chầ trầm chầ chara cẩn chẩ khẩn chẩ chaxa cẫm chẫ dẫm chẫ chaja cập chậ tập chậ asa cấp ấ tấp ấ esu kêu éu mếu éu efu mềm èu phèu èu eru dẻo ẻu lẻo ẻu pexu mềm pẽu phèu pẽu peju mếu pẹu bệu pẹu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_576_esu_efu_eru_pexu_peju_and_asa_unlatch() {
+        let input = "esu esue esuf esur esux esuj efu efue efus efur efux efuj eru erue erus eruf erux eruj pexu pexue pexus pexuf pexur pexuj peju pejue pejus pejuf pejur pejux asa asac asam asan asap asat asau asay asaw asaf asar asax asaj"
+        let expected = "esu ếu èu ẻu ẽu ẹu efu ều éu ẻu ẽu ẹu eru ểu éu èu ẽu ẹu pexu pễu péu pèu pẻu pẹu peju pệu péu pèu pẻu pẽu asa ấc ấm ấn ấp ất ấu ấy ắ ầ ẩ ẫ ậ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_577_basa_bafa_bara_baxa_baja_dasa_dafa_dara_daxa_daja_gasa_gafa_gara_gaxa_gaja_unlatch() {
+        let input = "basa basac basam basan basap basat basau basay basaw basaf basar basax basaj bafa bafam bafan bafau bafay bafaw bafas bafar bafax bafaj bara baram baran barau baray baraw baraf barax baraj baxa baxam baxan baxau baxay baxaw baxas baxaf baxar baxaj baja bajac bajam bajan bajap bajat bajau bajay bajaw bajas bajaf bajar bajax dasa dasad dasac dasam dasan dasap dasat dasau dasay dasaw dasaf dasar dasax dasaj dafa dafad dafam dafan dafau dafay dafaw dafas dafar dafax dafaj dara darad daram daran darau daray daraw daraf darax daraj daxa daxad daxam daxan daxau daxay daxaw daxas daxaf daxar daxaj daja dajad dajac dajam dajan dajap dajat dajau dajay dajaw dajas dajaf dajar dajax gasa gasac gasam gasan gasap gasat gasau gasay gasaw gasaf gasar gasax gasaj gafa gafam gafan gafau gafay gafaw gafas gafar gafax gafaj gara garam garan garau garay garaw garaf garax garaj gaxa gaxam gaxan gaxau gaxay gaxaw gaxas gaxaf gaxar gaxaj gaja gajac gajam gajan gajap gajat gajau gajay gajaw gajas gajaf gajar gajax"
+        let expected = "basa bấc bấm bấn bấp bất bấu bấy bắ bầ bẩ bẫ bậ bafa bầm bần bầu bầy bằ bấ bẩ bẫ bậ bara bẩm bẩn bẩu bẩy bẳ bầ bẫ bậ baxa bẫm bẫn bẫu bẫy bẵ bấ bầ bẩ bậ baja bậc bậm bận bập bật bậu bậy bặ bấ bầ bẩ bẫ dasa đấ dấc dấm dấn dấp dất dấu dấy dắ dầ dẩ dẫ dậ dafa đầ dầm dần dầu dầy dằ dấ dẩ dẫ dậ dara đẩ dẩm dẩn dẩu dẩy dẳ dầ dẫ dậ daxa đẫ dẫm dẫn dẫu dẫy dẵ dấ dầ dẩ dậ daja đậ dậc dậm dận dập dật dậu dậy dặ dấ dầ dẩ dẫ gasa gấc gấm gấn gấp gất gấu gấy gắ gầ gẩ gẫ gậ gafa gầm gần gầu gầy gằ gấ gẩ gẫ gậ gara gẩm gẩn gẩu gẩy gẳ gầ gẫ gậ gaxa gẫm gẫn gẫu gẫy gẵ gấ gầ gẩ gậ gaja gậc gậm gận gập gật gậu gậy gặ gấ gầ gẩ gẫ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_578_hasa_hafa_hara_haxa_haja_masa_mafa_mara_maxa_maja_nasa_nafa_nara_naxa_naja_unlatch() {
+        let input = "hasa hasac hasam hasan hasap hasat hasau hasay hasaw hasaf hasax hasaj hafa hafam hafan hafau hafay hafaw hafas hafar hafax hafaj hara haram haran haray haraw haraf harax haraj haxa haxam haxan haxau haxay haxaw haxas haxaf haxar haxaj haja hajac hajam hajan hajap hajat hajau hajay hajaw hajas hajaf hajar hajax masa masac masam masan masap masat masau masay masaw masaf masax masaj mafa mafam mafan mafau mafay mafaw mafas mafar mafax mafaj mara maram maran marau maray maraw maraf marax maraj maxa maxam maxan maxau maxay maxaw maxas maxaf maxar maxaj maja majac majam majan majap majat majau majay majaw majas majaf majar majax nasa nasac nasam nasan nasap nasat nasau nasay nasaw nasaf nasax nasaj nafa nafam nafan nafau nafay nafaw nafas nafar nafax nafaj nara naram naran naray naraw naraf narax naraj naxa naxam naxan naxau naxay naxaw naxas naxaf naxar naxaj naja najac najam najan najap najat najau najay najaw najas najaf najar najax"
+        let expected = "hasa hấc hấm hấn hấp hất hấu hấy hắ hầ hẫ hậ hafa hầm hần hầu hầy hằ hấ hẩ hẫ hậ hara hẩm hẩn hẩy hẳ hầ hẫ hậ haxa hẫm hẫn hẫu hẫy hẵ hấ hầ hẩ hậ haja hậc hậm hận hập hật hậu hậy hặ hấ hầ hẩ hẫ masa mấc mấm mấn mấp mất mấu mấy mắ mầ mẫ mậ mafa mầm mần mầu mầy mằ mấ mẩ mẫ mậ mara mẩm mẩn mẩu mẩy mẳ mầ mẫ mậ maxa mẫm mẫn mẫu mẫy mẵ mấ mầ mẩ mậ maja mậc mậm mận mập mật mậu mậy mặ mấ mầ mẩ mẫ nasa nấc nấm nấn nấp nất nấu nấy nắ nầ nẫ nậ nafa nầm nần nầu nầy nằ nấ nẩ nẫ nậ nara nẩm nẩn nẩy nẳ nầ nẫ nậ naxa nẫm nẫn nẫu nẫy nẵ nấ nầ nẩ nậ naja nậc nậm nận nập nật nậu nậy nặ nấ nầ nẩ nẫ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_579_scenario101_trilingual_nasa_taxa_chara_and_vietnamese_cap_na_cam_ta_can_cha_chat() {
+        let input = "Trong dự án phân tích dữ liệu vệ tinh nasa kết hợp phân loại sinh vật học taxa và thiết kế nhân vật chara, cả nhóm làm việc cấp nấ (caaps nasa), bước đi cẫm tẫ (caamx taxa) và rà soát cẩn chẩ (caanr chara) từng thông số kỹ thuật!"
+        let expected = "Trong dự án phân tích dữ liệu vệ tinh nasa kết hợp phân loại sinh vật học taxa và thiết kế nhân vật chara, cả nhóm làm việc cấp nấ (cấp nấ), bước đi cẫm tẫ (cẫm tẫ) và rà soát cẩn chẩ (cẩn chẩ) từng thông số kỹ thuật!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4208,6 +4238,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_572_bosa_bofa_bora_boxa_boja_mosa_mofa_mora_moxa_moja_vosa_vofa_vora_voxa_voja_unlatch", test_tier4_572_bosa_bofa_bora_boxa_boja_mosa_mofa_mora_moxa_moja_vosa_vofa_vora_voxa_voja_unlatch),
             ("test_tier4_573_nosa_nofa_noja_rosa_rofa_roxa_roja_gofa_gora_goxa_goja_phosa_phofa_phora_phoxa_phoja_trosa_trofa_trora_troxa_troja_unlatch", test_tier4_573_nosa_nofa_noja_rosa_rofa_roxa_roja_gofa_gora_goxa_goja_phosa_phofa_phora_phoxa_phoja_trosa_trofa_trora_troxa_troja_unlatch),
             ("test_tier4_574_scenario100_trilingual_core_gora_bara_and_vietnamese_met_coe_toa_goa_can_ba_chat", test_tier4_574_scenario100_trilingual_core_gora_bara_and_vietnamese_met_coe_toa_goa_can_ba_chat),
+            ("test_tier4_575_vietnamese_collocation_phrases_hafa_hara_haxa_haja_masa_mafa_mara_maxa_maja_nasa_nafa_nara_naxa_naja_rasa_rafa_rara_raxa_raja_sasa_safa_sara_saxa_saja_tasa_tafa_tara_taxa_taja_chasa_chafa_chara_chaxa_chaja_asa_esu_efu_eru_pexu_peju", test_tier4_575_vietnamese_collocation_phrases_hafa_hara_haxa_haja_masa_mafa_mara_maxa_maja_nasa_nafa_nara_naxa_naja_rasa_rafa_rara_raxa_raja_sasa_safa_sara_saxa_saja_tasa_tafa_tara_taxa_taja_chasa_chafa_chara_chaxa_chaja_asa_esu_efu_eru_pexu_peju),
+            ("test_tier4_576_esu_efu_eru_pexu_peju_and_asa_unlatch", test_tier4_576_esu_efu_eru_pexu_peju_and_asa_unlatch),
+            ("test_tier4_577_basa_bafa_bara_baxa_baja_dasa_dafa_dara_daxa_daja_gasa_gafa_gara_gaxa_gaja_unlatch", test_tier4_577_basa_bafa_bara_baxa_baja_dasa_dafa_dara_daxa_daja_gasa_gafa_gara_gaxa_gaja_unlatch),
+            ("test_tier4_578_hasa_hafa_hara_haxa_haja_masa_mafa_mara_maxa_maja_nasa_nafa_nara_naxa_naja_unlatch", test_tier4_578_hasa_hafa_hara_haxa_haja_masa_mafa_mara_maxa_maja_nasa_nafa_nara_naxa_naja_unlatch),
+            ("test_tier4_579_scenario101_trilingual_nasa_taxa_chara_and_vietnamese_cap_na_cam_ta_can_cha_chat", test_tier4_579_scenario101_trilingual_nasa_taxa_chara_and_vietnamese_cap_na_cam_ta_can_cha_chat),
         ]
     }
 }

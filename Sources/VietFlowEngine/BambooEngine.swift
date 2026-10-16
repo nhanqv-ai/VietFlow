@@ -494,7 +494,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && "sfxjw".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "aru" && "asfxj".contains(character.lowercased()))
                 || (["iru", "isu"].contains(String(wordRawKeys).lowercased()) && "sfrxj".contains(character.lowercased()) && character.lowercased() != wordRawKeys[1].lowercased())
-                || (String(wordRawKeys).lowercased() == "asa" && "cmntuywfxj".contains(character.lowercased()))
+                || (["esu", "efu", "eru"].contains(String(wordRawKeys).lowercased()) && "esfrxj".contains(character.lowercased()) && character.lowercased() != wordRawKeys[1].lowercased())
+                || (String(wordRawKeys).lowercased() == "asa" && "cmnptuywfrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "giro" && "aeowimnsfxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "gifu" && "aowiymnsrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "giju" && "aowiymncptsfrx".contains(character.lowercased()))
@@ -2831,7 +2832,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "gara": ["cẩn", "khẩn"],
         "gaxa": ["cẫm", "dẫm"],
         "gaja": ["cập", "tập"],
-        "hasa": ["cấp", "tấp"]
+        "hasa": ["cấp", "tấp"],
+        "hafa": ["cầu", "trầm"],
+        "hara": ["cẩn", "khẩn"],
+        "haxa": ["cẫm", "dẫm"],
+        "haja": ["cập", "tập"],
+        "masa": ["cấp", "tấp"],
+        "mafa": ["cầu", "trầm"],
+        "mara": ["cẩn", "khẩn"],
+        "maxa": ["cẫm", "dẫm"],
+        "maja": ["cập", "tập"],
+        "nasa": ["cấp", "tấp"],
+        "nafa": ["cầu", "trầm"],
+        "nara": ["cẩn", "khẩn"],
+        "naxa": ["cẫm", "dẫm"],
+        "naja": ["cập", "tập"],
+        "rasa": ["cấp", "tấp"],
+        "rafa": ["cầu", "trầm"],
+        "rara": ["cẩn", "khẩn"],
+        "raxa": ["cẫm", "dẫm"],
+        "raja": ["cập", "tập"],
+        "sasa": ["cấp", "tấp"],
+        "safa": ["cầu", "trầm"],
+        "sara": ["cẩn", "khẩn"],
+        "saxa": ["cẫm", "dẫm"],
+        "saja": ["cập", "tập"],
+        "tasa": ["cấp", "tấp"],
+        "tafa": ["cầu", "trầm"],
+        "tara": ["cẩn", "khẩn"],
+        "taxa": ["cẫm", "dẫm"],
+        "taja": ["cập", "tập"],
+        "chasa": ["cấp", "tấp"],
+        "chafa": ["cầu", "trầm"],
+        "chara": ["cẩn", "khẩn"],
+        "chaxa": ["cẫm", "dẫm"],
+        "chaja": ["cập", "tập"],
+        "asa": ["cấp", "tấp"],
+        "esu": ["kêu", "mếu"],
+        "efu": ["mềm", "phèu"],
+        "eru": ["dẻo", "lẻo"],
+        "pexu": ["mềm", "phèu"],
+        "peju": ["mếu", "bệu"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
