@@ -3893,7 +3893,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_617_noays_noayf_noayr_noayx_noayj_roays_roayf_roayr_roayx_roayj_goays_goayf_goayr_goayx_goayj_tone_override_unlatch() {
         let input = "noays noaysf noaysr noaysx noaysj noayf noayfs noayfr noayfx noayfj noayr noayrs noayrf noayrx noayrj noayx noayxs noayxf noayxr noayxj noayj noayjs noayjf noayjr noayjx roays roaysf roaysr roaysx roaysj roayf roayfs roayfr roayfx roayfj roayr roayrs roayrf roayrx roayrj roayx roayxs roayxf roayxr roayxj roayj roayjs roayjf roayjr roayjx goays goaysf goaysr goaysx goaysj goayf goayfs goayfr goayfx goayfj goayr goayrs goayrf goayrx goayrj goayx goayxs goayxf goayxr goayxj goayj goayjs goayjf goayjr goayjx"
-        let expected = "noays noày noảy noãy noạy noayf noáy noảy noãy noạy noayr noáy noày noãy noạy noayx noáy noày noảy noạy noayj noáy noày noảy noãy roays roày roảy roãi roại".replacingOccurrences(of: "roãi roại", with: "roãy roạy") + " roayf roái roải roãi roại".replacingOccurrences(of: "roái roải roãi roại", with: "roáy roảy roãy roạy") + " roayr roáy roày roãy roạy roayx roáy roày roảy roạy roayj roáy roày roảy roãy goays goày goảy goãy goạy goayf goáy goảy goãy goạy goayr goáy goày goãy goạy goayx goáy goày goảy goạy goayj goáy goày goảy goãy"
+        let expected = "noays noày noảy noãy noạy noayf noáy noảy noãy noạy noayr noáy noày noãy noạy noayx noáy noày noảy noạy noayj noáy noày noảy noãy roays roày roảy roãy roạy roayf roáy roảy roãy roạy roayr roáy roày roãy roạy roayx roáy roày roảy roạy roayj roáy roày roảy roãy goays goày goảy goãy goạy goayf goáy goảy goãy goạy goayr goáy goày goãy goạy goayx goáy goày goảy goạy goayj goáy goày goảy goãy"
         assertBuffer(input, equals: expected)
     }
 
@@ -3904,8 +3904,8 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
     }
 
     func test_tier4_619_scenario109_trilingual_koais_boays_moays_and_vietnamese_ngoai_koai_xoay_boay_ngoay_moay_chat() {
-        let input = "Khi theo dõi các dòng chảy xoáy boays và xoáy nước moays gần bờ đảo koais, các nhà hải dương học vừa ngoái koái (ngoais koais) quan sát la bàn vừa ghi chép chuyển động xoáy boáy (xoays boays) và ngoáy moáy (ngoays moays) của dòng hải lưu!"
-        let expected = "Khi theo dõi các dòng chảy xoáy boays và xoáy nước moays gần bờ đảo koais, các nhà hải dương học vừa ngoái koái (ngoái koái) quan sát la bàn vừa ghi chép chuyển động xoáy boáy (xoáy boáy) và ngoáy moáy (ngoáy moáy) của dòng hải lưu!"
+        let input = "Khi theo dõi các dòng chảy ngầm boays và xoáy nước moays gần bờ đảo koais, các nhà hải dương học vừa ngoái koái (ngoais koais) quan sát la bàn vừa ghi chép chuyển động xoáy boáy (xoays boays) và ngoáy moáy (ngoays moays) của dòng hải lưu!"
+        let expected = "Khi theo dõi các dòng chảy ngầm boays và xoáy nước moays gần bờ đảo koais, các nhà hải dương học vừa ngoái koái (ngoái koái) quan sát la bàn vừa ghi chép chuyển động xoáy boáy (xoáy boáy) và ngoáy moáy (ngoáy moáy) của dòng hải lưu!"
         assertBuffer(input, equals: expected)
     }
 
