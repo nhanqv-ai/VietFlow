@@ -234,15 +234,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if (["toes", "hoes", "roes", "noes", "lose", "hose", "chose", "those", "rose", "nose", "pose", "dose", "kose", "koje", "poje", "boje", "moje", "noje", "doje", "roje", "soje", "vose", "voje", "goje", "phose", "phoje", "trose", "troje", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
+            } else if (["toes", "hoes", "roes", "noes", "lose", "hose", "chose", "those", "rose", "nose", "pose", "dose", "kose", "koje", "poje", "boje", "moje", "noje", "doje", "roje", "soje", "vose", "voje", "goje", "phose", "phoje", "trose", "troje", "cose", "coje", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
                 || (["toes", "hoes", "roes", "noes", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "horse" && character.lowercased() == "o")
-                || (["toes", "hoes", "roes", "noes", "lose", "hose", "those", "rose", "nose", "pose", "dose", "kose", "koje", "poje", "boje", "moje", "noje", "doje", "roje", "soje", "vose", "voje", "goje", "phose", "phoje", "trose", "troje", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
-                || (["tore", "hore", "lore", "chore", "ore", "sore", "dore", "rore", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore"].contains(String(wordRawKeys).lowercased()) && "ofjx".contains(character.lowercased()))
+                || (["toes", "hoes", "roes", "noes", "lose", "hose", "those", "rose", "nose", "pose", "dose", "kose", "koje", "poje", "boje", "moje", "noje", "doje", "roje", "soje", "vose", "voje", "goje", "phose", "phoje", "trose", "troje", "cose", "coje", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
+                || (["tore", "hore", "lore", "chore", "ore", "sore", "dore", "rore", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "core"].contains(String(wordRawKeys).lowercased()) && "ofjx".contains(character.lowercased()))
                 || (["lose", "hose", "chose", "those", "rose", "nose", "pose", "dose", "kose", "more"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (["hose", "chose", "those", "rose", "nose", "dose", "kose"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "r")
-                || (["tore", "hore", "chore", "sore", "dore", "rore", "more", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "kofe", "koxe", "pofe", "poxe", "bofe", "mofe", "moxe", "nofe", "noxe", "dofe", "doxe", "rofe", "roxe", "sofe", "soxe", "vofe", "voxe", "gofe", "goxe", "phofe", "phoxe", "trofe", "troxe"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
-                || (["kofe", "koxe", "koje", "pofe", "poxe", "poje", "bofe", "boje", "mofe", "moxe", "moje", "nofe", "noxe", "noje", "dofe", "doxe", "doje", "rofe", "roxe", "roje", "sofe", "soxe", "soje", "vose", "vofe", "voxe", "voje", "gofe", "goxe", "goje", "phose", "phofe", "phoxe", "phoje", "trose", "trofe", "troxe", "troje"].contains(String(wordRawKeys).lowercased()) && ("osfrxj".contains(character.lowercased()) && character.lowercased() != r2))
+                || (["tore", "hore", "chore", "sore", "dore", "rore", "more", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "core", "kofe", "koxe", "pofe", "poxe", "bofe", "mofe", "moxe", "nofe", "noxe", "dofe", "doxe", "rofe", "roxe", "sofe", "soxe", "vofe", "voxe", "gofe", "goxe", "phofe", "phoxe", "trofe", "troxe", "cofe", "coxe"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
+                || (["kofe", "koxe", "koje", "pofe", "poxe", "poje", "bofe", "boje", "mofe", "moxe", "moje", "nofe", "noxe", "noje", "dofe", "doxe", "doje", "rofe", "roxe", "roje", "sofe", "soxe", "soje", "vose", "vofe", "voxe", "voje", "gofe", "goxe", "goje", "phose", "phofe", "phoxe", "phoje", "trose", "trofe", "troxe", "troje", "cose", "cofe", "coxe", "coje"].contains(String(wordRawKeys).lowercased()) && ("osfrxj".contains(character.lowercased()) && character.lowercased() != r2))
                 || (["dofe", "dore", "doxe", "doje"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
                 || (String(wordRawKeys).lowercased() == "lore" && character.lowercased() == "n") {
                 isBypassed = false
@@ -625,13 +625,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     || (["deso", "daru", "dasu"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
                     || (["maso", "saso"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
                     || (r1 == "o" && "rsfjx".contains(r2) && r3 == "a"
-                        && (("sj".contains(r2) && "cmnpt".contains(character.lowercased()))
+                        && (("sj".contains(r2) && "cmnpt".contains(character.lowercased()) && !(String(wordRawKeys).lowercased() == "troja" && character.lowercased() == "n"))
                             || ("rfx".contains(r2) && "mn".contains(character.lowercased()))
                             || character.lowercased() == "y"
                             || (character.lowercased() == "i" && ["sora", "lora", "sofa", "dora", "nora", "rora", "kosa", "kofa", "kora", "koxa", "koja", "posa", "pofa", "pora", "poxa", "poja"].contains(String(wordRawKeys).lowercased()))
-                            || (character.lowercased() == "o" && ["sora", "lora", "sofa", "sosa", "tosa", "dora", "dosa", "nora", "rora", "kosa", "kofa", "kora", "koxa", "koja", "posa", "pofa", "pora", "poxa", "poja"].contains(String(wordRawKeys).lowercased()))
-                            || (character.lowercased() == "w" && ["sora", "lora", "sofa", "sosa", "tosa", "dora", "dosa", "nora", "rora", "kosa", "kofa", "kora", "koxa", "koja", "posa", "pofa", "pora", "poxa", "poja"].contains(String(wordRawKeys).lowercased()))
-                            || (["sora", "lora", "dora", "sosa", "tosa", "dosa", "kosa", "kofa", "kora", "koxa", "koja", "posa", "pofa", "pora", "poxa", "poja"].contains(String(wordRawKeys).lowercased()) && "sfrxj".contains(character.lowercased()) && character.lowercased() != r2 && !(String(wordRawKeys).lowercased() == "kora" && character.lowercased() == "r"))
+                            || (character.lowercased() == "o" && ["sora", "lora", "sofa", "sosa", "tosa", "dora", "dosa", "nora", "rora", "kosa", "kofa", "kora", "koxa", "koja", "posa", "pofa", "pora", "poxa", "poja", "bosa", "bofa", "bora", "boxa", "boja", "mosa", "mofa", "mora", "moxa", "moja", "vosa", "vofa", "vora", "voxa", "voja", "nosa", "nofa", "noja", "rosa", "rofa", "roxa", "roja", "gosa", "gofa", "gora", "goxa", "goja", "phosa", "phofa", "phora", "phoxa", "phoja", "trosa", "trofa", "trora", "troxa", "troja"].contains(String(wordRawKeys).lowercased()))
+                            || (character.lowercased() == "w" && ["sora", "lora", "sofa", "sosa", "tosa", "dora", "dosa", "nora", "rora", "kosa", "kofa", "kora", "koxa", "koja", "posa", "pofa", "pora", "poxa", "poja", "bosa", "bofa", "bora", "boxa", "boja", "mosa", "mofa", "mora", "moxa", "moja", "vosa", "vofa", "vora", "voxa", "voja", "nosa", "nofa", "noja", "rosa", "rofa", "roxa", "roja", "gosa", "gofa", "gora", "goxa", "goja", "phosa", "phofa", "phora", "phoxa", "phoja", "trosa", "trofa", "trora", "troxa", "troja"].contains(String(wordRawKeys).lowercased()))
+                            || (["sora", "lora", "dora", "sosa", "tosa", "dosa", "kosa", "kofa", "kora", "koxa", "koja", "posa", "pofa", "pora", "poxa", "poja", "bosa", "bofa", "bora", "boxa", "boja", "mosa", "mofa", "mora", "moxa", "moja", "vosa", "vofa", "vora", "voxa", "voja", "nosa", "nofa", "noja", "rosa", "rofa", "roxa", "roja", "gosa", "gofa", "gora", "goxa", "goja", "phosa", "phofa", "phora", "phoxa", "phoja", "trosa", "trofa", "trora", "troxa", "troja"].contains(String(wordRawKeys).lowercased()) && "sfrxj".contains(character.lowercased()) && character.lowercased() != r2 && !(String(wordRawKeys).lowercased() == "kora" && character.lowercased() == "r") && !(String(wordRawKeys).lowercased() == "bora" && character.lowercased() == "x"))
                             || (String(wordRawKeys).lowercased() == "sofa" && "rxj".contains(character.lowercased()))
                             || (["nora", "rora"].contains(String(wordRawKeys).lowercased()) && "fxj".contains(character.lowercased()))))))
                 || (wordRawKeys.first?.lowercased() == "d"
@@ -1045,7 +1045,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && !isVietCollocationFull && !(wasUnlatchedInStep2 && ["gese", "gefe", "gere", "gexe", "geje", "geso", "gefo", "gero", "gexo", "gejo", "gesu", "gefu", "geru", "gexu", "geju", "ngese", "ngefe", "ngere", "ngexe", "ngeje", "ngeso", "ngefo", "ngero", "ngexo", "ngejo", "ngesu", "ngefu", "ngeru", "ngexu", "ngeju"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
                     || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc) && !isVietCollocationFull && !wasUnlatchedInStep2)
                     || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull && !wasUnlatchedInStep2)
-                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull && !(wasUnlatchedInStep2 && ["nora", "rora", "posa", "pofa", "pora", "poxa", "poja"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
+                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull && !wasUnlatchedInStep2)
                     || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y") && !isVietCollocationFull)
                     || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })) && !isVietCollocationFull && !wasUnlatchedInStep2)
                     || (lowerOnset == "z")
@@ -2791,7 +2791,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "voxa": ["tỏa", "xõa"],
         "voja": ["đọa", "tọa"],
         "nofa": ["xòa", "tòa"],
-        "noja": ["đọa", "tọa"]
+        "noja": ["đọa", "tọa"],
+        "cose": ["đỏ", "sáng"],
+        "cofe": ["đỏ", "hòe"],
+        "core": ["mệt", "khỏe"],
+        "coxe": ["đỏ", "hòe"],
+        "coje": ["đỏ", "nhọe"],
+        "nosa": ["xóa", "tóa"],
+        "rosa": ["xóa", "tóa"],
+        "rofa": ["xòa", "tòa"],
+        "roxa": ["tỏa", "xõa"],
+        "roja": ["đọa", "tọa"],
+        "gofa": ["xòa", "tòa"],
+        "gora": ["tỏa", "xõa"],
+        "goxa": ["tỏa", "xõa"],
+        "goja": ["đọa", "tọa"],
+        "phosa": ["xóa", "tóa"],
+        "phofa": ["xòa", "tòa"],
+        "phora": ["tỏa", "xõa"],
+        "phoxa": ["tỏa", "xõa"],
+        "phoja": ["đọa", "tọa"],
+        "trosa": ["xóa", "tóa"],
+        "trofa": ["xòa", "tòa"],
+        "trora": ["tỏa", "xõa"],
+        "troxa": ["tỏa", "xõa"],
+        "troja": ["đọa", "tọa"],
+        "basa": ["cấp", "tấp"],
+        "bafa": ["cầu", "trầm"],
+        "bara": ["cẩn", "khẩn"],
+        "baxa": ["cẫm", "dẫm"],
+        "baja": ["cập", "tập"],
+        "dasa": ["cấp", "tấp"],
+        "dafa": ["cầu", "trầm"],
+        "dara": ["cẩn", "khẩn"],
+        "daxa": ["cẫm", "dẫm"],
+        "daja": ["cập", "tập"],
+        "gasa": ["cấp", "tấp"],
+        "gafa": ["cầu", "trầm"],
+        "gara": ["cẩn", "khẩn"],
+        "gaxa": ["cẫm", "dẫm"],
+        "gaja": ["cập", "tập"],
+        "hasa": ["cấp", "tấp"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(

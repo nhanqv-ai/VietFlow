@@ -3593,6 +3593,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 92: 40 Collocation Entries, c-Onset oe Unlatch, and b/m/v/n/r/g/ph/tr-Onset oa Unlatch
+
+    func test_tier4_570_vietnamese_collocation_phrases_cose_cofe_core_coxe_coje_nosa_rosa_rofa_roxa_roja_gofa_gora_goxa_goja_phosa_phofa_phora_phoxa_phoja_trosa_trofa_trora_troxa_troja_basa_bafa_bara_baxa_baja_dasa_dafa_dara_daxa_daja_gasa_gafa_gara_gaxa_gaja_hasa() {
+        let input = "cose ddor cose sangs cose cofe ddor cofe hoef cofe core meejt core khoer core coxe ddor coxe hoef coxe coje ddor coje nhoej coje nosa xoas nosa toas nosa rosa xoas rosa toas rosa rofa xoaf rofa toaf rofa roxa toar roxa xoax roxa roja ddoaj roja toaj roja gofa xoaf gofa toaf gofa gora toar gora xoax gora goxa toar goxa xoax goxa goja ddoaj goja toaj goja phosa xoas phosa toas phosa phofa xoaf phofa toaf phofa phora toar phora xoax phora phoxa toar phoxa xoax phoxa phoja ddoaj phoja toaj phoja trosa xoas trosa toas trosa trofa xoaf trofa toaf trofa trora toar trora xoax trora troxa toar troxa xoax troxa troja ddoaj troja toaj troja basa caaps basa taaps basa bafa caauf bafa traamf bafa bara caanr bara khaanr bara baxa caamx baxa daamx baxa baja caapj baja taapj baja dasa caaps dasa taaps dasa dafa caauf dafa traamf dafa dara caanr dara khaanr dara daxa caamx daxa daamx daxa daja caapj daja taapj daja gasa caaps gasa taaps gasa gafa caauf gafa traamf gafa gara caanr gara khaanr gara gaxa caamx gaxa daamx gaxa gaja caapj gaja taapj gaja hasa caaps hasa taaps hasa"
+        let expected = "cose đỏ cóe sáng cóe cofe đỏ còe hòe còe core mệt cỏe khỏe cỏe coxe đỏ cõe hòe cõe coje đỏ cọe nhọe cọe nosa xóa nóa tóa nóa rosa xóa róa tóa róa rofa xòa ròa tòa ròa roxa tỏa rõa xõa rõa roja đọa rọa tọa rọa gofa xòa gòa tòa gòa gora tỏa gỏa xõa gỏa goxa tỏa gõa xõa gõa goja đọa gọa tọa gọa phosa xóa phóa tóa phóa phofa xòa phòa tòa phòa phora tỏa phỏa xõa phỏa phoxa tỏa phõa xõa phõa phoja đọa phọa tọa phọa trosa xóa tróa tóa tróa trofa xòa tròa tòa tròa trora tỏa trỏa xõa trỏa troxa tỏa trõa xõa trõa troja đọa trọa tọa trọa basa cấp bấ tấp bấ bafa cầu bầ trầm bầ bara cẩn bẩ khẩn bẩ baxa cẫm bẫ dẫm bẫ baja cập bậ tập bậ dasa cấp dấ tấp dấ dafa cầu dầ trầm dầ dara cẩn dẩ khẩn dẩ daxa cẫm dẫ dẫm dẫ daja cập dậ tập dậ gasa cấp gấ tấp gấ gafa cầu gầ trầm gầ gara cẩn gẩ khẩn gẩ gaxa cẫm gẫ dẫm gẫ gaja cập gậ tập gậ hasa cấp hấ tấp hấ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_571_cose_cofe_core_coxe_coje_unlatch() {
+        let input = "cose coseo cosef coser cosex cosej cosem cosen cosec cosep coset cofe cofeo cofes cofer cofex cofej cofem cofen core coreo coref corex corej corem coren coxe coxeo coxes coxef coxer coxej coxem coxen coje cojeo cojes cojef cojer cojex cojem cojen cojec cojep cojet"
+        let expected = "cose coéo còe cỏe cõe cọe coém coén coéc coép coét cofe coèo cóe cỏe cõe cọe coèm coèn core coẻo còe cõe cọe coẻm coẻn coxe coẽo cóe còe cỏe cọe coẽm coẽn coje coẹo cóe còe cỏe cõe coẹm coẹn coẹc coẹp coẹt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_572_bosa_bofa_bora_boxa_boja_mosa_mofa_mora_moxa_moja_vosa_vofa_vora_voxa_voja_unlatch() {
+        let input = "bosa bosaf bosar bosax bosaj bosam bosan bosac bosap bosat bofa bofas bofar bofax bofaj bofam bofan bora boras boraf boraj boram boran boxa boxas boxaf boxar boxaj boxam boxan boja bojas bojaf bojar bojax bojam bojan bojac bojap bojat mosa mosaf mosar mosax mosaj mosam mosan mosac mosap mosat mofa mofas mofar mofax mofaj mofam mofan mora moras moraf morax moraj moram moran moxa moxas moxaf moxar moxaj moxam moxan moja mojas mojaf mojar mojax mojam mojan mojac mojap mojat vosa vosaf vosar vosax vosaj vosam vosan vosac vosap vosat vofa vofas vofar vofax vofaj vofam vofan vora voras voraf vorax voraj voram voran voxa voxas voxaf voxar voxaj voxam voxan voja vojas vojaf vojar vojax vojam vojan vojac vojap vojat"
+        let expected = "bosa bòa bỏa bõa bọa boám boán boác boáp boát bofa bóa bỏa bõa bọa boàm boàn bora bóa bòa bọa boảm boản boxa bóa bòa bỏa bọa boãm boãn boja bóa bòa bỏa bõa boạm boạn boạc boạp boạt mosa mòa mỏa mõa mọa moám moán moác moáp moát mofa móa mỏa mõa mọa moàm moàn mora móa mòa mõa mọa moảm moản moxa móa mòa mỏa mọa moãm moãn moja móa mòa mỏa mõa moạm moạn moạc moạp moạt vosa vòa vỏa võa vọa voám voán voác voáp voát vofa vóa vỏa võa vọa voàm voàn vora vóa vòa võa vọa voảm voản voxa vóa vòa vỏa vọa voãm voãn voja vóa vòa vỏa võa voạm voạn voạc voạp voạt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_573_nosa_nofa_noja_rosa_rofa_roxa_roja_gofa_gora_goxa_goja_phosa_phofa_phora_phoxa_phoja_trosa_trofa_trora_troxa_troja_unlatch() {
+        let input = "nosa nosaf nosar nosax nosaj nosam nosan nosac nosap nosat nofa nofas nofar nofax nofaj nofam nofan noja nojas nojaf nojar nojax nojam nojan nojac nojap nojat rosa rosaf rosar rosax rosaj rosam rosan rosac rosap rosat rofa rofas rofar rofax rofaj rofam rofan roxa roxas roxaf roxar roxaj roxam roxan roja rojas rojaf rojar rojax rojam rojan rojac rojap rojat gofa gofas gofar gofax gofaj gofam gofan gora goras goraf gorax goraj goram goran goxa goxas goxaf goxar goxaj goxam goxan goja gojas gojaf gojar gojax gojam gojan gojac gojap gojat phosa phosaf phosar phosax phosaj phosam phosan phosac phosap phosat phofa phofas phofar phofax phofaj phofam phofan phora phoras phoraf phorax phoraj phoram phoran phoxa phoxas phoxaf phoxar phoxaj phoxam phoxan phoja phojas phojaf phojar phojax phojam phojan phojac phojap phojat trosa trosaf trosar trosax trosaj trosam trosan trosac trosap trosat trofa trofas trofar trofax trofaj trofam trofan trora troras troraf trorax troraj troram troran troxa troxas troxaf troxar troxaj troxam troxan troja trojas trojaf trojar trojax trojam trojan trojac trojap trojat"
+        let expected = "nosa nòa nỏa nõa nọa noám noán noác noáp noát nofa nóa nỏa nõa nọa noàm noàn noja nóa nòa nỏa nõa noạm noạn noạc noạp noạt rosa ròa rỏa rõa rọa roám roán roác roáp roát rofa róa rỏa rõa rọa roàm roàn roxa róa ròa rỏa rọa roãm roãn roja róa ròa rỏa rõa roạm roạn roạc roạp roạt gofa góa gỏa gõa gọa goàm goàn gora góa gòa gõa gọa goảm goản goxa góa gòa gỏa gọa goãm goãn goja góa gòa gỏa gõa goạm goạn goạc goạp goạt phosa phòa phỏa phõa phọa phoám phoán phoác phoáp phoát phofa phóa phỏa phõa phọa phoàm phoàn phora phóa phòa phõa phọa phoảm phoản phoxa phóa phòa phỏa phọa phoãm phoãn phoja phóa phòa phỏa phõa phoạm phoạn phoạc phoạp phoạt trosa tròa trỏa trõa trọa troám troán troác troáp troát trofa tróa trỏa trõa trọa troàm troàn trora tróa tròa trõa trọa troảm troản troxa tróa tròa trỏa trọa troãm troãn troja tróa tròa trỏa trõa troạm trojan troạc troạp troạt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_574_scenario100_trilingual_core_gora_bara_and_vietnamese_met_coe_toa_goa_can_ba_chat() {
+        let input = "Sau khi tối ưu hóa module core tại trung tâm nghiên cứu gora và tham quan vườn hồng bara, dù ai nấy đều thấm mệt cỏe (meejt core), cả đội vẫn cẩn bẩ (caanr bara) ghi chép tài liệu dưới bóng nắng tỏa gỏa (toar gora) bên hiên nhà!"
+        let expected = "Sau khi tối ưu hóa module core tại trung tâm nghiên cứu gora và tham quan vườn hồng bara, dù ai nấy đều thấm mệt cỏe (mệt cỏe), cả đội vẫn cẩn bẩ (cẩn bẩ) ghi chép tài liệu dưới bóng nắng tỏa gỏa (tỏa gỏa) bên hiên nhà!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4171,6 +4203,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_567_sofe_soxe_soje_vose_vofe_vore_voxe_voje_gofe_gore_goxe_goje_unlatch", test_tier4_567_sofe_soxe_soje_vose_vofe_vore_voxe_voje_gofe_gore_goxe_goje_unlatch),
             ("test_tier4_568_phose_phofe_phore_phoxe_phoje_and_trose_trofe_trore_troxe_troje_unlatch", test_tier4_568_phose_phofe_phore_phoxe_phoje_and_trose_trofe_trore_troxe_troje_unlatch),
             ("test_tier4_569_scenario99_trilingual_gore_bosa_mosa_and_vietnamese_met_goe_xoa_boa_toa_moa_chat", test_tier4_569_scenario99_trilingual_gore_bosa_mosa_and_vietnamese_met_goe_xoa_boa_toa_moa_chat),
+            ("test_tier4_570_vietnamese_collocation_phrases_cose_cofe_core_coxe_coje_nosa_rosa_rofa_roxa_roja_gofa_gora_goxa_goja_phosa_phofa_phora_phoxa_phoja_trosa_trofa_trora_troxa_troja_basa_bafa_bara_baxa_baja_dasa_dafa_dara_daxa_daja_gasa_gafa_gara_gaxa_gaja_hasa", test_tier4_570_vietnamese_collocation_phrases_cose_cofe_core_coxe_coje_nosa_rosa_rofa_roxa_roja_gofa_gora_goxa_goja_phosa_phofa_phora_phoxa_phoja_trosa_trofa_trora_troxa_troja_basa_bafa_bara_baxa_baja_dasa_dafa_dara_daxa_daja_gasa_gafa_gara_gaxa_gaja_hasa),
+            ("test_tier4_571_cose_cofe_core_coxe_coje_unlatch", test_tier4_571_cose_cofe_core_coxe_coje_unlatch),
+            ("test_tier4_572_bosa_bofa_bora_boxa_boja_mosa_mofa_mora_moxa_moja_vosa_vofa_vora_voxa_voja_unlatch", test_tier4_572_bosa_bofa_bora_boxa_boja_mosa_mofa_mora_moxa_moja_vosa_vofa_vora_voxa_voja_unlatch),
+            ("test_tier4_573_nosa_nofa_noja_rosa_rofa_roxa_roja_gofa_gora_goxa_goja_phosa_phofa_phora_phoxa_phoja_trosa_trofa_trora_troxa_troja_unlatch", test_tier4_573_nosa_nofa_noja_rosa_rofa_roxa_roja_gofa_gora_goxa_goja_phosa_phofa_phora_phoxa_phoja_trosa_trofa_trora_troxa_troja_unlatch),
+            ("test_tier4_574_scenario100_trilingual_core_gora_bara_and_vietnamese_met_coe_toa_goa_can_ba_chat", test_tier4_574_scenario100_trilingual_core_gora_bara_and_vietnamese_met_coe_toa_goa_can_ba_chat),
         ]
     }
 }
