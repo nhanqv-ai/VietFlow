@@ -3717,6 +3717,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 96: 40 Collocation Entries, bose/mose/sose/gose/boxe Unlatch, doer/doers/goer/goers Unlatch, and pair/pairs/pays/peer/poor/poems/poets Unlatch
+
+    func test_tier4_590_vietnamese_collocation_phrases_caws_maws_haws_paws_thaws_bawks_gawks_hawks_pawns_torns_wars_wows_pair_pairs_pays_peer_poor_post_pasta_poems_poets_pieces_peruse_doer_doers_goer_goers_doors_torso_terse_test_ajar_ajax_quasar_quasars_exo_nginx_urana_uraya_ore() {
+        let input = "caws nawngs caws chois caws maws nawngs maws chois maws haws nawngs haws chois haws paws nawngs paws chois paws thaws nawngs thaws chois thaws bawks nawngs bawks chois bawks gawks nawngs gawks chois gawks hawks nawngs hawks chois hawks pawns nawngs pawns bawns pawns torns tis torns bes torns wars nawngs wars muwa wars wows nuwcs wows ruwcj wows pair bair pair phair pair pairs bais pairs phais pairs pays bays pays mays pays peer keer peer neer peer poor vowx poor noor poor post xots post rots post pasta laats pasta phaats pasta poems lems poems nhoem poems poets khoets poets loets poets pieces xanh pieces bieecs pieces peruse khocs peruse meesu peruse doer meejt doer khoer doer doers ddor doers sangs doers goer meejt goer khoer goer goers ddor goers sangs goers doors ngoos doors coos doors torso ngoos torso phoos torso terse bees terse cungs terse test bets test nets test ajar caanr ajar khaanr ajar ajax caamx ajax daamx ajax quasar caanr quasar khaanr quasar quasars caaps quasars taaps quasars exo lexo exo ddexo exo nginx ngaamx nginx nghix nginx urana luaanr urana quaanr urana uraya baayr uraya ddaayr uraya ore meejt ore khoer ore"
+        let expected = "caws nắng cắ chói cắ maws nắng mắ chói mắ haws nắng hắ chói hắ paws nắng pắ chói pắ thaws nắng thắ chói thắ bawks nắng bắk chói bắk gawks nắng gắk chói gắk hawks nắng hắk chói hắk pawns nắng pắn bắn pắn torns tí tón bé tón wars nắng ứa mưa ứa wows nức ướ rực ướ pair bải pải phải pải pairs bái pái phái pái pays báy páy máy páy peer kể pể nể pể poor vỡ pổ nổ pổ post xót pót rót pót pasta lất pất phất pất poems lém poém nhoem poém poets khoét poét loét poét pieces xanh piếc biếc piếc peruse khóc pếu mếu pếu doer mệt dỏe khỏe dỏe doers đỏ dóe sáng dóe goer mệt gỏe khỏe gỏe goers đỏ góe sáng góe doors ngố dố cố dố torso ngố tố phố tố terse bế tế cúng tế test bét tét nét tét ajar cẩn ẩ khẩn ẩ ajax cẫm ẫ dẫm ẫ quasar cẩn quẩ khẩn quẩ quasars cấp quấ tấp quấ exo lẽo ẽo đẽo ẽo nginx ngẫm ngĩn nghĩ ngĩn urana luẩn uẩn quẩn uẩn uraya bẩy uẩy đẩy uẩy ore mệt ỏe khỏe ỏe"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_591_bose_mose_sose_gose_boxe_coda_offglide_and_tone_override_unlatch() {
+        let input = "bose boseo bosef boser bosex bosej bosem bosen bosec bosep boset mose moseo mosef moser mosex mosej mosem mosen mosec mosep moset sose soseo sosef soser sosex sosej sosem sosen sosec sosep soset gose goseo gosef goser gosex gosej gosem gosen gosec gosep goset boxe boxeo boxef boxej boxem boxen boxer boxes"
+        let expected = "bose boéo bòe bỏe bõe bọe boém boén boéc boép boét mose moéo mòe mỏe mõe mọe moém moén moéc moép moét sose soéo sòe sỏe sõe sọe soém sosen soéc soép soét gose goéo gòe gỏe gõe gọe goém goén goéc goép goét boxe boẽo bòe bọe boẽm boẽn boxer boxes"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_592_doer_doers_goer_goers_coda_offglide_tone_override_and_d_stroke_unlatch() {
+        let input = "doer doero doerf doerx doerj doerm doern doerd doerdf doerdx doerdj doerdo doerdm doerdn doers doerso doersf doersr doersx doersj doersm doersn doersc doersp doerst doersd doersdf doersdr doersdx doersdj doersdo doersdm doersdn doersdc doersdp doersdt goer goero goerf goerx goerj goerm goern goers goerso goersf goersr goersx goersj goersm goersn goersc goersp goerst"
+        let expected = "doer doẻo dòe dõe dọe doẻm doẻn đỏe đòe đõe đọe đoẻo đoẻm đoẻn doers doéo dòe dỏe dõe dọe doém doén doéc doép doét đóe đòe đỏe đõe đọe đoéo đoém đoén đoéc đoép đoét goer goẻo gòe gõe gọe goẻm goẻn goers goéo gòe gỏe gõe gọe goém goén goéc goép goét"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_593_pair_pairs_pays_peer_poor_poems_poets_coda_offglide_circumflex_and_tone_override_unlatch() {
+        let input = "pair pairf pairx pairj pairs pairsf pairsr pairsx pairsj pays paysf paysr paysx paysj paysa peer peerf peerx peerj peeru peerm peern poor poorf poorx poorj poori poorm poorn poems poemsf poemsr poemsx poemsj poets poetsj"
+        let expected = "pair pài pãi pại pairs pài pải pãi pại pays pày pảy pãy pạy pấy peer pề pễ pệ pểu pểm pển poor pồ pỗ pộ pổi pổm pổn poems poèm poẻm poẽm poẹm poets poẹt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_594_scenario104_trilingual_nginx_quasar_pieces_and_vietnamese_xanh_piec_ngam_ngin_cung_te_chat() {
+        let input = "Khi cấu hình máy chủ nginx để xử lý dữ liệu thiên văn quasar và ghép các mảnh ghép pieces trên giao diện bose, cả nhóm đứng ngắm mặt hồ xanh piếc (xanh pieces) vừa ngẫm ngĩn (ngaamx nginx) về lễ cúng tế (cungs terse) truyền thống dưới ánh đèn đỏ góe (ddor goers)!"
+        let expected = "Khi cấu hình máy chủ nginx để xử lý dữ liệu thiên văn quasar và ghép các mảnh ghép pieces trên giao diện bose, cả nhóm đứng ngắm mặt hồ xanh piếc (xanh piếc) vừa ngẫm ngĩn (ngẫm ngĩn) về lễ cúng tế (cúng tế) truyền thống dưới ánh đèn đỏ góe (đỏ góe)!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4315,6 +4347,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_587_goes_does_pores_coda_offglide_tone_override_and_d_stroke_unlatch", test_tier4_587_goes_does_pores_coda_offglide_tone_override_and_d_stroke_unlatch),
             ("test_tier4_588_dosai_dofai_doxai_dojai_noxay_dofay_doxay_dojay_noxao_dofao_doxao_dojao_tone_override_and_d_stroke_unlatch", test_tier4_588_dosai_dofai_doxai_dojai_noxay_dofay_doxay_dojay_noxao_dofao_doxao_dojao_tone_override_and_d_stroke_unlatch),
             ("test_tier4_589_scenario103_trilingual_boar_goes_axis_and_vietnamese_toa_boa_do_goe_uu_ai_chat", test_tier4_589_scenario103_trilingual_boar_goes_axis_and_vietnamese_toa_boa_do_goe_uu_ai_chat),
+            ("test_tier4_590_vietnamese_collocation_phrases_caws_maws_haws_paws_thaws_bawks_gawks_hawks_pawns_torns_wars_wows_pair_pairs_pays_peer_poor_post_pasta_poems_poets_pieces_peruse_doer_doers_goer_goers_doors_torso_terse_test_ajar_ajax_quasar_quasars_exo_nginx_urana_uraya_ore", test_tier4_590_vietnamese_collocation_phrases_caws_maws_haws_paws_thaws_bawks_gawks_hawks_pawns_torns_wars_wows_pair_pairs_pays_peer_poor_post_pasta_poems_poets_pieces_peruse_doer_doers_goer_goers_doors_torso_terse_test_ajar_ajax_quasar_quasars_exo_nginx_urana_uraya_ore),
+            ("test_tier4_591_bose_mose_sose_gose_boxe_coda_offglide_and_tone_override_unlatch", test_tier4_591_bose_mose_sose_gose_boxe_coda_offglide_and_tone_override_unlatch),
+            ("test_tier4_592_doer_doers_goer_goers_coda_offglide_tone_override_and_d_stroke_unlatch", test_tier4_592_doer_doers_goer_goers_coda_offglide_tone_override_and_d_stroke_unlatch),
+            ("test_tier4_593_pair_pairs_pays_peer_poor_poems_poets_coda_offglide_circumflex_and_tone_override_unlatch", test_tier4_593_pair_pairs_pays_peer_poor_poems_poets_coda_offglide_circumflex_and_tone_override_unlatch),
+            ("test_tier4_594_scenario104_trilingual_nginx_quasar_pieces_and_vietnamese_xanh_piec_ngam_ngin_cung_te_chat", test_tier4_594_scenario104_trilingual_nginx_quasar_pieces_and_vietnamese_xanh_piec_ngam_ngin_cung_te_chat),
         ]
     }
 }
