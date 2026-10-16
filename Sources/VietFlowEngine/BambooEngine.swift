@@ -515,6 +515,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["boast", "roast", "goast", "goasp"].contains(String(wordRawKeys).lowercased())
                     && "wj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "goasc" && "hwj".contains(character.lowercased()))
+                || (["boats", "boatj", "moats", "moatj", "voats", "voatj", "noats", "noatj", "roats", "roatj", "goats", "goatj", "poats", "poatj", "phoats", "phoatj", "troats", "troatj", "koats", "koatj", "boaps", "boapj", "moaps", "moapj", "voaps", "voapj", "noaps", "noapj", "roaps", "roapj", "goaps", "goapj", "poaps", "poapj", "phoaps", "phoapj", "troaps", "troapj", "koaps", "koapj", "boachs", "boachj", "moachs", "moachj", "voachs", "voachj", "noachs", "noachj", "roachs", "roachj", "goachs", "goachj", "poachs", "poachj", "phoachs", "phoachj", "troachs", "troachj", "koachs", "koachj"].contains(String(wordRawKeys).lowercased())
+                    && "wsj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["boacs", "boacj", "moacs", "moacj", "voacs", "voacj", "noacs", "noacj", "roacs", "roacj", "goacs", "goacj", "poacs", "poacj", "phoacs", "phoacj", "troacs", "troacj", "koacs", "koacj"].contains(String(wordRawKeys).lowercased())
+                    && "hwsj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
                     && "sfxj".contains(character.lowercased()))
                 || (["haafu", "saafu", "taafu", "seefu"].contains(String(wordRawKeys).lowercased())
@@ -3464,7 +3470,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "roangs": ["loáng", "thoáng"],
         "roangf": ["loáng", "thoáng"],
         "roangr": ["loáng", "thoáng"],
-        "roangx": ["loáng", "thoáng"]
+        "roangx": ["loáng", "thoáng"],
+        "roangj": ["loáng", "thoáng"],
+        "goangs": ["loáng", "thoáng"],
+        "goangf": ["loáng", "thoáng"],
+        "goangr": ["loáng", "thoáng"],
+        "goangx": ["loáng", "thoáng"],
+        "goangj": ["loáng", "thoáng"],
+        "poangs": ["loáng", "thoáng"],
+        "poangf": ["loáng", "thoáng"],
+        "poangr": ["loáng", "thoáng"],
+        "poangx": ["loáng", "thoáng"],
+        "poangj": ["loáng", "thoáng"],
+        "phoangs": ["loáng", "thoáng"],
+        "phoangf": ["loáng", "thoáng"],
+        "phoangr": ["loáng", "thoáng"],
+        "phoangx": ["loáng", "thoáng"],
+        "phoangj": ["loáng", "thoáng"],
+        "troangs": ["loáng", "thoáng"],
+        "troangf": ["loáng", "thoáng"],
+        "troangr": ["loáng", "thoáng"],
+        "troangx": ["loáng", "thoáng"],
+        "troangj": ["loáng", "thoáng"],
+        "koangs": ["loáng", "thoáng"],
+        "koangf": ["loáng", "thoáng"],
+        "koangr": ["loáng", "thoáng"],
+        "koangx": ["loáng", "thoáng"],
+        "koangj": ["loáng", "thoáng"],
+        "boanhs": ["oánh", "hoành"],
+        "boanhf": ["oánh", "hoành"],
+        "boanhr": ["oánh", "hoành"],
+        "boanhx": ["oánh", "hoành"],
+        "boanhj": ["oánh", "hoành"],
+        "moanhs": ["oánh", "hoành"],
+        "moanhf": ["oánh", "hoành"],
+        "moanhr": ["oánh", "hoành"],
+        "moanhx": ["oánh", "hoành"],
+        "moanhj": ["oánh", "hoành"],
+        "voanhs": ["oánh", "hoành"],
+        "voanhf": ["oánh", "hoành"],
+        "voanhr": ["oánh", "hoành"],
+        "voanhx": ["oánh", "hoành"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
