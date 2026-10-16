@@ -504,6 +504,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["boans", "boanf", "boanr", "boanx", "boanj", "moans", "moanf", "moanr", "moanx", "moanj", "voans", "voanf", "voanr", "voanx", "voanj", "noans", "noanf", "noanr", "noanj", "roans", "roanf", "roanr", "roanx", "roanj", "goans", "goanf", "goanr", "goanx", "goanj", "poans", "poanf", "poanr", "poanx", "poanj", "phoans", "phoanf", "phoanr", "phoanx", "phoanj", "troans", "troanf", "troanr", "troanx", "troanj", "koans", "koanf", "koanr", "koanx", "koanj"].contains(String(wordRawKeys).lowercased())
                     && "ghwsfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["boams", "boamf", "boamr", "boamx", "boamj", "moams", "moamf", "moamr", "moamx", "moamj", "voams", "voamf", "voamr", "voamx", "voamj", "noams", "noamf", "noamr", "noamx", "noamj", "roams", "roamf", "roamr", "roamx", "roamj", "goams", "goamf", "goamr", "goamx", "goamj", "poams", "poamf", "poamr", "poamx", "poamj", "phoams", "phoamf", "phoamr", "phoamx", "phoamj", "troams", "troamf", "troamr", "troamx", "troamj", "koams", "koamf", "koamr", "koamx", "koamj"].contains(String(wordRawKeys).lowercased())
+                    && "wsfrxj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
                     && "sfxj".contains(character.lowercased()))
                 || (["haafu", "saafu", "taafu", "seefu"].contains(String(wordRawKeys).lowercased())
@@ -3333,7 +3336,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "boanr": ["đoán", "toán"],
         "boanx": ["đoán", "toán"],
         "boanj": ["đoán", "toán"],
-        "moanf": ["đoán", "toán"]
+        "moanf": ["đoán", "toán"],
+        "moanr": ["đoán", "toán"],
+        "moanx": ["đoán", "toán"],
+        "moanj": ["đoán", "toán"],
+        "voans": ["đoán", "toán"],
+        "voanf": ["đoán", "toán"],
+        "voanr": ["đoán", "toán"],
+        "voanx": ["đoán", "toán"],
+        "voanj": ["đoán", "toán"],
+        "noans": ["đoán", "toán"],
+        "noanf": ["đoán", "toán"],
+        "noanr": ["đoán", "toán"],
+        "noanj": ["đoán", "toán"],
+        "roans": ["đoán", "toán"],
+        "roanf": ["đoán", "toán"],
+        "roanr": ["đoán", "toán"],
+        "roanx": ["đoán", "toán"],
+        "roanj": ["đoán", "toán"],
+        "goans": ["đoán", "toán"],
+        "goanf": ["đoán", "toán"],
+        "goanr": ["đoán", "toán"],
+        "goanx": ["đoán", "toán"],
+        "goanj": ["đoán", "toán"],
+        "poans": ["đoán", "toán"],
+        "poanf": ["đoán", "toán"],
+        "poanr": ["đoán", "toán"],
+        "poanx": ["đoán", "toán"],
+        "poanj": ["đoán", "toán"],
+        "phoans": ["đoán", "toán"],
+        "phoanf": ["đoán", "toán"],
+        "phoanr": ["đoán", "toán"],
+        "phoanx": ["đoán", "toán"],
+        "phoanj": ["đoán", "toán"],
+        "troans": ["đoán", "toán"],
+        "troanf": ["đoán", "toán"],
+        "troanr": ["đoán", "toán"],
+        "troanx": ["đoán", "toán"],
+        "troanj": ["đoán", "toán"],
+        "koans": ["đoán", "toán"],
+        "koanf": ["đoán", "toán"],
+        "koanr": ["đoán", "toán"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
