@@ -527,7 +527,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if String(wordRawKeys).lowercased() == "life" && "emnug".contains(character.lowercased()) {
+            } else if String(wordRawKeys).lowercased() == "life" && "emnugxj".contains(character.lowercased()) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
@@ -649,7 +649,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         && ((r1 == "i"
                             && ((r2 == "r" && ("fxj".contains(character.lowercased()) || !["hire", "tire", "mire", "sire", "dire", "lire", "vire"].contains(String(wordRawKeys).lowercased())))
                                 || (r2 == "s" && ("fxj".contains(character.lowercased()) || !["mise", "rise", "wise", "vise"].contains(String(wordRawKeys).lowercased())))
-                                || (r2 == "f" && !["life", "rife", "wife"].contains(String(wordRawKeys).lowercased()))
+                                || (r2 == "f" && ("xj".contains(character.lowercased()) || !["life", "wife"].contains(String(wordRawKeys).lowercased())))
                                 || r2 == "j"
                                 || (r2 == "x" && ("fj".contains(character.lowercased()) || String(wordRawKeys).lowercased() == "chixe"))))
                             || (r1 == "u"
@@ -1171,7 +1171,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && parsed.tone == .tilde
                     && (lowerCandidateRaw.hasPrefix("noa") || lowerCandidateRaw.hasPrefix("noxa") || lowerCandidateRaw.hasPrefix("nora"))
                 let wasUnlatchedOrToneOverride = wasUnlatchedInStep2
-                    || (!wasBypassedBeforeStep2 && transformState.lastToneKey != nil && ("sfrxj".contains(lowerChar) || (lowerCandidateRaw.count >= 6 && "ghwmncptd".contains(lowerChar))))
+                    || (!wasBypassedBeforeStep2 && transformState.lastToneKey != nil && ("sfrxj".contains(lowerChar) || (lowerCandidateRaw.count >= 6 && "ghwmncptdiuoyae".contains(lowerChar))))
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && !isVietCollocationFull && !(wasUnlatchedOrToneOverride && ["gese", "gefe", "gere", "gexe", "geje", "geso", "gefo", "gero", "gexo", "gejo", "gesu", "gefu", "geru", "gexu", "geju", "ngese", "ngefe", "ngere", "ngexe", "ngeje", "ngeso", "ngefo", "ngero", "ngexo", "ngejo", "ngesu", "ngefu", "ngeru", "ngexu", "ngeju"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
@@ -4079,7 +4079,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "lies": ["vui", "vẻ"],
         "vies": ["vui", "vẻ"],
         "hies": ["vui", "vẻ"],
-        "pies": ["vui", "vẻ"]
+        "pies": ["vui", "vẻ"],
+        "mise": ["vui", "vẻ"],
+        "nise": ["vui", "vẻ"],
+        "kise": ["vui", "vẻ"],
+        "hise": ["vui", "vẻ"],
+        "bise": ["vui", "vẻ"],
+        "tise": ["vui", "vẻ"],
+        "dise": ["vui", "vẻ"],
+        "sise": ["vui", "vẻ"],
+        "chise": ["vui", "vẻ"],
+        "lise": ["vui", "vẻ"],
+        "vise": ["vui", "vẻ"],
+        "kife": ["vui", "vẻ"],
+        "mife": ["vui", "vẻ"],
+        "nife": ["vui", "vẻ"],
+        "hife": ["vui", "vẻ"],
+        "sife": ["vui", "vẻ"],
+        "tife": ["vui", "vẻ"],
+        "bife": ["vui", "vẻ"],
+        "dife": ["vui", "vẻ"],
+        "chife": ["vui", "vẻ"],
+        "rife": ["vui", "vẻ"],
+        "kire": ["vui", "vẻ"],
+        "nire": ["vui", "vẻ"],
+        "bire": ["vui", "vẻ"],
+        "rire": ["vui", "vẻ"],
+        "chire": ["vui", "vẻ"],
+        "lire": ["vui", "vẻ"],
+        "vire": ["vui", "vẻ"],
+        "kije": ["vui", "vẻ"],
+        "mije": ["vui", "vẻ"],
+        "nije": ["vui", "vẻ"],
+        "hije": ["vui", "vẻ"],
+        "sije": ["vui", "vẻ"],
+        "tije": ["vui", "vẻ"],
+        "bije": ["vui", "vẻ"],
+        "dije": ["vui", "vẻ"],
+        "rije": ["vui", "vẻ"],
+        "chije": ["vui", "vẻ"],
+        "nuse": ["vui", "vẻ"],
+        "suse": ["vui", "vẻ"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(

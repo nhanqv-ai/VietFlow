@@ -4453,6 +4453,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 119: 40 Collocation Entries (2,762 Total), rife/life Tone Override & 6+ Char Trailing Vowel Continuation
+
+    func test_tier4_705_vietnamese_collocation_phrases_mise_to_suse() {
+        let input = "mise vui mise ver mise nise vui nise ver nise kise vui kise ver kise hise vui hise ver hise bise vui bise ver bise tise vui tise ver tise dise vui dise ver dise sise vui sise ver sise chise vui chise ver chise lise vui lise ver lise vise vui vise ver vise kife vui kife ver kife mife vui mife ver mife nife vui nife ver nife hife vui hife ver hife sife vui sife ver sife tife vui tife ver tife bife vui bife ver bife dife vui dife ver dife chife vui chife ver chife rife vui rife ver rife kire vui kire ver kire nire vui nire ver nire bire vui bire ver bire rire vui rire ver rire chire vui chire ver chire lire vui lire ver lire vire vui vire ver vire kije vui kije ver kije mije vui mije ver mije nije vui nije ver nije hije vui hije ver hije sije vui sije ver sije tije vui tije ver tije bije vui bije ver bije dije vui dije ver dije rije vui rije ver rije chije vui chije ver chije nuse vui nuse ver nuse suse vui suse ver suse"
+        let expected = "mise vui míe vẻ míe nise vui níe vẻ níe kise vui kíe vẻ kíe hise vui híe vẻ híe bise vui bíe vẻ bíe tise vui tíe vẻ tíe dise vui díe vẻ díe sise vui síe vẻ síe chise vui chíe vẻ chíe lise vui líe vẻ líe vise vui víe vẻ víe kife vui kìe vẻ kìe mife vui mìe vẻ mìe nife vui nìe vẻ nìe hife vui hìe vẻ hìe sife vui sìe vẻ sìe tife vui tìe vẻ tìe bife vui bìe vẻ bìe dife vui dìe vẻ dìe chife vui chìe vẻ chìe rife vui rìe vẻ rìe kire vui kỉe vẻ kỉe nire vui nỉe vẻ nỉe bire vui bỉe vẻ bỉe rire vui rỉe vẻ rỉe chire vui chỉe vẻ chỉe lire vui lỉe vẻ lỉe vire vui vỉe vẻ vỉe kije vui kịe vẻ kịe mije vui mịe vẻ mịe nije vui nịe vẻ nịe hije vui hịe vẻ hịe sije vui sịe vẻ sịe tije vui tịe vẻ tịe bije vui bịe vẻ bịe dije vui dịe vẻ dịe rije vui rịe vẻ rịe chije vui chịe vẻ chịe nuse vui núe vẻ núe suse vui súe vẻ súe"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_706_rife_life_and_kife_to_chije_tone_override_and_delayed_e_unlatch() {
+        let input = "rife rifes rifer rifex rifej rifese rifere rifexe rifeje life lifex lifej lifexe lifeje kife kifes kifer kifex kifej kifese kifere kifexe kifeje mife mifes mifer mifex mifej mifese mifere mifexe mifeje nife nifes nifer nifex nifej nifese nifere nifexe nifeje hife hifes hifer hifex hifej hifese hifere hifexe hifeje sife sifes sifer sifex sifej sifese sifere sifexe sifeje tife tifes tifer tifex tifej tifese tifere tifexe tifeje bife bifes bifer bifex bifej bifese bifere bifexe bifeje dife difes difer difex difej difese difere difexe difeje chife chifes chifer chifex chifej chifese chifere chifexe chifeje"
+        let expected = "rife ríe rỉe rĩe rịe riế riể riễ riệ life lĩe lịe liễ liệ kife kíe kỉe kĩe kịe kiế kiể kiễ kiệ mife míe mỉe mĩe mịe miế miể miễ miệ nife níe nỉe nĩe nịe niế niể niễ niệ hife híe hỉe hĩe hịe hiế hiể hiễ hiệ sife síe sỉe sĩe sịe siế siể siễ siệ tife tíe tỉe tĩe tịe tiế tiể tiễ tiệ bife bíe bỉe bĩe bịe biế biể biễ biệ dife díe dỉe dĩe dịe diế diể diễ diệ chife chíe chỉe chĩe chịe chiế chiể chiễ chiệ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_707_kusowi_to_pujooi_6char_trailing_vowel_after_unlatch() {
+        let input = "kusow kusowi kusowu kufow kufowi kufowu kurow kurowi kurowu kuxow kuxowi kuxowu kujow kujowi kujowu kusoo kusooi kufoo kufooi kuroo kurooi kuxoo kuxooi kujoo kujooi pusow pusowi pusowu pufow pufowi pufowu purow purowi purowu puxow puxowi puxowu pujow pujowi pujowu pusoo pusooi pufoo pufooi puroo purooi puxoo puxooi pujoo pujooi"
+        let expected = "kướ kưới kướu kườ kười kườu kưở kưởi kưởu kưỡ kưỡi kưỡu kượ kượi kượu kuố kuối kuồ kuồi kuổ kuổi kuỗ kuỗi kuộ kuội pướ pưới pướu pườ pười pườu pưở pưởi pưởu pưỡ pưỡi pưỡu pượ pượi pượu puố puối puồ puồi puổ puổi puỗ puỗi puộ puội"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_708_boasfi_to_puseje_6char_trailing_vowel_after_tone_override() {
+        let input = "boasfi boasri boasxi boasji boasfy boasry boasxy boasjy boasfo boasro boasxo boasjo moasfi moasri moasxi moasji moasfy moasry moasxy moasjy moasfo moasro moasxo moasjo boesfo boesro boesxo boesjo moesfo moesro moesxo moesjo pusefe pusere pusexe puseje pufese pufere pufexe pufeje purese purefe purexe pureje puxese puxefe puxere puxeje pujese pujefe pujere pujexe"
+        let expected = "boài boải boãi boại boày boảy boãy boạy boào boảo boão boạo moài moải moãi moại moày moảy moãy moạy moào moảo moão moạo boèo boẻo boẽo boẹo moèo moẻo moẽo moẹo puề puể puễ puệ puế puể puễ puệ puế puề puễ puệ puế puề puể puệ puế puề puể puễ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_709_scenario127_trilingual_mise_kife_nuse_and_vietnamese_vui_mie_ve_kie_vui_nue_chat() {
+        let input = "Khi khảo sát chuỗi cửa hàng mise ở Tokyo cùng hai mô-đun kife và nuse trong kho dữ liệu, nhóm biên dịch vừa ghi chép nét vui míe (vui mise), vừa đối chiếu vẻ kìe (ver kife) và nụ cười vui núe (vui nuse) trong bản thảo phương ngữ!"
+        let expected = "Khi khảo sát chuỗi cửa hàng mise ở Tokyo cùng hai mô-đun kife và nuse trong kho dữ liệu, nhóm biên dịch vừa ghi chép nét vui míe (vui míe), vừa đối chiếu vẻ kìe (vẻ kìe) và nụ cười vui núe (vui núe) trong bản thảo phương ngữ!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5166,6 +5198,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_702_ddoe_ddoes_ddoeo_ddoen_ddoem_ddoet_ddoep_ddoec_direct_dd_onset_typing", test_tier4_702_ddoe_ddoes_ddoeo_ddoen_ddoem_ddoet_ddoep_ddoec_direct_dd_onset_typing),
             ("test_tier4_703_ddoseo_to_ddojec_pre_e_tone_with_dd_onset", test_tier4_703_ddoseo_to_ddojec_pre_e_tone_with_dd_onset),
             ("test_tier4_704_scenario126_trilingual_coets_goast_doesn_and_vietnamese_khoet_coet_toat_goat_hoen_doen_chat", test_tier4_704_scenario126_trilingual_coets_goast_doesn_and_vietnamese_khoet_coet_toat_goat_hoen_doen_chat),
+            ("test_tier4_705_vietnamese_collocation_phrases_mise_to_suse", test_tier4_705_vietnamese_collocation_phrases_mise_to_suse),
+            ("test_tier4_706_rife_life_and_kife_to_chije_tone_override_and_delayed_e_unlatch", test_tier4_706_rife_life_and_kife_to_chije_tone_override_and_delayed_e_unlatch),
+            ("test_tier4_707_kusowi_to_pujooi_6char_trailing_vowel_after_unlatch", test_tier4_707_kusowi_to_pujooi_6char_trailing_vowel_after_unlatch),
+            ("test_tier4_708_boasfi_to_puseje_6char_trailing_vowel_after_tone_override", test_tier4_708_boasfi_to_puseje_6char_trailing_vowel_after_tone_override),
+            ("test_tier4_709_scenario127_trilingual_mise_kife_nuse_and_vietnamese_vui_mie_ve_kie_vui_nue_chat", test_tier4_709_scenario127_trilingual_mise_kife_nuse_and_vietnamese_vui_mie_ve_kie_vui_nue_chat),
         ]
     }
 }
