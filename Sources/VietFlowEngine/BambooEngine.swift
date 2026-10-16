@@ -1054,14 +1054,16 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && (parsed.coda.isEmpty || parsed.coda.lowercased() == "n")
                     && parsed.tone == .tilde
                     && (lowerCandidateRaw.hasPrefix("noa") || lowerCandidateRaw.hasPrefix("noxa") || lowerCandidateRaw.hasPrefix("nora"))
-                let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedInStep2)
+                let wasUnlatchedOrToneOverride = wasUnlatchedInStep2
+                    || (!wasBypassedBeforeStep2 && transformState.lastToneKey != nil && "sfrxj".contains(lowerChar))
+                let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
-                    || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && !isVietCollocationFull && !(wasUnlatchedInStep2 && ["gese", "gefe", "gere", "gexe", "geje", "geso", "gefo", "gero", "gexo", "gejo", "gesu", "gefu", "geru", "gexu", "geju", "ngese", "ngefe", "ngere", "ngexe", "ngeje", "ngeso", "ngefo", "ngero", "ngexo", "ngejo", "ngesu", "ngefu", "ngeru", "ngexu", "ngeju"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
-                    || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc) && !isVietCollocationFull && !wasUnlatchedInStep2)
-                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull && !wasUnlatchedInStep2 && !(lowerOnset == "đ" && ["doesd", "doresd", "doerd", "doersd", "doefd", "doexd", "doejd"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
-                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull && !wasUnlatchedInStep2)
+                    || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && !isVietCollocationFull && !(wasUnlatchedOrToneOverride && ["gese", "gefe", "gere", "gexe", "geje", "geso", "gefo", "gero", "gexo", "gejo", "gesu", "gefu", "geru", "gexu", "geju", "ngese", "ngefe", "ngere", "ngexe", "ngeje", "ngeso", "ngefo", "ngero", "ngexo", "ngejo", "ngesu", "ngefu", "ngeru", "ngexu", "ngeju"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
+                    || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
+                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull && !wasUnlatchedOrToneOverride && !(lowerOnset == "đ" && ["doesd", "doresd", "doerd", "doersd", "doefd", "doexd", "doejd"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
+                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y") && !isVietCollocationFull)
-                    || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })) && !isVietCollocationFull && !wasUnlatchedInStep2)
+                    || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (lowerOnset == "z")
                 let hasInvalidTransformedOnset = isTransformed
                     && !candidateState.isBypassed
@@ -3245,7 +3247,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "doayx": ["xoáy", "ngoáy"],
         "doayj": ["xoáy", "ngoáy"],
         "boaos": ["ngọt", "ngào"],
-        "boaof": ["ngọt", "ngào"]
+        "boaof": ["ngọt", "ngào"],
+        "boaor": ["ngọt", "ngào"],
+        "boaox": ["ngọt", "ngào"],
+        "boaoj": ["ngọt", "ngào"],
+        "moaos": ["ngọt", "ngào"],
+        "moaof": ["ngọt", "ngào"],
+        "moaor": ["ngọt", "ngào"],
+        "moaox": ["ngọt", "ngào"],
+        "moaoj": ["ngọt", "ngào"],
+        "voaos": ["ngọt", "ngào"],
+        "voaof": ["ngọt", "ngào"],
+        "voaor": ["ngọt", "ngào"],
+        "voaox": ["ngọt", "ngào"],
+        "voaoj": ["ngọt", "ngào"],
+        "noaos": ["ngọt", "ngào"],
+        "noaof": ["ngọt", "ngào"],
+        "noaor": ["ngọt", "ngào"],
+        "noaox": ["ngọt", "ngào"],
+        "noaoj": ["ngọt", "ngào"],
+        "roaos": ["ngọt", "ngào"],
+        "roaof": ["ngọt", "ngào"],
+        "roaor": ["ngọt", "ngào"],
+        "roaox": ["ngọt", "ngào"],
+        "roaoj": ["ngọt", "ngào"],
+        "goaos": ["ngọt", "ngào"],
+        "goaof": ["ngọt", "ngào"],
+        "goaor": ["ngọt", "ngào"],
+        "goaox": ["ngọt", "ngào"],
+        "goaoj": ["ngọt", "ngào"],
+        "poaos": ["ngọt", "ngào"],
+        "poaof": ["ngọt", "ngào"],
+        "poaor": ["ngọt", "ngào"],
+        "poaox": ["ngọt", "ngào"],
+        "poaoj": ["ngọt", "ngào"],
+        "phoaos": ["ngọt", "ngào"],
+        "phoaof": ["ngọt", "ngào"],
+        "phoaor": ["ngọt", "ngào"],
+        "phoaox": ["ngọt", "ngào"],
+        "phoaoj": ["ngọt", "ngào"],
+        "troaos": ["ngọt", "ngào"],
+        "troaof": ["ngọt", "ngào"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(

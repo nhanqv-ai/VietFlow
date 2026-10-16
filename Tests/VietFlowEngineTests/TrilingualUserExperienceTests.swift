@@ -3941,6 +3941,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 103: 40 Collocation Entries and Step 8 Tone Override Preservation for Unlatched Syllables
+
+    func test_tier4_625_vietnamese_collocation_phrases_boaor_boaox_boaoj_moaos_moaof_moaor_moaox_moaoj_voaos_voaof_voaor_voaox_voaoj_noaos_noaof_noaor_noaox_noaoj_roaos_roaof_roaor_roaox_roaoj_goaos_goaof_goaor_goaox_goaoj_poaos_poaof_poaor_poaox_poaoj_phoaos_phoaof_phoaor_phoaox_phoaoj_troaos_troaof() {
+        let input = "boaor ngotj boaor ngaof boaor boaox ngotj boaox ngaof boaox boaoj ngotj boaoj ngaof boaoj moaos ngotj moaos ngaof moaos moaof ngotj moaof ngaof moaof moaor ngotj moaor ngaof moaor moaox ngotj moaox ngaof moaox moaoj ngotj moaoj ngaof moaoj voaos ngotj voaos ngaof voaos voaof ngotj voaof ngaof voaof voaor ngotj voaor ngaof voaor voaox ngotj voaox ngaof voaox voaoj ngotj voaoj ngaof voaoj noaos ngotj noaos ngaof noaos noaof ngotj noaof ngaof noaof noaor ngotj noaor ngaof noaor noaox ngotj noaox ngaof noaox noaoj ngotj noaoj ngaof noaoj roaos ngotj roaos ngaof roaos roaof ngotj roaof ngaof roaof roaor ngotj roaor ngaof roaor roaox ngotj roaox ngaof roaox roaoj ngotj roaoj ngaof roaoj goaos ngotj goaos ngaof goaos goaof ngotj goaof ngaof goaof goaor ngotj goaor ngaof goaor goaox ngotj goaox ngaof goaox goaoj ngotj goaoj ngaof goaoj poaos ngotj poaos ngaof poaos poaof ngotj poaof ngaof poaof poaor ngotj poaor ngaof poaor poaox ngotj poaox ngaof poaox poaoj ngotj poaoj ngaof poaoj phoaos ngotj phoaos ngaof phoaos phoaof ngotj phoaof ngaof phoaof phoaor ngotj phoaor ngaof phoaor phoaox ngotj phoaox ngaof phoaox phoaoj ngotj phoaoj ngaof phoaoj troaos ngotj troaos ngaof troaos troaof ngotj troaof ngaof troaof"
+        let expected = "boaor ngọt boảo ngào boảo boaox ngọt boão ngào boão boaoj ngọt boạo ngào boạo moaos ngọt moáo ngào moáo moaof ngọt moào ngào moào moaor ngọt moảo ngào moảo moaox ngọt moão ngào moão moaoj ngọt moạo ngào moạo voaos ngọt voáo ngào voáo voaof ngọt voào ngào voào voaor ngọt voảo ngào voảo voaox ngọt voão ngào voão voaoj ngọt voạo ngào voạo noaos ngọt noáo ngào noáo noaof ngọt noào ngào noào noaor ngọt noảo ngào noảo noaox ngọt noão ngào noão noaoj ngọt noạo ngào noạo roaos ngọt roáo ngào roáo roaof ngọt roào ngào roào roaor ngọt roảo ngào roảo roaox ngọt roão ngào roão roaoj ngọt roạo ngào roạo goaos ngọt goáo ngào goáo goaof ngọt goào ngào goào goaor ngọt goảo ngào goảo goaox ngọt goão ngào goão goaoj ngọt goạo ngào goạo poaos ngọt poáo ngào poáo poaof ngọt poào ngào poào poaor ngọt poảo ngào poảo poaox ngọt poão ngào poão poaoj ngọt poạo ngào poạo phoaos ngọt phoáo ngào phoáo phoaof ngọt phoào ngào phoào phoaor ngọt phoảo ngào phoảo phoaox ngọt phoão ngào phoão phoaoj ngọt phoạo ngào phoạo troaos ngọt troáo ngào troáo troaof ngọt troào ngào troào"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_626_kosai_kofai_korai_koxai_kojai_posai_pofai_porai_poxai_pojai_norai_rorai_dorai_tone_override_unlatch() {
+        let input = "kosai kosaif kosair kosaix kosaij kofai kofais kofair kofaix kofaij korai korais koraif koraix koraij koxai koxais koxaif koxair koxaij kojai kojais kojaif kojair kojaix posai posaif posair posaix posaij pofai pofais pofair pofaix pofaij porai porais poraif poraix poraij poxai poxais poxaif poxair poxaij pojai pojais pojaif pojair pojaix norai norais noraif noraix noraij rorai rorais roraif roraix roraij dorai dorais doraif doraix doraij doraid"
+        let expected = "koái koài koải koãi koại koài koái koải koãi koại koải koái koài koãi koại koãi koái koài koải koại koại koái koài koải koãi poái poài poải poãi poại poài poái poải poãi poại poải poái poài poãi poại poãi poái poài poải poại poại poái poài poải poãi noải noái noài noãi noại roải roái roài roãi roại doải doái doài doãi doại đoải"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_627_bosay_bofay_boray_boxay_bojay_mosay_mofay_moray_moxay_mojay_vosay_vofay_voray_voxay_vojay_tone_override_unlatch() {
+        let input = "bosay bosayf bosayr bosayx bosayj bofay bofays bofayr bofayx bofayj boray borays borayf borayx borayj boxay boxays boxayf boxayr boxayj bojay bojays bojayf bojayr bojayx mosay mosayf mosayr mosayx mosayj mofay mofays mofayr mofayx mofayj moray morays morayf morayx morayj moxay moxays moxayf moxayr moxayj mojay mojays mojayf mojayr mojayx vosay vosayf vosayr vosayx vosayj vofay vofays vofayr vofayx vofayj voray vorays vorayf vorayx vorayj voxay voxays voxayf voxayr voxayj vojay vojays vojayf vojayr vojayx"
+        let expected = "boáy boày boảy boãy boạy boày boáy boảy boãy boạy boảy boáy boày boãy boạy boãy boáy boày boảy boạy boạy boáy boày boảy boãy moáy moày moảy moãy moạy moày moáy moảy moãy moạy moảy moáy moày moãy moạy moãy moáy moày moảy moạy moạy moáy moày moảy moãy voáy voày voảy voãy voạy voày voáy voảy voãy voạy voảy voáy voày voãy voạy voãy voáy voày voảy voạy voạy voáy voày voảy voãy"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_628_bosao_bofao_borao_boxao_bojao_mosao_mofao_morao_moxao_mojao_goas_noax_doas_doaf_doar_doax_doaj_tone_override_unlatch() {
+        let input = "bosao bosaof bosaor bosaox bosaoj bofao bofaos bofaor bofaox bofaoj borao boraos boraof boraox boraoj boxao boxaos boxaof boxaor boxaoj bojao bojaos bojaof bojaor bojaox mosao mosaof mosaor mosaox mosaoj mofao mofaos mofaor mofaox mofaoj morao moraos moraof moraox moraoj moxao moxaos moxaof moxaor moxaoj mojao mojaos mojaof mojaor mojaox goas goasf goasr goasx goasj noax noaxs noaxf noaxr noaxj doas doasf doasr doasx doasj doaf doafs doafr doafx doafj doar doars doarf doarx doarj doax doaxs doaxf doaxr doaxj doaj doajs doajf doajr doajx"
+        let expected = "boáo boào boảo boão boạo boào boáo boảo boão boạo boảo boáo boào boão boạo boão boáo boào boảo boạo boạo boáo boào boảo boão moáo moào moảo moão moạo moào moáo moảo moão moạo moảo moáo moào moão moạo moão moáo moào moảo moạo moạo moáo moào moảo moão góa gòa gỏa gõa gọa nõa nóa nòa nỏa nọa dóa dòa dỏa dõa dọa dòa dóa dỏa dõa dọa dỏa dóa dòa dõa dọa dõa dóa dòa dỏa dọa dọa dóa dòa dỏa dõa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_629_scenario111_trilingual_moaos_roaos_goaos_and_vietnamese_ngot_moao_ngao_roao_ngot_goao_chat() {
+        let input = "Khi thưởng thức các món tráng miệng moaos, roaos và goaos tại lễ hội ẩm thực quốc tế, thực khách đều tấm tắc khen hương vị ngọt moáo (ngotj moaos), ngào roáo (ngaof roaos) và ngọt goáo (ngotj goaos) tan chảy nơi đầu lưỡi!"
+        let expected = "Khi thưởng thức các món tráng miệng moaos, roaos và goaos tại lễ hội ẩm thực quốc tế, thực khách đều tấm tắc khen hương vị ngọt moáo (ngọt moáo), ngào roáo (ngào roáo) và ngọt goáo (ngọt goáo) tan chảy nơi đầu lưỡi!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4574,6 +4606,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_622_noaos_noaof_noaor_noaox_noaoj_roaos_roaof_roaor_roaox_roaoj_goaos_goaof_goaor_goaox_goaoj_tone_override_unlatch", test_tier4_622_noaos_noaof_noaor_noaox_noaoj_roaos_roaof_roaor_roaox_roaoj_goaos_goaof_goaor_goaox_goaoj_tone_override_unlatch),
             ("test_tier4_623_poaos_poaof_poaor_poaox_poaoj_phoaos_phoaof_phoaor_phoaox_phoaoj_troaos_troaof_troaor_troaox_troaoj_koaos_to_doaoj_unlatch", test_tier4_623_poaos_poaof_poaor_poaox_poaoj_phoaos_phoaof_phoaor_phoaox_phoaoj_troaos_troaof_troaor_troaox_troaoj_koaos_to_doaoj_unlatch),
             ("test_tier4_624_scenario110_trilingual_roays_koays_boaos_and_vietnamese_xoay_roay_ngoay_koay_ngot_boao_chat", test_tier4_624_scenario110_trilingual_roays_koays_boaos_and_vietnamese_xoay_roay_ngoay_koay_ngot_boao_chat),
+            ("test_tier4_625_vietnamese_collocation_phrases_boaor_boaox_boaoj_moaos_moaof_moaor_moaox_moaoj_voaos_voaof_voaor_voaox_voaoj_noaos_noaof_noaor_noaox_noaoj_roaos_roaof_roaor_roaox_roaoj_goaos_goaof_goaor_goaox_goaoj_poaos_poaof_poaor_poaox_poaoj_phoaos_phoaof_phoaor_phoaox_phoaoj_troaos_troaof", test_tier4_625_vietnamese_collocation_phrases_boaor_boaox_boaoj_moaos_moaof_moaor_moaox_moaoj_voaos_voaof_voaor_voaox_voaoj_noaos_noaof_noaor_noaox_noaoj_roaos_roaof_roaor_roaox_roaoj_goaos_goaof_goaor_goaox_goaoj_poaos_poaof_poaor_poaox_poaoj_phoaos_phoaof_phoaor_phoaox_phoaoj_troaos_troaof),
+            ("test_tier4_626_kosai_kofai_korai_koxai_kojai_posai_pofai_porai_poxai_pojai_norai_rorai_dorai_tone_override_unlatch", test_tier4_626_kosai_kofai_korai_koxai_kojai_posai_pofai_porai_poxai_pojai_norai_rorai_dorai_tone_override_unlatch),
+            ("test_tier4_627_bosay_bofay_boray_boxay_bojay_mosay_mofay_moray_moxay_mojay_vosay_vofay_voray_voxay_vojay_tone_override_unlatch", test_tier4_627_bosay_bofay_boray_boxay_bojay_mosay_mofay_moray_moxay_mojay_vosay_vofay_voray_voxay_vojay_tone_override_unlatch),
+            ("test_tier4_628_bosao_bofao_borao_boxao_bojao_mosao_mofao_morao_moxao_mojao_goas_noax_doas_doaf_doar_doax_doaj_tone_override_unlatch", test_tier4_628_bosao_bofao_borao_boxao_bojao_mosao_mofao_morao_moxao_mojao_goas_noax_doas_doaf_doar_doax_doaj_tone_override_unlatch),
+            ("test_tier4_629_scenario111_trilingual_moaos_roaos_goaos_and_vietnamese_ngot_moao_ngao_roao_ngot_goao_chat", test_tier4_629_scenario111_trilingual_moaos_roaos_goaos_and_vietnamese_ngot_moao_ngao_roao_ngot_goao_chat),
         ]
     }
 }
