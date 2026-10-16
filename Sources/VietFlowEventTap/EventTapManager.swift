@@ -74,7 +74,7 @@ public final class EventTapManager: @unchecked Sendable {
     private var cancellables = Set<AnyCancellable>()
     
     public init(
-        engine: BambooEngine = BambooEngine(),
+        engine: BambooEngine = BambooEngine(adaptiveLearner: .shared),
         stateManager: AppStateManager = .shared,
         hotKeyManager: HotKeyManaging = CarbonHotKeyManager.shared
     ) {
@@ -448,7 +448,12 @@ public final class EventTapManager: @unchecked Sendable {
             return Unmanaged.passRetained(event)
         case 51: // Backspace (Delete)
             if stateManager.currentInputMode == .vietnamese && !stateManager.isBlacklistActive {
-                _ = engine.handleBackspace()
+                if let revertDelta = engine.handleBackspaceWithRevertDelta() {
+                    applyDelta(revertDelta)
+                    return nil
+                } else {
+                    _ = engine.handleBackspace()
+                }
             }
             return Unmanaged.passRetained(event)
         default:

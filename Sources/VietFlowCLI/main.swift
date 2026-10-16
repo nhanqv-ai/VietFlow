@@ -63,7 +63,7 @@ defer {
 
 printHelp()
 
-let engine = BambooEngine()
+let engine = BambooEngine(adaptiveLearner: .shared)
 var currentMethod: InputMethod = .telex
 
 var buffer = [UInt8](repeating: 0, count: 16)

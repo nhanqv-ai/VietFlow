@@ -302,6 +302,53 @@ public struct SettingsView: View {
                     }
                 }
             }
+
+            // Card 3: Adaptive Learning from Backspace
+            cardView {
+                Text("Tự học từ lỗi xóa Backspace")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.primary)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Toggle("Tự học từ lỗi xóa Backspace", isOn: $stateManager.adaptiveLearningEnabled)
+                            .toggleStyle(.checkbox)
+                            .font(.system(size: 12))
+
+                        Text("Ghi nhận các lần sửa phím bằng Backspace để tự động thích ứng với thói quen gõ và từ khóa riêng của bạn.")
+                            .font(.system(size: 10.5))
+                            .foregroundColor(.secondary)
+                            .padding(.leading, 18)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Đã ghi nhận \(stateManager.adaptiveLoggedPatternsCount) mẫu lỗi, \(stateManager.adaptiveActiveRulesCount) quy tắc đang kích hoạt.")
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondary)
+
+                        HStack(spacing: 8) {
+                            Button("Mở file log") {
+                                stateManager.openTypingErrorLog()
+                            }
+                            .buttonStyle(.bordered)
+                            .controlSize(.small)
+                            .font(.system(size: 11))
+
+                            Button("Xóa dữ liệu học") {
+                                stateManager.clearAdaptiveLearningData()
+                            }
+                            .buttonStyle(.bordered)
+                            .controlSize(.small)
+                            .font(.system(size: 11))
+                        }
+                    }
+                    .padding(.leading, 18)
+                }
+            }
+        }
+        .onAppear {
+            stateManager.refreshAdaptiveLearningCounts()
         }
     }
 
