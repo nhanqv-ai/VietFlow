@@ -504,7 +504,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["boans", "boanf", "boanr", "boanx", "boanj", "moans", "moanf", "moanr", "moanx", "moanj", "voans", "voanf", "voanr", "voanx", "voanj", "noans", "noanf", "noanr", "noanj", "roans", "roanf", "roanr", "roanx", "roanj", "goans", "goanf", "goanr", "goanx", "goanj", "poans", "poanf", "poanr", "poanx", "poanj", "phoans", "phoanf", "phoanr", "phoanx", "phoanj", "troans", "troanf", "troanr", "troanx", "troanj", "koans", "koanf", "koanr", "koanx", "koanj"].contains(String(wordRawKeys).lowercased())
                     && "ghwsfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["boams", "boamf", "boamr", "boamx", "boamj", "moams", "moamf", "moamr", "moamx", "moamj", "voams", "voamf", "voamr", "voamx", "voamj", "noams", "noamf", "noamr", "noamx", "noamj", "roams", "roamf", "roamr", "roamx", "roamj", "goams", "goamf", "goamr", "goamx", "goamj", "poams", "poamf", "poamr", "poamx", "poamj", "phoams", "phoamf", "phoamr", "phoamx", "phoamj", "troams", "troamf", "troamr", "troamx", "troamj", "koams", "koamf", "koamr", "koamx", "koamj"].contains(String(wordRawKeys).lowercased())
+                || (["boams", "boamf", "boamr", "boamx", "boamj", "moams", "moamf", "moamr", "moamx", "moamj", "voams", "voamf", "voamr", "voamx", "voamj", "noams", "noamf", "noamr", "noamx", "noamj", "roams", "roamf", "roamr", "roamx", "roamj", "goams", "goamf", "goamr", "goamx", "goamj", "poams", "poamf", "poamr", "poamx", "poamj", "phoams", "phoamf", "phoamr", "phoamx", "phoamj", "troams", "troamf", "troamr", "troamx", "troamj", "koams", "koamf", "koamr", "koamx", "koamj", "boangs", "boangf", "boangr", "boangx", "boangj", "moangs", "moangf", "moangr", "moangx", "moangj", "voangs", "voangf", "voangr", "voangx", "voangj", "noangs", "noangf", "noangr", "noangx", "noangj", "roangs", "roangf", "roangr", "roangx", "roangj", "goangs", "goangf", "goangr", "goangx", "goangj", "poangs", "poangf", "poangr", "poangx", "poangj", "phoangs", "phoangf", "phoangr", "phoangx", "phoangj", "troangs", "troangf", "troangr", "troangx", "troangj", "koangs", "koangf", "koangr", "koangx", "koangj"].contains(String(wordRawKeys).lowercased())
                     && "wsfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
@@ -3376,7 +3376,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "troanj": ["đoán", "toán"],
         "koans": ["đoán", "toán"],
         "koanf": ["đoán", "toán"],
-        "koanr": ["đoán", "toán"]
+        "koanr": ["đoán", "toán"],
+        "koanx": ["đoán", "toán"],
+        "koanj": ["đoán", "toán"],
+        "boams": ["bám", "nhám"],
+        "boamf": ["bám", "nhám"],
+        "boamr": ["bám", "nhám"],
+        "boamx": ["bám", "nhám"],
+        "boamj": ["bám", "nhám"],
+        "moams": ["bám", "nhám"],
+        "moamf": ["bám", "nhám"],
+        "moamr": ["bám", "nhám"],
+        "moamx": ["bám", "nhám"],
+        "moamj": ["bám", "nhám"],
+        "voams": ["bám", "nhám"],
+        "voamf": ["bám", "nhám"],
+        "voamr": ["bám", "nhám"],
+        "voamx": ["bám", "nhám"],
+        "voamj": ["bám", "nhám"],
+        "noams": ["bám", "nhám"],
+        "noamf": ["bám", "nhám"],
+        "noamr": ["bám", "nhám"],
+        "noamx": ["bám", "nhám"],
+        "noamj": ["bám", "nhám"],
+        "roamf": ["bám", "nhám"],
+        "roamr": ["bám", "nhám"],
+        "roamx": ["bám", "nhám"],
+        "roamj": ["bám", "nhám"],
+        "goams": ["bám", "nhám"],
+        "goamf": ["bám", "nhám"],
+        "goamr": ["bám", "nhám"],
+        "goamx": ["bám", "nhám"],
+        "goamj": ["bám", "nhám"],
+        "poams": ["bám", "nhám"],
+        "poamf": ["bám", "nhám"],
+        "poamr": ["bám", "nhám"],
+        "poamx": ["bám", "nhám"],
+        "poamj": ["bám", "nhám"],
+        "phoams": ["bám", "nhám"],
+        "phoamf": ["bám", "nhám"],
+        "phoamr": ["bám", "nhám"],
+        "phoamx": ["bám", "nhám"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
