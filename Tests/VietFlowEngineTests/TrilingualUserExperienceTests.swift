@@ -3561,6 +3561,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 91: 40 Collocation Entries, g-Onset eo/eu Tone Overrides, and s/v/g/ph/tr-Onset oe Unlatch
+
+    func test_tier4_565_vietnamese_collocation_phrases_sofe_soxe_soje_vose_vofe_vore_voxe_voje_gose_gofe_gore_goxe_goje_phose_phofe_phore_phoxe_phoje_trose_trofe_trore_troxe_troje_bosa_bofa_bora_boxa_boja_mosa_mofa_mora_moxa_moja_vosa_vofa_vora_voxa_voja_nofa_noja() {
+        let input = "sofe ddor sofe hoef sofe soxe ddor soxe hoef soxe soje ddor soje nhoej soje vose ddor vose sangs vose vofe ddor vofe hoef vofe vore meejt vore khoer vore voxe ddor voxe hoef voxe voje ddor voje nhoej voje gose ddor gose sangs gose gofe ddor gofe hoef gofe gore meejt gore khoer gore goxe ddor goxe hoef goxe goje ddor goje nhoej goje phose ddor phose sangs phose phofe ddor phofe hoef phofe phore meejt phore khoer phore phoxe ddor phoxe hoef phoxe phoje ddor phoje nhoej phoje trose ddor trose sangs trose trofe ddor trofe hoef trofe trore meejt trore khoer trore troxe ddor troxe hoef troxe troje ddor troje nhoej troje bosa xoas bosa toas bosa bofa xoaf bofa toaf bofa bora toar bora xoax bora boxa toar boxa xoax boxa boja ddoaj boja toaj boja mosa xoas mosa toas mosa mofa xoaf mofa toaf mofa mora toar mora xoax mora moxa toar moxa xoax moxa moja ddoaj moja toaj moja vosa xoas vosa toas vosa vofa xoaf vofa toaf vofa vora toar vora xoax vora voxa toar voxa xoax voxa voja ddoaj voja toaj voja nofa xoaf nofa toaf nofa noja ddoaj noja toaj noja"
+        let expected = "sofe đỏ sòe hòe sòe soxe đỏ sõe hòe sõe soje đỏ sọe nhọe sọe vose đỏ vóe sáng vóe vofe đỏ vòe hòe vòe vore mệt vỏe khỏe vỏe voxe đỏ võe hòe võe voje đỏ vọe nhọe vọe gose đỏ góe sáng góe gofe đỏ gòe hòe gòe gore mệt gỏe khỏe gỏe goxe đỏ gõe hòe gõe goje đỏ gọe nhọe gọe phose đỏ phóe sáng phóe phofe đỏ phòe hòe phòe phore mệt phỏe khỏe phỏe phoxe đỏ phõe hòe phõe phoje đỏ phọe nhọe phọe trose đỏ tróe sáng tróe trofe đỏ tròe hòe tròe trore mệt trỏe khỏe trỏe troxe đỏ trõe hòe trõe troje đỏ trọe nhọe trọe bosa xóa bóa tóa bóa bofa xòa bòa tòa bòa bora tỏa bỏa xõa bỏa boxa tỏa bõa xõa bõa boja đọa bọa tọa bọa mosa xóa móa tóa móa mofa xòa mòa tòa mòa mora tỏa mỏa xõa mỏa moxa tỏa mõa xõa mõa moja đọa mọa tọa mọa vosa xóa vóa tóa vóa vofa xòa vòa tòa vòa vora tỏa vỏa xõa vỏa voxa tỏa võa xõa võa voja đọa vọa tọa vọa nofa xòa nòa tòa nòa noja đọa nọa tọa nọa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_566_g_onset_eo_eu_tone_override_and_circumflex_unlatch() {
+        let input = "geso gesof gesor gesox gesoj gefo gefos gefor gefox gefoj gero geros gerof gerox geroj gexo gexos gexof gexor gexoj gejo gejos gejof gejor gejox gesu gesue gesuf gesur gesux gesuj gefu gefue gefus gefur gefux gefuj geru gerue gerus geruf gerux geruj gexu gexue gexus gexuf gexur gexuj geju gejue gejus gejuf gejur gejux gese gesef geser gesex gesej gefe gefes gefer gefex gefej gere geref gerex gerej gexe gexes gexef gexer gexej geje gejes gejef gejer gejex"
+        let expected = "geso gèo gẻo gẽo gẹo gefo géo gẻo gẽo gẹo gero géo gèo gẽo gẹo gexo géo gèo gẻo gẹo gejo géo gèo gẻo gẽo gesu gếu gèu gẻu gẽu gẹu gefu gều géu gẻu gẽu gẹu geru gểu géu gèu gẽu gẹu gexu gễu géu gèu gẻu gẹu geju gệu géu gèu gẻu gẽu gese gề gể gễ gệ gefe gế gể gễ gệ gere gề gễ gệ gexe gế gề gể gệ geje gế gề gể gễ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_567_sofe_soxe_soje_vose_vofe_vore_voxe_voje_gofe_gore_goxe_goje_unlatch() {
+        let input = "sofe sofeo sofes sofer sofex sofej sofem sofen soxe soxeo soxes soxef soxer soxej soxem soxen soje sojeo sojes sojef sojer sojex sojem sojen sojec sojep sojet vose voseo vosef voser vosex vosej vosem vosen vosec vosep voset vofe vofeo vofes vofer vofex vofej vofem vofen vore voreo voref vorex vorej vorem voren voxe voxeo voxes voxef voxer voxej voxem voxen voje vojeo vojes vojef vojer vojex vojem vojen vojec vojep vojet gofe gofeo gofes gofer gofex gofej gofem gofen gore goreo goref gorex gorej gorem goren goxe goxeo goxes goxef goxer goxej goxem goxen goje gojeo gojes gojef gojer gojex gojem gojen gojec gojep gojet"
+        let expected = "sofe soèo sóe sỏe sõe sọe soèm soèn soxe soẽo sóe sòe sỏe sọe soẽm soẽn soje soẹo sóe sòe sỏe sõe soẹm soẹn soẹc soẹp soẹt vose voéo vòe vỏe võe vọe voém voén voéc voép voét vofe voèo vóe vỏe võe vọe voèm voèn vore voẻo vòe võe vọe voẻm voẻn voxe voẽo vóe vòe vỏe vọe voẽm voẽn voje voẹo vóe vòe vỏe võe voẹm voẹn voẹc voẹp voẹt gofe goèo góe gỏe gõe gọe goèm goèn gore goẻo gòe gõe gọe goẻm goẻn goxe goẽo góe gòe gỏe gọe goẽm goẽn goje goẹo góe gòe gỏe gõe goẹm goẹn goẹc goẹp goẹt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_568_phose_phofe_phore_phoxe_phoje_and_trose_trofe_trore_troxe_troje_unlatch() {
+        let input = "phose phoseo phosef phoser phosex phosej phosem phosen phosec phosep phoset phofe phofeo phofes phofer phofex phofej phofem phofen phore phoreo phoref phorex phorej phorem phoren phoxe phoxeo phoxes phoxef phoxer phoxej phoxem phoxen phoje phojeo phojes phojef phojer phojex phojem phojen phojec phojep phojet trose troseo trosef troser trosex trosej trosem trosen trosec trosep troset trofe trofeo trofes trofer trofex trofej trofem trofen trore troreo troref trorex trorej trorem troren troxe troxeo troxes troxef troxer troxej troxem troxen troje trojeo trojes trojef trojer trojex trojem trojen trojec trojep trojet"
+        let expected = "phose phoéo phòe phỏe phõe phọe phoém phoén phoéc phoép phoét phofe phoèo phóe phỏe phõe phọe phoèm phoèn phore phoẻo phòe phõe phọe phoẻm phoẻn phoxe phoẽo phóe phòe phỏe phọe phoẽm phoẽn phoje phoẹo phóe phòe phỏe phõe phoẹm phoẹn phoẹc phoẹp phoẹt trose troéo tròe trỏe trõe trọe troém troén troéc troép troét trofe troèo tróe trỏe trõe trọe troèm troèn trore troẻo tròe trõe trọe troẻm troẻn troxe troẽo tróe tròe trỏe trọe troẽm troẽn troje troẹo tróe tròe trỏe trõe troẹm troẹn troẹc troẹp troẹt"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_569_scenario99_trilingual_gore_bosa_mosa_and_vietnamese_met_goe_xoa_boa_toa_moa_chat() {
+        let input = "Khi thám hiểm hẻm núi gore cùng đội khảo sát bosa và mosa trên cao nguyên, dù đôi lúc cảm thấy mệt gỏe (meejt gore) sau chặng đường leo dốc, cả đoàn vẫn vui vẻ xóa bóa (xoas bosa) hết ưu phiền dưới ánh nắng tỏa mỏa (toar mora) ấm áp!"
+        let expected = "Khi thám hiểm hẻm núi gore cùng đội khảo sát bosa và mosa trên cao nguyên, dù đôi lúc cảm thấy mệt gỏe (mệt gỏe) sau chặng đường leo dốc, cả đoàn vẫn vui vẻ xóa bóa (xóa bóa) hết ưu phiền dưới ánh nắng tỏa mỏa (tỏa mỏa) ấm áp!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4134,6 +4166,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_562_bofe_boje_mofe_moxe_moje_nofe_nore_noxe_noje_unlatch", test_tier4_562_bofe_boje_mofe_moxe_moje_nofe_nore_noxe_noje_unlatch),
             ("test_tier4_563_dofe_doxe_doje_rofe_roxe_roje_and_d_stroke_oe_unlatch", test_tier4_563_dofe_doxe_doje_rofe_roxe_roje_and_d_stroke_oe_unlatch),
             ("test_tier4_564_scenario98_trilingual_bose_mose_sose_and_vietnamese_do_boe_sang_moe_nghe_nge_chat", test_tier4_564_scenario98_trilingual_bose_mose_sose_and_vietnamese_do_boe_sang_moe_nghe_nge_chat),
+            ("test_tier4_565_vietnamese_collocation_phrases_sofe_soxe_soje_vose_vofe_vore_voxe_voje_gose_gofe_gore_goxe_goje_phose_phofe_phore_phoxe_phoje_trose_trofe_trore_troxe_troje_bosa_bofa_bora_boxa_boja_mosa_mofa_mora_moxa_moja_vosa_vofa_vora_voxa_voja_nofa_noja", test_tier4_565_vietnamese_collocation_phrases_sofe_soxe_soje_vose_vofe_vore_voxe_voje_gose_gofe_gore_goxe_goje_phose_phofe_phore_phoxe_phoje_trose_trofe_trore_troxe_troje_bosa_bofa_bora_boxa_boja_mosa_mofa_mora_moxa_moja_vosa_vofa_vora_voxa_voja_nofa_noja),
+            ("test_tier4_566_g_onset_eo_eu_tone_override_and_circumflex_unlatch", test_tier4_566_g_onset_eo_eu_tone_override_and_circumflex_unlatch),
+            ("test_tier4_567_sofe_soxe_soje_vose_vofe_vore_voxe_voje_gofe_gore_goxe_goje_unlatch", test_tier4_567_sofe_soxe_soje_vose_vofe_vore_voxe_voje_gofe_gore_goxe_goje_unlatch),
+            ("test_tier4_568_phose_phofe_phore_phoxe_phoje_and_trose_trofe_trore_troxe_troje_unlatch", test_tier4_568_phose_phofe_phore_phoxe_phoje_and_trose_trofe_trore_troxe_troje_unlatch),
+            ("test_tier4_569_scenario99_trilingual_gore_bosa_mosa_and_vietnamese_met_goe_xoa_boa_toa_moa_chat", test_tier4_569_scenario99_trilingual_gore_bosa_mosa_and_vietnamese_met_goe_xoa_boa_toa_moa_chat),
         ]
     }
 }
