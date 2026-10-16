@@ -4197,6 +4197,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 111: 40 Collocation Entries (2,442 Total) and boens..doenj Tone Override & D-Stroke Unlatch
+
+    func test_tier4_665_vietnamese_collocation_phrases_noachj_to_noets() {
+        let input = "noachj tachs noachj vachs noachj roachs tachs roachs vachs roachs roachj tachs roachj vachs roachj goachs tachs goachs vachs goachs goachj tachs goachj vachs goachj poachs tachs poachs vachs poachs poachj tachs poachj vachs poachj phoachs tachs phoachs vachs phoachs phoachj tachs phoachj vachs phoachj troachs tachs troachs vachs troachs troachj tachs troachj vachs troachj koachs tachs koachs vachs koachs koachj tachs koachj vachs koachj boacs bacs boacs khacs boacs boacj bacs boacj khacs boacj moacs bacs moacs khacs moacs moacj bacs moacj khacs moacj voacs bacs voacs khacs voacs voacj bacs voacj khacs voacj noacs bacs noacs khacs noacs noacj bacs noacj khacs noacj roacs bacs roacs khacs roacs roacj bacs roacj khacs roacj goacs bacs goacs khacs goacs goacj bacs goacj khacs goacj poacs bacs poacs khacs poacs poacj bacs poacj khacs poacj phoacs bacs phoacs khacs phoacs phoacj bacs phoacj khacs phoacj troacs bacs troacs khacs troacs troacj bacs troacj khacs troacj koacs bacs koacs khacs koacs koacj bacs koacj khacs koacj boets khoets boets toets boets boetj khoets boetj toets boetj moets khoets moets toets moets moetj khoets moetj toets moetj voets khoets voets toets voets voetj khoets voetj toets voetj noets khoets noets toets noets"
+        let expected = "noachj tách noạch vách noạch roachs tách roách vách roách roachj tách roạch vách roạch goachs tách goách vách goách goachj tách goạch vách goạch poachs tách poách vách poách poachj tách poạch vách poạch phoachs tách phoách vách phoách phoachj tách phoạch vách phoạch troachs tách troách vách troách troachj tách troạch vách troạch koachs tách koách vách koách koachj tách koạch vách koạch boacs bác boác khác boác boacj bác boạc khác boạc moacs bác moác khác moác moacj bác moạc khác moạc voacs bác voác khác voác voacj bác voạc khác voạc noacs bác noác khác noác noacj bác noạc khác noạc roacs bác roác khác roác roacj bác roạc khác roạc goacs bác goác khác goác goacj bác goạc khác goạc poacs bác poác khác poác poacj bác poạc khác poạc phoacs bác phoác khác phoác phoacj bác phoạc khác phoạc troacs bác troác khác troác troacj bác troạc khác troạc koacs bác koác khác koác koacj bác koạc khác koạc boets khoét boét toét boét boetj khoét boẹt toét boẹt moets khoét moét toét moét moetj khoét moẹt toét moẹt voets khoét voét toét voét voetj khoét voẹt toét voẹt noets khoét noét toét noét"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_666_boens_boenf_boenr_boenx_boenj_moens_moenf_moenr_moenx_moenj_voens_voenf_voenr_voenx_voenj_tone_override_unlatch() {
+        let input = "boens boensf boensr boensx boensj boenf boenfs boenfr boenfx boenfj boenr boenrs boenrf boenrx boenrj boenx boenxs boenxf boenxr boenxj boenj boenjs boenjf boenjr boenjx moens moensf moensr moensx moensj moenf moenfs moenfr moenfx moenfj moenr moenrs moenrf moenrx moenrj moenx moenxs moenxf moenxr moenxj moenj moenjs moenjf moenjr moenjx voens voensf voensr voensx voensj voenf voenfs voenfr voenfx voenfj voenr voenrs voenrf voenrx voenrj voenx voenxs voenxf voenxr voenxj voenj voenjs voenjf voenjr voenjx"
+        let expected = "boens boèn boẻn boẽn boẹn boenf boén boẻn boẽn boẹn boenr boén boèn boẽn boẹn boenx boén boèn boẻn boẹn boenj boén boèn boẻn boẽn moens moèn moẻn moẽn moẹn moenf moén moẻn moẽn moẹn moenr moén moèn moẽn moẹn moenx moén moèn moẻn moẹn moenj moén moèn moẻn moẽn voens voèn voẻn voẽn voẹn voenf voén voẻn voẽn voẹn voenr voén voèn voẽn voẹn voenx voén voèn voẻn voẹn voenj voén voèn voẻn voẽn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_667_noens_noenf_noenr_noenx_noenj_roens_roenf_roenr_roenx_roenj_goens_goenf_goenr_goenx_goenj_tone_override_unlatch() {
+        let input = "noens noensf noensr noensx noensj noenf noenfs noenfr noenfx noenfj noenr noenrs noenrf noenrx noenrj noenx noenxs noenxf noenxr noenxj noenj noenjs noenjf noenjr noenjx roens roensf roensr roensx roensj roenf roenfs roenfr roenfx roenfj roenr roenrs roenrf roenrx roenrj roenx roenxs roenxf roenxr roenxj roenj roenjs roenjf roenjr roenjx goens goensf goensr goensx goensj goenf goenfs goenfr goenfx goenfj goenr goenrs goenrf goenrx goenrj goenx goenxs goenxf goenxr goenxj goenj goenjs goenjf goenjr goenjx"
+        let expected = "noens noèn noẻn noẽn noẹn noenf noén noẻn noẽn noẹn noenr noén noèn noẽn noẹn noenx noén noèn noẻn noẹn noenj noén noèn noẻn noẽn roens roèn roẻn roẽn roẹn roenf roén roẻn roẽn roẹn roenr roén roèn roẽn roẹn roenx roén roèn roẻn roẹn roenj roén roèn roẻn roẽn goens goèn goẻn goẽn goẹn goenf goén goẻn goẽn goẹn goenr goén goèn goẽn goẹn goenx goén goèn goẻn goẹn goenj goén goèn goẻn goẽn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_668_poens_to_doenj_tone_override_and_d_stroke_unlatch() {
+        let input = "poens poensf poensr poensx poensj poenf poenfs poenfr poenfx poenfj poenr poenrs poenrf poenrx poenrj poenx poenxs poenxf poenxr poenxj poenj poenjs poenjf poenjr poenjx phoens phoensf phoensr phoensx phoensj phoenf phoenfs phoenfr phoenfx phoenfj phoenr phoenrs phoenrf phoenrx phoenrj phoenx phoenxs phoenxf phoenxr phoenxj phoenj phoenjs phoenjf phoenjr phoenjx troens troensf troensr troensx troensj troenf troenfs troenfr troenfx troenfj troenr troenrs troenrf troenrx troenrj troenx troenxs troenxf troenxr troenxj troenj troenjs troenjf troenjr troenjx koens koensf koensr koensx koensj koenf koenfs koenfr koenfx koenfj koenr koenrs koenrf koenrx koenrj koenx koenxs koenxf koenxr koenxj koenj koenjs koenjf koenjr koenjx doens doensf doensr doensx doensj doensd doenf doenfs doenfr doenfx doenfj doenfd doenr doenrs doenrf doenrx doenrj doenrd doenx doenxs doenxf doenxr doenxj doenxd doenj doenjs doenjf doenjr doenjx doenjd"
+        let expected = "poens poèn poẻn poẽn poẹn poenf poén poẻn poẽn poẹn poenr poén poèn poẽn poẹn poenx poén poèn poẻn poẹn poenj poén poèn poẻn poẽn phoens phoèn phoẻn phoẽn phoẹn phoenf phoén phoẻn phoẽn phoẹn phoenr phoén phoèn phoẽn phoẹn phoenx phoén phoèn phoẻn phoẹn phoenj phoén phoèn phoẻn phoẽn troens troèn troẻn troẽn troẹn troenf troén troẻn troẽn troẹn troenr troén troèn troẽn troẹn troenx troén troèn troẻn troẹn troenj troén troèn troẻn troẽn koens koèn koẻn koẽn koẹn koenf koén koẻn koẽn koẹn koenr koén koèn koẽn koẹn koenx koén koèn koẻn koẹn koenj koén koèn koẻn koẽn doens doèn doẻn doẽn doẹn đoén doenf doén doẻn doẽn doẹn đoèn doenr doén doèn doẽn doẹn đoẻn doenx doén doèn doẻn doẹn đoẽn doenj doén doèn doẻn doẽn đoẹn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_669_scenario119_trilingual_roachs_boacs_boets_and_vietnamese_tach_roach_khac_boac_khoet_boet_chat() {
+        let input = "Khi kiểm tra các rãnh kỹ thuật roachs, gờ chặn boacs và lỗ khoan boets trên thân máy CNC, các kỹ sư vừa rà soát vết tách roách (tachs roachs), vừa đối chiếu điểm khác boác (khacs boacs) và đường khoét boét (khoets boets) đảm bảo độ chính xác cao!"
+        let expected = "Khi kiểm tra các rãnh kỹ thuật roachs, gờ chặn boacs và lỗ khoan boets trên thân máy CNC, các kỹ sư vừa rà soát vết tách roách (tách roách), vừa đối chiếu điểm khác boác (khác boác) và đường khoét boét (khoét boét) đảm bảo độ chính xác cao!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4870,6 +4902,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_662_boeps_to_doepj_tone_override_and_d_stroke_unlatch", test_tier4_662_boeps_to_doepj_tone_override_and_d_stroke_unlatch),
             ("test_tier4_663_boecs_to_doecj_tone_override_and_d_stroke_unlatch", test_tier4_663_boecs_to_doecj_tone_override_and_d_stroke_unlatch),
             ("test_tier4_664_scenario118_trilingual_roats_boaps_boachs_and_vietnamese_toat_roat_tap_boap_tach_boach_chat", test_tier4_664_scenario118_trilingual_roats_boaps_boachs_and_vietnamese_toat_roat_tap_boap_tach_boach_chat),
+            ("test_tier4_665_vietnamese_collocation_phrases_noachj_to_noets", test_tier4_665_vietnamese_collocation_phrases_noachj_to_noets),
+            ("test_tier4_666_boens_boenf_boenr_boenx_boenj_moens_moenf_moenr_moenx_moenj_voens_voenf_voenr_voenx_voenj_tone_override_unlatch", test_tier4_666_boens_boenf_boenr_boenx_boenj_moens_moenf_moenr_moenx_moenj_voens_voenf_voenr_voenx_voenj_tone_override_unlatch),
+            ("test_tier4_667_noens_noenf_noenr_noenx_noenj_roens_roenf_roenr_roenx_roenj_goens_goenf_goenr_goenx_goenj_tone_override_unlatch", test_tier4_667_noens_noenf_noenr_noenx_noenj_roens_roenf_roenr_roenx_roenj_goens_goenf_goenr_goenx_goenj_tone_override_unlatch),
+            ("test_tier4_668_poens_to_doenj_tone_override_and_d_stroke_unlatch", test_tier4_668_poens_to_doenj_tone_override_and_d_stroke_unlatch),
+            ("test_tier4_669_scenario119_trilingual_roachs_boacs_boets_and_vietnamese_tach_roach_khac_boac_khoet_boet_chat", test_tier4_669_scenario119_trilingual_roachs_boacs_boets_and_vietnamese_tach_roach_khac_boac_khoet_boet_chat),
         ]
     }
 }
