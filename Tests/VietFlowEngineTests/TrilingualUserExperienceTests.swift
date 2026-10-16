@@ -3685,6 +3685,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 95: 40 Collocation Entries, boar/roar/boars/roars Unlatch, goes/does/pores Unlatch, and dosai..dojao Tone Override Unlatch
+
+    func test_tier4_585_vietnamese_collocation_phrases_doxai_dojai_noxay_dofay_doxay_dojay_noxao_dofao_doxao_dojao_boar_boars_roar_roars_boast_roast_boats_goats_moats_moans_roams_pores_goes_does_peeps_perms_ports_puts_pars_arms_irs_ers_dadas_charas_disc_oxen_axis_laws_raws_saws() {
+        let input = "doxai oair doxai xoaix doxai dojai loaij dojai ngoaij dojai noxay xoays noxay ngoays noxay dofay xoays dofay ngoays dofay doxay xoays doxay ngoays doxay dojay xoays dojay ngoays dojay noxao ngotj noxao ngaof noxao dofao ngotj dofao ngaof dofao doxao ngotj doxao ngaof doxao dojao ngotj dojao ngaof dojao boar toar boar xoax boar boars xoas boars toas boars roar toar roar xoax roar roars xoas roars toas roars boast toats boast thoats boast roast toats roast thoats roast boats toats boats thoats boats goats toats goats thoats goats moats toats moats thoats moats moans ddoans moans toans moans roams bams roams nhams roams pores ddor pores sangs pores goes ddor goes sangs goes does ddor does sangs does peeps beeps peeps neeps peeps perms chems perms nems perms ports xots ports rots ports puts buts puts ruts puts pars khas pars quas pars arms hawcs arms u arms irs bis irs nhis irs ers nes ers hes ers dadas caaps dadas taaps dadas charas caaps charas taaps charas disc nhichs disc thichs disc oxen bexn oxen lexn oxen axis uwu axis nhaan axis laws nawngs laws chois laws raws nawngs raws chois raws saws nawngs saws chois saws"
+        let expected = "doxai oải doãi xoãi doãi dojai loại doại ngoại doại noxay xoáy noãy ngoáy noãy dofay xoáy doày ngoáy doày doxay xoáy doãy ngoáy doãy dojay xoáy doạy ngoáy doạy noxao ngọt noão ngào noão dofao ngọt doào ngào doào doxao ngọt doão ngào doão dojao ngọt doạo ngào doạo boar tỏa bỏa xõa bỏa boars xóa bóa tóa bóa roar tỏa rỏa xõa rỏa roars xóa róa tóa róa boast toát boát thoát boát roast toát roát thoát roát boats toát boát thoát boát goats toát goát thoát goát moats toát moát thoát moát moans đoán moán toán moán roams bám roám nhám roám pores đỏ póe sáng póe goes đỏ góe sáng góe does đỏ dóe sáng dóe peeps bếp pếp nếp pếp perms chém pém ném pém ports xót pót rót pót puts bút pút rút pút pars khá pá quá pá arms hắc ám u ám irs bí í nhí í ers né é hé é dadas cấp đấ tấp đấ charas cấp chấ tấp chấ disc nhích díc thích díc oxen bẽn oẽn lẽn oẽn axis ưu ái nhân ái laws nắng lắ chói lắ raws nắng rắ chói rắ saws nắng sắ chói sắ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_586_boar_roar_boars_roars_coda_offglide_breve_and_tone_override_unlatch() {
+        let input = "boar boarm boarn boari boaro boary boarw boarf boarx boarj roar roarm roarn roari roaro roary roarw roarf roarx roarj boars boarsm boarsn boarsc boarsp boarst boarsw boarsy boarsi boarso boarsf boarsr boarsx boarsj roars roarsm roarsn roarsc roarsp roarst roarsw roarsy roarsi roarso roarsf roarsr roarsx roarsj"
+        let expected = "boar boảm boản boải boảo boảy boẳ bòa bõa bọa roar roảm roản roải roảo roảy roẳ ròa rõa rọa boars boám boán boác boáp boát boắ boáy boái boáo bòa bỏa bõa bọa roars roám roán roác roáp roát roắ roáy roái roáo ròa rỏa rõa rọa"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_587_goes_does_pores_coda_offglide_tone_override_and_d_stroke_unlatch() {
+        let input = "goes goeso goesf goesr goesx goesj goesm goesn goesc goesp goest does doeso doesf doesr doesx doesj doesm doesc doesp doest doesd doesdf doesdr doesdx doesdj doesdo doesdm doesdn doesdc doesdp doesdt pores poreso poresf poresr poresx poresj poresm poresn poresc poresp porest"
+        let expected = "goes goéo gòe gỏe gõe gọe goém goén goéc goép goét does doéo dòe dỏe dõe dọe doém doéc doép doét đóe đòe đỏe đõe đọe đoéo đoém đoén đoéc đoép đoét pores poéo pòe pỏe põe pọe poém poén poéc poép poét"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_588_dosai_dofai_doxai_dojai_noxay_dofay_doxay_dojay_noxao_dofao_doxao_dojao_tone_override_and_d_stroke_unlatch() {
+        let input = "dosai dosaif dosair dosaix dosaij dosaid dofai dofais dofair dofaix dofaij dofaid doxai doxais doxaif doxair doxaij doxaid dojai dojais dojaif dojair dojaix dojaid noxay noxays noxayf noxayr noxayj dofay dofays dofayr dofayx dofayj dofayd doxay doxays doxayf doxayr doxayj doxayd dojay dojays dojayf dojayr dojayx dojayd noxao noxaos noxaof noxaor noxaoj dofao dofaos dofaor dofaox dofaoj dofaod doxao doxaos doxaof doxaor doxaoj doxaod dojao dojaos dojaof dojaor dojaox dojaod"
+        let expected = "dosai doài doải doãi doại đoái dofai doái doải doãi doại đoài doxai doái doài doải doại đoãi dojai doái doài doải doãi đoại noxay noáy noày noảy noạy dofay doáy doảy doãy doạy đoày doxay doáy doày doảy doạy đoãy dojay doáy doày doảy doãy đoạy noxao noáo noào noảo noạo dofao doáo doảo doão doạo đoào doxao doáo doào doảo doạo đoão dojao doáo doào doảo doão đoạo"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_589_scenario103_trilingual_boar_goes_axis_and_vietnamese_toa_boa_do_goe_uu_ai_chat() {
+        let input = "Khi quan sát đàn lợn rừng boar di chuyển qua trục tọa độ axis trong lúc hệ thống goes vào chế độ tự động, ánh đèn đỏ góe (ddor goes) tỏa bỏa (toar boar) khắp sườn đồi tạo nên khung cảnh được thiên nhiên ưu ái (uwu axis) vô cùng kỳ thú!"
+        let expected = "Khi quan sát đàn lợn rừng boar di chuyển qua trục tọa độ axis trong lúc hệ thống goes vào chế độ tự động, ánh đèn đỏ góe (đỏ góe) tỏa bỏa (tỏa bỏa) khắp sườn đồi tạo nên khung cảnh được thiên nhiên ưu ái (ưu ái) vô cùng kỳ thú!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4278,6 +4310,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_582_bosai_bofai_borai_boxai_bojai_mosai_mofai_morai_moxai_mojai_vosai_vofai_vorai_voxai_vojai_nosai_nofai_noxai_nojai_tone_override_unlatch", test_tier4_582_bosai_bofai_borai_boxai_bojai_mosai_mofai_morai_moxai_mojai_vosai_vofai_vorai_voxai_vojai_nosai_nofai_noxai_nojai_tone_override_unlatch),
             ("test_tier4_583_rosai_rofai_roxai_rojai_gosai_gofai_gorai_goxai_gojai_phosai_phofai_phorai_phoxai_phojai_trosai_trofai_trorai_troxai_trojai_tone_override_unlatch", test_tier4_583_rosai_rofai_roxai_rojai_gosai_gofai_gorai_goxai_gojai_phosai_phofai_phorai_phoxai_phojai_trosai_trofai_trorai_troxai_trojai_tone_override_unlatch),
             ("test_tier4_584_scenario102_trilingual_bosai_gosai_morai_and_vietnamese_ngoai_boai_ngoai_goai_oai_moai_chat", test_tier4_584_scenario102_trilingual_bosai_gosai_morai_and_vietnamese_ngoai_boai_ngoai_goai_oai_moai_chat),
+            ("test_tier4_585_vietnamese_collocation_phrases_doxai_dojai_noxay_dofay_doxay_dojay_noxao_dofao_doxao_dojao_boar_boars_roar_roars_boast_roast_boats_goats_moats_moans_roams_pores_goes_does_peeps_perms_ports_puts_pars_arms_irs_ers_dadas_charas_disc_oxen_axis_laws_raws_saws", test_tier4_585_vietnamese_collocation_phrases_doxai_dojai_noxay_dofay_doxay_dojay_noxao_dofao_doxao_dojao_boar_boars_roar_roars_boast_roast_boats_goats_moats_moans_roams_pores_goes_does_peeps_perms_ports_puts_pars_arms_irs_ers_dadas_charas_disc_oxen_axis_laws_raws_saws),
+            ("test_tier4_586_boar_roar_boars_roars_coda_offglide_breve_and_tone_override_unlatch", test_tier4_586_boar_roar_boars_roars_coda_offglide_breve_and_tone_override_unlatch),
+            ("test_tier4_587_goes_does_pores_coda_offglide_tone_override_and_d_stroke_unlatch", test_tier4_587_goes_does_pores_coda_offglide_tone_override_and_d_stroke_unlatch),
+            ("test_tier4_588_dosai_dofai_doxai_dojai_noxay_dofay_doxay_dojay_noxao_dofao_doxao_dojao_tone_override_and_d_stroke_unlatch", test_tier4_588_dosai_dofai_doxai_dojai_noxay_dofay_doxay_dojay_noxao_dofao_doxao_dojao_tone_override_and_d_stroke_unlatch),
+            ("test_tier4_589_scenario103_trilingual_boar_goes_axis_and_vietnamese_toa_boa_do_goe_uu_ai_chat", test_tier4_589_scenario103_trilingual_boar_goes_axis_and_vietnamese_toa_boa_do_goe_uu_ai_chat),
         ]
     }
 }
