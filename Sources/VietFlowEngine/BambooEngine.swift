@@ -209,12 +209,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if (["soar", "boar", "roar", "moar", "voar", "noar", "goar", "poar", "phoar", "troar"].contains(String(wordRawKeys).lowercased()) && "mnioywfjx".contains(character.lowercased()))
-                || (["moar", "voar", "noar", "goar", "poar", "phoar", "troar"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s")
-                || (["boas", "roas", "moas", "voas", "noas", "poas", "phoas", "troas"].contains(String(wordRawKeys).lowercased())
+            } else if (["soar", "boar", "roar", "moar", "voar", "noar", "goar", "poar", "phoar", "troar", "koar"].contains(String(wordRawKeys).lowercased()) && "mnioywfjx".contains(character.lowercased()))
+                || (["moar", "voar", "noar", "goar", "poar", "phoar", "troar", "koar"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s")
+                || (["boas", "roas", "moas", "voas", "noas", "poas", "phoas", "troas", "koas"].contains(String(wordRawKeys).lowercased())
                     && ("mncpwiyofrxj".contains(character.lowercased())
                         || (character.lowercased() == "t" && !["boas", "roas"].contains(String(wordRawKeys).lowercased()))))
-                || (["boaf", "roaf", "moaf", "voaf", "noaf", "goaf", "poaf", "phoaf", "troaf", "boax", "roax", "moax", "voax", "goax", "poax", "phoax", "troax", "boaj", "roaj", "moaj", "voaj", "noaj", "goaj", "poaj", "phoaj", "troaj"].contains(String(wordRawKeys).lowercased())
+                || (["boaf", "roaf", "moaf", "voaf", "noaf", "goaf", "poaf", "phoaf", "troaf", "koaf", "boax", "roax", "moax", "voax", "goax", "poax", "phoax", "troax", "koax", "boaj", "roaj", "moaj", "voaj", "noaj", "goaj", "poaj", "phoaj", "troaj", "koaj"].contains(String(wordRawKeys).lowercased())
                     && (("mnwiyosfrxj".contains(character.lowercased()) && character.lowercased() != wordRawKeys.last?.lowercased())
                         || ("cpt".contains(character.lowercased()) && wordRawKeys.last?.lowercased() == "j")))
                 || (["soars", "boars", "roars", "sofas", "oars", "loafs", "oafs"].contains(String(wordRawKeys).lowercased()) && "mncptwyio".contains(character.lowercased()))
@@ -241,15 +241,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if (["toes", "hoes", "roes", "noes", "goes", "does", "boes", "coes", "moes", "poes", "phoes", "soes", "troes", "voes", "pores", "bores", "cores", "dores", "gores", "mores", "nores", "rores", "sores", "vores", "phores", "trores", "doers", "goers", "boers", "coers", "moers", "noers", "poers", "phoers", "roers", "soers", "troers", "voers", "lose", "hose", "chose", "those", "rose", "nose", "pose", "dose", "kose", "koje", "poje", "boje", "moje", "noje", "doje", "roje", "soje", "bose", "mose", "sose", "vose", "voje", "gose", "goje", "phose", "phoje", "trose", "troje", "cose", "coje", "boej", "coej", "doej", "goej", "moej", "noej", "poej", "phoej", "roej", "soej", "troej", "voej", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
-                || (["toes", "hoes", "roes", "noes", "goes", "does", "boes", "coes", "moes", "poes", "phoes", "soes", "troes", "voes", "pores", "bores", "cores", "dores", "gores", "mores", "nores", "rores", "sores", "vores", "phores", "trores", "doers", "goers", "boers", "coers", "moers", "noers", "poers", "phoers", "roers", "soers", "troers", "voers", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
+            } else if (["toes", "hoes", "roes", "noes", "goes", "does", "boes", "coes", "koes", "moes", "poes", "phoes", "soes", "troes", "voes", "pores", "bores", "cores", "dores", "gores", "kores", "mores", "nores", "rores", "sores", "vores", "phores", "trores", "doers", "goers", "boers", "coers", "koers", "moers", "noers", "poers", "phoers", "roers", "soers", "troers", "voers", "lose", "hose", "chose", "those", "rose", "nose", "pose", "dose", "kose", "koje", "poje", "boje", "moje", "noje", "doje", "roje", "soje", "bose", "mose", "sose", "vose", "voje", "gose", "goje", "phose", "phoje", "trose", "troje", "cose", "coje", "boej", "coej", "doej", "goej", "koej", "moej", "noej", "poej", "phoej", "roej", "soej", "troej", "voej", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "ocmpt".contains(character.lowercased()))
+                || (["toes", "hoes", "roes", "noes", "goes", "does", "boes", "coes", "koes", "moes", "poes", "phoes", "soes", "troes", "voes", "pores", "bores", "cores", "dores", "gores", "kores", "mores", "nores", "rores", "sores", "vores", "phores", "trores", "doers", "goers", "boers", "coers", "koers", "moers", "noers", "poers", "phoers", "roers", "soers", "troers", "voers", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "horse" && character.lowercased() == "o")
-                || (["toes", "hoes", "roes", "noes", "goes", "boes", "coes", "moes", "poes", "phoes", "soes", "troes", "voes", "pores", "bores", "cores", "dores", "gores", "mores", "nores", "rores", "sores", "vores", "phores", "trores", "doers", "goers", "boers", "coers", "moers", "noers", "poers", "phoers", "roers", "soers", "troers", "voers", "lose", "hose", "those", "rose", "nose", "pose", "dose", "kose", "koje", "poje", "boje", "moje", "noje", "doje", "roje", "soje", "bose", "mose", "vose", "voje", "gose", "goje", "phose", "phoje", "trose", "troje", "cose", "coje", "boej", "coej", "doej", "goej", "moej", "noej", "poej", "phoej", "roej", "soej", "troej", "voej", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
-                || (["tore", "hore", "lore", "chore", "ore", "sore", "dore", "rore", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "core", "doer", "goer", "boer", "coer", "moer", "noer", "poer", "phoer", "roer", "soer", "troer", "voer"].contains(String(wordRawKeys).lowercased()) && "ofjx".contains(character.lowercased()))
+                || (["toes", "hoes", "roes", "noes", "goes", "boes", "coes", "koes", "moes", "poes", "phoes", "soes", "troes", "voes", "pores", "bores", "cores", "dores", "gores", "kores", "mores", "nores", "rores", "sores", "vores", "phores", "trores", "doers", "goers", "boers", "coers", "koers", "moers", "noers", "poers", "phoers", "roers", "soers", "troers", "voers", "lose", "hose", "those", "rose", "nose", "pose", "dose", "kose", "koje", "poje", "boje", "moje", "noje", "doje", "roje", "soje", "bose", "mose", "vose", "voje", "gose", "goje", "phose", "phoje", "trose", "troje", "cose", "coje", "boej", "coej", "doej", "goej", "koej", "moej", "noej", "poej", "phoej", "roej", "soej", "troej", "voej", "ores", "tores", "hores", "lores", "chores", "horse"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "n")
+                || (["tore", "hore", "lore", "chore", "ore", "sore", "dore", "rore", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "core", "doer", "goer", "boer", "coer", "koer", "moer", "noer", "poer", "phoer", "roer", "soer", "troer", "voer"].contains(String(wordRawKeys).lowercased()) && "ofjx".contains(character.lowercased()))
                 || (["lose", "hose", "chose", "those", "rose", "nose", "pose", "dose", "kose", "more"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (["hose", "chose", "those", "rose", "nose", "dose", "kose"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "r")
-                || (["tore", "hore", "chore", "sore", "dore", "rore", "more", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "core", "doer", "goer", "boer", "coer", "moer", "noer", "poer", "phoer", "roer", "soer", "troer", "voer", "boef", "coef", "doef", "goef", "moef", "noef", "poef", "phoef", "roef", "soef", "troef", "voef", "boex", "coex", "doex", "goex", "moex", "noex", "poex", "phoex", "roex", "soex", "troex", "voex", "kofe", "koxe", "pofe", "poxe", "bofe", "boxe", "mofe", "moxe", "nofe", "noxe", "dofe", "doxe", "rofe", "roxe", "sofe", "soxe", "vofe", "voxe", "gofe", "goxe", "phofe", "phoxe", "trofe", "troxe", "cofe", "coxe"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
-                || (["boef", "coef", "doef", "goef", "moef", "noef", "poef", "phoef", "roef", "soef", "troef", "voef", "boex", "coex", "doex", "goex", "moex", "noex", "poex", "phoex", "roex", "soex", "troex", "voex", "boej", "coej", "doej", "goej", "moej", "noej", "poej", "phoej", "roej", "soej", "troej", "voej", "kofe", "koxe", "koje", "pofe", "poxe", "poje", "bose", "bofe", "boxe", "boje", "mose", "mofe", "moxe", "moje", "nofe", "noxe", "noje", "dofe", "doxe", "doje", "rofe", "roxe", "roje", "sose", "sofe", "soxe", "soje", "vose", "vofe", "voxe", "voje", "gose", "gofe", "goxe", "goje", "phose", "phofe", "phoxe", "phoje", "trose", "trofe", "troxe", "troje", "cose", "cofe", "coxe", "coje"].contains(String(wordRawKeys).lowercased()) && ("osfrxj".contains(character.lowercased()) && character.lowercased() != r2 && character.lowercased() != wordRawKeys.last?.lowercased() && !(String(wordRawKeys).lowercased() == "boxe" && "sr".contains(character.lowercased()))))
+                || (["tore", "hore", "chore", "sore", "dore", "rore", "more", "bore", "pore", "kore", "nore", "vore", "gore", "phore", "trore", "core", "doer", "goer", "boer", "coer", "koer", "moer", "noer", "poer", "phoer", "roer", "soer", "troer", "voer", "boef", "coef", "doef", "goef", "koef", "moef", "noef", "poef", "phoef", "roef", "soef", "troef", "voef", "boex", "coex", "doex", "goex", "koex", "moex", "noex", "poex", "phoex", "roex", "soex", "troex", "voex", "kofe", "koxe", "pofe", "poxe", "bofe", "boxe", "mofe", "moxe", "nofe", "noxe", "dofe", "doxe", "rofe", "roxe", "sofe", "soxe", "vofe", "voxe", "gofe", "goxe", "phofe", "phoxe", "trofe", "troxe", "cofe", "coxe"].contains(String(wordRawKeys).lowercased()) && "mn".contains(character.lowercased()))
+                || (["boef", "coef", "doef", "goef", "koef", "moef", "noef", "poef", "phoef", "roef", "soef", "troef", "voef", "boex", "coex", "doex", "goex", "koex", "moex", "noex", "poex", "phoex", "roex", "soex", "troex", "voex", "boej", "coej", "doej", "goej", "koej", "moej", "noej", "poej", "phoej", "roej", "soej", "troej", "voej", "kofe", "koxe", "koje", "pofe", "poxe", "poje", "bose", "bofe", "boxe", "boje", "mose", "mofe", "moxe", "moje", "nofe", "noxe", "noje", "dofe", "doxe", "doje", "rofe", "roxe", "roje", "sose", "sofe", "soxe", "soje", "vose", "vofe", "voxe", "voje", "gose", "gofe", "goxe", "goje", "phose", "phofe", "phoxe", "phoje", "trose", "trofe", "troxe", "troje", "cose", "cofe", "coxe", "coje"].contains(String(wordRawKeys).lowercased()) && ("osfrxj".contains(character.lowercased()) && character.lowercased() != r2 && character.lowercased() != wordRawKeys.last?.lowercased() && !(String(wordRawKeys).lowercased() == "boxe" && "sr".contains(character.lowercased()))))
                 || (["dofe", "dore", "doxe", "doje", "does", "dores", "doer", "doers", "doef", "doex", "doej"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "d")
                 || (String(wordRawKeys).lowercased() == "lore" && character.lowercased() == "n") {
                 isBypassed = false
@@ -3082,7 +3082,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "moas": ["xóa", "tóa"],
         "voas": ["xóa", "tóa"],
         "noas": ["xóa", "tóa"],
-        "roas": ["xóa", "tóa"]
+        "roas": ["xóa", "tóa"],
+        "poas": ["xóa", "tóa"],
+        "phoas": ["xóa", "tóa"],
+        "troas": ["xóa", "tóa"],
+        "boaf": ["xòa", "tòa"],
+        "roaf": ["xòa", "tòa"],
+        "moaf": ["xòa", "tòa"],
+        "voaf": ["xòa", "tòa"],
+        "noaf": ["xòa", "tòa"],
+        "goaf": ["xòa", "tòa"],
+        "poaf": ["xòa", "tòa"],
+        "phoaf": ["xòa", "tòa"],
+        "troaf": ["xòa", "tòa"],
+        "moar": ["tỏa", "xõa"],
+        "voar": ["tỏa", "xõa"],
+        "noar": ["tỏa", "xõa"],
+        "goar": ["tỏa", "xõa"],
+        "poar": ["tỏa", "xõa"],
+        "phoar": ["tỏa", "xõa"],
+        "troar": ["tỏa", "xõa"],
+        "boax": ["tỏa", "xõa"],
+        "roax": ["tỏa", "xõa"],
+        "moax": ["tỏa", "xõa"],
+        "voax": ["tỏa", "xõa"],
+        "goax": ["tỏa", "xõa"],
+        "poax": ["tỏa", "xõa"],
+        "phoax": ["tỏa", "xõa"],
+        "troax": ["tỏa", "xõa"],
+        "boaj": ["đọa", "tọa"],
+        "roaj": ["đọa", "tọa"],
+        "moaj": ["đọa", "tọa"],
+        "voaj": ["đọa", "tọa"],
+        "noaj": ["đọa", "tọa"],
+        "goaj": ["đọa", "tọa"],
+        "poaj": ["đọa", "tọa"],
+        "phoaj": ["đọa", "tọa"],
+        "troaj": ["đọa", "tọa"],
+        "koas": ["xóa", "tóa"],
+        "koaf": ["xòa", "tòa"],
+        "koar": ["tỏa", "xõa"],
+        "koax": ["tỏa", "xõa"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
