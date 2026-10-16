@@ -495,6 +495,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["girui", "gisui", "osoi", "hosoi", "moroi", "noroi", "soroi", "girai", "gisai", "horai", "torai", "hosai", "sosai", "tosai", "bosai", "bofai", "borai", "boxai", "bojai", "mosai", "mofai", "morai", "moxai", "mojai", "vosai", "vofai", "vorai", "voxai", "vojai", "nosai", "nofai", "noxai", "nojai", "rosai", "rofai", "roxai", "rojai", "gosai", "gofai", "gorai", "goxai", "gojai", "phosai", "phofai", "phorai", "phoxai", "phojai", "trosai", "trofai", "trorai", "troxai", "trojai", "dosai", "dofai", "doxai", "dojai", "noxay", "dofay", "doxay", "dojay", "noxao", "dofao", "doxao", "dojao"].contains(String(wordRawKeys).lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys[wordRawKeys.count - 3].lowercased())
+                || (["boais", "boaif", "boair", "boaix", "boaij", "moais", "moaif", "moair", "moaix", "moaij", "voais", "voaif", "voair", "voaix", "voaij", "noais", "noaif", "noair", "noaix", "noaij", "roais", "roaif", "roair", "roaix", "roaij", "goais", "goaif", "goair", "goaix", "goaij", "poais", "poaif", "poair", "poaix", "poaij", "phoais", "phoaif", "phoair", "phoaix", "phoaij", "troais", "troaif", "troair", "troaix", "troaij", "koais", "koaif", "koair", "koaix", "koaij", "doais", "doaif", "doair", "doaix", "doaij"].contains(String(wordRawKeys).lowercased())
+                    && "sfrxj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
                     && "sfxj".contains(character.lowercased()))
                 || (["haafu", "saafu", "taafu", "seefu"].contains(String(wordRawKeys).lowercased())
@@ -3122,7 +3125,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "koas": ["xóa", "tóa"],
         "koaf": ["xòa", "tòa"],
         "koar": ["tỏa", "xõa"],
-        "koax": ["tỏa", "xõa"]
+        "koax": ["tỏa", "xõa"],
+        "koaj": ["đọa", "tọa"],
+        "koes": ["đỏ", "sáng"],
+        "koef": ["đỏ", "hòe"],
+        "koer": ["mệt", "khỏe"],
+        "koex": ["đỏ", "hòe"],
+        "koej": ["đỏ", "nhọe"],
+        "kores": ["đỏ", "sáng"],
+        "koers": ["đỏ", "sáng"],
+        "boais": ["ngoái", "xoái"],
+        "boaif": ["ngoài", "hoài"],
+        "boair": ["oải", "thoải"],
+        "boaix": ["oải", "xoãi"],
+        "boaij": ["loại", "ngoại"],
+        "moais": ["ngoái", "xoái"],
+        "moaif": ["ngoài", "hoài"],
+        "moair": ["oải", "thoải"],
+        "moaix": ["oải", "xoãi"],
+        "moaij": ["loại", "ngoại"],
+        "voais": ["ngoái", "xoái"],
+        "voaif": ["ngoài", "hoài"],
+        "voair": ["oải", "thoải"],
+        "voaix": ["oải", "xoãi"],
+        "voaij": ["loại", "ngoại"],
+        "noais": ["ngoái", "xoái"],
+        "noaif": ["ngoài", "hoài"],
+        "noair": ["oải", "thoải"],
+        "noaix": ["oải", "xoãi"],
+        "noaij": ["loại", "ngoại"],
+        "roais": ["ngoái", "xoái"],
+        "roaif": ["ngoài", "hoài"],
+        "roair": ["oải", "thoải"],
+        "roaix": ["oải", "xoãi"],
+        "roaij": ["loại", "ngoại"],
+        "goais": ["ngoái", "xoái"],
+        "goaif": ["ngoài", "hoài"],
+        "goair": ["oải", "thoải"],
+        "goaix": ["oải", "xoãi"],
+        "goaij": ["loại", "ngoại"],
+        "poais": ["ngoái", "xoái"],
+        "poaif": ["ngoài", "hoài"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
