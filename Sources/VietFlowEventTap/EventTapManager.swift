@@ -383,6 +383,9 @@ public final class EventTapManager: @unchecked Sendable {
         
         // 3. Secure Input Bypass (Passwords, TouchID, Terminal sudo)
         if IsSecureEventInputEnabled() {
+            if type == .keyDown {
+                stateManager.checkInputSourceSynchronously()
+            }
             stateMachine.reset()
             engine.reset()
             return Unmanaged.passRetained(event)
