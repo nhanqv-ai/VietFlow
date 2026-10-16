@@ -567,7 +567,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["boais", "boaif", "boair", "boaix", "boaij", "moais", "moaif", "moair", "moaix", "moaij", "voais", "voaif", "voair", "voaix", "voaij", "noais", "noaif", "noair", "noaix", "noaij", "roais", "roaif", "roair", "roaix", "roaij", "goais", "goaif", "goair", "goaix", "goaij", "poais", "poaif", "poair", "poaix", "poaij", "phoais", "phoaif", "phoair", "phoaix", "phoaij", "troais", "troaif", "troair", "troaix", "troaij", "koais", "koaif", "koair", "koaix", "koaij", "doais", "doaif", "doair", "doaix", "doaij", "boays", "boayf", "boayr", "boayx", "boayj", "moays", "moayf", "moayr", "moayx", "moayj", "voays", "voayf", "voayr", "voayx", "voayj", "noays", "noayf", "noayr", "noayx", "noayj", "roays", "roayf", "roayr", "roayx", "roayj", "goays", "goayf", "goayr", "goayx", "goayj", "poays", "poayf", "poayr", "poayx", "poayj", "phoays", "phoayf", "phoayr", "phoayx", "phoayj", "troays", "troayf", "troayr", "troayx", "troayj", "koays", "koayf", "koayr", "koayx", "koayj", "doays", "doayf", "doayr", "doayx", "doayj", "boaos", "boaof", "boaor", "boaox", "boaoj", "moaos", "moaof", "moaor", "moaox", "moaoj", "voaos", "voaof", "voaor", "voaox", "voaoj", "noaos", "noaof", "noaor", "noaox", "noaoj", "roaos", "roaof", "roaor", "roaox", "roaoj", "goaos", "goaof", "goaor", "goaox", "goaoj", "poaos", "poaof", "poaor", "poaox", "poaoj", "phoaos", "phoaof", "phoaor", "phoaox", "phoaoj", "troaos", "troaof", "troaor", "troaox", "troaoj", "koaos", "koaof", "koaor", "koaox", "koaoj", "doaos", "doaof", "doaor", "doaox", "doaoj", "boanhs", "boanhf", "boanhr", "boanhx", "boanhj", "moanhs", "moanhf", "moanhr", "moanhx", "moanhj", "voanhs", "voanhf", "voanhr", "voanhx", "voanhj", "noanhs", "noanhf", "noanhr", "noanhx", "noanhj", "roanhs", "roanhf", "roanhr", "roanhx", "roanhj", "goanhs", "goanhf", "goanhr", "goanhx", "goanhj", "poanhs", "poanhf", "poanhr", "poanhx", "poanhj", "phoanhs", "phoanhf", "phoanhr", "phoanhx", "phoanhj", "troanhs", "troanhf", "troanhr", "troanhx", "troanhj", "koanhs", "koanhf", "koanhr", "koanhx", "koanhj", "boeos", "boeof", "boeor", "boeox", "boeoj", "moeos", "moeof", "moeor", "moeox", "moeoj", "voeos", "voeof", "voeor", "voeox", "voeoj", "noeos", "noeof", "noeor", "noeox", "noeoj", "roeos", "roeof", "roeor", "roeox", "roeoj", "goeos", "goeof", "goeor", "goeox", "goeoj", "poeos", "poeof", "poeor", "poeox", "poeoj", "phoeos", "phoeof", "phoeor", "phoeox", "phoeoj", "troeos", "troeof", "troeor", "troeox", "troeoj", "koeos", "koeof", "koeor", "koeox", "koeoj", "doeos", "doeof", "doeor", "doeox", "doeoj", "boens", "boenf", "boenr", "boenx", "boenj", "moens", "moenf", "moenr", "moenx", "moenj", "voens", "voenf", "voenr", "voenx", "voenj", "noens", "noenf", "noenr", "noenx", "noenj", "roens", "roenf", "roenr", "roenx", "roenj", "goens", "goenf", "goenr", "goenx", "goenj", "poens", "poenf", "poenr", "poenx", "poenj", "phoens", "phoenf", "phoenr", "phoenx", "phoenj", "troens", "troenf", "troenr", "troenx", "troenj", "koens", "koenf", "koenr", "koenx", "koenj", "doens", "doenf", "doenr", "doenx", "doenj", "coens", "coenf", "coenr", "coenx", "coenj", "soens", "soenf", "soenr", "soenx", "soenj", "boems", "boemf", "boemr", "boemx", "boemj", "moems", "moemf", "moemr", "moemx", "moemj", "voems", "voemf", "voemr", "voemx", "voemj", "noems", "noemf", "noemr", "noemx", "noemj", "roems", "roemf", "roemr", "roemx", "roemj", "goems", "goemf", "goemr", "goemx", "goemj", "poemf", "poemr", "poemx", "poemj", "phoems", "phoemf", "phoemr", "phoemx", "phoemj", "troems", "troemf", "troemr", "troemx", "troemj", "koems", "koemf", "koemr", "koemx", "koemj", "doems", "doemf", "doemr", "doemx", "doemj", "coems", "coemf", "coemr", "coemx", "coemj", "soems", "soemf", "soemr", "soemx", "soemj"].contains(String(wordRawKeys).lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["noaxi", "noaxy", "noaxo", "goasi", "goasy", "goaso", "doasi", "doafi", "doari", "doaxi", "doaji", "doasy", "doafy", "doary", "doaxy", "doajy", "doaso", "doafo", "doaro", "doaxo", "doajo"].contains(String(wordRawKeys).lowercased())
+                || (["noaxi", "noaxy", "noaxo", "goasi", "goasy", "goaso", "doasi", "doafi", "doari", "doaxi", "doaji", "doasy", "doafy", "doary", "doaxy", "doajy", "doaso", "doafo", "doaro", "doaxo", "doajo", "doesn"].contains(String(wordRawKeys).lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys[wordRawKeys.count - 2].lowercased())
                 || (["boans", "boanf", "boanr", "boanx", "boanj", "moans", "moanf", "moanr", "moanx", "moanj", "voans", "voanf", "voanr", "voanx", "voanj", "noans", "noanf", "noanr", "noanj", "roans", "roanf", "roanr", "roanx", "roanj", "goans", "goanf", "goanr", "goanx", "goanj", "poans", "poanf", "poanr", "poanx", "poanj", "phoans", "phoanf", "phoanr", "phoanx", "phoanj", "troans", "troanf", "troanr", "troanx", "troanj", "koans", "koanf", "koanr", "koanx", "koanj"].contains(String(wordRawKeys).lowercased())
@@ -1158,7 +1158,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let isTransientQu = (lowerOnset == "q" && lowerNuc.hasPrefix("u"))
                 let firstNuc = lowerNuc.first
                 let invalidOaiOnsets: Set<String> = ["b", "m", "p", "ph", "v", "n", "g", "gh", "d", "r", "tr"]
-                let invalidOeOnsets: Set<String> = ["b", "c", "d", "đ", "g", "gh", "m", "n", "p", "ph", "r", "s", "tr", "v"]
+                let invalidOeOnsets: Set<String> = ["b", "c", "d", "g", "gh", "m", "n", "p", "ph", "r", "s", "tr", "v"]
                 let invalidOaOnsets: Set<String> = ["b", "g", "gh", "m", "n", "p", "ph", "r", "tr", "v"]
                 let isValidVietnameseGoa = lowerOnset == "g"
                     && lowerNuc == "oa"
@@ -1176,7 +1176,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && !isVietCollocationFull && !(wasUnlatchedOrToneOverride && ["gese", "gefe", "gere", "gexe", "geje", "geso", "gefo", "gero", "gexo", "gejo", "gesu", "gefu", "geru", "gexu", "geju", "ngese", "ngefe", "ngere", "ngexe", "ngeje", "ngeso", "ngefo", "ngero", "ngexo", "ngejo", "ngesu", "ngefu", "ngeru", "ngexu", "ngeju"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
                     || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
-                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull && !wasUnlatchedOrToneOverride && !(lowerOnset == "đ" && ["doesd", "doresd", "doerd", "doersd", "doefd", "doexd", "doejd"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
+                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y") && !isVietCollocationFull)
                     || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
@@ -4039,7 +4039,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "coemj": ["thòm", "thèm"],
         "soems": ["thòm", "thèm"],
         "soemf": ["thòm", "thèm"],
-        "soemr": ["thòm", "thèm"]
+        "soemr": ["thòm", "thèm"],
+        "soemx": ["thòm", "thèm"],
+        "soemj": ["thòm", "thèm"],
+        "coets": ["khoét", "toét"],
+        "coetj": ["khoét", "toét"],
+        "soets": ["khoét", "toét"],
+        "soetj": ["khoét", "toét"],
+        "coeps": ["bẹp", "nhẹp"],
+        "coepj": ["bẹp", "nhẹp"],
+        "soeps": ["bẹp", "nhẹp"],
+        "soepj": ["bẹp", "nhẹp"],
+        "coecs": ["hoéc", "ngoéc"],
+        "coecj": ["hoéc", "ngoéc"],
+        "soecs": ["hoéc", "ngoéc"],
+        "soecj": ["hoéc", "ngoéc"],
+        "goast": ["toát", "thoát"],
+        "goasp": ["toát", "thoát"],
+        "goasc": ["khác", "toác"],
+        "sosen": ["hoen", "nhoèn"],
+        "doesn": ["hoen", "nhoèn"],
+        "howa": ["xóa", "tóa"],
+        "dowa": ["xóa", "tóa"],
+        "nowa": ["xóa", "tóa"],
+        "sowa": ["xóa", "tóa"],
+        "towa": ["xóa", "tóa"],
+        "rowa": ["xóa", "tóa"],
+        "gifi": ["cái", "gì"],
+        "gisi": ["cái", "gì"],
+        "giji": ["cái", "gì"],
+        "chixe": ["vui", "vẻ"],
+        "dues": ["vui", "vẻ"],
+        "hues": ["vui", "vẻ"],
+        "sues": ["vui", "vẻ"],
+        "rues": ["vui", "vẻ"],
+        "tues": ["vui", "vẻ"],
+        "ties": ["vui", "vẻ"],
+        "dies": ["vui", "vẻ"],
+        "lies": ["vui", "vẻ"],
+        "vies": ["vui", "vẻ"],
+        "hies": ["vui", "vẻ"],
+        "pies": ["vui", "vẻ"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
