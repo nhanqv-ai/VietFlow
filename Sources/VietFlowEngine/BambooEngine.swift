@@ -3959,7 +3959,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "troenx": ["hoen", "nhoèn"],
         "troenj": ["hoen", "nhoèn"],
         "koens": ["hoen", "nhoèn"],
-        "koenf": ["hoen", "nhoèn"]
+        "koenf": ["hoen", "nhoèn"],
+        "koenr": ["hoen", "nhoèn"],
+        "koenx": ["hoen", "nhoèn"],
+        "koenj": ["hoen", "nhoèn"],
+        "doens": ["hoen", "nhoèn"],
+        "doenf": ["hoen", "nhoèn"],
+        "doenr": ["hoen", "nhoèn"],
+        "doenx": ["hoen", "nhoèn"],
+        "doenj": ["hoen", "nhoèn"],
+        "boems": ["thòm", "thèm"],
+        "boemf": ["thòm", "thèm"],
+        "boemr": ["thòm", "thèm"],
+        "boemx": ["thòm", "thèm"],
+        "boemj": ["thòm", "thèm"],
+        "moems": ["thòm", "thèm"],
+        "moemf": ["thòm", "thèm"],
+        "moemr": ["thòm", "thèm"],
+        "moemx": ["thòm", "thèm"],
+        "moemj": ["thòm", "thèm"],
+        "voems": ["thòm", "thèm"],
+        "voemf": ["thòm", "thèm"],
+        "voemr": ["thòm", "thèm"],
+        "voemx": ["thòm", "thèm"],
+        "voemj": ["thòm", "thèm"],
+        "noems": ["thòm", "thèm"],
+        "noemf": ["thòm", "thèm"],
+        "noemr": ["thòm", "thèm"],
+        "noemx": ["thòm", "thèm"],
+        "noemj": ["thòm", "thèm"],
+        "roems": ["thòm", "thèm"],
+        "roemf": ["thòm", "thèm"],
+        "roemr": ["thòm", "thèm"],
+        "roemx": ["thòm", "thèm"],
+        "roemj": ["thòm", "thèm"],
+        "goems": ["thòm", "thèm"],
+        "goemf": ["thòm", "thèm"],
+        "goemr": ["thòm", "thèm"],
+        "goemx": ["thòm", "thèm"],
+        "goemj": ["thòm", "thèm"],
+        "poemf": ["thòm", "thèm"],
+        "poemr": ["thòm", "thèm"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
@@ -4003,8 +4043,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         character: Character
     ) -> Bool {
         guard let firstKey = wordRawKeys.first?.lowercased().first,
-              !"wfjz".contains(firstKey),
-              firstKey != "p" || prefix2 == "ph" else {
+              !"wfjz".contains(firstKey) else {
             return false
         }
         let c = character.lowercased()
@@ -4091,7 +4130,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             && (("rfx".contains(effRhyme[1]) && effRhyme[2] == "e")
                 || (effRhyme[1] == "e" && "rfx".contains(effRhyme[2]))) {
             let tail = effRhyme[3...].joined()
-            if "sj".contains(c) && ["c", "p", "t"].contains(tail) {
+            let oeStopCodas: Set<String> = ["c", "p", "t"]
+            if "sj".contains(c) && matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: oeStopCodas, allowToneOverride: false, allowD: isDOnset) {
+                return true
+            }
+            if isDOnset && c == "d" && matchesDiphthongCodaTail(tail, nonStopCodas: [], stopCodas: oeStopCodas, allowToneOverride: true, allowD: false) {
                 return true
             }
         }
