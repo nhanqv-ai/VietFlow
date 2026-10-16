@@ -4261,6 +4261,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 113: 40 Collocation Entries (2,522 Total), moreo Unlatch, and Step 8 6+ Char D-Stroke Continuation
+
+    func test_tier4_675_vietnamese_collocation_phrases_voecs_to_roeof() {
+        let input = "voecs hoecs voecs ngoecs voecs voecj hoecs voecj ngoecs voecj noecs hoecs noecs ngoecs noecs noecj hoecs noecj ngoecs noecj roecs hoecs roecs ngoecs roecs roecj hoecs roecj ngoecs roecj goecs hoecs goecs ngoecs goecs goecj hoecs goecj ngoecs goecj poecs hoecs poecs ngoecs poecs poecj hoecs poecj ngoecs poecj phoecs hoecs phoecs ngoecs phoecs phoecj hoecs phoecj ngoecs phoecj troecs hoecs troecs ngoecs troecs troecj hoecs troecj ngoecs troecj koecs hoecs koecs ngoecs koecs koecj hoecs koecj ngoecs koecj doecs hoecs doecs ngoecs doecs doecj hoecs doecj ngoecs doecj boeos ngoeos boeos ngoeoj boeos boeof ngoeos boeof ngoeoj boeof boeor ngoeos boeor ngoeoj boeor boeox ngoeos boeox ngoeoj boeox boeoj ngoeos boeoj ngoeoj boeoj moeos ngoeos moeos ngoeoj moeos moeof ngoeos moeof ngoeoj moeof moeor ngoeos moeor ngoeoj moeor moeox ngoeos moeox ngoeoj moeox moeoj ngoeos moeoj ngoeoj moeoj voeos ngoeos voeos ngoeoj voeos voeof ngoeos voeof ngoeoj voeof voeor ngoeos voeor ngoeoj voeor voeox ngoeos voeox ngoeoj voeox voeoj ngoeos voeoj ngoeoj voeoj noeos ngoeos noeos ngoeoj noeos noeof ngoeos noeof ngoeoj noeof noeor ngoeos noeor ngoeoj noeor noeox ngoeos noeox ngoeoj noeox noeoj ngoeos noeoj ngoeoj noeoj roeos ngoeos roeos ngoeoj roeos roeof ngoeos roeof ngoeoj roeof"
+        let expected = "voecs hoéc voéc ngoéc voéc voecj hoéc voẹc ngoéc voẹc noecs hoéc noéc ngoéc noéc noecj hoéc noẹc ngoéc noẹc roecs hoéc roéc ngoéc roéc roecj hoéc roẹc ngoéc roẹc goecs hoéc goéc ngoéc goéc goecj hoéc goẹc ngoéc goẹc poecs hoéc poéc ngoéc poéc poecj hoéc poẹc ngoéc poẹc phoecs hoéc phoéc ngoéc phoéc phoecj hoéc phoẹc ngoéc phoẹc troecs hoéc troéc ngoéc troéc troecj hoéc troẹc ngoéc troẹc koecs hoéc koéc ngoéc koéc koecj hoéc koẹc ngoéc koẹc doecs hoéc doéc ngoéc doéc doecj hoéc doẹc ngoéc doẹc boeos ngoéo boéo ngoẹo boéo boeof ngoéo boèo ngoẹo boèo boeor ngoéo boẻo ngoẹo boẻo boeox ngoéo boẽo ngoẹo boẽo boeoj ngoéo boẹo ngoẹo boẹo moeos ngoéo moéo ngoẹo moéo moeof ngoéo moèo ngoẹo moèo moeor ngoéo moẻo ngoẹo moẻo moeox ngoéo moẽo ngoẹo moẽo moeoj ngoéo moẹo ngoẹo moẹo voeos ngoéo voéo ngoẹo voéo voeof ngoéo voèo ngoẹo voèo voeor ngoéo voẻo ngoẹo voẻo voeox ngoéo voẽo ngoẹo voẽo voeoj ngoéo voẹo ngoẹo voẹo noeos ngoéo noéo ngoẹo noéo noeof ngoéo noèo ngoẹo noèo noeor ngoéo noẻo ngoẹo noẻo noeox ngoéo noẽo ngoẹo noẽo noeoj ngoéo noẹo ngoẹo noẹo roeos ngoéo roéo ngoẹo roéo roeof ngoéo roèo ngoẹo roèo"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_676_boseo_to_vojeo_pre_e_tone_offglide_and_tone_override_unlatch() {
+        let input = "boseo boseof boseor boseox boseoj bofeo bofeos bofeor bofeox bofeoj boreo boreos boreof boreox boreoj boxeo boxeos boxeof boxeor boxeoj bojeo bojeos bojeof bojeor bojeox moseo moseof moseor moseox moseoj mofeo mofeos mofeor mofeox mofeoj moreo moreos moreof moreox moreoj moxeo moxeos moxeof moxeor moxeoj mojeo mojeos mojeof mojeor mojeox voseo voseof voseor voseox voseoj vofeo vofeos vofeor vofeox vofeoj voreo voreos voreof voreox voreoj voxeo voxeos voxeof voxeor voxeoj vojeo vojeos vojeof vojeor vojeox"
+        let expected = "boéo boèo boẻo boẽo boẹo boèo boéo boẻo boẽo boẹo boẻo boéo boèo boẽo boẹo boẽo boéo boèo boẻo boẹo boẹo boéo boèo boẻo boẽo moéo moèo moẻo moẽo moẹo moèo moéo moẻo moẽo moẹo moẻo moéo moèo moẽo moẹo moẽo moéo moèo moẻo moẹo moẹo moéo moèo moẻo moẽo voéo voèo voẻo voẽo voẹo voèo voéo voẻo voẽo voẹo voẻo voéo voèo voẽo voẹo voẽo voéo voèo voẻo voẹo voẹo voéo voèo voẻo voẽo"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_677_noseo_to_gojeo_pre_e_tone_offglide_and_tone_override_unlatch() {
+        let input = "noseo noseof noseor noseox noseoj nofeo nofeos nofeor nofeox nofeoj noreo noreos noreof noreox noreoj noxeo noxeos noxeof noxeor noxeoj nojeo nojeos nojeof nojeor nojeox roseo roseof roseor roseox roseoj rofeo rofeos rofeor rofeox rofeoj roreo roreos roreof roreox roreoj roxeo roxeos roxeof roxeor roxeoj rojeo rojeos rojeof rojeor rojeox goseo goseof goseor goseox goseoj gofeo gofeos gofeor gofeox gofeoj goreo goreos goreof goreox goreoj goxeo goxeos goxeof goxeor goxeoj gojeo gojeos gojeof gojeor gojeox"
+        let expected = "noéo noèo noẻo noẽo noẹo noèo noéo noẻo noẽo noẹo noẻo noéo noèo noẽo noẹo noẽo noéo noèo noẻo noẹo noẹo noéo noèo noẻo noẽo roéo roèo roẻo roẽo roẹo roèo roéo roẻo roẽo roẹo roẻo roéo roèo roẽo roẹo roẽo roéo roèo roẻo roẹo roẹo roéo roèo roẻo roẽo goéo goèo goẻo goẽo goẹo goèo goéo goẻo goẽo goẹo goẻo goéo goèo goẽo goẹo goẽo goéo goèo goẻo goẹo goẹo goéo goèo goẻo goẽo"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_678_poseo_to_dojeo_pre_e_tone_offglide_tone_override_and_d_stroke_unlatch() {
+        let input = "poseo poseof poseor poseox poseoj pofeo pofeos pofeor pofeox pofeoj poreo poreos poreof poreox poreoj poxeo poxeos poxeof poxeor poxeoj pojeo pojeos pojeof pojeor pojeox phoseo phoseof phoseor phoseox phoseoj phofeo phofeos phofeor phofeox phofeoj phoreo phoreos phoreof phoreox phoreoj phoxeo phoxeos phoxeof phoxeor phoxeoj phojeo phojeos phojeof phojeor phojeox troseo troseof troseor troseox troseoj trofeo trofeos trofeor trofeox trofeoj troreo troreos troreof troreox troreoj troxeo troxeos troxeof troxeor troxeoj trojeo trojeos trojeof trojeor trojeox koseo koseof koseor koseox koseoj kofeo kofeos kofeor kofeox kofeoj koreo koreos koreof koreox koreoj koxeo koxeos koxeof koxeor koxeoj kojeo kojeos kojeof kojeor kojeox doseo doseof doseor doseox doseoj doseod dofeo dofeos dofeor dofeox dofeoj dofeod doreo doreos doreof doreox doreoj doreod doxeo doxeos doxeof doxeor doxeoj doxeod dojeo dojeos dojeof dojeor dojeox dojeod dosend dofend dorend doxend dojend dosemd dofemd doremd doxemd dojemd dosetd dojetd dosepd dojepd dosecd dojecd"
+        let expected = "poéo poèo poẻo poẽo poẹo poèo poéo poẻo poẽo poẹo poẻo poéo poèo poẽo poẹo poẽo poéo poèo poẻo poẹo poẹo poéo poèo poẻo poẽo phoéo phoèo phoẻo phoẽo phoẹo phoèo phoéo phoẻo phoẽo phoẹo phoẻo phoéo phoèo phoẽo phoẹo phoẽo phoéo phoèo phoẻo phoẹo phoẹo phoéo phoèo phoẻo phoẽo troéo troèo troẻo troẽo troẹo troèo troéo troẻo troẽo troẹo troẻo troéo troèo troẽo troẹo troẽo troéo troèo troẻo troẹo troẹo troéo troèo troẻo troẽo koéo koèo koẻo koẽo koẹo koèo koéo koẻo koẽo koẹo koẻo koéo koèo koẽo koẹo koẽo koéo koèo koẻo koẹo koẹo koéo koèo koẻo koẽo doéo doèo doẻo doẽo doẹo đoéo doèo doéo doẻo doẽo doẹo đoèo doẻo doéo doèo doẽo doẹo đoẻo doẽo doéo doèo doẻo doẹo đoẽo doẹo doéo doèo doẻo doẽo đoẹo đoén đoèn đoẻn đoẽn đoẹn đoém đoèm đoẻm đoẽm đoẹm đoét đoẹt đoép đoẹp đoéc đoẹc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_679_scenario121_trilingual_roecs_boeos_moeos_and_vietnamese_hoec_roec_ngoeo_boeo_ngoeo_moeo_chat() {
+        let input = "Khi hiệu chỉnh các van khí nén roecs cùng bộ truyền động cam boeos và moeos trong nhà máy tự động hóa, các kỹ sư vừa lắng nghe tiếng còi hoéc roéc (hoecs roecs), vừa kiểm tra đường cong ngoéo boéo (ngoeos boeos) và rãnh lượn ngoéo moéo (ngoeos moeos) trên từng trục quay!"
+        let expected = "Khi hiệu chỉnh các van khí nén roecs cùng bộ truyền động cam boeos và moeos trong nhà máy tự động hóa, các kỹ sư vừa lắng nghe tiếng còi hoéc roéc (hoéc roéc), vừa kiểm tra đường cong ngoéo boéo (ngoéo boéo) và rãnh lượn ngoéo moéo (ngoéo moéo) trên từng trục quay!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -4944,6 +4976,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_672_noems_noemf_noemr_noemx_noemj_roems_roemf_roemr_roemx_roemj_goems_goemf_goemr_goemx_goemj_tone_override_unlatch", test_tier4_672_noems_noemf_noemr_noemx_noemj_roems_roemf_roemr_roemx_roemj_goems_goemf_goemr_goemx_goemj_tone_override_unlatch),
             ("test_tier4_673_poemf_to_doemj_tone_override_and_d_stroke_unlatch", test_tier4_673_poemf_to_doemj_tone_override_and_d_stroke_unlatch),
             ("test_tier4_674_scenario120_trilingual_roets_boeps_boecs_and_vietnamese_khoet_roet_bep_boep_hoec_boec_chat", test_tier4_674_scenario120_trilingual_roets_boeps_boecs_and_vietnamese_khoet_roet_bep_boep_hoec_boec_chat),
+            ("test_tier4_675_vietnamese_collocation_phrases_voecs_to_roeof", test_tier4_675_vietnamese_collocation_phrases_voecs_to_roeof),
+            ("test_tier4_676_boseo_to_vojeo_pre_e_tone_offglide_and_tone_override_unlatch", test_tier4_676_boseo_to_vojeo_pre_e_tone_offglide_and_tone_override_unlatch),
+            ("test_tier4_677_noseo_to_gojeo_pre_e_tone_offglide_and_tone_override_unlatch", test_tier4_677_noseo_to_gojeo_pre_e_tone_offglide_and_tone_override_unlatch),
+            ("test_tier4_678_poseo_to_dojeo_pre_e_tone_offglide_tone_override_and_d_stroke_unlatch", test_tier4_678_poseo_to_dojeo_pre_e_tone_offglide_tone_override_and_d_stroke_unlatch),
+            ("test_tier4_679_scenario121_trilingual_roecs_boeos_moeos_and_vietnamese_hoec_roec_ngoeo_boeo_ngoeo_moeo_chat", test_tier4_679_scenario121_trilingual_roecs_boeos_moeos_and_vietnamese_hoec_roec_ngoeo_boeo_ngoeo_moeo_chat),
         ]
     }
 }
