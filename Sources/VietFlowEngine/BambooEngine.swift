@@ -658,19 +658,19 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["paams", "paamf", "paamr", "paamx", "paamj", "paangs", "paangf", "paangr", "paangx", "paangj", "pooms", "poomf", "poomr", "poomx", "poomj", "kaams", "kaamf", "kaamr", "kaamx", "kaamj", "kaangs", "kaangf", "kaangr", "kaangx", "kaangj", "kooms", "koomf", "koomr", "koomx", "koomj"].contains(String(wordRawKeys).lowercased())
                     && "wsfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["poongs", "poongf", "poongr", "poongx", "poongj", "peems", "peemf", "peemr", "peemx", "peemj", "peenhs", "peenhf", "peenhr", "peenhx", "peenhj", "koongs", "koongf", "koongr", "koongx", "koongj"].contains(String(wordRawKeys).lowercased())
+                || (["poongs", "poongf", "poongr", "poongx", "poongj", "peems", "peemf", "peemr", "peemx", "peemj", "peenhs", "peenhf", "peenhr", "peenhx", "peenhj", "koongs", "koongf", "koongr", "koongx", "koongj", "geems", "geemf", "geemr", "geemx", "geemj", "geenhs", "geenhf", "geenhr", "geenhx", "geenhj", "ngeems", "ngeemf", "ngeemr", "ngeemx", "ngeemj", "ngeenhs", "ngeenhf", "ngeenhr", "ngeenhx", "ngeenhj"].contains(String(wordRawKeys).lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["peens", "peenf", "peenr", "peenx", "peenj", "geens"].contains(String(wordRawKeys).lowercased())
+                || (["peens", "peenf", "peenr", "peenx", "peenj", "geens", "geenf", "geenr", "geenx", "geenj", "ngeens", "ngeenf", "ngeenr", "ngeenx", "ngeenj"].contains(String(wordRawKeys).lowercased())
                     && "hsfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["paats", "paatj", "paaps", "paapj", "paacs", "paacj", "poots", "pootj", "poops", "poopj", "kaats", "kaatj", "kaaps", "kaapj", "kaacs", "kaacj", "koots", "kootj", "koops", "koopj"].contains(String(wordRawKeys).lowercased())
                     && "wsj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["poocs", "poocj", "peets", "peetj", "peechs", "peechj", "koocs", "koocj"].contains(String(wordRawKeys).lowercased())
+                || (["poocs", "poocj", "peets", "peetj", "peechs", "peechj", "koocs", "koocj", "geets", "geetj", "geeps", "geepj", "geechs", "geechj", "ngeets", "ngeetj", "ngeeps", "ngeepj", "ngeechs", "ngeechj"].contains(String(wordRawKeys).lowercased())
                     && "sj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["peecs", "peecj"].contains(String(wordRawKeys).lowercased())
+                || (["peecs", "peecj", "geecs", "geecj", "ngeecs", "ngeecj"].contains(String(wordRawKeys).lowercased())
                     && "hsj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
@@ -4856,7 +4856,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "koocj": ["cốc", "gốc"],
         "poops": ["hộp", "lốp"],
         "poopj": ["hộp", "lốp"],
-        "geens": ["bến", "đến"]
+        "geens": ["bến", "đến"],
+        "geenf": ["bến", "đến"],
+        "geenr": ["bến", "đến"],
+        "geenx": ["bến", "đến"],
+        "geenj": ["bến", "đến"],
+        "geems": ["đếm", "nếm"],
+        "geemf": ["đếm", "nếm"],
+        "geemr": ["đếm", "nếm"],
+        "geemx": ["đếm", "nếm"],
+        "geemj": ["đếm", "nếm"],
+        "geenhs": ["bệnh", "lệnh"],
+        "geenhf": ["bệnh", "lệnh"],
+        "geenhr": ["bệnh", "lệnh"],
+        "geenhx": ["bệnh", "lệnh"],
+        "geenhj": ["bệnh", "lệnh"],
+        "geets": ["tết", "hết"],
+        "geetj": ["tết", "hết"],
+        "geeps": ["bếp", "xếp"],
+        "geepj": ["bếp", "xếp"],
+        "geecs": ["tết", "lệch"],
+        "geecj": ["tết", "lệch"],
+        "geechs": ["lệch", "xếch"],
+        "geechj": ["lệch", "xếch"],
+        "ngeens": ["bến", "đến"],
+        "ngeenf": ["bến", "đến"],
+        "ngeenr": ["bến", "đến"],
+        "ngeenx": ["bến", "đến"],
+        "ngeenj": ["bến", "đến"],
+        "ngeems": ["đếm", "nếm"],
+        "ngeemf": ["đếm", "nếm"],
+        "ngeemr": ["đếm", "nếm"],
+        "ngeemx": ["đếm", "nếm"],
+        "ngeemj": ["đếm", "nếm"],
+        "ngeenhs": ["bệnh", "lệnh"],
+        "ngeenhf": ["bệnh", "lệnh"],
+        "ngeenhr": ["bệnh", "lệnh"],
+        "ngeenhx": ["bệnh", "lệnh"],
+        "ngeenhj": ["bệnh", "lệnh"],
+        "ngeets": ["tết", "hết"],
+        "ngeetj": ["tết", "hết"],
+        "ngeeps": ["bếp", "xếp"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
