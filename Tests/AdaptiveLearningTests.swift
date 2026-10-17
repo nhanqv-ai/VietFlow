@@ -792,6 +792,58 @@ public final class AdaptiveLearningTests: TestCase {
         )
     }
 
+    // MARK: - Test 24: ALL-CAPS and TitleCase Personal Typo Normalization & Casing Preservation
+    func test_24_all_caps_and_titlecase_personal_typo_normalization() {
+        // 1. Training with ALL-CAPS: "ADN" -> "AND" must normalize replacement to lowercase "and"
+        for _ in 1...3 {
+            learner.recordCorrection(rawKeysBeforeBackspace: "ADN", displayedBeforeBackspace: "ADN", finalCommittedText: "AND")
+        }
+        XCTAssertEqual(learner.replacementForPersonalTypo(word: "adn"), "and", "ALL-CAPS trained typo must be normalized to lowercase 'and'")
+
+        // When user types in lowercase, it must output lowercase
+        engine.reset()
+        let (outputLower, _) = typeString("adn ", into: engine)
+        XCTAssertEqual(outputLower, "and ", "Typing lowercase 'adn ' must auto-correct to lowercase 'and ', not uppercase 'AND '")
+
+        // When user types in TitleCase, it must output TitleCase
+        engine.reset()
+        let (outputTitle, _) = typeString("Adn ", into: engine)
+        XCTAssertEqual(outputTitle, "And ", "Typing TitleCase 'Adn ' must auto-correct to TitleCase 'And '")
+
+        // When user types in ALL-CAPS, it must output ALL-CAPS
+        engine.reset()
+        let (outputCaps, _) = typeString("ADN ", into: engine)
+        XCTAssertEqual(outputCaps, "AND ", "Typing ALL-CAPS 'ADN ' must auto-correct to ALL-CAPS 'AND '")
+
+        // 2. Training with TitleCase: "taht" -> "That" must also normalize to lowercase "that"
+        for _ in 1...3 {
+            learner.recordCorrection(rawKeysBeforeBackspace: "taht", displayedBeforeBackspace: "taht", finalCommittedText: "That")
+        }
+        XCTAssertEqual(learner.replacementForPersonalTypo(word: "taht"), "that", "TitleCase trained typo must be normalized to lowercase 'that'")
+
+        engine.reset()
+        let (outTahtLower, _) = typeString("taht ", into: engine)
+        XCTAssertEqual(outTahtLower, "that ", "Typing lowercase 'taht ' must auto-correct to lowercase 'that '")
+
+        engine.reset()
+        let (outTahtTitle, _) = typeString("Taht ", into: engine)
+        XCTAssertEqual(outTahtTitle, "That ", "Typing TitleCase 'Taht ' must auto-correct to TitleCase 'That '")
+
+        engine.reset()
+        let (outTahtCaps, _) = typeString("TAHT ", into: engine)
+        XCTAssertEqual(outTahtCaps, "THAT ", "Typing ALL-CAPS 'TAHT ' must auto-correct to ALL-CAPS 'THAT '")
+
+        // 3. Genuine internal mixed-case proper noun: "iphone" -> "iPhone"
+        for _ in 1...3 {
+            learner.recordCorrection(rawKeysBeforeBackspace: "iphone", displayedBeforeBackspace: "iphone", finalCommittedText: "iPhone")
+        }
+        XCTAssertEqual(learner.replacementForPersonalTypo(word: "iphone"), "iPhone", "Proper noun with internal mixed case must be preserved")
+
+        engine.reset()
+        let (outPhone, _) = typeString("iphone ", into: engine)
+        XCTAssertEqual(outPhone, "iPhone ", "Typing lowercase 'iphone ' must auto-correct to exact mixed-case 'iPhone '")
+    }
+
     // MARK: - Registration of All Tests
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -818,6 +870,7 @@ public final class AdaptiveLearningTests: TestCase {
             ("test_21_proper_noun_capitalization_preservation", test_21_proper_noun_capitalization_preservation),
             ("test_22_single_character_casing_normalization", test_22_single_character_casing_normalization),
             ("test_23_open_typing_error_log_defaults_to_textedit", test_23_open_typing_error_log_defaults_to_textedit),
+            ("test_24_all_caps_and_titlecase_personal_typo_normalization", test_24_all_caps_and_titlecase_personal_typo_normalization),
         ]
     }
 }

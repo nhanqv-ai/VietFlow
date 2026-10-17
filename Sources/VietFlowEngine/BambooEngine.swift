@@ -1517,11 +1517,25 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
     private static func matchCase(source: String, target: String) -> String {
         guard let first = source.first else { return target }
-        if source.allSatisfy({ $0.isUppercase }) && source.count > 1 {
+
+        let isSourceAllUpper = source.allSatisfy { $0.isUppercase }
+        let isSourceAllLower = source.allSatisfy { $0.isLowercase }
+        let isSourceTitle = first.isUppercase && source.dropFirst().allSatisfy { $0.isLowercase }
+
+        // Preserve proper nouns with internal mixed case (e.g. "iPhone", "macOS", "MacBook", "Việt Nam")
+        let hasInternalMixedCase = target.contains(where: { $0.isUppercase })
+            && target.contains(where: { $0.isLowercase })
+            && (!target.first!.isUppercase || (target.dropFirst().contains(where: { $0.isUppercase }) && target.dropFirst().contains(where: { $0.isLowercase })))
+
+        if hasInternalMixedCase {
+            return target
+        }
+
+        if isSourceAllUpper && (source.count > 1 || target.count == 1) {
             return target.uppercased()
-        } else if first.isUppercase {
-            return target.prefix(1).uppercased() + target.dropFirst()
-        } else if source.allSatisfy({ $0.isLowercase }) && (target.count == 1 || target.dropFirst().allSatisfy({ $0.isLowercase })) {
+        } else if isSourceTitle || first.isUppercase {
+            return target.prefix(1).uppercased() + target.dropFirst().lowercased()
+        } else if isSourceAllLower {
             return target.lowercased()
         } else {
             return target

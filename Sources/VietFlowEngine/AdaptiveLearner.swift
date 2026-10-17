@@ -259,12 +259,15 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
 
         // Case 3: Recurring Personal Typo (e.g. "teh" -> "the", or habitual Vietnamese typo)
         let normalizedReplacement: String
-        let firstBefore = beforeDisplay.first
-        let firstCommitted = committed.first
-        if let fb = firstBefore, let fc = firstCommitted, fb.isUppercase && fc.isUppercase {
-            // Both before and after were capitalized (e.g. at sentence start: "Teh" -> "The")
-            // Preserve proper nouns with internal capital letters (e.g. "Việt Nam", "iPhone")
-            if committed.dropFirst().contains(where: { $0.isUppercase }) {
+        let isCommittedAllUpper = committed.allSatisfy { $0.isUppercase }
+        let isCommittedTitle = committed.first?.isUppercase == true && committed.dropFirst().allSatisfy { $0.isLowercase }
+
+        if isCommittedAllUpper || isCommittedTitle {
+            // Check for proper nouns with internal capital letters (e.g. "Việt Nam", "iPhone", "MacBook")
+            let hasInternalMixedCase = committed.contains(where: { $0.isUppercase })
+                && committed.contains(where: { $0.isLowercase })
+                && (!committed.first!.isUppercase || (committed.dropFirst().contains(where: { $0.isUppercase }) && committed.dropFirst().contains(where: { $0.isLowercase })))
+            if hasInternalMixedCase {
                 normalizedReplacement = committed
             } else {
                 normalizedReplacement = committed.lowercased()

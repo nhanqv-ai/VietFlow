@@ -219,7 +219,7 @@ public enum EnglishKeywords {
         "cuss", "muss", "puss", "truss",
         "chaff", "quaff", "cheff", "tiff", "biff", "miff", "riff",
         "off", "doff", "toff", "cuff", "puff", "muff", "ruff", "tuff",
-        "purr", "burr", "curr", "err",
+        "purr", "burr", "curr", "err", "arr",
         "moats", "moans", "roams", "coax", "coaxes", "coaxed",
         "doom", "dooms", "loom", "looms", "goop", "goops", "goons", "loons",
         "teems", "teens", "queens", "keen", "keens", "keenly", "cheep", "cheeps",
