@@ -623,6 +623,27 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["kuts", "kutj", "puts", "putj", "kups", "kupj", "pups", "pupj", "kucs", "kucj", "pucs", "pucj"].contains(String(wordRawKeys).lowercased())
                     && "wsj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["pens", "penf", "penr", "penx", "penj"].contains(String(wordRawKeys).lowercased())
+                    && "hesfrxj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["pems", "pemf", "pemr", "pemx", "pemj", "penhs", "penhf", "penhr", "penhx", "penhj"].contains(String(wordRawKeys).lowercased())
+                    && "esfrxj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["pets", "petj", "peps", "pepj", "pechs", "pechj"].contains(String(wordRawKeys).lowercased())
+                    && "esj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["pecs", "pecj", "pics", "picj"].contains(String(wordRawKeys).lowercased())
+                    && "hsj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["pins", "pinf", "pinr", "pinx", "pinj"].contains(String(wordRawKeys).lowercased())
+                    && "hsfrxj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["pims", "pimf", "pimr", "pimx", "pimj", "pinhs", "pinhf", "pinhr", "pinhx", "pinhj"].contains(String(wordRawKeys).lowercased())
+                    && "sfrxj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["pits", "pitj", "pips", "pipj", "pichs", "pichj"].contains(String(wordRawKeys).lowercased())
+                    && "sj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
                     && "sfxj".contains(character.lowercased()))
                 || (["haafu", "saafu", "taafu", "seefu"].contains(String(wordRawKeys).lowercased())
@@ -4395,7 +4416,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "pups": ["búp", "giúp"],
         "pupj": ["búp", "giúp"],
         "kucs": ["cúc", "múc"],
-        "kucj": ["cúc", "múc"]
+        "kucj": ["cúc", "múc"],
+        "pucs": ["cúc", "múc"],
+        "pucj": ["cúc", "múc"],
+        "pens": ["kén", "lén"],
+        "penf": ["kén", "lén"],
+        "penr": ["kén", "lén"],
+        "penx": ["kén", "lén"],
+        "penj": ["kén", "lén"],
+        "pems": ["kém", "ném"],
+        "pemf": ["kém", "ném"],
+        "pemr": ["kém", "ném"],
+        "pemx": ["kém", "ném"],
+        "pemj": ["kém", "ném"],
+        "penhs": ["bệnh", "lệnh"],
+        "penhf": ["bệnh", "lệnh"],
+        "penhr": ["bệnh", "lệnh"],
+        "penhx": ["bệnh", "lệnh"],
+        "penhj": ["bệnh", "lệnh"],
+        "pets": ["két", "nét"],
+        "petj": ["két", "nét"],
+        "peps": ["kép", "nép"],
+        "pepj": ["kép", "nép"],
+        "pecs": ["xéc", "téc"],
+        "pecj": ["xéc", "téc"],
+        "pechs": ["lệch", "xếch"],
+        "pechj": ["lệch", "xếch"],
+        "pins": ["tín", "kín"],
+        "pinf": ["tín", "kín"],
+        "pinr": ["tín", "kín"],
+        "pinx": ["tín", "kín"],
+        "pinj": ["tín", "kín"],
+        "pims": ["tím", "nhím"],
+        "pimf": ["tím", "nhím"],
+        "pimr": ["tím", "nhím"],
+        "pimx": ["tím", "nhím"],
+        "pimj": ["tím", "nhím"],
+        "pinhs": ["tính", "kính"],
+        "pinhf": ["tính", "kính"],
+        "pinhr": ["tính", "kính"],
+        "pinhx": ["tính", "kính"],
+        "pinhj": ["tính", "kính"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
