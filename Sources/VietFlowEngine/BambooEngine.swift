@@ -623,17 +623,18 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["kuts", "kutj", "puts", "putj", "kups", "kupj", "pups", "pupj", "kucs", "kucj", "pucs", "pucj"].contains(String(wordRawKeys).lowercased())
                     && "wsj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["pens", "penf", "penr", "penx", "penj"].contains(String(wordRawKeys).lowercased())
+                || (["pens", "penf", "penr", "penx", "penj", "gens", "genf", "genr", "genx", "genj", "ngens", "ngenf", "ngenr", "ngenx", "ngenj"].contains(String(wordRawKeys).lowercased())
                     && "hesfrxj".contains(character.lowercased())
-                    && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["pems", "pemf", "pemr", "pemx", "pemj", "penhs", "penhf", "penhr", "penhx", "penhj"].contains(String(wordRawKeys).lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased()
+                    && !(String(wordRawKeys).lowercased() == "genr" && character.lowercased() == "e"))
+                || (["pems", "pemf", "pemr", "pemx", "pemj", "penhs", "penhf", "penhr", "penhx", "penhj", "gems", "gemf", "gemr", "gemx", "gemj", "genhs", "genhf", "genhr", "genhx", "genhj", "ngems", "ngemf", "ngemr", "ngemx", "ngemj", "ngenhs", "ngenhf", "ngenhr", "ngenhx", "ngenhj"].contains(String(wordRawKeys).lowercased())
                     && "esfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["pets", "petj", "peps", "pepj", "pechs", "pechj"].contains(String(wordRawKeys).lowercased())
+                || (["pets", "petj", "peps", "pepj", "pechs", "pechj", "gets", "getj", "geps", "gepj", "gechs", "gechj", "ngets", "ngetj", "ngeps", "ngepj", "ngechs", "ngechj"].contains(String(wordRawKeys).lowercased())
                     && "esj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["pecs", "pecj", "pics", "picj"].contains(String(wordRawKeys).lowercased())
-                    && "hsj".contains(character.lowercased())
+                || (["pecs", "pecj", "pics", "picj", "gecs", "gecj", "ngecs", "ngecj"].contains(String(wordRawKeys).lowercased())
+                    && ("hsj".contains(character.lowercased()) || (character.lowercased() == "e" && ["pecs", "pecj", "gecs", "gecj", "ngecs", "ngecj"].contains(String(wordRawKeys).lowercased())))
                     && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["pins", "pinf", "pinr", "pinx", "pinj"].contains(String(wordRawKeys).lowercased())
                     && "hsfrxj".contains(character.lowercased())
@@ -1233,7 +1234,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     || (!wasBypassedBeforeStep2 && transformState.lastToneKey != nil && ("sfrxj".contains(lowerChar) || (lowerCandidateRaw.count >= 6 && "ghwmncptdiuoyae".contains(lowerChar))))
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
-                    || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && !isVietCollocationFull && !(wasUnlatchedOrToneOverride && ["gese", "gefe", "gere", "gexe", "geje", "geso", "gefo", "gero", "gexo", "gejo", "gesu", "gefu", "geru", "gexu", "geju", "ngese", "ngefe", "ngere", "ngexe", "ngeje", "ngeso", "ngefo", "ngero", "ngexo", "ngejo", "ngesu", "ngefu", "ngeru", "ngexu", "ngeju"].contains(where: { lowerCandidateRaw.hasPrefix($0) })))
+                    || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
@@ -4483,7 +4484,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "pinhf": ["tính", "kính"],
         "pinhr": ["tính", "kính"],
         "pinhx": ["tính", "kính"],
-        "pinhj": ["tính", "kính"]
+        "pinhj": ["tính", "kính"],
+        "pits": ["tít", "mít"],
+        "pitj": ["tít", "mít"],
+        "pips": ["típ", "nhíp"],
+        "pipj": ["típ", "nhíp"],
+        "pics": ["tích", "kích"],
+        "picj": ["tích", "kích"],
+        "pichs": ["tích", "kích"],
+        "pichj": ["tích", "kích"],
+        "gens": ["kén", "lén"],
+        "genf": ["kén", "lén"],
+        "genr": ["kén", "lén"],
+        "genx": ["kén", "lén"],
+        "genj": ["kén", "lén"],
+        "gems": ["kém", "ném"],
+        "gemf": ["kém", "ném"],
+        "gemr": ["kém", "ném"],
+        "gemx": ["kém", "ném"],
+        "gemj": ["kém", "ném"],
+        "genhs": ["bệnh", "lệnh"],
+        "genhf": ["bệnh", "lệnh"],
+        "genhr": ["bệnh", "lệnh"],
+        "genhx": ["bệnh", "lệnh"],
+        "genhj": ["bệnh", "lệnh"],
+        "gets": ["két", "nét"],
+        "getj": ["két", "nét"],
+        "geps": ["kép", "nép"],
+        "gepj": ["kép", "nép"],
+        "gecs": ["xéc", "téc"],
+        "gecj": ["xéc", "téc"],
+        "gechs": ["lệch", "xếch"],
+        "gechj": ["lệch", "xếch"],
+        "ngens": ["kén", "lén"],
+        "ngenf": ["kén", "lén"],
+        "ngenr": ["kén", "lén"],
+        "ngenx": ["kén", "lén"],
+        "ngenj": ["kén", "lén"],
+        "ngems": ["kém", "ném"],
+        "ngemf": ["kém", "ném"],
+        "ngemr": ["kém", "ném"],
+        "ngemx": ["kém", "ném"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(

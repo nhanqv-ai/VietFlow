@@ -4683,6 +4683,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 131: 40 Collocation Entries (3,042 Total), gens..gechj and ngens..ngechj Unlatch
+
+    func test_tier4_741_vietnamese_collocation_phrases_pits_to_ngemx() {
+        let input = "pits tits pits mits pits pitj tits pitj mits pitj pips tips pips nhips pips pipj tips pipj nhips pipj pics tichs pics kichs pics picj tichs picj kichs picj pichs tichs pichs kichs pichs pichj tichs pichj kichs pichj gens kens gens lens gens genf kens genf lens genf genr kens genr lens genr genx kens genx lens genx genj kens genj lens genj gems kems gems nems gems gemf kems gemf nems gemf gemr kems gemr nems gemr gemx kems gemx nems gemx gemj kems gemj nems gemj genhs beenhj genhs leenhj genhs genhf beenhj genhf leenhj genhf genhr beenhj genhr leenhj genhr genhx beenhj genhx leenhj genhx genhj beenhj genhj leenhj genhj gets kets gets nets gets getj kets getj nets getj geps keps geps neps geps gepj keps gepj neps gepj gecs xecs gecs tecs gecs gecj xecs gecj tecs gecj gechs leechj gechs xeechs gechs gechj leechj gechj xeechs gechj ngens kens ngens lens ngens ngenf kens ngenf lens ngenf ngenr kens ngenr lens ngenr ngenx kens ngenx lens ngenx ngenj kens ngenj lens ngenj ngems kems ngems nems ngems ngemf kems ngemf nems ngemf ngemr kems ngemr nems ngemr ngemx kems ngemx nems ngemx"
+        let expected = "pits tít pít mít pít pitj tít pịt mít pịt pips típ píp nhíp píp pipj típ pịp nhíp pịp pics tích píc kích píc picj tích pịc kích pịc pichs tích pích kích pích pichj tích pịch kích pịch gens kén gén lén gén genf kén gèn lén gèn genr kén gẻn lén gẻn genx kén gẽn lén gẽn genj kén gẹn lén gẹn gems kém gém ném gém gemf kém gèm ném gèm gemr kém gẻm ném gẻm gemx kém gẽm ném gẽm gemj kém gẹm ném gẹm genhs bệnh génh lệnh génh genhf bệnh gènh lệnh gènh genhr bệnh gẻnh lệnh gẻnh genhx bệnh gẽnh lệnh gẽnh genhj bệnh gẹnh lệnh gẹnh gets két gét nét gét getj két gẹt nét gẹt geps kép gép nép gép gepj kép gẹp nép gẹp gecs xéc géc téc géc gecj xéc gẹc téc gẹc gechs lệch géch xếch géch gechj lệch gẹch xếch gẹch ngens kén ngén lén ngén ngenf kén ngèn lén ngèn ngenr kén ngẻn lén ngẻn ngenx kén ngẽn lén ngẽn ngenj kén ngẹn lén ngẹn ngems kém ngém ném ngém ngemf kém ngèm ném ngèm ngemr kém ngẻm ném ngẻm ngemx kém ngẽm ném ngẽm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_742_gens_to_genhj_extension_circumflex_and_tone_override_unlatch() {
+        let input = "gens gensh gense gensf gensr gensx gensj genf genfh genfe genfs genfr genfx genfj genr genrh genrs genrf genrx genrj genx genxh genxe genxs genxf genxr genxj genj genjh genje genjs genjf genjr genjx gems gemse gemsf gemsr gemsx gemsj gemf gemfe gemfs gemfr gemfx gemfj gemr gemre gemrs gemrf gemrx gemrj gemx gemxe gemxs gemxf gemxr gemxj gemj gemje gemjs gemjf gemjr gemjx genhs genhse genhsf genhsr genhsx genhsj genhf genhfe genhfs genhfr genhfx genhfj genhr genhre genhrs genhrf genhrx genhrj genhx genhxe genhxs genhxf genhxr genhxj genhj genhje genhjs genhjf genhjr genhjx genre gender"
+        let expected = "gens génh gến gèn gẻn gẽn gẹn genf gènh gền gén gẻn gẽn gẹn genr gẻnh gén gèn gẽn gẹn genx gẽnh gễn gén gèn gẻn gẹn genj gẹnh gện gén gèn gẻn gẽn gems gếm gèm gẻm gẽm gẹm gemf gềm gém gẻm gẽm gẹm gemr gểm gém gèm gẽm gẹm gemx gễm gém gèm gẻm gẹm gemj gệm gém gèm gẻm gẽm genhs gếnh gènh gẻnh gẽnh gẹnh genhf gềnh génh gẻnh gẽnh gẹnh genhr gểnh génh gènh gẽnh gẹnh genhx gễnh génh gènh gẻnh gẹnh genhj gệnh génh gènh gẻnh gẽnh genre gender"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_743_gets_to_gechj_and_pecse_pecje_extension_circumflex_and_tone_override_unlatch() {
+        let input = "gets getse getsj getj getje getjs geps gepse gepsj gepj gepje gepjs gecs gecse gecsh gecsj gecj gecje gecjh gecjs gechs gechse gechsj gechj gechje gechjs pecse pecje"
+        let expected = "gets gết gẹt getj gệt gét geps gếp gẹp gepj gệp gép gecs gếc géch gẹc gecj gệc gẹch géc gechs gếch gẹch gechj gệch géch pếc pệc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_744_ngens_to_ngechj_extension_circumflex_and_tone_override_unlatch() {
+        let input = "ngens ngensh ngense ngensf ngensr ngensx ngensj ngenf ngenfh ngenfe ngenfs ngenfr ngenfx ngenfj ngenr ngenrh ngenre ngenrs ngenrf ngenrx ngenrj ngenx ngenxh ngenxe ngenxs ngenxf ngenxr ngenxj ngenj ngenjh ngenje ngenjs ngenjf ngenjr ngenjx ngems ngemse ngemsf ngemsr ngemsx ngemsj ngemf ngemfe ngemfs ngemfr ngemfx ngemfj ngemr ngemre ngemrs ngemrf ngemrx ngemrj ngemx ngemxe ngemxs ngemxf ngemxr ngemxj ngemj ngemje ngemjs ngemjf ngemjr ngemjx ngenhs ngenhse ngenhsf ngenhsr ngenhsx ngenhsj ngenhf ngenhfe ngenhfs ngenhfr ngenhfx ngenhfj ngenhr ngenhre ngenhrs ngenhrf ngenhrx ngenhrj ngenhx ngenhxe ngenhxs ngenhxf ngenhxr ngenhxj ngenhj ngenhje ngenhjs ngenhjf ngenhjr ngenhjx ngets ngetse ngetsj ngetj ngetje ngetjs ngeps ngepse ngepsj ngepj ngepje ngepjs ngecs ngecse ngecsh ngecsj ngecj ngecje ngecjh ngecjs ngechs ngechse ngechsj ngechj ngechje ngechjs"
+        let expected = "ngens ngénh ngến ngèn ngẻn ngẽn ngẹn ngenf ngènh ngền ngén ngẻn ngẽn ngẹn ngenr ngẻnh ngển ngén ngèn ngẽn ngẹn ngenx ngẽnh ngễn ngén ngèn ngẻn ngẹn ngenj ngẹnh ngện ngén ngèn ngẻn ngẽn ngems ngếm ngèm ngẻm ngẽm ngẹm ngemf ngềm ngém ngẻm ngẽm ngẹm ngemr ngểm ngém ngèm ngẽm ngẹm ngemx ngễm ngém ngèm ngẻm ngẹm ngemj ngệm ngém ngèm ngẻm ngẽm ngenhs ngếnh ngènh ngẻnh ngẽnh ngẹnh ngenhf ngềnh ngénh ngẻnh ngẽnh ngẹnh ngenhr ngểnh ngénh ngènh ngẽnh ngẹnh ngenhx ngễnh ngénh ngènh ngẻnh ngẹnh ngenhj ngệnh ngénh ngènh ngẻnh ngẽnh ngets ngết ngẹt ngetj ngệt ngét ngeps ngếp ngẹp ngepj ngệp ngép ngecs ngếc ngéch ngẹc ngecj ngệc ngẹch ngéc ngechs ngếch ngẹch ngechj ngệch ngéch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_745_scenario134_trilingual_pits_gens_gets_and_vietnamese_tit_pit_ken_gen_ket_get_chat() {
+        let input = "Trong khi rà soát ba cụm thông số pits, gens và gets trên hệ thống đo lường tự động, nhóm kỹ thuật vừa ghi nhận tiếng còi tít pít (tits pits), vừa đối chiếu mẫu kén gén (kens gens) và khóa chốt két gét (kets gets) đạt chuẩn an toàn!"
+        let expected = "Trong khi rà soát ba cụm thông số pits, gens và gets trên hệ thống đo lường tự động, nhóm kỹ thuật vừa ghi nhận tiếng còi tít pít (tít pít), vừa đối chiếu mẫu kén gén (kén gén) và khóa chốt két gét (két gét) đạt chuẩn an toàn!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5432,6 +5464,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_738_pets_to_pechj_extension_circumflex_and_tone_override_unlatch", test_tier4_738_pets_to_pechj_extension_circumflex_and_tone_override_unlatch),
             ("test_tier4_739_pins_to_pichj_extension_and_tone_override_unlatch", test_tier4_739_pins_to_pichj_extension_and_tone_override_unlatch),
             ("test_tier4_740_scenario133_trilingual_pens_pets_pins_and_vietnamese_ken_pen_ket_pet_tin_pin_chat", test_tier4_740_scenario133_trilingual_pens_pets_pins_and_vietnamese_ken_pen_ket_pet_tin_pin_chat),
+            ("test_tier4_741_vietnamese_collocation_phrases_pits_to_ngemx", test_tier4_741_vietnamese_collocation_phrases_pits_to_ngemx),
+            ("test_tier4_742_gens_to_genhj_extension_circumflex_and_tone_override_unlatch", test_tier4_742_gens_to_genhj_extension_circumflex_and_tone_override_unlatch),
+            ("test_tier4_743_gets_to_gechj_and_pecse_pecje_extension_circumflex_and_tone_override_unlatch", test_tier4_743_gets_to_gechj_and_pecse_pecje_extension_circumflex_and_tone_override_unlatch),
+            ("test_tier4_744_ngens_to_ngechj_extension_circumflex_and_tone_override_unlatch", test_tier4_744_ngens_to_ngechj_extension_circumflex_and_tone_override_unlatch),
+            ("test_tier4_745_scenario134_trilingual_pits_gens_gets_and_vietnamese_tit_pit_ken_gen_ket_get_chat", test_tier4_745_scenario134_trilingual_pits_gens_gets_and_vietnamese_tit_pit_ken_gen_ket_get_chat),
         ]
     }
 }
