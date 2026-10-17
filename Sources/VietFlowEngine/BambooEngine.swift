@@ -584,11 +584,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["boast", "roast", "goast", "goasp"].contains(String(wordRawKeys).lowercased())
                     && "wj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "goasc" && "hwj".contains(character.lowercased()))
-                || (["boats", "boatj", "moats", "moatj", "voats", "voatj", "noats", "noatj", "roats", "roatj", "goats", "goatj", "poats", "poatj", "phoats", "phoatj", "troats", "troatj", "koats", "koatj", "boaps", "boapj", "moaps", "moapj", "voaps", "voapj", "noaps", "noapj", "roaps", "roapj", "goaps", "goapj", "poaps", "poapj", "phoaps", "phoapj", "troaps", "troapj", "koaps", "koapj", "boachs", "boachj", "moachs", "moachj", "voachs", "voachj", "noachs", "noachj", "roachs", "roachj", "goachs", "goachj", "poachs", "poachj", "phoachs", "phoachj", "troachs", "troachj", "koachs", "koachj"].contains(String(wordRawKeys).lowercased())
-                    && "wsj".contains(character.lowercased())
+                || (["boats", "boatj", "moats", "moatj", "voats", "voatj", "noats", "noatj", "roats", "roatj", "goats", "goatj", "poats", "poatj", "phoats", "phoatj", "troats", "troatj", "koats", "koatj", "boaps", "boapj", "moaps", "moapj", "voaps", "voapj", "noaps", "noapj", "roaps", "roapj", "goaps", "goapj", "poaps", "poapj", "phoaps", "phoapj", "troaps", "troapj", "koaps", "koapj", "boachs", "boachj", "moachs", "moachj", "voachs", "voachj", "noachs", "noachj", "roachs", "roachj", "goachs", "goachj", "poachs", "poachj", "phoachs", "phoachj", "troachs", "troachj", "koachs", "koachj", "kats", "katj", "pats", "patj", "kaps", "kapj", "paps", "papj", "kachs", "kachj", "pachs", "pachj"].contains(String(wordRawKeys).lowercased())
+                    && ("wsj".contains(character.lowercased()) || (character.lowercased() == "a" && ["kats", "katj", "pats", "patj", "kaps", "kapj", "paps", "papj"].contains(String(wordRawKeys).lowercased())))
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["boacs", "boacj", "moacs", "moacj", "voacs", "voacj", "noacs", "noacj", "roacs", "roacj", "goacs", "goacj", "poacs", "poacj", "phoacs", "phoacj", "troacs", "troacj", "koacs", "koacj"].contains(String(wordRawKeys).lowercased())
-                    && "hwsj".contains(character.lowercased())
+                || (["boacs", "boacj", "moacs", "moacj", "voacs", "voacj", "noacs", "noacj", "roacs", "roacj", "goacs", "goacj", "poacs", "poacj", "phoacs", "phoacj", "troacs", "troacj", "koacs", "koacj", "kacs", "kacj", "pacs", "pacj"].contains(String(wordRawKeys).lowercased())
+                    && ("hwsj".contains(character.lowercased()) || (character.lowercased() == "a" && ["kacs", "kacj", "pacs", "pacj"].contains(String(wordRawKeys).lowercased())))
                     && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["boets", "boetj", "moets", "moetj", "voets", "voetj", "noets", "noetj", "roets", "roetj", "goets", "goetj", "poets", "poetj", "phoets", "phoetj", "troets", "troetj", "koets", "koetj", "doets", "doetj", "coets", "coetj", "soets", "soetj", "boeps", "boepj", "moeps", "moepj", "voeps", "voepj", "noeps", "noepj", "roeps", "roepj", "goeps", "goepj", "poeps", "poepj", "phoeps", "phoepj", "troeps", "troepj", "koeps", "koepj", "doeps", "doepj", "coeps", "coepj", "soeps", "soepj", "boecs", "boecj", "moecs", "moecj", "voecs", "voecj", "noecs", "noecj", "roecs", "roecj", "goecs", "goecj", "poecs", "poecj", "phoecs", "phoecj", "troecs", "troecj", "koecs", "koecj", "doecs", "doecj", "coecs", "coecj", "soecs", "soecj"].contains(String(wordRawKeys).lowercased())
                     && "sj".contains(character.lowercased())
@@ -4200,7 +4200,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "kamx": ["bám", "nhám"],
         "kamj": ["bám", "nhám"],
         "pams": ["bám", "nhám"],
-        "pamf": ["bám", "nhám"]
+        "pamf": ["bám", "nhám"],
+        "pamr": ["bám", "nhám"],
+        "pamx": ["bám", "nhám"],
+        "pamj": ["bám", "nhám"],
+        "kangs": ["sáng", "đáng"],
+        "kangf": ["sáng", "đáng"],
+        "kangr": ["sáng", "đáng"],
+        "kangx": ["sáng", "đáng"],
+        "kangj": ["sáng", "đáng"],
+        "pangs": ["sáng", "đáng"],
+        "pangf": ["sáng", "đáng"],
+        "pangr": ["sáng", "đáng"],
+        "pangx": ["sáng", "đáng"],
+        "pangj": ["sáng", "đáng"],
+        "kanhs": ["cánh", "nhánh"],
+        "kanhf": ["cánh", "nhánh"],
+        "kanhr": ["cánh", "nhánh"],
+        "kanhx": ["cánh", "nhánh"],
+        "kanhj": ["cánh", "nhánh"],
+        "panhs": ["cánh", "nhánh"],
+        "panhf": ["cánh", "nhánh"],
+        "panhr": ["cánh", "nhánh"],
+        "panhx": ["cánh", "nhánh"],
+        "panhj": ["cánh", "nhánh"],
+        "kats": ["cát", "mát"],
+        "katj": ["cát", "mát"],
+        "pats": ["cát", "mát"],
+        "patj": ["cát", "mát"],
+        "kaps": ["táp", "nháp"],
+        "kapj": ["táp", "nháp"],
+        "paps": ["táp", "nháp"],
+        "papj": ["táp", "nháp"],
+        "kacs": ["bác", "khác"],
+        "kacj": ["bác", "khác"],
+        "pacs": ["bác", "khác"],
+        "pacj": ["bác", "khác"],
+        "kachs": ["tách", "vách"],
+        "kachj": ["tách", "vách"],
+        "pachs": ["tách", "vách"],
+        "pachj": ["tách", "vách"],
+        "kons": ["đón", "ngón"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(

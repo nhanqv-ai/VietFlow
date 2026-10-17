@@ -4549,6 +4549,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 122: 40 Collocation Entries (2,882 Total), kats..pachj and kacs..pacj Stop-Coda Unlatch
+
+    func test_tier4_720_vietnamese_collocation_phrases_pamr_to_kons() {
+        let input = "pamr bams pamr nhams pamr pamx bams pamx nhams pamx pamj bams pamj nhams pamj kangs sangs kangs ddangs kangs kangf sangs kangf ddangs kangf kangr sangs kangr ddangs kangr kangx sangs kangx ddangs kangx kangj sangs kangj ddangs kangj pangs sangs pangs ddangs pangs pangf sangs pangf ddangs pangf pangr sangs pangr ddangs pangr pangx sangs pangx ddangs pangx pangj sangs pangj ddangs pangj kanhs canhs kanhs nhanhs kanhs kanhf canhs kanhf nhanhs kanhf kanhr canhs kanhr nhanhs kanhr kanhx canhs kanhx nhanhs kanhx kanhj canhs kanhj nhanhs kanhj panhs canhs panhs nhanhs panhs panhf canhs panhf nhanhs panhf panhr canhs panhr nhanhs panhr panhx canhs panhx nhanhs panhx panhj canhs panhj nhanhs panhj kats cats kats mats kats katj cats katj mats katj pats cats pats mats pats patj cats patj mats patj kaps taps kaps nhaps kaps kapj taps kapj nhaps kapj paps taps paps nhaps paps papj taps papj nhaps papj kacs bacs kacs khacs kacs kacj bacs kacj khacs kacj pacs bacs pacs khacs pacs pacj bacs pacj khacs pacj kachs tachs kachs vachs kachs kachj tachs kachj vachs kachj pachs tachs pachs vachs pachs pachj tachs pachj vachs pachj kons ddons kons ngons kons"
+        let expected = "pamr bám pảm nhám pảm pamx bám pãm nhám pãm pamj bám pạm nhám pạm kangs sáng káng đáng káng kangf sáng kàng đáng kàng kangr sáng kảng đáng kảng kangx sáng kãng đáng kãng kangj sáng kạng đáng kạng pangs sáng páng đáng páng pangf sáng pàng đáng pàng pangr sáng pảng đáng pảng pangx sáng pãng đáng pãng pangj sáng pạng đáng pạng kanhs cánh kánh nhánh kánh kanhf cánh kành nhánh kành kanhr cánh kảnh nhánh kảnh kanhx cánh kãnh nhánh kãnh kanhj cánh kạnh nhánh kạnh panhs cánh pánh nhánh pánh panhf cánh pành nhánh pành panhr cánh pảnh nhánh pảnh panhx cánh pãnh nhánh pãnh panhj cánh pạnh nhánh pạnh kats cát kát mát kát katj cát kạt mát kạt pats cát pát mát pát patj cát pạt mát pạt kaps táp káp nháp káp kapj táp kạp nháp kạp paps táp páp nháp páp papj táp pạp nháp pạp kacs bác kác khác kác kacj bác kạc khác kạc pacs bác pác khác pác pacj bác pạc khác pạc kachs tách kách vách kách kachj tách kạch vách kạch pachs tách pách vách pách pachj tách pạch vách pạch kons đón kón ngón kón"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_721_kats_katj_pats_patj_kaps_kapj_paps_papj_circumflex_breve_and_tone_override_unlatch() {
+        let input = "kats katsa katsw katsj katj katja katjw katjs pats patsa patsw patsj patj patja patjw patjs kaps kapsa kapsw kapsj kapj kapja kapjw kapjs paps papsa papsw papsj papj papja papjw papjs katsu"
+        let expected = "kats kất kắt kạt katj kật kặt kát pats pất pắt pạt patj pật pặt pát kaps kấp kắp kạp kapj kập kặp káp paps pấp pắp pạp papj pập pặp páp katsu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_722_kacs_kacj_pacs_pacj_and_kachs_kachj_pachs_pachj_unlatch() {
+        let input = "kacs kacsh kacsa kacsw kacsj kacj kacjh kacja kacjw kacjs pacs pacsh pacsa pacsw pacsj pacj pacjh pacja pacjw pacjs kachs kachsj kachj kachjs pachs pachsj pachj pachjs"
+        let expected = "kacs kách kấc kắc kạc kacj kạch kậc kặc kác pacs pách pấc pắc pạc pacj pạch pậc pặc pác kachs kạch kachj kách pachs pạch pachj pách"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_723_kansg_to_panjh_6char_chained_extension_and_tone_override() {
+        let input = "kansga kansgw kansgf kansgr kansgx kansgj kanfga kanfgw kanfgs kanfgr kanfgx kanfgj kanrga kanrgw kanrgs kanrgf kanrgx kanrgj kanxga kanxgw kanxgs kanxgf kanxgr kanxgj kanjga kanjgw kanjgs kanjgf kanjgr kanjgx pansga pansgw pansgf pansgr pansgx pansgj panfga panfgw panfgs panfgr panfgx panfgj panrga panrgw panrgs panrgf panrgx panrgj panxga panxgw panxgs panxgf panxgr panxgj panjga panjgw panjgs panjgf panjgr panjgx kanshf kanshr kanshx kanshj panhsf panhsr panhsx panhsj"
+        let expected = "kấng kắng kàng kảng kãng kạng kầng kằng káng kảng kãng kạng kẩng kẳng káng kàng kãng kạng kẫng kẵng káng kàng kảng kạng kậng kặng káng kàng kảng kãng pấng pắng pàng pảng pãng pạng pầng pằng páng pảng pãng pạng pẩng pẳng páng pàng pãng pạng pẫng pẵng páng pàng pảng pạng pậng pặng páng pàng pảng pãng kành kảnh kãnh kạnh pành pảnh pãnh pạnh"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_724_scenario130_trilingual_kangs_kats_paps_and_vietnamese_sang_kang_cat_kat_tap_pap_chat() {
+        let input = "Khi thử nghiệm ba mô-đun phần cứng kangs, kats và paps trong buồng đo quang học, nhóm kỹ sư vừa ghi nhận tia sáng káng (sangs kangs), vừa kiểm tra lớp cát kát (cats kats) và biên bản táp páp (taps paps) ngay tại hiện trường!"
+        let expected = "Khi thử nghiệm ba mô-đun phần cứng kangs, kats và paps trong buồng đo quang học, nhóm kỹ sư vừa ghi nhận tia sáng káng (sáng káng), vừa kiểm tra lớp cát kát (cát kát) và biên bản táp páp (táp páp) ngay tại hiện trường!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5277,6 +5309,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_717_kams_to_pamj_and_kangs_to_pangj_circumflex_breve_and_tone_override_unlatch", test_tier4_717_kams_to_pamj_and_kangs_to_pangj_circumflex_breve_and_tone_override_unlatch),
             ("test_tier4_718_kanhs_to_panhj_and_pixe_kixe_pise_to_pije_tone_override_unlatch", test_tier4_718_kanhs_to_panhj_and_pixe_kixe_pise_to_pije_tone_override_unlatch),
             ("test_tier4_719_scenario129_trilingual_hire_kans_kams_and_vietnamese_vui_hie_ban_kan_bam_kam_chat", test_tier4_719_scenario129_trilingual_hire_kans_kams_and_vietnamese_vui_hie_ban_kan_bam_kam_chat),
+            ("test_tier4_720_vietnamese_collocation_phrases_pamr_to_kons", test_tier4_720_vietnamese_collocation_phrases_pamr_to_kons),
+            ("test_tier4_721_kats_katj_pats_patj_kaps_kapj_paps_papj_circumflex_breve_and_tone_override_unlatch", test_tier4_721_kats_katj_pats_patj_kaps_kapj_paps_papj_circumflex_breve_and_tone_override_unlatch),
+            ("test_tier4_722_kacs_kacj_pacs_pacj_and_kachs_kachj_pachs_pachj_unlatch", test_tier4_722_kacs_kacj_pacs_pacj_and_kachs_kachj_pachs_pachj_unlatch),
+            ("test_tier4_723_kansg_to_panjh_6char_chained_extension_and_tone_override", test_tier4_723_kansg_to_panjh_6char_chained_extension_and_tone_override),
+            ("test_tier4_724_scenario130_trilingual_kangs_kats_paps_and_vietnamese_sang_kang_cat_kat_tap_pap_chat", test_tier4_724_scenario130_trilingual_kangs_kats_paps_and_vietnamese_sang_kang_cat_kat_tap_pap_chat),
         ]
     }
 }
