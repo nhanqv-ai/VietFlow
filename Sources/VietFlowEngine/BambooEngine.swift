@@ -1436,6 +1436,61 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 return true
             }
 
+            // If activePreedit just became empty while committedPrefix still contains preceding compound syllables
+            // (e.g. from 2-3 syllable compound words like "hảiphòng" or "thànhphốcủa" where user backspaced through a syllable),
+            // pull the immediately preceding syllable back into activePreedit so the user can seamlessly
+            // continue editing, toning, or backspacing across compound words.
+            if activePreedit.isEmpty && !committedPrefix.isEmpty,
+               let lastPrefixChar = committedPrefix.last,
+               !EnglishRestoreDetector.isTechnicalSeparator(lastPrefixChar) {
+                let (remainingPrefix, lastSyl) = Self.extractLastSyllable(from: committedPrefix)
+                if !lastSyl.isEmpty {
+                    committedPrefix = remainingPrefix
+                    activePreedit = lastSyl
+                } else {
+                    activePreedit = committedPrefix
+                    committedPrefix = ""
+                }
+
+                let lowerActive = activePreedit.lowercased()
+                let isSwEng = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+                    && EnglishRestoreDetector.hasInvalidTelexSwPrefix(lowerActive)
+                var shouldBypass = EnglishRestoreDetector.isEnglishKeyword(lowerActive)
+                    || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerActive)
+                    || isSwEng
+                    || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerActive)
+
+                if !shouldBypass {
+                    for cluster in EnglishRestoreDetector.invalidOnsetClusters {
+                        if _config.inputMethod == .telex && cluster == "sw" { continue }
+                        if lowerActive.hasPrefix(cluster) {
+                            shouldBypass = true
+                            break
+                        }
+                    }
+                }
+
+                if shouldBypass {
+                    isBypassed = true
+                    activeRawKeys = Array(activePreedit)
+                    wordRawKeys = Array(committedPrefix + activePreedit)
+                    transformState = SyllableTransformState()
+                } else {
+                    isBypassed = false
+                    activeRawKeys = Self.canonicalRawKeys(for: activePreedit, method: _config.inputMethod)
+                    wordRawKeys = Self.canonicalRawKeys(for: committedPrefix, method: _config.inputMethod) + activeRawKeys
+                    if !activeRawKeys.isEmpty {
+                        var (_, state) = evaluateRaw(keys: activeRawKeys)
+                        state.lastToneKey = nil
+                        state.lastDiacriticKey = nil
+                        transformState = state
+                    } else {
+                        transformState = SyllableTransformState()
+                    }
+                }
+                return true
+            }
+
             if wasBypassed {
                 if !wordRawKeys.isEmpty {
                     wordRawKeys.removeLast()
@@ -1573,6 +1628,120 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
 
         return keys
+    }
+
+    /// Extracts the last Vietnamese syllable from a committed string (e.g. from compound words or technical paths).
+    /// Returns (remainingPrefix, lastSyllable).
+    public static func extractLastSyllable(from text: String) -> (prefix: String, lastSyllable: String) {
+        guard !text.isEmpty else { return ("", "") }
+
+        if let lastSepIndex = text.lastIndex(where: { EnglishRestoreDetector.isTechnicalSeparator($0) }) {
+            let nextIndex = text.index(after: lastSepIndex)
+            if nextIndex < text.endIndex {
+                let basePrefix = String(text[..<nextIndex])
+                let trailing = String(text[nextIndex...])
+                let (subPrefix, lastSyl) = splitTrailingCompoundSyllable(trailing)
+                return (basePrefix + subPrefix, lastSyl)
+            } else {
+                return (text, "")
+            }
+        }
+
+        return splitTrailingCompoundSyllable(text)
+    }
+
+    /// Splits a sequence of 1-3 compound syllables without delimiters into (prefix, lastSyllable).
+    public static func splitTrailingCompoundSyllable(_ text: String) -> (prefix: String, lastSyllable: String) {
+        guard text.count > 1 else { return ("", text) }
+
+        let chars = Array(text)
+        var vowelGroupRanges: [(start: Int, end: Int)] = []
+        var inVowel = false
+        var groupStart = 0
+
+        for (i, ch) in chars.enumerated() {
+            if PhonotacticsMatrix.isVowelChar(ch) {
+                if !inVowel {
+                    inVowel = true
+                    groupStart = i
+                }
+            } else {
+                if inVowel {
+                    inVowel = false
+                    vowelGroupRanges.append((groupStart, i - 1))
+                }
+            }
+        }
+        if inVowel {
+            vowelGroupRanges.append((groupStart, chars.count - 1))
+        }
+
+        guard vowelGroupRanges.count >= 2 else {
+            return ("", text)
+        }
+
+        let penultRange = vowelGroupRanges[vowelGroupRanges.count - 2]
+        let lastRange = vowelGroupRanges[vowelGroupRanges.count - 1]
+
+        let cStart = penultRange.end + 1
+        let cEnd = lastRange.start
+
+        var bestSplitIndex: Int? = nil
+
+        let offGlides: Set<String> = [
+            "ai", "ao", "au", "âu", "ay", "ây", "eo", "êu", "ia", "iêu", "iu",
+            "oai", "oao", "oay", "oeo", "oi", "ôi", "ơi", "ưa", "uây", "ui",
+            "ưi", "uôi", "ươi", "ươu", "ưu", "uya", "uyu", "yêu"
+        ]
+        let penultNucChars = String(chars[penultRange.start...penultRange.end]).lowercased()
+        let strippedPenult = TonePlacement.stripTone(from: penultNucChars).lowercased()
+        let isPenultOffGlide = offGlides.contains(strippedPenult)
+
+        for k in cStart...cEnd {
+            let preCoda = String(chars[cStart..<k]).lowercased()
+            let candidateLastSyl = String(chars[k...])
+
+            if isPenultOffGlide && !preCoda.isEmpty {
+                continue
+            }
+
+            let isCodaValid: Bool
+            if preCoda.isEmpty {
+                isCodaValid = true
+            } else {
+                isCodaValid = PhonotacticsMatrix.isValidCoda(preCoda)
+                    && !EnglishRestoreDetector.hasInvalidCodaCluster(preCoda)
+            }
+
+            guard isCodaValid else { continue }
+
+            guard let parsedLast = Syllable.parse(from: candidateLastSyl) else { continue }
+            guard parsedLast.isValidCVC(isComplete: true) else { continue }
+
+            let parsedOnsetLower = parsedLast.onset.lowercased()
+            let isValidOnset = parsedOnsetLower.isEmpty || (!PhonotacticsMatrix.lookupFC(parsedOnsetLower, isComplete: true).isEmpty
+                && !EnglishRestoreDetector.hasInvalidOnsetCluster(parsedOnsetLower))
+
+            guard isValidOnset else { continue }
+
+            bestSplitIndex = k
+            if isPenultOffGlide && preCoda.isEmpty {
+                break
+            }
+            if !preCoda.isEmpty {
+                break
+            }
+        }
+
+        if let splitK = bestSplitIndex {
+            let prefix = String(chars[..<splitK])
+            let lastSyl = String(chars[splitK...])
+            return (prefix, lastSyl)
+        }
+
+        let prefix = String(chars[..<cStart])
+        let lastSyl = String(chars[cStart...])
+        return (prefix, lastSyl)
     }
 
     // MARK: - Reset

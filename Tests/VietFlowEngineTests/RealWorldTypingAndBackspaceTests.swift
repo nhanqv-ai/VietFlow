@@ -1627,8 +1627,62 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(vniResult, "toán")
         XCTAssertEqual(vniEngine.currentSyllable, "toán")
     }
+
+    func test_391_backspace_across_compound_words_2_and_3_syllables() {
+        engine.reset()
+        // 1. Two-syllable compound: delete entire second syllable (3 chars) and tone preceding syllable
+        XCTAssertEqual(apply("thafnhphoos<BS><BS><BS>r"), "thảnh")
+        XCTAssertEqual(engine.currentSyllable, "thảnh")
+
+        // 2. Two-syllable compound: delete second syllable + 1 char of first syllable, then tone
+        engine.reset()
+        XCTAssertEqual(apply("thafnhphoos<BS><BS><BS><BS>r"), "thản")
+        XCTAssertEqual(engine.currentSyllable, "thản")
+
+        // 3. Two-syllable compound: delete second syllable (5 chars), change tone to grave
+        engine.reset()
+        XCTAssertEqual(apply("hairphofng<BS><BS><BS><BS><BS>f"), "hài")
+        XCTAssertEqual(engine.currentSyllable, "hài")
+
+        // 4. Two-syllable compound: delete second syllable (5 chars), then delete 'i' of 'hải' (6th BS), type 'o' -> 'hảo'
+        engine.reset()
+        XCTAssertEqual(apply("hairphofng<BS><BS><BS><BS><BS><BS>o"), "hảo")
+        XCTAssertEqual(engine.currentSyllable, "hảo")
+
+        // 5. Three-syllable compound: delete 3rd syllable (3 chars), tone 2nd syllable
+        engine.reset()
+        XCTAssertEqual(apply("hairphofngbawcs<BS><BS><BS>s"), "hảiphóng")
+        XCTAssertEqual(engine.currentSyllable, "hảiphóng")
+
+        // 6. Three-syllable compound: delete 3rd (3 chars) and 2nd syllables (5 chars), tone 1st syllable
+        engine.reset()
+        XCTAssertEqual(apply("hairphofngbawcs<BS><BS><BS><BS><BS><BS><BS><BS>f"), "hài")
+        XCTAssertEqual(engine.currentSyllable, "hài")
+
+        // 7. Compound word across space with backspace: delete space (1) and 2nd syllable (3 chars), tone 1st syllable
+        engine.reset()
+        XCTAssertEqual(apply("tooi thafnhphoos <BS><BS><BS><BS>r"), "tôi thảnh")
+        XCTAssertEqual(engine.currentSyllable, "thảnh")
+
+        // 8. Deep delete through compound word (7 chars) and space (1 char), tone previous word
+        engine.reset()
+        XCTAssertEqual(apply("tooi vieetjnam<BS><BS><BS><BS><BS><BS><BS><BS>s"), "tối")
+        XCTAssertEqual(engine.currentSyllable, "tối")
+
+        // 9. VNI mode: delete 2nd syllable of compound word (3 chars) and tone 1st syllable
+        let vniEngine = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        let vniResult = applyKeystrokesAndBackspacesToScreenBuffer("vie6t5nam<BS><BS><BS>1", engine: vniEngine)
+        XCTAssertEqual(vniResult, "viết")
+        XCTAssertEqual(vniEngine.currentSyllable, "viết")
+
+        // 10. VNI mode: 3-syllable compound word backspace 3rd syllable (3 chars) and tone 2nd syllable
+        vniEngine.reset()
+        let vniResult3 = applyKeystrokesAndBackspacesToScreenBuffer("hai3pho2ngba81c<BS><BS><BS>1", engine: vniEngine)
+        XCTAssertEqual(vniResult3, "hảiphóng")
+        XCTAssertEqual(vniEngine.currentSyllable, "hảiphóng")
+    }
     
-    // MARK: - Test Registry (390 Tests)
+    // MARK: - Test Registry (391 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2057,12 +2111,13 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_384_long_essay_vni_complex_mixed_english_and_numbers", test_384_long_essay_vni_complex_mixed_english_and_numbers),
             ("test_385_stress_test_delete_entire_paragraph_and_retype", test_385_stress_test_delete_entire_paragraph_and_retype),
 
-            // Section 21: Regression Coverage for Backspace and Duplicate Coda (5 tests)
+            // Section 21: Regression Coverage for Backspace and Duplicate Coda (6 tests)
             ("test_386_backspace_deleted_g_then_type_n_preserves_ascii_and_recovers_vietnamese_ng", test_386_backspace_deleted_g_then_type_n_preserves_ascii_and_recovers_vietnamese_ng),
             ("test_387_duplicate_coda_consonant_suppression_on_vietnamese_syllables", test_387_duplicate_coda_consonant_suppression_on_vietnamese_syllables),
             ("test_388_ascii_control_characters_reset_engine_buffer", test_388_ascii_control_characters_reset_engine_buffer),
             ("test_389_backspace_across_technical_separator_restores_active_syllable", test_389_backspace_across_technical_separator_restores_active_syllable),
             ("test_390_deep_backspace_across_technical_separators_and_mixed_bypass", test_390_deep_backspace_across_technical_separators_and_mixed_bypass),
+            ("test_391_backspace_across_compound_words_2_and_3_syllables", test_391_backspace_across_compound_words_2_and_3_syllables),
         ]
     }
 }
