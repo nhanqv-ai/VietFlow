@@ -4747,6 +4747,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 135: 40 Collocation Entries (3,122 Total), peens..peechj and kaans..kaacj Unlatch
+
+    func test_tier4_751_vietnamese_collocation_phrases_pooms_to_kaanj() {
+        let input = "pooms ddooms pooms ooms pooms poomf ddooms poomf ooms poomf poomr ddooms poomr ooms poomr poomx ddooms poomx ooms poomx poomj ddooms poomj ooms poomj poongs boongs poongs thoongs poongs poongf boongs poongf thoongs poongf poongr boongs poongr thoongs poongr poongx boongs poongx thoongs poongx poongj boongs poongj thoongs poongj poots toots poots choots poots pootj toots pootj choots pootj poocs coocs poocs goocs poocs poocj coocs poocj goocs poocj peens beens peens ddeens peens peenf beens peenf ddeens peenf peenr beens peenr ddeens peenr peenx beens peenx ddeens peenx peenj beens peenj ddeens peenj peems ddeems peems neems peems peemf ddeems peemf neems peemf peemr ddeems peemr neems peemr peemx ddeems peemx neems peemx peemj ddeems peemj neems peemj peenhs beenhj peenhs leenhj peenhs peenhf beenhj peenhf leenhj peenhf peenhr beenhj peenhr leenhj peenhr peenhx beenhj peenhx leenhj peenhx peenhj beenhj peenhj leenhj peenhj peets teets peets heets peets peetj teets peetj heets peetj peecs teets peecs leechj peecs peecj teets peecj leechj peecj peechs leechj peechs xeechs peechs peechj leechj peechj xeechs peechj kaans caans kaans nhaans kaans kaanf caans kaanf nhaans kaanf kaanr caans kaanr nhaans kaanr kaanx caans kaanx nhaans kaanx kaanj caans kaanj nhaans kaanj"
+        let expected = "pooms đốm pốm ốm pốm poomf đốm pồm ốm pồm poomr đốm pổm ốm pổm poomx đốm pỗm ốm pỗm poomj đốm pộm ốm pộm poongs bống pống thống pống poongf bống pồng thống pồng poongr bống pổng thống pổng poongx bống pỗng thống pỗng poongj bống pộng thống pộng poots tốt pốt chốt pốt pootj tốt pột chốt pột poocs cốc pốc gốc pốc poocj cốc pộc gốc pộc peens bến pến đến pến peenf bến pền đến pền peenr bến pển đến pển peenx bến pễn đến pễn peenj bến pện đến pện peems đếm pếm nếm pếm peemf đếm pềm nếm pềm peemr đếm pểm nếm pểm peemx đếm pễm nếm pễm peemj đếm pệm nếm pệm peenhs bệnh pếnh lệnh pếnh peenhf bệnh pềnh lệnh pềnh peenhr bệnh pểnh lệnh pểnh peenhx bệnh pễnh lệnh pễnh peenhj bệnh pệnh lệnh pệnh peets tết pết hết pết peetj tết pệt hết pệt peecs tết pếc lệch pếc peecj tết pệc lệch pệc peechs lệch pếch xếch pếch peechj lệch pệch xếch pệch kaans cấn kấn nhấn kấn kaanf cấn kần nhấn kần kaanr cấn kẩn nhấn kẩn kaanx cấn kẫn nhấn kẫn kaanj cấn kận nhấn kận"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_752_peens_to_peechj_extension_and_tone_override_unlatch() {
+        let input = "peens peensh peensf peensr peensx peensj peenf peenfh peenfs peenfr peenfx peenfj peenr peenrh peenrs peenrf peenrx peenrj peenx peenxh peenxs peenxf peenxr peenxj peenj peenjh peenjs peenjf peenjr peenjx peems peemsf peemsr peemsx peemsj peemf peemfs peemfr peemfx peemfj peemr peemrs peemrf peemrx peemrj peemx peemxs peemxf peemxr peemxj peemj peemjs peemjf peemjr peemjx peenhs peenhsf peenhsr peenhsx peenhsj peenhf peenhfs peenhfr peenhfx peenhfj peenhr peenhrs peenhrf peenhrx peenhrj peenhx peenhxs peenhxf peenhxr peenhxj peenhj peenhjs peenhjf peenhjr peenhjx peets peetsj peetj peetjs peecs peecsh peecsj peecj peecjh peecjs peechs peechsj peechj peechjs"
+        let expected = "peens pếnh pền pển pễn pện peenf pềnh pến pển pễn pện peenr pểnh pến pền pễn pện peenx pễnh pến pền pển pện peenj pệnh pến pền pển pễn peems pềm pểm pễm pệm peemf pếm pểm pễm pệm peemr pếm pềm pễm pệm peemx pếm pềm pểm pệm peemj pếm pềm pểm pễm peenhs pềnh pểnh pễnh pệnh peenhf pếnh pểnh pễnh pệnh peenhr pếnh pềnh pễnh pệnh peenhx pếnh pềnh pểnh pệnh peenhj pếnh pềnh pểnh pễnh peets pệt peetj pết peecs pếch pệc peecj pệch pếc peechs pệch peechj pếch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_753_kaans_to_kaangj_extension_breve_and_tone_override_unlatch() {
+        let input = "kaansg kaansw kaansf kaansr kaansx kaansj kaanfg kaanfw kaanfs kaanfr kaanfx kaanfj kaanrg kaanrw kaanrs kaanrf kaanrx kaanrj kaanxg kaanxw kaanxs kaanxf kaanxr kaanxj kaanjg kaanjw kaanjs kaanjf kaanjr kaanjx kaamsw kaamsf kaamsr kaamsx kaamsj kaamfw kaamfs kaamfr kaamfx kaamfj kaamrw kaamrs kaamrf kaamrx kaamrj kaamxw kaamxs kaamxf kaamxr kaamxj kaamjw kaamjs kaamjf kaamjr kaamjx kaangsw kaangsf kaangsr kaangsx kaangsj kaangfw kaangfs kaangfr kaangfx kaangfj kaangrw kaangrs kaangrf kaangrx kaangrj kaangxw kaangxs kaangxf kaangxr kaangxj kaangjw kaangjs kaangjf kaangjr kaangjx"
+        let expected = "kấng kắn kần kẩn kẫn kận kầng kằn kấn kẩn kẫn kận kẩng kẳn kấn kần kẫn kận kẫng kẵn kấn kần kẩn kận kậng kặn kấn kần kẩn kẫn kắm kầm kẩm kẫm kậm kằm kấm kẩm kẫm kậm kẳm kấm kầm kẫm kậm kẵm kấm kầm kẩm kậm kặm kấm kầm kẩm kẫm kắng kầng kẩng kẫng kậng kằng kấng kẩng kẫng kậng kẳng kấng kầng kẫng kậng kẵng kấng kầng kẩng kậng kặng kấng kầng kẩng kẫng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_754_kaats_to_kaacj_breve_and_tone_override_unlatch() {
+        let input = "kaatsw kaatsj kaatjw kaatjs kaapsw kaapsj kaapjw kaapjs kaacsw kaacsj kaacjw kaacjs"
+        let expected = "kắt kật kặt kất kắp kập kặp kấp kắc kậc kặc kấc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_755_scenario136_trilingual_pooms_peens_kaans_and_vietnamese_dom_pom_ben_pen_can_kan_chat() {
+        let input = "Trong khi kiểm định ba mô-đun truyền tải pooms, peens và kaans tại phòng thí nghiệm tự động hóa, nhóm kỹ sư vừa ghi nhận đốm pốm (ddooms pooms), vừa kiểm tra điểm bến pến (beens peens) và lực cấn kấn (caans kaans) đạt độ chính xác tuyệt đối!"
+        let expected = "Trong khi kiểm định ba mô-đun truyền tải pooms, peens và kaans tại phòng thí nghiệm tự động hóa, nhóm kỹ sư vừa ghi nhận đốm pốm (đốm pốm), vừa kiểm tra điểm bến pến (bến pến) và lực cấn kấn (cấn kấn) đạt độ chính xác tuyệt đối!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5506,6 +5538,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_748_paats_to_paacj_breve_and_tone_override_unlatch", test_tier4_748_paats_to_paacj_breve_and_tone_override_unlatch),
             ("test_tier4_749_poons_to_poocj_extension_horn_and_tone_override_unlatch", test_tier4_749_poons_to_poocj_extension_horn_and_tone_override_unlatch),
             ("test_tier4_750_scenario135_trilingual_paans_paats_poons_and_vietnamese_tan_pan_tat_pat_bon_pon_chat", test_tier4_750_scenario135_trilingual_paans_paats_poons_and_vietnamese_tan_pan_tat_pat_bon_pon_chat),
+            ("test_tier4_751_vietnamese_collocation_phrases_pooms_to_kaanj", test_tier4_751_vietnamese_collocation_phrases_pooms_to_kaanj),
+            ("test_tier4_752_peens_to_peechj_extension_and_tone_override_unlatch", test_tier4_752_peens_to_peechj_extension_and_tone_override_unlatch),
+            ("test_tier4_753_kaans_to_kaangj_extension_breve_and_tone_override_unlatch", test_tier4_753_kaans_to_kaangj_extension_breve_and_tone_override_unlatch),
+            ("test_tier4_754_kaats_to_kaacj_breve_and_tone_override_unlatch", test_tier4_754_kaats_to_kaacj_breve_and_tone_override_unlatch),
+            ("test_tier4_755_scenario136_trilingual_pooms_peens_kaans_and_vietnamese_dom_pom_ben_pen_can_kan_chat", test_tier4_755_scenario136_trilingual_pooms_peens_kaans_and_vietnamese_dom_pom_ben_pen_can_kan_chat),
         ]
     }
 }
