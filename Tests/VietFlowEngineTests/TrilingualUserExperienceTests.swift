@@ -4613,6 +4613,12 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    func test_tier4_730_email_cc_bcc_gcc_acc_nn_cnn_inn_and_sentence() {
+        let input = "cc CC Cc bcc Bcc BCC gcc acc pccc nn NN Nn cnn dnn rnn ann inn Em nhowf anh cc theem chij Lan vaf bcc cho phofng kees toans vafo email nayf nhes!"
+        let expected = "cc CC Cc bcc Bcc BCC gcc acc pccc nn NN Nn cnn dnn rnn ann inn Em nhờ anh cc thêm chị Lan và bcc cho phòng kế toán vào email này nhé!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5351,6 +5357,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_727_koms_to_pomj_and_kongs_to_pongj_circumflex_horn_and_tone_override_unlatch", test_tier4_727_koms_to_pomj_and_kongs_to_pongj_circumflex_horn_and_tone_override_unlatch),
             ("test_tier4_728_kots_to_pocj_circumflex_horn_and_tone_override_unlatch", test_tier4_728_kots_to_pocj_circumflex_horn_and_tone_override_unlatch),
             ("test_tier4_729_scenario131_trilingual_pons_koms_pops_and_vietnamese_don_pon_nhom_kom_bop_pop_chat", test_tier4_729_scenario131_trilingual_pons_koms_pops_and_vietnamese_don_pon_nhom_kom_bop_pop_chat),
+            ("test_tier4_730_email_cc_bcc_gcc_acc_nn_cnn_inn_and_sentence", test_tier4_730_email_cc_bcc_gcc_acc_nn_cnn_inn_and_sentence),
         ]
     }
 }

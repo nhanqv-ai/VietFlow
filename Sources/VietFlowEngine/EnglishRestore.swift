@@ -308,7 +308,7 @@ public enum EnglishRestoreDetector {
         "br", "cr", "dr", "fr", "gr", "pr", "str",
         "sc", "sk", "sl", "sm", "sn", "sp", "st", "sw",
         "fl", "gl", "cl", "bl", "pl", "kn", "gn", "wr", "wh",
-        "sh", "ts"
+        "sh", "ts", "cc", "nn", "bc", "gc"
     ]
 
     /// Invalid coda consonant clusters in Vietnamese (English-only codas).
@@ -316,7 +316,7 @@ public enum EnglishRestoreDetector {
         "st", "nd", "nt", "rt", "rd", "ld", "rk", "rm", "rn",
         "lp", "lt", "lf", "mp", "mb", "ct", "ft", "ck", "ll",
         "bb", "gg", "th", "sh", "ph", "gh", "kh",
-        "tl", "cl", "pl", "nl", "ml"
+        "tl", "cl", "pl", "nl", "ml", "cc", "nn"
     ]
 
     /// English medial double-consonant + vowel/consonant sequences that never occur in valid Vietnamese words.
