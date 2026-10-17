@@ -4779,6 +4779,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 137: 40 Collocation Entries (3,162 Total), koons..koocj, poops..poopj, and geens Unlatch
+
+    func test_tier4_756_vietnamese_collocation_phrases_kaams_to_geens() {
+        let input = "kaams taams kaams naams kaams kaamf taams kaamf naams kaamf kaamr taams kaamr naams kaamr kaamx taams kaamx naams kaamx kaamj taams kaamj naams kaamj kaangs taangf kaangs vaangf kaangs kaangf taangf kaangf vaangf kaangf kaangr taangf kaangr vaangf kaangr kaangx taangf kaangx vaangf kaangx kaangj taangf kaangj vaangf kaangj kaats taats kaats nhaats kaats kaatj taats kaatj nhaats kaatj kaaps taaps kaaps caaps kaaps kaapj taaps kaapj caaps kaapj kaacs baacs kaacs giaacs kaacs kaacj baacs kaacj giaacs kaacj koons boons koons toons koons koonf boons koonf toons koonf koonr boons koonr toons koonr koonx boons koonx toons koonx koonj boons koonj toons koonj kooms ddooms kooms ooms kooms koomf ddooms koomf ooms koomf koomr ddooms koomr ooms koomr koomx ddooms koomx ooms koomx koomj ddooms koomj ooms koomj koongs boongs koongs thoongs koongs koongf boongs koongf thoongs koongf koongr boongs koongr thoongs koongr koongx boongs koongx thoongs koongx koongj boongs koongj thoongs koongj koots toots koots choots koots kootj toots kootj choots kootj koops hoopj koops loops koops koopj hoopj koopj loops koopj koocs coocs koocs goocs koocs koocj coocs koocj goocs koocj poops hoopj poops loops poops poopj hoopj poopj loops poopj geens beens geens ddeens geens"
+        let expected = "kaams tấm kấm nấm kấm kaamf tấm kầm nấm kầm kaamr tấm kẩm nấm kẩm kaamx tấm kẫm nấm kẫm kaamj tấm kậm nấm kậm kaangs tầng kấng vầng kấng kaangf tầng kầng vầng kầng kaangr tầng kẩng vầng kẩng kaangx tầng kẫng vầng kẫng kaangj tầng kậng vầng kậng kaats tất kất nhất kất kaatj tất kật nhất kật kaaps tấp kấp cấp kấp kaapj tấp kập cấp kập kaacs bấc kấc giấc kấc kaacj bấc kậc giấc kậc koons bốn kốn tốn kốn koonf bốn kồn tốn kồn koonr bốn kổn tốn kổn koonx bốn kỗn tốn kỗn koonj bốn kộn tốn kộn kooms đốm kốm ốm kốm koomf đốm kồm ốm kồm koomr đốm kổm ốm kổm koomx đốm kỗm ốm kỗm koomj đốm kộm ốm kộm koongs bống kống thống kống koongf bống kồng thống kồng koongr bống kổng thống kổng koongx bống kỗng thống kỗng koongj bống kộng thống kộng koots tốt kốt chốt kốt kootj tốt kột chốt kột koops hộp kốp lốp kốp koopj hộp kộp lốp kộp koocs cốc kốc gốc kốc koocj cốc kộc gốc kộc poops hộp pốp lốp pốp poopj hộp pộp lốp pộp geens bến gến đến gến"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_757_koons_to_koongj_extension_horn_and_tone_override_unlatch() {
+        let input = "koons koonsg koonsw koonsf koonsr koonsx koonsj koonf koonfg koonfw koonfs koonfr koonfx koonfj koonr koonrg koonrw koonrs koonrf koonrx koonrj koonx koonxg koonxw koonxs koonxf koonxr koonxj koonj koonjg koonjw koonjs koonjf koonjr koonjx kooms koomsw koomsf koomsr koomsx koomsj koomf koomfw koomfs koomfr koomfx koomfj koomr koomrw koomrs koomrf koomrx koomrj koomx koomxw koomxs koomxf koomxr koomxj koomj koomjw koomjs koomjf koomjr koomjx koongs koongsf koongsr koongsx koongsj koongf koongfs koongfr koongfx koongfj koongr koongrs koongrf koongrx koongrj koongx koongxs koongxf koongxr koongxj koongj koongjs koongjf koongjr koongjx"
+        let expected = "koons kống kớn kồn kổn kỗn kộn koonf kồng kờn kốn kổn kỗn kộn koonr kổng kởn kốn kồn kỗn kộn koonx kỗng kỡn kốn kồn kổn kộn koonj kộng kợn kốn kồn kổn kỗn kooms kớm kồm kổm kỗm kộm koomf kờm kốm kổm kỗm kộm koomr kởm kốm kồm kỗm kộm koomx kỡm kốm kồm kổm kộm koomj kợm kốm kồm kổm kỗm koongs kồng kổng kỗng kộng koongf kống kổng kỗng kộng koongr kống kồng kỗng kộng koongx kống kồng kổng kộng koongj kống kồng kổng kỗng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_758_koots_to_koocj_horn_and_tone_override_unlatch() {
+        let input = "koots kootsw kootsj kootj kootjw kootjs koops koopsw koopsj koopj koopjw koopjs koocs koocsj koocj koocjs"
+        let expected = "koots kớt kột kootj kợt kốt koops kớp kộp koopj kợp kốp koocs kộc koocj kốc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_759_poops_poopj_and_geens_extension_horn_and_tone_override_unlatch() {
+        let input = "poops poopsw poopsj poopj poopjw poopjs geens geensh geensf geensr geensx geensj"
+        let expected = "poops pớp pộp poopj pợp pốp geens gếnh gền gển gễn gện"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_760_scenario137_trilingual_kaams_koons_poops_and_vietnamese_tam_kam_bon_kon_hop_pop_chat() {
+        let input = "Khi hiệu chỉnh ba bộ điều khiển kaams, koons và poops trên dây chuyền lắp ráp tự động, kỹ thuật viên vừa kiểm tra tấm kấm (taams kaams), vừa rà soát cụm bốn kốn (boons koons) và hộp pốp (hoopj poops) trước khi xuất xưởng!"
+        let expected = "Khi hiệu chỉnh ba bộ điều khiển kaams, koons và poops trên dây chuyền lắp ráp tự động, kỹ thuật viên vừa kiểm tra tấm kấm (tấm kấm), vừa rà soát cụm bốn kốn (bốn kốn) và hộp pốp (hộp pốp) trước khi xuất xưởng!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5543,6 +5575,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_753_kaans_to_kaangj_extension_breve_and_tone_override_unlatch", test_tier4_753_kaans_to_kaangj_extension_breve_and_tone_override_unlatch),
             ("test_tier4_754_kaats_to_kaacj_breve_and_tone_override_unlatch", test_tier4_754_kaats_to_kaacj_breve_and_tone_override_unlatch),
             ("test_tier4_755_scenario136_trilingual_pooms_peens_kaans_and_vietnamese_dom_pom_ben_pen_can_kan_chat", test_tier4_755_scenario136_trilingual_pooms_peens_kaans_and_vietnamese_dom_pom_ben_pen_can_kan_chat),
+            ("test_tier4_756_vietnamese_collocation_phrases_kaams_to_geens", test_tier4_756_vietnamese_collocation_phrases_kaams_to_geens),
+            ("test_tier4_757_koons_to_koongj_extension_horn_and_tone_override_unlatch", test_tier4_757_koons_to_koongj_extension_horn_and_tone_override_unlatch),
+            ("test_tier4_758_koots_to_koocj_horn_and_tone_override_unlatch", test_tier4_758_koots_to_koocj_horn_and_tone_override_unlatch),
+            ("test_tier4_759_poops_poopj_and_geens_extension_horn_and_tone_override_unlatch", test_tier4_759_poops_poopj_and_geens_extension_horn_and_tone_override_unlatch),
+            ("test_tier4_760_scenario137_trilingual_kaams_koons_poops_and_vietnamese_tam_kam_bon_kon_hop_pop_chat", test_tier4_760_scenario137_trilingual_kaams_koons_poops_and_vietnamese_tam_kam_bon_kon_hop_pop_chat),
         ]
     }
 }
