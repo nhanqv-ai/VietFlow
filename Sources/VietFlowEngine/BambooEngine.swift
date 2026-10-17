@@ -66,6 +66,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     private var tokenDidBackspace: Bool = false
     private var preBackspaceSnapshot: PreBackspaceSnapshot? = nil
     private var lastAppliedCorrection: AppliedCorrection? = nil
+    private var activeImeFrictionRuleTrigger: String? = nil
     
     // MARK: - Initialization
     public init(config: EngineConfig = EngineConfig(), adaptiveLearner: AdaptiveLearningManager? = nil) {
@@ -783,10 +784,16 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || Self.matchesIeUeStemDelayedDiacriticUnlatch(wordRawKeys: wordRawKeys, character: character)
                 || Self.matchesVowelInitialDiphthongUnlatch(wordRawKeys: wordRawKeys, character: character)
                 || Self.matchesUyOaOeClusterUnlatch(wordRawKeys: wordRawKeys, prefix2: prefix2, rhymeAfterOnset: rhymeAfterOnset, character: character)
-                || Self.isVietnameseCollocation(candidateWord: (String(wordRawKeys) + String(character)).lowercased(), lastCompletedWord: lastCompletedWord)) {
+                || Self.isVietnameseCollocation(candidateWord: (String(wordRawKeys) + String(character)).lowercased(), lastCompletedWord: lastCompletedWord)
+                || (adaptiveLearner?.isEnabled == true
+                    && adaptiveLearner?.shouldPreserveVietnameseForImeFriction(word: (String(wordRawKeys) + String(character)).lowercased()) == true
+                    && adaptiveLearner?.shouldBypassForImeFriction(word: (String(wordRawKeys) + String(character)).lowercased()) != true)) {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
+                if adaptiveLearner?.isEnabled == true && adaptiveLearner?.shouldPreserveVietnameseForImeFriction(word: (String(wordRawKeys) + String(character)).lowercased()) == true {
+                    activeImeFrictionRuleTrigger = (String(wordRawKeys) + String(character)).lowercased()
+                }
             } else if (has3CharRhymeAfterOnset
                 && ((r1 == "e" && "rsfjx".contains(r2) && r3 == "u"
                     && (character.lowercased() == "e"
@@ -1026,9 +1033,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if learner.shouldBypassForImeFriction(word: candidateWord) {
                 isKeyword = true
                 isLearnedBypass = true
+                activeImeFrictionRuleTrigger = candidateWord
             } else if learner.shouldPreserveVietnameseForImeFriction(word: candidateWord) {
                 isKeyword = false
                 isRomaji = false
+                activeImeFrictionRuleTrigger = candidateWord
             }
         }
 
@@ -1142,10 +1151,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         // 5b. Known English Keyword & Romaji Check (Zero-Flicker Pre-Validation)
         var shouldPreserveInStep5b = false
         if let learner = adaptiveLearner, learner.isEnabled {
-            if learner.shouldPreserveVietnameseForImeFriction(word: lowerCandidateRaw)
-                || learner.shouldPreserveVietnameseForImeFriction(word: fullCandidateRaw)
-                || learner.shouldPreserveVietnameseForImeFriction(word: candidateWord) {
+            if learner.shouldPreserveVietnameseForImeFriction(word: lowerCandidateRaw) {
                 shouldPreserveInStep5b = true
+                activeImeFrictionRuleTrigger = lowerCandidateRaw
+            } else if learner.shouldPreserveVietnameseForImeFriction(word: fullCandidateRaw) {
+                shouldPreserveInStep5b = true
+                activeImeFrictionRuleTrigger = fullCandidateRaw
+            } else if learner.shouldPreserveVietnameseForImeFriction(word: candidateWord) {
+                shouldPreserveInStep5b = true
+                activeImeFrictionRuleTrigger = candidateWord
             }
         }
 
@@ -1237,7 +1251,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
 
         // 8. Stop Coda Tone, Invalid Coda Cluster & Multi-Syllable / Phonotactic Validation on Result
-        if _config.autoCorrectEnglish {
+        let isPreservedInStep8 = shouldPreserveInStep5b || (adaptiveLearner?.isEnabled == true && adaptiveLearner?.shouldPreserveVietnameseForImeFriction(word: targetActive.lowercased()) == true)
+        if isPreservedInStep8 && activeImeFrictionRuleTrigger == nil {
+            activeImeFrictionRuleTrigger = (String(wordRawKeys) + String(character)).lowercased()
+        }
+        if _config.autoCorrectEnglish && !isPreservedInStep8 {
             if let parsed = Syllable.parse(from: targetActive) {
                 let hasMedialConsonantInNucleus = !parsed.nucleus.allSatisfy { PhonotacticsMatrix.isVowelChar($0) }
                 let lowerNuc = parsed.nucleus.lowercased()
@@ -1278,6 +1296,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 )
                 let wasUnlatchedOrToneOverride = wasUnlatchedInStep2
                     || isPriorVietUnlatched
+                    || (tokenDidBackspace && "sfrxj".contains(lowerChar))
                     || (!wasBypassedBeforeStep2 && transformState.lastToneKey != nil && ("sfrxj".contains(lowerChar) || (lowerCandidateRaw.count >= 6 && "ghwmncptdiuoyae".contains(lowerChar))))
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
@@ -1384,6 +1403,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     }
 
     private func internalHandleBackspaceLocked() -> Bool {
+        if let trigger = activeImeFrictionRuleTrigger {
+            adaptiveLearner?.demoteRule(trigger: trigger, category: .imeFriction)
+            activeImeFrictionRuleTrigger = nil
+        }
+
         let prevDisplay = committedPrefix + activePreedit
         if !tokenDidBackspace && (!prevDisplay.isEmpty || !wordRawKeys.isEmpty) {
             preBackspaceSnapshot = PreBackspaceSnapshot(
@@ -1407,8 +1431,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     lastCompletedWord = snapshot.lastCompletedWord
                     didBackspace = false
                     lastDeletedChar = nil
-                    tokenDidBackspace = false
-                    preBackspaceSnapshot = nil
+                    tokenDidBackspace = true
+                    preBackspaceSnapshot = PreBackspaceSnapshot(
+                        displayedText: snapshot.committedPrefix + snapshot.activePreedit,
+                        rawKeys: String(snapshot.wordRawKeys),
+                        wasBypassed: snapshot.isBypassed
+                    )
                     return true
                 }
                 return false
@@ -1855,6 +1883,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         didBackspace = false
         lastDeletedChar = nil
         transformState = SyllableTransformState()
+        activeImeFrictionRuleTrigger = nil
     }
 
     // MARK: - Syllable Splitting Detection
