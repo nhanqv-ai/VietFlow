@@ -1872,8 +1872,52 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         vniEng.reset()
         XCTAssertEqual(apply("ca66<BS><BS>e", engine: vniEng), "ce")
     }
+
+    func test_395_compound_word_boundary_double_consonants_and_collocation_backspace_recovery() {
+        engine.reset()
+        // 1. Vietnamese compound words with boundary consonants matching English medial double consonants
+        XCTAssertEqual(apply("lamfmowis"), "làmmới")
+        engine.reset()
+        XCTAssertEqual(apply("timfmua"), "tìmmua")
+        engine.reset()
+        XCTAssertEqual(apply("mawtjtoois"), "mặttối")
+        engine.reset()
+        XCTAssertEqual(apply("vieetjtaan"), "việttân")
+        engine.reset()
+        XCTAssertEqual(apply("nhaapjphongf"), "nhậpphòng")
+
+        // 2. Collocation backspace recovery across space: boons koons and taams kaams
+        engine.reset()
+        XCTAssertEqual(apply("boons koons <BS><BS><BS><BS>koons"), "bốn kốn")
+        engine.reset()
+        XCTAssertEqual(apply("boons koons <BS><BS><BS><BS><BS> koons"), "bốn kốn")
+        engine.reset()
+        XCTAssertEqual(apply("taams kaams <BS><BS><BS><BS>kaams"), "tấm kấm")
+        engine.reset()
+        XCTAssertEqual(apply("taams kaams <BS><BS><BS><BS><BS> kaams"), "tấm kấm")
+
+        // 3. Unlatched k-, p-, g-, ng- coda backspace & retype/tone override
+        engine.reset()
+        XCTAssertEqual(apply("peensf<BS>n"), "pền")
+        engine.reset()
+        XCTAssertEqual(apply("peensj<BS>t"), "pệt")
+        engine.reset()
+        XCTAssertEqual(apply("peensf<BS>m"), "pềm")
+        engine.reset()
+        XCTAssertEqual(apply("boons koons<BS>n"), "bốn kốn")
+        engine.reset()
+        XCTAssertEqual(apply("taams kaams<BS>m"), "tấm kấm")
+        engine.reset()
+        XCTAssertEqual(apply("taams kaams<BS>p"), "tấm kấp")
+        engine.reset()
+        XCTAssertEqual(apply("ddeens geens<BS>n"), "đến gến")
+
+        // 4. Preserving spaceHistory across technical separators
+        engine.reset()
+        XCTAssertEqual(apply("xin chafo anh-em<BS><BS><BS><BS><BS><BS><BS>s"), "xin cháo")
+    }
     
-    // MARK: - Test Registry (394 Tests)
+    // MARK: - Test Registry (395 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2310,10 +2354,11 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_390_deep_backspace_across_technical_separators_and_mixed_bypass", test_390_deep_backspace_across_technical_separators_and_mixed_bypass),
             ("test_391_backspace_across_compound_words_2_and_3_syllables", test_391_backspace_across_compound_words_2_and_3_syllables),
 
-            // Section 22: Backspace Across Punctuation / Delimiters & Double-Tone / Double-Diacritic Undo Recovery (3 tests)
+            // Section 22: Backspace Across Punctuation / Delimiters & Double-Tone / Double-Diacritic Undo Recovery (4 tests)
             ("test_392_backspace_across_punctuation_and_bracket_boundaries", test_392_backspace_across_punctuation_and_bracket_boundaries),
             ("test_393_double_tone_undo_followed_by_backspace_and_retyping", test_393_double_tone_undo_followed_by_backspace_and_retyping),
             ("test_394_double_diacritic_undo_followed_by_backspace_and_retyping", test_394_double_diacritic_undo_followed_by_backspace_and_retyping),
+            ("test_395_compound_word_boundary_double_consonants_and_collocation_backspace_recovery", test_395_compound_word_boundary_double_consonants_and_collocation_backspace_recovery),
         ]
     }
 }

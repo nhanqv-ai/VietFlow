@@ -33,6 +33,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         var wordRawKeys: [Character]
         var isBypassed: Bool
         var transformState: SyllableTransformState
+        var lastCompletedWord: String
     }
 
     // MARK: - State Properties (Protected by lock)
@@ -147,6 +148,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         category: .personalTypo,
                         boundaryChar: character
                     )
+                    let previousCompletedWord = lastCompletedWord
                     lastCompletedWord = casedReplacement.lowercased()
                     tokenDidBackspace = false
                     preBackspaceSnapshot = nil
@@ -158,7 +160,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                                 activeRawKeys: Array(casedReplacement),
                                 wordRawKeys: Array(casedReplacement),
                                 isBypassed: true,
-                                transformState: SyllableTransformState()
+                                transformState: SyllableTransformState(),
+                                lastCompletedWord: previousCompletedWord
                             )
                         )
                         if spaceHistory.count > 16 {
@@ -192,11 +195,14 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activePreedit = ""
                 activeRawKeys.removeAll(keepingCapacity: true)
                 transformState = SyllableTransformState()
-                spaceHistory.removeAll(keepingCapacity: true)
+                if character == "." {
+                    spaceHistory.removeAll(keepingCapacity: true)
+                }
                 isBypassed = false
                 return nil
             }
 
+            let previousCompletedWord = lastCompletedWord
             if !prevDisplay.isEmpty {
                 lastCompletedWord = prevDisplay.lowercased()
             }
@@ -208,7 +214,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         activeRawKeys: activeRawKeys,
                         wordRawKeys: wordRawKeys,
                         isBypassed: isBypassed,
-                        transformState: transformState
+                        transformState: transformState,
+                        lastCompletedWord: previousCompletedWord
                     )
                 )
                 if spaceHistory.count > 16 {
@@ -1018,7 +1025,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
         if isLearnedBypass || (_config.autoCorrectEnglish && (
             isKeyword
-            || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(candidateWord)
+            || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(
+                (committedPrefix.isEmpty || hasPrecedingTechSep) ? candidateWord : (String(activeRawKeys) + String(character)).lowercased()
+            )
             || isTelexSwEnglish
             || isRomaji
         )) {
@@ -1134,7 +1143,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         if !shouldPreserveInStep5b && _config.autoCorrectEnglish && (
             isKeywordRaw
             || isKeywordFull
-            || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(fullCandidateRaw)
+            || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(
+                (committedPrefix.isEmpty || hasPrecedingTechSep) ? fullCandidateRaw : lowerCandidateRaw
+            )
             || isCandidateRomaji
             || hasMidWordToneCluster
             || hasMidWordZAfterTone
@@ -1251,7 +1262,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && (parsed.coda.isEmpty || parsed.coda.lowercased() == "n")
                     && parsed.tone == .tilde
                     && (lowerCandidateRaw.hasPrefix("noa") || lowerCandidateRaw.hasPrefix("noxa") || lowerCandidateRaw.hasPrefix("nora"))
+                let isPriorVietUnlatched = !wasBypassedBeforeStep2 && (
+                    (lowerOnset == "k" && activePreedit.contains(where: { !$0.isASCII }))
+                    || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && activePreedit.contains(where: { !$0.isASCII }))
+                    || (lowerOnset == "p" && !["oa", "oă", "oe", "oai", "oao", "oay", "oeo"].contains(lowerNuc) && (hasTone(in: activePreedit) || activePreedit.lowercased().contains(where: { "ăơư".contains($0) })))
+                )
                 let wasUnlatchedOrToneOverride = wasUnlatchedInStep2
+                    || isPriorVietUnlatched
                     || (!wasBypassedBeforeStep2 && transformState.lastToneKey != nil && ("sfrxj".contains(lowerChar) || (lowerCandidateRaw.count >= 6 && "ghwmncptdiuoyae".contains(lowerChar))))
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
@@ -1338,7 +1355,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         lock.withLock {
             if let applied = lastAppliedCorrection {
                 if applied.boundaryChar != "\n" && applied.boundaryChar != "\r" && applied.boundaryChar != "\t" {
-                    _ = spaceHistory.popLast()
+                    if let popped = spaceHistory.popLast() {
+                        lastCompletedWord = popped.lastCompletedWord
+                    }
                 }
                 adaptiveLearner?.demoteRule(trigger: applied.ruleTrigger, category: applied.category)
                 lastAppliedCorrection = nil
@@ -1376,6 +1395,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     transformState = snapshot.transformState
                     transformState.lastToneKey = nil
                     transformState.lastDiacriticKey = nil
+                    lastCompletedWord = snapshot.lastCompletedWord
                     didBackspace = false
                     lastDeletedChar = nil
                     tokenDidBackspace = false
@@ -1569,7 +1589,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 return nil
             }
             if applied.boundaryChar != "\n" && applied.boundaryChar != "\r" && applied.boundaryChar != "\t" {
-                _ = spaceHistory.popLast()
+                if let popped = spaceHistory.popLast() {
+                    lastCompletedWord = popped.lastCompletedWord
+                }
             }
             adaptiveLearner?.demoteRule(trigger: applied.ruleTrigger, category: applied.category)
             lastAppliedCorrection = nil
