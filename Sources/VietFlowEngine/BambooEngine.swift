@@ -653,8 +653,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                                 || r2 == "j"
                                 || (r2 == "x" && ("fj".contains(character.lowercased()) || String(wordRawKeys).lowercased() == "chixe"))))
                             || (r1 == "u"
-                                && ((r2 == "r" && ("fxj".contains(character.lowercased()) || !["cure", "lure", "sure", "pure"].contains(String(wordRawKeys).lowercased())))
+                                && ((r2 == "r" && ("fxj".contains(character.lowercased()) || !["cure", "lure", "sure"].contains(String(wordRawKeys).lowercased())))
                                     || (r2 == "s" && ("fxj".contains(character.lowercased()) || !["muse", "ruse", "fuse", "use"].contains(String(wordRawKeys).lowercased())))
+                                    || (r2 == "x" && ("frj".contains(character.lowercased()) || String(wordRawKeys).lowercased() != "tuxe"))
                                     || "fj".contains(r2)))))))
                 || (rhymeAfterOnset.count >= 4
                     && rhymeAfterOnset[0] == "i"
@@ -4119,7 +4120,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "rije": ["vui", "vẻ"],
         "chije": ["vui", "vẻ"],
         "nuse": ["vui", "vẻ"],
-        "suse": ["vui", "vẻ"]
+        "suse": ["vui", "vẻ"],
+        "buse": ["vui", "vẻ"],
+        "duse": ["vui", "vẻ"],
+        "guse": ["vui", "vẻ"],
+        "huse": ["vui", "vẻ"],
+        "muse": ["vui", "vẻ"],
+        "puse": ["vui", "vẻ"],
+        "ruse": ["vui", "vẻ"],
+        "tuse": ["vui", "vẻ"],
+        "chuse": ["vui", "vẻ"],
+        "bufe": ["vui", "vẻ"],
+        "dufe": ["vui", "vẻ"],
+        "gufe": ["vui", "vẻ"],
+        "hufe": ["vui", "vẻ"],
+        "mufe": ["vui", "vẻ"],
+        "nufe": ["vui", "vẻ"],
+        "rufe": ["vui", "vẻ"],
+        "sufe": ["vui", "vẻ"],
+        "tufe": ["vui", "vẻ"],
+        "chufe": ["vui", "vẻ"],
+        "bure": ["vui", "vẻ"],
+        "cure": ["vui", "vẻ"],
+        "dure": ["vui", "vẻ"],
+        "gure": ["vui", "vẻ"],
+        "hure": ["vui", "vẻ"],
+        "lure": ["vui", "vẻ"],
+        "mure": ["vui", "vẻ"],
+        "nure": ["vui", "vẻ"],
+        "pure": ["vui", "vẻ"],
+        "rure": ["vui", "vẻ"],
+        "sure": ["vui", "vẻ"],
+        "ture": ["vui", "vẻ"],
+        "chure": ["vui", "vẻ"],
+        "luxe": ["vui", "vẻ"],
+        "buje": ["vui", "vẻ"],
+        "duje": ["vui", "vẻ"],
+        "guje": ["vui", "vẻ"],
+        "huje": ["vui", "vẻ"],
+        "muje": ["vui", "vẻ"],
+        "nuje": ["vui", "vẻ"],
+        "ruje": ["vui", "vẻ"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(

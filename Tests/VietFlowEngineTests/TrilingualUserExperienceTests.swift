@@ -4485,6 +4485,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 120: 40 Collocation Entries (2,802 Total), pure/luxe/kuxe/puxe Tone Override Unlatch & -uê- Coda Extensions
+
+    func test_tier4_710_vietnamese_collocation_phrases_buse_to_ruje() {
+        let input = "buse vui buse ver buse duse vui duse ver duse guse vui guse ver guse huse vui huse ver huse muse vui muse ver muse puse vui puse ver puse ruse vui ruse ver ruse tuse vui tuse ver tuse chuse vui chuse ver chuse bufe vui bufe ver bufe dufe vui dufe ver dufe gufe vui gufe ver gufe hufe vui hufe ver hufe mufe vui mufe ver mufe nufe vui nufe ver nufe rufe vui rufe ver rufe sufe vui sufe ver sufe tufe vui tufe ver tufe chufe vui chufe ver chufe bure vui bure ver bure cure vui cure ver cure dure vui dure ver dure gure vui gure ver gure hure vui hure ver hure lure vui lure ver lure mure vui mure ver mure nure vui nure ver nure pure vui pure ver pure rure vui rure ver rure sure vui sure ver sure ture vui ture ver ture chure vui chure ver chure luxe vui luxe ver luxe buje vui buje ver buje duje vui duje ver duje guje vui guje ver guje huje vui huje ver huje muje vui muje ver muje nuje vui nuje ver nuje ruje vui ruje ver ruje"
+        let expected = "buse vui búe vẻ búe duse vui dúe vẻ dúe guse vui gúe vẻ gúe huse vui húe vẻ húe muse vui múe vẻ múe puse vui púe vẻ púe ruse vui rúe vẻ rúe tuse vui túe vẻ túe chuse vui chúe vẻ chúe bufe vui bùe vẻ bùe dufe vui dùe vẻ dùe gufe vui gùe vẻ gùe hufe vui hùe vẻ hùe mufe vui mùe vẻ mùe nufe vui nùe vẻ nùe rufe vui rùe vẻ rùe sufe vui sùe vẻ sùe tufe vui tùe vẻ tùe chufe vui chùe vẻ chùe bure vui bủe vẻ bủe cure vui củe vẻ củe dure vui dủe vẻ dủe gure vui gủe vẻ gủe hure vui hủe vẻ hủe lure vui lủe vẻ lủe mure vui mủe vẻ mủe nure vui nủe vẻ nủe pure vui pủe vẻ pủe rure vui rủe vẻ rủe sure vui sủe vẻ sủe ture vui tủe vẻ tủe chure vui chủe vẻ chủe luxe vui lũe vẻ lũe buje vui bụe vẻ bụe duje vui dụe vẻ dụe guje vui gụe vẻ gụe huje vui hụe vẻ hụe muje vui mụe vẻ mụe nuje vui nụe vẻ nụe ruje vui rụe vẻ rụe"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_711_pure_luxe_kuxe_puxe_5char_tone_override_and_6char_circumflex_unlatch() {
+        let input = "pure pures puref purex purej purese purefe purexe pureje luxe luxes luxef luxer luxej luxese luxefe luxere luxeje kuxe kuxes kuxef kuxer kuxej kuxese kuxefe kuxere kuxeje puxe puxes puxef puxer puxej puxese puxefe puxere puxeje tuxes tuxef tuxer tuxej"
+        let expected = "pure púe pùe pũe pụe puế puề puễ puệ luxe lúe lùe lủe lụe luế luề luể luệ kuxe kúe kùe kủe kụe kuế kuề kuể kuệ puxe púe pùe pủe pụe puế puề puể puệ tuxes tùe tủe tụe"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_712_buse_to_chuje_tone_override_and_delayed_e_unlatch() {
+        let input = "buse busef buser busex busej busefe busere busexe buseje duse dusef duser dusex dusej dusefe dusere dusexe duseje guse gusef guser gusex gusej gusefe gusere gusexe guseje huse husef huser husex husej husefe husere husexe huseje tuse tusef tuser tusex tusej tusefe tusere tusexe tuseje chuse chusef chuser chusex chusej chusefe chusere chusexe chuseje bufe bufes bufer bufex bufej bufese bufere bufexe bufeje dufe dufes dufer dufex dufej dufese dufere dufexe dufeje gufe gufes gufer gufex gufej gufese gufere gufexe gufeje hufe hufes hufer hufex hufej hufese hufere hufexe hufeje mufe mufes mufer mufex mufej mufese mufere mufexe mufeje nufe nufes nufer nufex nufej nufese nufere nufexe nufeje rufe rufes rufer rufex rufej rufese rufere rufexe rufeje sufe sufes sufer sufex sufej sufese sufere sufexe sufeje tufe tufes tufer tufex tufej tufese tufere tufexe tufeje chufe chufes chufer chufex chufej chufese chufere chufexe chufeje buje bujes bujef bujer bujex bujese bujefe bujere bujexe duje dujes dujef dujer dujex dujese dujefe dujere dujexe guje gujes gujef gujer gujex gujese gujefe gujere gujexe huje hujes hujef hujer hujex hujese hujefe hujere hujexe muje mujes mujef mujer mujex mujese mujefe mujere mujexe nuje nujes nujef nujer nujex nujese nujefe nujere nujexe ruje rujes rujef rujer rujex rujese rujefe rujere rujexe"
+        let expected = "buse bùe bủe bũe bụe buề buể buễ buệ duse dùe dủe dũe dụe duề duể duễ duệ guse gùe gủe gũe gụe guề guể guễ guệ huse hùe hủe hũe hụe huề huể huễ huệ tuse tùe tủe tũe tụe tuề tuể tuễ tuệ chuse chùe chủe chũe chụe chuề chuể chuễ chuệ bufe búe bủe bũe bụe buế buể buễ buệ dufe dúe dủe dũe dụe duế duể duễ duệ gufe gúe gủe gũe gụe guế guể guễ guệ hufe húe hủe hũe hụe huế huể huễ huệ mufe múe mủe mũe mụe muế muể muễ muệ nufe núe nủe nũe nụe nuế nuể nuễ nuệ rufe rúe rủe rũe rụe ruế ruể ruễ ruệ sufe súe sủe sũe sụe suế suể suễ suệ tufe túe tủe tũe tụe tuế tuể tuễ tuệ chufe chúe chủe chũe chụe chuế chuể chuễ chuệ buje búe bùe bủe bũe buế buề buể buễ duje dúe dùe dủe dũe duế duề duể duễ guje gúe gùe gủe gũe guế guề guể guễ huje húe hùe hủe hũe huế huề huể huễ muje múe mùe mủe mũe muế muề muể muễ nuje núe nùe nủe nũe nuế nuề nuể nuễ ruje rúe rùe rủe rũe ruế ruề ruể ruễ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_713_kuse_to_kuje_and_puse_to_puje_circumflex_coda_extensions() {
+        let input = "kusee kuseen kuseem kuseenh kuseet kuseep kuseec kuseech kufee kufeen kufeem kufeenh kuree kureen kureem kureenh kuxee kuxeen kuxeem kuxeenh kujee kujeen kujeem kujeenh kujeet kujeep kujeec kujeech pusee puseen puseem puseenh puseet puseep puseec puseech pufee pufeen pufeem pufeenh puree pureen pureem pureenh puxee puxeen puxeem puxeenh pujee pujeen pujeem pujeenh pujeet pujeep pujeec pujeech kusene kuseme kusenhe kusete kusepe kusece kuseche kufene kufeme kufenhe kurene kureme kurenhe kuxene kuxeme kuxenhe kujene kujeme kujenhe kujete kujepe kujece kujeche pusene puseme pusenhe pusete pusepe pusece puseche pufene pufeme pufenhe purene pureme purenhe puxene puxeme puxenhe pujene pujeme pujenhe pujete pujepe pujece pujeche"
+        let expected = "kuế kuến kuếm kuếnh kuết kuếp kuếc kuếch kuề kuền kuềm kuềnh kuể kuển kuểm kuểnh kuễ kuễn kuễm kuễnh kuệ kuện kuệm kuệnh kuệt kuệp kuệc kuệch puế puến puếm puếnh puết puếp puếc puếch puề puền puềm puềnh puể puển puểm puểnh puễ puễn puễm puễnh puệ puện puệm puệnh puệt puệp puệc puệch kuến kuếm kuếnh kuết kuếp kuếc kuếch kuền kuềm kuềnh kuển kuểm kuểnh kuễn kuễm kuễnh kuện kuệm kuệnh kuệt kuệp kuệc kuệch puến puếm puếnh puết puếp puếc puếch puền puềm puềnh puển puểm puểnh puễn puễm puễnh puện puệm puệnh puệt puệp puệc puệch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_714_scenario128_trilingual_buse_pure_luxe_and_vietnamese_vui_bue_ve_pue_vui_lue_chat() {
+        let input = "Khi thiết kế giao diện cho dòng sản phẩm luxe dùng hàm pure và mô-đun buse trong ứng dụng đa ngôn ngữ, nhóm thiết kế vừa ghi chú nét vui búe (vui buse), vừa kiểm tra vẻ pủe (ver pure) và nét cười vui lũe (vui luxe) trên bản vẽ phác thảo!"
+        let expected = "Khi thiết kế giao diện cho dòng sản phẩm luxe dùng hàm pure và mô-đun buse trong ứng dụng đa ngôn ngữ, nhóm thiết kế vừa ghi chú nét vui búe (vui búe), vừa kiểm tra vẻ pủe (vẻ pủe) và nét cười vui lũe (vui lũe) trên bản vẽ phác thảo!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5203,6 +5235,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_707_kusowi_to_pujooi_6char_trailing_vowel_after_unlatch", test_tier4_707_kusowi_to_pujooi_6char_trailing_vowel_after_unlatch),
             ("test_tier4_708_boasfi_to_puseje_6char_trailing_vowel_after_tone_override", test_tier4_708_boasfi_to_puseje_6char_trailing_vowel_after_tone_override),
             ("test_tier4_709_scenario127_trilingual_mise_kife_nuse_and_vietnamese_vui_mie_ve_kie_vui_nue_chat", test_tier4_709_scenario127_trilingual_mise_kife_nuse_and_vietnamese_vui_mie_ve_kie_vui_nue_chat),
+            ("test_tier4_710_vietnamese_collocation_phrases_buse_to_ruje", test_tier4_710_vietnamese_collocation_phrases_buse_to_ruje),
+            ("test_tier4_711_pure_luxe_kuxe_puxe_5char_tone_override_and_6char_circumflex_unlatch", test_tier4_711_pure_luxe_kuxe_puxe_5char_tone_override_and_6char_circumflex_unlatch),
+            ("test_tier4_712_buse_to_chuje_tone_override_and_delayed_e_unlatch", test_tier4_712_buse_to_chuje_tone_override_and_delayed_e_unlatch),
+            ("test_tier4_713_kuse_to_kuje_and_puse_to_puje_circumflex_coda_extensions", test_tier4_713_kuse_to_kuje_and_puse_to_puje_circumflex_coda_extensions),
+            ("test_tier4_714_scenario128_trilingual_buse_pure_luxe_and_vietnamese_vui_bue_ve_pue_vui_lue_chat", test_tier4_714_scenario128_trilingual_buse_pure_luxe_and_vietnamese_vui_bue_ve_pue_vui_lue_chat),
         ]
     }
 }
