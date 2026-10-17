@@ -4811,6 +4811,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 139: 40 Collocation Entries (3,202 Total), geenf..geechj and ngeens..ngeechj Unlatch
+
+    func test_tier4_761_vietnamese_collocation_phrases_geenf_to_ngeeps() {
+        let input = "geenf beens geenf ddeens geenf geenr beens geenr ddeens geenr geenx beens geenx ddeens geenx geenj beens geenj ddeens geenj geems ddeems geems neems geems geemf ddeems geemf neems geemf geemr ddeems geemr neems geemr geemx ddeems geemx neems geemx geemj ddeems geemj neems geemj geenhs beenhj geenhs leenhj geenhs geenhf beenhj geenhf leenhj geenhf geenhr beenhj geenhr leenhj geenhr geenhx beenhj geenhx leenhj geenhx geenhj beenhj geenhj leenhj geenhj geets teets geets heets geets geetj teets geetj heets geetj geeps beeps geeps xeeps geeps geepj beeps geepj xeeps geepj geecs teets geecs leechj geecs geecj teets geecj leechj geecj geechs leechj geechs xeechs geechs geechj leechj geechj xeechs geechj ngeens beens ngeens ddeens ngeens ngeenr beens ngeenr ddeens ngeenr ngeenx beens ngeenx ddeens ngeenx ngeenj beens ngeenj ddeens ngeenj ngeenf beens ngeenf ddeens ngeenf ngeems ddeems ngeems neems ngeems ngeemf ddeems ngeemf neems ngeemf ngeemr ddeems ngeemr neems ngeemr ngeemx ddeems ngeemx neems ngeemx ngeemj ddeems ngeemj neems ngeemj ngeenhs beenhj ngeenhs leenhj ngeenhs ngeenhf beenhj ngeenhf leenhj ngeenhf ngeenhr beenhj ngeenhr leenhj ngeenhr ngeenhx beenhj ngeenhx leenhj ngeenhx ngeenhj beenhj ngeenhj leenhj ngeenhj ngeets teets ngeets heets ngeets ngeetj teets ngeetj heets ngeetj ngeeps beeps ngeeps xeeps ngeeps"
+        let expected = "geenf bến gền đến gền geenr bến gển đến gển geenx bến gễn đến gễn geenj bến gện đến gện geems đếm gếm nếm gếm geemf đếm gềm nếm gềm geemr đếm gểm nếm gểm geemx đếm gễm nếm gễm geemj đếm gệm nếm gệm geenhs bệnh gếnh lệnh gếnh geenhf bệnh gềnh lệnh gềnh geenhr bệnh gểnh lệnh gểnh geenhx bệnh gễnh lệnh gễnh geenhj bệnh gệnh lệnh gệnh geets tết gết hết gết geetj tết gệt hết gệt geeps bếp gếp xếp gếp geepj bếp gệp xếp gệp geecs tết gếc lệch gếc geecj tết gệc lệch gệc geechs lệch gếch xếch gếch geechj lệch gệch xếch gệch ngeens bến ngến đến ngến ngeenr bến ngển đến ngển ngeenx bến ngễn đến ngễn ngeenj bến ngện đến ngện ngeenf bến ngền đến ngền ngeems đếm ngếm nếm ngếm ngeemf đếm ngềm nếm ngềm ngeemr đếm ngểm nếm ngểm ngeemx đếm ngễm nếm ngễm ngeemj đếm ngệm nếm ngệm ngeenhs bệnh ngếnh lệnh ngếnh ngeenhf bệnh ngềnh lệnh ngềnh ngeenhr bệnh ngểnh lệnh ngểnh ngeenhx bệnh ngễnh lệnh ngễnh ngeenhj bệnh ngệnh lệnh ngệnh ngeets tết ngết hết ngết ngeetj tết ngệt hết ngệt ngeeps bếp ngếp xếp ngếp"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_762_geenf_to_geenhj_extension_and_tone_override_unlatch() {
+        let input = "geenf geenfh geenfs geenfr geenfx geenfj geenr geenrh geenrs geenrf geenrx geenrj geenx geenxh geenxs geenxf geenxr geenxj geenj geenjh geenjs geenjf geenjr geenjx geems geemsf geemsr geemsx geemsj geemf geemfs geemfr geemfx geemfj geemr geemrs geemrf geemrx geemrj geemx geemxs geemxf geemxr geemxj geemj geemjs geemjf geemjr geemjx geenhs geenhsf geenhsr geenhsx geenhsj geenhf geenhfs geenhfr geenhfx geenhfj geenhr geenhrs geenhrf geenhrx geenhrj geenhx geenhxs geenhxf geenhxr geenhxj geenhj geenhjs geenhjf geenhjr geenhjx"
+        let expected = "geenf gềnh gến gển gễn gện geenr gểnh gến gền gễn gện geenx gễnh gến gền gển gện geenj gệnh gến gền gển gễn geems gềm gểm gễm gệm geemf gếm gểm gễm gệm geemr gếm gềm gễm gệm geemx gếm gềm gểm gệm geemj gếm gềm gểm gễm geenhs gềnh gểnh gễnh gệnh geenhf gếnh gểnh gễnh gệnh geenhr gếnh gềnh gễnh gệnh geenhx gếnh gềnh gểnh gệnh geenhj gếnh gềnh gểnh gễnh"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_763_geets_to_geechj_extension_and_tone_override_unlatch() {
+        let input = "geets geetsj geetj geetjs geeps geepsj geepj geepjs geecs geecsh geecsj geecj geecjh geecjs geechs geechsj geechj geechjs"
+        let expected = "geets gệt geetj gết geeps gệp geepj gếp geecs gếch gệc geecj gệch gếc geechs gệch geechj gếch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_764_ngeens_to_ngeechj_extension_and_tone_override_unlatch() {
+        let input = "ngeens ngeensh ngeensf ngeensr ngeensx ngeensj ngeenf ngeenfh ngeenfs ngeenfr ngeenfx ngeenfj ngeenr ngeenrh ngeenrs ngeenrf ngeenrx ngeenrj ngeenx ngeenxh ngeenxs ngeenxf ngeenxr ngeenxj ngeenj ngeenjh ngeenjs ngeenjf ngeenjr ngeenjx ngeems ngeemsf ngeemsr ngeemsx ngeemsj ngeemf ngeemfs ngeemfr ngeemfx ngeemfj ngeemr ngeemrs ngeemrf ngeemrx ngeemrj ngeemx ngeemxs ngeemxf ngeemxr ngeemxj ngeemj ngeemjs ngeemjf ngeemjr ngeemjx ngeenhs ngeenhsf ngeenhsr ngeenhsx ngeenhsj ngeenhf ngeenhfs ngeenhfr ngeenhfx ngeenhfj ngeenhr ngeenhrs ngeenhrf ngeenhrx ngeenhrj ngeenhx ngeenhxs ngeenhxf ngeenhxr ngeenhxj ngeenhj ngeenhjs ngeenhjf ngeenhjr ngeenhjx ngeets ngeetsj ngeetj ngeetjs ngeeps ngeepsj ngeepj ngeepjs ngeecs ngeecsh ngeecsj ngeecj ngeecjh ngeecjs ngeechs ngeechsj ngeechj ngeechjs"
+        let expected = "ngeens ngếnh ngền ngển ngễn ngện ngeenf ngềnh ngến ngển ngễn ngện ngeenr ngểnh ngến ngền ngễn ngện ngeenx ngễnh ngến ngền ngển ngện ngeenj ngệnh ngến ngền ngển ngễn ngeems ngềm ngểm ngễm ngệm ngeemf ngếm ngểm ngễm ngệm ngeemr ngếm ngềm ngễm ngệm ngeemx ngếm ngềm ngểm ngệm ngeemj ngếm ngềm ngểm ngễm ngeenhs ngềnh ngểnh ngễnh ngệnh ngeenhf ngếnh ngểnh ngễnh ngệnh ngeenhr ngếnh ngềnh ngễnh ngệnh ngeenhx ngếnh ngềnh ngểnh ngệnh ngeenhj ngếnh ngềnh ngểnh ngễnh ngeets ngệt ngeetj ngết ngeeps ngệp ngeepj ngếp ngeecs ngếch ngệc ngeecj ngệch ngếc ngeechs ngệch ngeechj ngếch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_765_scenario139_trilingual_geems_geets_ngeens_and_vietnamese_dem_gem_tet_get_ben_ngen_chat() {
+        let input = "Trong khi hiệu chuẩn ba bộ cảm biến quang học geems, geets và ngeens tại trung tâm dữ liệu, kỹ sư trưởng vừa kiểm tra mạch đếm gếm (ddeems geems), vừa đối chiếu nhịp tết gết (teets geets) và cổng bến ngến (beens ngeens) hoạt động ổn định!"
+        let expected = "Trong khi hiệu chuẩn ba bộ cảm biến quang học geems, geets và ngeens tại trung tâm dữ liệu, kỹ sư trưởng vừa kiểm tra mạch đếm gếm (đếm gếm), vừa đối chiếu nhịp tết gết (tết gết) và cổng bến ngến (bến ngến) hoạt động ổn định!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5580,6 +5612,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_758_koots_to_koocj_horn_and_tone_override_unlatch", test_tier4_758_koots_to_koocj_horn_and_tone_override_unlatch),
             ("test_tier4_759_poops_poopj_and_geens_extension_horn_and_tone_override_unlatch", test_tier4_759_poops_poopj_and_geens_extension_horn_and_tone_override_unlatch),
             ("test_tier4_760_scenario137_trilingual_kaams_koons_poops_and_vietnamese_tam_kam_bon_kon_hop_pop_chat", test_tier4_760_scenario137_trilingual_kaams_koons_poops_and_vietnamese_tam_kam_bon_kon_hop_pop_chat),
+            ("test_tier4_761_vietnamese_collocation_phrases_geenf_to_ngeeps", test_tier4_761_vietnamese_collocation_phrases_geenf_to_ngeeps),
+            ("test_tier4_762_geenf_to_geenhj_extension_and_tone_override_unlatch", test_tier4_762_geenf_to_geenhj_extension_and_tone_override_unlatch),
+            ("test_tier4_763_geets_to_geechj_extension_and_tone_override_unlatch", test_tier4_763_geets_to_geechj_extension_and_tone_override_unlatch),
+            ("test_tier4_764_ngeens_to_ngeechj_extension_and_tone_override_unlatch", test_tier4_764_ngeens_to_ngeechj_extension_and_tone_override_unlatch),
+            ("test_tier4_765_scenario139_trilingual_geems_geets_ngeens_and_vietnamese_dem_gem_tet_get_ben_ngen_chat", test_tier4_765_scenario139_trilingual_geems_geets_ngeens_and_vietnamese_dem_gem_tet_get_ben_ngen_chat),
         ]
     }
 }
