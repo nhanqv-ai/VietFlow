@@ -1681,8 +1681,107 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(vniResult3, "hảiphóng")
         XCTAssertEqual(vniEngine.currentSyllable, "hảiphóng")
     }
+
+    // MARK: - Section 22: Backspace Across Punctuation / Delimiters & Double-Tone Undo Recovery (2 tests)
+    func test_392_backspace_across_punctuation_and_bracket_boundaries() {
+        engine.reset()
+        // 1. Comma boundary: delete comma and modify tone
+        XCTAssertEqual(apply("moiws,<BS>f"), "mời")
+        engine.reset()
+        XCTAssertEqual(apply("toans,<BS>f"), "toàn")
+        engine.reset()
+        // 2. Comma boundary: delete comma and backspace syllable to edit vowel
+        XCTAssertEqual(apply("moiws,<BS><BS>r"), "mở")
+        engine.reset()
+        XCTAssertEqual(apply("toans,<BS><BS>r"), "tỏa")
+        // 3. Comma followed by space: multi-step backspace deletes space and comma, then tones
+        engine.reset()
+        XCTAssertEqual(apply("moiws, <BS><BS>f"), "mời")
+        engine.reset()
+        XCTAssertEqual(apply("toans, <BS><BS>f"), "toàn")
+        engine.reset()
+        XCTAssertEqual(apply("moiws, <BS><BS><BS>r"), "mở")
+        // 4. Exclamation and question mark boundaries
+        engine.reset()
+        XCTAssertEqual(apply("moiws!<BS>f"), "mời")
+        engine.reset()
+        XCTAssertEqual(apply("moiws?<BS>f"), "mời")
+        engine.reset()
+        XCTAssertEqual(apply("toans!<BS>j"), "toạn")
+        engine.reset()
+        XCTAssertEqual(apply("toans?<BS>x"), "toãn")
+        // 5. Colon and semicolon boundaries
+        engine.reset()
+        XCTAssertEqual(apply("moiws:<BS>f"), "mời")
+        engine.reset()
+        XCTAssertEqual(apply("moiws;<BS>f"), "mời")
+        // 6. Brackets and quotation boundaries
+        engine.reset()
+        XCTAssertEqual(apply("(moiws)<BS>f"), "(mời")
+        engine.reset()
+        XCTAssertEqual(apply("[moiws]<BS>f"), "[mời")
+        engine.reset()
+        XCTAssertEqual(apply("{moiws}<BS>f"), "{mời")
+        engine.reset()
+        XCTAssertEqual(apply("\"moiws\"<BS>f"), "\"mời")
+        engine.reset()
+        XCTAssertEqual(apply("'moiws'<BS>f"), "'mời")
+        engine.reset()
+        XCTAssertEqual(apply("\"toans\"<BS>f"), "\"toàn")
+        // 7. VNI mode across punctuation
+        let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        XCTAssertEqual(apply("moi71,<BS>2", engine: vniEng), "mời")
+        vniEng.reset()
+        XCTAssertEqual(apply("toan1,<BS>2", engine: vniEng), "toàn")
+        vniEng.reset()
+        XCTAssertEqual(apply("toan1, <BS><BS>2", engine: vniEng), "toàn")
+        vniEng.reset()
+        XCTAssertEqual(apply("(moi71)<BS>2", engine: vniEng), "(mời")
+    }
+
+    func test_393_double_tone_undo_followed_by_backspace_and_retyping() {
+        engine.reset()
+        // 1. Double-key tone undo followed by Backspace and retyping tone key
+        XCTAssertEqual(apply("bass<BS>s"), "bá")
+        engine.reset()
+        XCTAssertEqual(apply("barr<BS>r"), "bả")
+        engine.reset()
+        XCTAssertEqual(apply("baff<BS>f"), "bà")
+        engine.reset()
+        XCTAssertEqual(apply("baxx<BS>x"), "bã")
+        engine.reset()
+        XCTAssertEqual(apply("bajj<BS>j"), "bạ")
+        engine.reset()
+        XCTAssertEqual(apply("toanss<BS>s"), "toán")
+        engine.reset()
+        XCTAssertEqual(apply("toanff<BS>f"), "toàn")
+        engine.reset()
+        XCTAssertEqual(apply("mejj<BS>j"), "mẹ")
+        engine.reset()
+        XCTAssertEqual(apply("ngurr<BS>r"), "ngủ")
+        engine.reset()
+        XCTAssertEqual(apply("cass<BS>s"), "cá")
+
+        // 2. Double-key tone undo followed by multi-step Backspace and new onset/rhyme
+        engine.reset()
+        XCTAssertEqual(apply("bass<BS><BS>o"), "bo")
+        engine.reset()
+        XCTAssertEqual(apply("barr<BS><BS>o"), "bo")
+        engine.reset()
+        XCTAssertEqual(apply("toanss<BS><BS><BS>e"), "toe")
+        engine.reset()
+        XCTAssertEqual(apply("bass<BS><BS><BS>c"), "c")
+
+        // 3. Double-key tone undo continuation without desync
+        engine.reset()
+        XCTAssertEqual(apply("basses"), "basses")
+        engine.reset()
+        XCTAssertEqual(apply("tarrget"), "target")
+        engine.reset()
+        XCTAssertEqual(apply("carrpet"), "carpet")
+    }
     
-    // MARK: - Test Registry (391 Tests)
+    // MARK: - Test Registry (393 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2118,6 +2217,10 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_389_backspace_across_technical_separator_restores_active_syllable", test_389_backspace_across_technical_separator_restores_active_syllable),
             ("test_390_deep_backspace_across_technical_separators_and_mixed_bypass", test_390_deep_backspace_across_technical_separators_and_mixed_bypass),
             ("test_391_backspace_across_compound_words_2_and_3_syllables", test_391_backspace_across_compound_words_2_and_3_syllables),
+
+            // Section 22: Backspace Across Punctuation / Delimiters & Double-Tone Undo Recovery (2 tests)
+            ("test_392_backspace_across_punctuation_and_bracket_boundaries", test_392_backspace_across_punctuation_and_bracket_boundaries),
+            ("test_393_double_tone_undo_followed_by_backspace_and_retyping", test_393_double_tone_undo_followed_by_backspace_and_retyping),
         ]
     }
 }

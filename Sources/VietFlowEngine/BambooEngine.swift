@@ -150,7 +150,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     lastCompletedWord = casedReplacement.lowercased()
                     tokenDidBackspace = false
                     preBackspaceSnapshot = nil
-                    if character == " " {
+                    if character != "\n" && character != "\r" && character != "\t" {
                         spaceHistory.append(
                             WordSnapshot(
                                 committedPrefix: "",
@@ -200,7 +200,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if !prevDisplay.isEmpty {
                 lastCompletedWord = prevDisplay.lowercased()
             }
-            if character == " " {
+            if character != "\n" && character != "\r" && character != "\t" {
                 spaceHistory.append(
                     WordSnapshot(
                         committedPrefix: committedPrefix,
@@ -1331,7 +1331,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     public func handleBackspace() -> Bool {
         lock.withLock {
             if let applied = lastAppliedCorrection {
-                if applied.boundaryChar == " " {
+                if applied.boundaryChar != "\n" && applied.boundaryChar != "\r" && applied.boundaryChar != "\t" {
                     _ = spaceHistory.popLast()
                 }
                 adaptiveLearner?.demoteRule(trigger: applied.ruleTrigger, category: applied.category)
@@ -1562,7 +1562,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             guard let applied = lastAppliedCorrection else {
                 return nil
             }
-            if applied.boundaryChar == " " {
+            if applied.boundaryChar != "\n" && applied.boundaryChar != "\r" && applied.boundaryChar != "\t" {
                 _ = spaceHistory.popLast()
             }
             adaptiveLearner?.demoteRule(trigger: applied.ruleTrigger, category: applied.category)
