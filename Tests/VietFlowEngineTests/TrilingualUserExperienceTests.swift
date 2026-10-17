@@ -4581,6 +4581,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 123: 40 Collocation Entries (2,922 Total), kons..ponj, koms..pongj, kots..pocj Unlatch
+
+    func test_tier4_725_vietnamese_collocation_phrases_konf_to_pocs() {
+        let input = "konf ddons konf ngons konf konr ddons konr ngons konr konx ddons konx ngons konx konj ddons konj ngons konj pons ddons pons ngons pons ponf ddons ponf ngons ponf ponr ddons ponr ngons ponr ponx ddons ponx ngons ponx ponj ddons ponj ngons ponj koms nhoms koms khoms koms komf nhoms komf khoms komf komr nhoms komr khoms komr komx nhoms komx khoms komx komj nhoms komj khoms komj poms nhoms poms khoms poms pomf nhoms pomf khoms pomf pomr nhoms pomr khoms pomr pomx nhoms pomx khoms pomx pomj nhoms pomj khoms pomj kongs bongs kongs nongs kongs kongf bongs kongf nongs kongf kongr bongs kongr nongs kongr kongx bongs kongx nongs kongx kongj bongs kongj nongs kongj pongs bongs pongs nongs pongs pongf bongs pongf nongs pongf pongr bongs pongr nongs pongr pongx bongs pongx nongs pongx pongj bongs pongj nongs pongj kots xots kots rots kots kotj xots kotj rots kotj pots xots pots rots pots potj xots potj rots potj kops bops kops gops kops kopj bops kopj gops kopj pops bops pops gops pops popj bops popj gops popj kocs khocs kocs gocs kocs kocj khocs kocj gocs kocj pocs khocs pocs gocs pocs"
+        let expected = "konf đón kòn ngón kòn konr đón kỏn ngón kỏn konx đón kõn ngón kõn konj đón kọn ngón kọn pons đón pón ngón pón ponf đón pòn ngón pòn ponr đón pỏn ngón pỏn ponx đón põn ngón põn ponj đón pọn ngón pọn koms nhóm kóm khóm kóm komf nhóm kòm khóm kòm komr nhóm kỏm khóm kỏm komx nhóm kõm khóm kõm komj nhóm kọm khóm kọm poms nhóm póm khóm póm pomf nhóm pòm khóm pòm pomr nhóm pỏm khóm pỏm pomx nhóm põm khóm põm pomj nhóm pọm khóm pọm kongs bóng kóng nóng kóng kongf bóng kòng nóng kòng kongr bóng kỏng nóng kỏng kongx bóng kõng nóng kõng kongj bóng kọng nóng kọng pongs bóng póng nóng póng pongf bóng pòng nóng pòng pongr bóng pỏng nóng pỏng pongx bóng põng nóng põng pongj bóng pọng nóng pọng kots xót kót rót kót kotj xót kọt rót kọt pots xót pót rót pót potj xót pọt rót pọt kops bóp kóp góp kóp kopj bóp kọp góp kọp pops bóp póp góp póp popj bóp pọp góp pọp kocs khóc kóc góc kóc kocj khóc kọc góc kọc pocs khóc póc góc póc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_726_kons_to_ponj_extension_circumflex_horn_and_tone_override_unlatch() {
+        let input = "kons konsg konso konsw konsf konsr konsx konsj konf konfg konfo konfw konfs konfr konfx konfj konr konrg konro konrw konrs konrf konrx konrj konx konxg konxo konxw konxs konxf konxr konxj konj konjg konjo konjw konjs konjf konjr konjx pons ponsg ponso ponsw ponsf ponsr ponsx ponsj ponf ponfg ponfo ponfw ponfs ponfr ponfx ponfj ponr ponrg ponro ponrw ponrs ponrf ponrx ponrj ponx ponxg ponxo ponxw ponxs ponxf ponxr ponxj ponj ponjg ponjo ponjw ponjs ponjf ponjr ponjx"
+        let expected = "kons kóng kốn kớn kòn kỏn kõn kọn konf kòng kồn kờn kón kỏn kõn kọn konr kỏng kổn kởn kón kòn kõn kọn konx kõng kỗn kỡn kón kòn kỏn kọn konj kọng kộn kợn kón kòn kỏn kõn pons póng pốn pớn pòn pỏn põn pọn ponf pòng pồn pờn pón pỏn põn pọn ponr pỏng pổn pởn pón pòn põn pọn ponx põng pỗn pỡn pón pòn pỏn pọn ponj pọng pộn pợn pón pòn pỏn põn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_727_koms_to_pomj_and_kongs_to_pongj_circumflex_horn_and_tone_override_unlatch() {
+        let input = "koms komso komsw komsf komsr komsx komsj komf komfo komfw komfs komfr komfx komfj komr komro komrw komrs komrf komrx komrj komx komxo komxw komxs komxf komxr komxj komj komjo komjw komjs komjf komjr komjx poms pomso pomsw pomsf pomsr pomsx pomsj pomf pomfo pomfw pomfs pomfr pomfx pomfj pomr pomro pomrw pomrs pomrf pomrx pomrj pomx pomxo pomxw pomxs pomxf pomxr pomxj pomj pomjo pomjw pomjs pomjf pomjr pomjx kongs kongso kongsf kongsr kongsx kongsj kongf kongfo kongfs kongfr kongfx kongfj kongr kongro kongrs kongrf kongrx kongrj kongx kongxo kongxs kongxf kongxr kongxj kongj kongjo kongjs kongjf kongjr kongjx pongs pongso pongsf pongsr pongsx pongsj pongf pongfo pongfs pongfr pongfx pongfj pongr pongro pongrs pongrf pongrx pongrj pongx pongxo pongxs pongxf pongxr pongxj pongj pongjo pongjs pongjf pongjr pongjx"
+        let expected = "koms kốm kớm kòm kỏm kõm kọm komf kồm kờm kóm kỏm kõm kọm komr kổm kởm kóm kòm kõm kọm komx kỗm kỡm kóm kòm kỏm kọm komj kộm kợm kóm kòm kỏm kõm poms pốm pớm pòm pỏm põm pọm pomf pồm pờm póm pỏm põm pọm pomr pổm pởm póm pòm põm pọm pomx pỗm pỡm póm pòm pỏm pọm pomj pộm pợm póm pòm pỏm põm kongs kống kòng kỏng kõng kọng kongf kồng kóng kỏng kõng kọng kongr kổng kóng kòng kõng kọng kongx kỗng kóng kòng kỏng kọng kongj kộng kóng kòng kỏng kõng pongs pống pòng pỏng põng pọng pongf pồng póng pỏng põng pọng pongr pổng póng pòng põng pọng pongx pỗng póng pòng pỏng pọng pongj pộng póng pòng pỏng põng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_728_kots_to_pocj_circumflex_horn_and_tone_override_unlatch() {
+        let input = "kots kotso kotsw kotsj kotj kotjo kotjw kotjs pots potso potsw potsj potj potjo potjw potjs kops kopso kopsw kopsj kopj kopjo kopjw kopjs pops popso popsw popsj popj popjo popjw popjs kocs kocso kocsj kocj kocjo kocjs pocs pocso pocsj pocj pocjo pocjs kotsu"
+        let expected = "kots kốt kớt kọt kotj kột kợt kót pots pốt pớt pọt potj pột pợt pót kops kốp kớp kọp kopj kộp kợp kóp pops pốp pớp pọp popj pộp pợp póp kocs kốc kọc kocj kộc kóc pocs pốc pọc pocj pộc póc kotsu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_729_scenario131_trilingual_pons_koms_pops_and_vietnamese_don_pon_nhom_kom_bop_pop_chat() {
+        let input = "Trong khi hiệu chuẩn ba đầu dò cảm biến pons, koms và pops trên dây chuyền tự động, kỹ thuật viên vừa kiểm tra tín hiệu đón pón (ddons pons), vừa đối chiếu nhóm kóm (nhoms koms) và lực bóp póp (bops pops) trước khi xuất xưởng!"
+        let expected = "Trong khi hiệu chuẩn ba đầu dò cảm biến pons, koms và pops trên dây chuyền tự động, kỹ thuật viên vừa kiểm tra tín hiệu đón pón (đón pón), vừa đối chiếu nhóm kóm (nhóm kóm) và lực bóp póp (bóp póp) trước khi xuất xưởng!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5314,6 +5346,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_722_kacs_kacj_pacs_pacj_and_kachs_kachj_pachs_pachj_unlatch", test_tier4_722_kacs_kacj_pacs_pacj_and_kachs_kachj_pachs_pachj_unlatch),
             ("test_tier4_723_kansg_to_panjh_6char_chained_extension_and_tone_override", test_tier4_723_kansg_to_panjh_6char_chained_extension_and_tone_override),
             ("test_tier4_724_scenario130_trilingual_kangs_kats_paps_and_vietnamese_sang_kang_cat_kat_tap_pap_chat", test_tier4_724_scenario130_trilingual_kangs_kats_paps_and_vietnamese_sang_kang_cat_kat_tap_pap_chat),
+            ("test_tier4_725_vietnamese_collocation_phrases_konf_to_pocs", test_tier4_725_vietnamese_collocation_phrases_konf_to_pocs),
+            ("test_tier4_726_kons_to_ponj_extension_circumflex_horn_and_tone_override_unlatch", test_tier4_726_kons_to_ponj_extension_circumflex_horn_and_tone_override_unlatch),
+            ("test_tier4_727_koms_to_pomj_and_kongs_to_pongj_circumflex_horn_and_tone_override_unlatch", test_tier4_727_koms_to_pomj_and_kongs_to_pongj_circumflex_horn_and_tone_override_unlatch),
+            ("test_tier4_728_kots_to_pocj_circumflex_horn_and_tone_override_unlatch", test_tier4_728_kots_to_pocj_circumflex_horn_and_tone_override_unlatch),
+            ("test_tier4_729_scenario131_trilingual_pons_koms_pops_and_vietnamese_don_pon_nhom_kom_bop_pop_chat", test_tier4_729_scenario131_trilingual_pons_koms_pops_and_vietnamese_don_pon_nhom_kom_bop_pop_chat),
         ]
     }
 }
