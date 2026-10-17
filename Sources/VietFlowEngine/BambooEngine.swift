@@ -2014,7 +2014,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         // MARK: VNI Numeric Pass-Through
         if method == .vni && inputChar.isNumber {
             let hasVowels = previousDisplay.contains { PhonotacticsMatrix.isVowelChar($0) }
-            let hasD = previousDisplay.lowercased().contains("d")
+            let hasD = previousDisplay.lowercased().contains("d") || previousDisplay.lowercased().contains("đ")
             let hasOnset = !previousDisplay.isEmpty && !hasVowels && previousDisplay.allSatisfy { $0.isLetter }
 
             // In VNI, '6' after onset consonant produces circumflex 'â'
