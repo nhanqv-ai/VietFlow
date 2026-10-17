@@ -121,6 +121,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             return MinimalDiff.calculate(previous: "tả ", next: "tar -")
         }
 
+        // 0. Non-printable ASCII Control Characters & Forward Delete Guard
+        if let ascii = character.asciiValue, (ascii < 0x20 || ascii == 0x7F), character != "\t", character != "\n", character != "\r" {
+            internalReset()
+            return nil
+        }
+
         // 1. Delimiter / Boundary Check
         let isTechSep = EnglishRestoreDetector.isTechnicalSeparator(character)
         let prevChar = prevDisplay.last ?? wordRawKeys.last
@@ -926,7 +932,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     activeRawKeys = Self.canonicalRawKeys(for: activePreedit, method: _config.inputMethod)
                     wordRawKeys = Self.canonicalRawKeys(for: committedPrefix, method: _config.inputMethod) + activeRawKeys
                 }
-            } else if lowerDeleted == "g" && activePreedit.lowercased().hasSuffix("n") && character.lowercased() == "n" {
+            } else if lowerDeleted == "g"
+                && activePreedit.lowercased().hasSuffix("n")
+                && character.lowercased() == "n"
+                && (activePreedit.lowercased().hasSuffix("uon") || activePreedit.contains(where: { !$0.isASCII })) {
                 activePreedit.removeLast()
                 activeRawKeys = Self.canonicalRawKeys(for: activePreedit, method: _config.inputMethod)
                 wordRawKeys = Self.canonicalRawKeys(for: committedPrefix, method: _config.inputMethod) + activeRawKeys
@@ -1769,6 +1778,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     return (modified, true)
                 }
             }
+        }
+
+        // MARK: Ignore duplicate consonant coda on Vietnamese syllables with diacritic or tone (e.g. khuôn + n -> khuôn, học + c -> học)
+        if ((previousDisplay.lowercased().hasSuffix("n") && inputChar.lowercased() == "n")
+            || (previousDisplay.lowercased().hasSuffix("c") && inputChar.lowercased() == "c")),
+           previousDisplay.contains(where: { !$0.isASCII }) {
+            return (previousDisplay, true)
         }
 
         // MARK: Delayed 'd -> đ' ('d' in Telex, '9' in VNI)
