@@ -844,6 +844,77 @@ public final class AdaptiveLearningTests: TestCase {
         XCTAssertEqual(outPhone, "iPhone ", "Typing lowercase 'iphone ' must auto-correct to exact mixed-case 'iPhone '")
     }
 
+    // MARK: - Test 25: Step 8 Orthography Restored Syllable Learned Preservation
+    func test_25_step8_orthography_restored_syllable_learned_preservation() {
+        // "kas" normally produces "kas" due to Step 8 isInvalidKOrZOrthography restore.
+        // User types "kas", backspaces 's', types 's' (giving "ká"), and commits with Space ' ' 3 times.
+        for _ in 1...3 {
+            engine.reset()
+            _ = typeString("kas", into: engine)
+            _ = engine.handleBackspace() // deletes 's', unlatches bypass
+            _ = typeString("s ", into: engine) // types 's' giving "ká", commits with Space
+        }
+
+        // Verify rule is learned: trigger "kas", replacement "ká", category .imeFriction, isPreserve true, count == 3
+        XCTAssertTrue(learner.shouldPreserveVietnameseForImeFriction(word: "kas"), "Rule trigger 'kas' must be preserved")
+        XCTAssertTrue(learner.shouldPreserveVietnameseForImeFriction(word: "ká"), "Replacement 'ká' must be preserved")
+        XCTAssertTrue(learner.shouldPreserveVietnameseForImeFriction(word: "ka"), "Unaccented 'ka' must be preserved")
+
+        // 4th time: typing "kas " directly must produce "ká " without Step 8 English restore
+        engine.reset()
+        let (output4, _) = typeString("kas ", into: engine)
+        XCTAssertEqual(output4, "ká ", "Typing 'kas ' must produce 'ká ' in real time with Step 8 restore bypassed")
+    }
+
+    // MARK: - Test 26: Real-Time imeFriction Self-Healing Demotion on Backspace
+    func test_26_ime_friction_self_healing_demotion_on_backspace() {
+        // Learn "kas" -> "ká" 3 times
+        for _ in 1...3 {
+            engine.reset()
+            _ = typeString("kas", into: engine)
+            _ = engine.handleBackspace()
+            _ = typeString("s ", into: engine)
+        }
+        XCTAssertTrue(learner.shouldPreserveVietnameseForImeFriction(word: "kas"))
+
+        // User types "kas" -> engine automatically adapts in real time to "ká"
+        engine.reset()
+        let (outAdapted, _) = typeString("kas", into: engine)
+        XCTAssertEqual(outAdapted, "ká", "Real-time adaptation must produce 'ká'")
+
+        // User immediately presses Backspace to reject the adaptation
+        let handled = engine.handleBackspace()
+        XCTAssertTrue(handled, "Backspace on real-time adapted word must succeed")
+
+        // Verify rule is demoted
+        XCTAssertFalse(learner.shouldPreserveVietnameseForImeFriction(word: "kas"), "Rule must be demoted and disabled")
+
+        // Subsequent typing of "kas " into reset engine must revert to normal behavior (restored to "kas ")
+        engine.reset()
+        let (outNormal, _) = typeString("kas ", into: engine)
+        XCTAssertEqual(outNormal, "kas ", "After demotion, 'kas ' must not be adapted to 'ká '")
+    }
+
+    // MARK: - Test 27: Backspacing Across Space History Learns Personal Typo
+    func test_27_backspace_across_space_history_personal_typo() {
+        // User types "việ ", backspaces across space to reopen "việ", types "t ", committing "việt " 3 times
+        for _ in 1...3 {
+            engine.reset()
+            _ = typeString("vieej ", into: engine) // commits "việ "
+            _ = engine.handleBackspace() // backspaces across space to reopen "việ"
+            _ = typeString("t ", into: engine) // appends 't' to form "việt" and commits with Space
+        }
+
+        // Verify personal typo is learned: "việ" -> "việt"
+        XCTAssertEqual(learner.replacementForPersonalTypo(word: "việ"), "việt", "Personal typo 'việ' -> 'việt' must be learned after 3 occurrences")
+
+        // Now user types "vieej " into reset engine:
+        // On Space delimiter, "việ" should auto-correct to "việt "
+        engine.reset()
+        let (outCorrected, _) = typeString("vieej ", into: engine)
+        XCTAssertEqual(outCorrected, "việt ", "Typing 'vieej ' must auto-correct to 'việt ' on word boundary")
+    }
+
     // MARK: - Registration of All Tests
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -871,6 +942,9 @@ public final class AdaptiveLearningTests: TestCase {
             ("test_22_single_character_casing_normalization", test_22_single_character_casing_normalization),
             ("test_23_open_typing_error_log_defaults_to_textedit", test_23_open_typing_error_log_defaults_to_textedit),
             ("test_24_all_caps_and_titlecase_personal_typo_normalization", test_24_all_caps_and_titlecase_personal_typo_normalization),
+            ("test_25_step8_orthography_restored_syllable_learned_preservation", test_25_step8_orthography_restored_syllable_learned_preservation),
+            ("test_26_ime_friction_self_healing_demotion_on_backspace", test_26_ime_friction_self_healing_demotion_on_backspace),
+            ("test_27_backspace_across_space_history_personal_typo", test_27_backspace_across_space_history_personal_typo),
         ]
     }
 }

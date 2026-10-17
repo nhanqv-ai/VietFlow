@@ -248,9 +248,10 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
 
         // Case 2: IME Friction - Engine auto-restored English, user backspaced to force Vietnamese diacritics
         if !hadDiacritics && hasDiacriticsNow && (wasBypassedBeforeBackspace || EnglishRestoreDetector.isEnglishKeyword(s1) || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(s1) || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: s1)) {
+            let trig = r1.isEmpty ? s1 : r1
             return (
                 category: .imeFriction,
-                trigger: s1,
+                trigger: trig,
                 replacement: committed,
                 isBypass: false,
                 isPreserve: true
@@ -364,17 +365,33 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
         return lock.withLock {
             let lower = trigger.lowercased()
             let ruleId = "rule:\(category.rawValue):\(lower)"
-            guard var rule = rules[ruleId] else { return false }
+            var targetRule: LearnedRule? = rules[ruleId]
+            if targetRule == nil {
+                for (_, r) in rules where r.category == category {
+                    if r.trigger.lowercased() == lower
+                        || r.replacement.lowercased() == lower
+                        || Self.stripDiacritics(r.replacement.lowercased()) == lower {
+                        targetRule = r
+                        break
+                    }
+                }
+            }
+            guard var rule = targetRule else { return false }
 
             rule.count = max(0, rule.count - 1)
             if rule.count < 3 {
                 rule.isEnabled = false
             }
-            rules[ruleId] = rule
+            rules[rule.id] = rule
 
             // Demote corresponding entry
             for (key, var entry) in entries {
-                if entry.category == category && (key.hasPrefix("\(category.rawValue):\(lower)->") || key == "\(category.rawValue):\(lower)") {
+                if entry.category == category && (
+                    key.hasPrefix("\(category.rawValue):\(rule.trigger.lowercased())->")
+                    || key == "\(category.rawValue):\(rule.trigger.lowercased())"
+                    || entry.finalCommittedText.lowercased() == rule.replacement.lowercased()
+                    || Self.stripDiacritics(entry.finalCommittedText.lowercased()) == rule.replacement.lowercased()
+                ) {
                     entry.count = max(0, entry.count - 1)
                     if entry.count < 3 {
                         entry.isEnabled = false
@@ -404,7 +421,9 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
                 }
                 if rule.isPreserveVietnamese {
                     preserve.insert(trig)
-                    preserve.insert(rule.replacement.lowercased())
+                    let repLower = rule.replacement.lowercased()
+                    preserve.insert(repLower)
+                    preserve.insert(Self.stripDiacritics(repLower))
                 }
             case .personalTypo:
                 typos[trig] = rule.replacement
