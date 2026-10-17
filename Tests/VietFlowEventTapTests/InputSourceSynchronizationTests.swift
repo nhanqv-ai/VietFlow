@@ -1389,6 +1389,55 @@ public final class InputSourceSynchronizationTests: TestCase {
         )
     }
 
+    // MARK: - Test 42: Option+Backspace Resets Engine Buffer and Passes Through
+    func test_42_event_tap_manager_option_backspace_resets_engine_and_passes_through() {
+        stateManager.currentInputMode = .vietnamese
+        _ = engine.processKey("t")
+        _ = engine.processKey("o")
+        _ = engine.processKey("i")
+        XCTAssertEqual(engine.currentSyllable, "toi")
+
+        let optBsEvent = CGEvent(keyboardEventSource: nil, virtualKey: 51, keyDown: true)!
+        optBsEvent.flags = [.maskAlternate]
+        let result = eventTapManager.handleEvent(type: .keyDown, event: optBsEvent)
+
+        XCTAssertNotNil(result, "Option+Backspace must pass through untouched to client app")
+        XCTAssertEqual(engine.currentSyllable, "", "Option+Backspace must reset engine buffer rather than deleting single character")
+    }
+
+    // MARK: - Test 43: Forward Delete (keyCode 117) Resets Engine Buffer and Passes Through
+    func test_43_event_tap_manager_forward_delete_resets_engine_and_passes_through() {
+        stateManager.currentInputMode = .vietnamese
+        _ = engine.processKey("v")
+        _ = engine.processKey("i")
+        XCTAssertEqual(engine.currentSyllable, "vi")
+
+        let forwardDeleteEvent = CGEvent(keyboardEventSource: nil, virtualKey: 117, keyDown: true)!
+        var delChar: UniChar = 0x7F
+        forwardDeleteEvent.keyboardSetUnicodeString(stringLength: 1, unicodeString: &delChar)
+        let result = eventTapManager.handleEvent(type: .keyDown, event: forwardDeleteEvent)
+
+        XCTAssertNotNil(result, "Forward Delete must pass through untouched to client app")
+        XCTAssertEqual(engine.currentSyllable, "", "Forward Delete must reset engine buffer and not inject 0x7F")
+    }
+
+    // MARK: - Test 44: Option Modifier with Letter Key Resets Engine Buffer and Passes Through
+    func test_44_event_tap_manager_option_letter_key_resets_engine_and_passes_through() {
+        stateManager.currentInputMode = .vietnamese
+        _ = engine.processKey("b")
+        _ = engine.processKey("a")
+        XCTAssertEqual(engine.currentSyllable, "ba")
+
+        let optCEvent = CGEvent(keyboardEventSource: nil, virtualKey: 8, keyDown: true)!
+        optCEvent.flags = [.maskAlternate]
+        var cChar: UniChar = 0x00E7 // 'ç'
+        optCEvent.keyboardSetUnicodeString(stringLength: 1, unicodeString: &cChar)
+        let result = eventTapManager.handleEvent(type: .keyDown, event: optCEvent)
+
+        XCTAssertNotNil(result, "Option+letter combinations must pass through untouched to client app")
+        XCTAssertEqual(engine.currentSyllable, "", "Option+letter combinations must reset engine buffer without corrupting preedit")
+    }
+
     // MARK: - Test Registry Registration
     public override var allTests: [(name: String, test: () throws -> Void)] {
         return [
@@ -1433,6 +1482,9 @@ public final class InputSourceSynchronizationTests: TestCase {
             ("test_39_manual_switch_to_same_foreign_ime_after_typing_suspends_vietflow", test_39_manual_switch_to_same_foreign_ime_after_typing_suspends_vietflow),
             ("test_40_app_switch_to_foreign_ime_app_after_typing_suspends_vietflow", test_40_app_switch_to_foreign_ime_app_after_typing_suspends_vietflow),
             ("test_41_system_input_source_manager_never_enables_bundle_sibling_layouts_or_modes", test_41_system_input_source_manager_never_enables_bundle_sibling_layouts_or_modes),
+            ("test_42_event_tap_manager_option_backspace_resets_engine_and_passes_through", test_42_event_tap_manager_option_backspace_resets_engine_and_passes_through),
+            ("test_43_event_tap_manager_forward_delete_resets_engine_and_passes_through", test_43_event_tap_manager_forward_delete_resets_engine_and_passes_through),
+            ("test_44_event_tap_manager_option_letter_key_resets_engine_and_passes_through", test_44_event_tap_manager_option_letter_key_resets_engine_and_passes_through),
         ]
     }
 }

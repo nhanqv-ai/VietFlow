@@ -423,8 +423,8 @@ public final class EventTapManager: @unchecked Sendable {
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
         let flags = event.flags
         
-        // Check for command shortcuts (Cmd+C, Cmd+V, Cmd+A, etc.) or Ctrl combinations
-        if flags.contains(.maskCommand) || flags.contains(.maskControl) {
+        // Check for command shortcuts (Cmd+C, Cmd+V, Cmd+A, etc.), Ctrl combinations, or Option combinations
+        if flags.contains(.maskCommand) || flags.contains(.maskControl) || flags.contains(.maskAlternate) {
             engine.reset()
             return Unmanaged.passRetained(event)
         }
@@ -440,6 +440,9 @@ public final class EventTapManager: @unchecked Sendable {
         case 53: // Escape
             engine.reset()
             return Unmanaged.passRetained(event)
+        case 117: // Forward Delete (Delete ⌦ / Fn + Backspace)
+            engine.reset()
+            return Unmanaged.passRetained(event)
         case 123, 124, 125, 126: // Arrow keys
             engine.reset()
             return Unmanaged.passRetained(event)
@@ -447,6 +450,10 @@ public final class EventTapManager: @unchecked Sendable {
             engine.reset()
             return Unmanaged.passRetained(event)
         case 51: // Backspace (Delete)
+            if flags.contains(.maskAlternate) {
+                engine.reset()
+                return Unmanaged.passRetained(event)
+            }
             if stateManager.currentInputMode == .vietnamese && !stateManager.isBlacklistActive {
                 if let revertDelta = engine.handleBackspaceWithRevertDelta() {
                     applyDelta(revertDelta)

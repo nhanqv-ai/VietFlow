@@ -1494,8 +1494,76 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         let secondExpected = "Người Việt Nam tự hào về truyền thống văn hóa ngàn năm văn hiến."
         XCTAssertEqual(apply(firstSentence + backspaces + secondSentence), secondExpected)
     }
+
+    // MARK: - Section 21: Regression Coverage for Backspace and Duplicate Coda (3 tests)
+    func test_386_backspace_deleted_g_then_type_n_preserves_ascii_and_recovers_vietnamese_ng() {
+        // ASCII words without 'uon' or diacritics retain the second 'n' when typing after '<BS>'
+        engine.reset()
+        XCTAssertEqual(apply("dang<BS>n"), "dann")
+        engine.reset()
+        XCTAssertEqual(apply("bang<BS>n"), "bann")
+        // Vietnamese syllables ending in -ng recover cleanly when retyping 'ng' after '<BS>'
+        engine.reset()
+        XCTAssertEqual(apply("truong<BS>ngwf"), "trường")
+        engine.reset()
+        XCTAssertEqual(apply("ddong<BS>ngof"), "đồng")
+        engine.reset()
+        XCTAssertEqual(apply("vafng<BS>ng"), "vàng")
+    }
+
+    func test_387_duplicate_coda_consonant_suppression_on_vietnamese_syllables() {
+        // Vietnamese syllables with diacritics/tones suppress duplicate 'n' and 'c'
+        engine.reset()
+        XCTAssertEqual(apply("khuoonn"), "khuôn")
+        engine.reset()
+        XCTAssertEqual(apply("khuoong<BS>n"), "khuôn")
+        engine.reset()
+        XCTAssertEqual(apply("hocjc"), "học")
+        engine.reset()
+        XCTAssertEqual(apply("cacsc"), "các")
+        engine.reset()
+        XCTAssertEqual(apply("toanss"), "toans")
+        // While ASCII abbreviations and English words retain duplicate codas
+        engine.reset()
+        XCTAssertEqual(apply("cc"), "cc")
+        engine.reset()
+        XCTAssertEqual(apply("bcc"), "bcc")
+        engine.reset()
+        XCTAssertEqual(apply("gcc"), "gcc")
+        engine.reset()
+        XCTAssertEqual(apply("pccc"), "pccc")
+        engine.reset()
+        XCTAssertEqual(apply("nn"), "nn")
+        engine.reset()
+        XCTAssertEqual(apply("cnn"), "cnn")
+        engine.reset()
+        XCTAssertEqual(apply("acc"), "acc")
+        engine.reset()
+        XCTAssertEqual(apply("ann"), "ann")
+        engine.reset()
+        XCTAssertEqual(apply("inn"), "inn")
+    }
+
+    func test_388_ascii_control_characters_reset_engine_buffer() {
+        engine.reset()
+        _ = engine.processKey("v")
+        _ = engine.processKey("i")
+        XCTAssertEqual(engine.currentSyllable, "vi")
+        // Non-printable control character \u{7F} (Forward Delete) or \u{1B} (Escape) resets buffer
+        let delta = engine.processKey("\u{7F}")
+        XCTAssertNil(delta)
+        XCTAssertEqual(engine.currentSyllable, "")
+
+        _ = engine.processKey("n")
+        _ = engine.processKey("a")
+        _ = engine.processKey("m")
+        XCTAssertEqual(engine.currentSyllable, "nam")
+        let escDelta = engine.processKey("\u{1B}")
+        XCTAssertNil(escDelta)
+        XCTAssertEqual(engine.currentSyllable, "")
+    }
     
-    // MARK: - Test Registry (385 Tests)
+    // MARK: - Test Registry (388 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -1923,6 +1991,11 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_383_long_essay_scientific_with_heavy_backspace", test_383_long_essay_scientific_with_heavy_backspace),
             ("test_384_long_essay_vni_complex_mixed_english_and_numbers", test_384_long_essay_vni_complex_mixed_english_and_numbers),
             ("test_385_stress_test_delete_entire_paragraph_and_retype", test_385_stress_test_delete_entire_paragraph_and_retype),
+
+            // Section 21: Regression Coverage for Backspace and Duplicate Coda (3 tests)
+            ("test_386_backspace_deleted_g_then_type_n_preserves_ascii_and_recovers_vietnamese_ng", test_386_backspace_deleted_g_then_type_n_preserves_ascii_and_recovers_vietnamese_ng),
+            ("test_387_duplicate_coda_consonant_suppression_on_vietnamese_syllables", test_387_duplicate_coda_consonant_suppression_on_vietnamese_syllables),
+            ("test_388_ascii_control_characters_reset_engine_buffer", test_388_ascii_control_characters_reset_engine_buffer),
         ]
     }
 }
