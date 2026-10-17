@@ -645,22 +645,22 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["pits", "pitj", "pips", "pipj", "pichs", "pichj"].contains(String(wordRawKeys).lowercased())
                     && "sj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["paans", "paanf", "paanr", "paanx", "paanj", "poons", "poonf", "poonr", "poonx", "poonj", "kaans", "kaanf", "kaanr", "kaanx", "kaanj"].contains(String(wordRawKeys).lowercased())
+                || (["paans", "paanf", "paanr", "paanx", "paanj", "poons", "poonf", "poonr", "poonx", "poonj", "kaans", "kaanf", "kaanr", "kaanx", "kaanj", "koons", "koonf", "koonr", "koonx", "koonj"].contains(String(wordRawKeys).lowercased())
                     && "gwsfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["paams", "paamf", "paamr", "paamx", "paamj", "paangs", "paangf", "paangr", "paangx", "paangj", "pooms", "poomf", "poomr", "poomx", "poomj", "kaams", "kaamf", "kaamr", "kaamx", "kaamj", "kaangs", "kaangf", "kaangr", "kaangx", "kaangj"].contains(String(wordRawKeys).lowercased())
+                || (["paams", "paamf", "paamr", "paamx", "paamj", "paangs", "paangf", "paangr", "paangx", "paangj", "pooms", "poomf", "poomr", "poomx", "poomj", "kaams", "kaamf", "kaamr", "kaamx", "kaamj", "kaangs", "kaangf", "kaangr", "kaangx", "kaangj", "kooms", "koomf", "koomr", "koomx", "koomj"].contains(String(wordRawKeys).lowercased())
                     && "wsfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["poongs", "poongf", "poongr", "poongx", "poongj", "peems", "peemf", "peemr", "peemx", "peemj", "peenhs", "peenhf", "peenhr", "peenhx", "peenhj"].contains(String(wordRawKeys).lowercased())
+                || (["poongs", "poongf", "poongr", "poongx", "poongj", "peems", "peemf", "peemr", "peemx", "peemj", "peenhs", "peenhf", "peenhr", "peenhx", "peenhj", "koongs", "koongf", "koongr", "koongx", "koongj"].contains(String(wordRawKeys).lowercased())
                     && "sfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["peens", "peenf", "peenr", "peenx", "peenj"].contains(String(wordRawKeys).lowercased())
+                || (["peens", "peenf", "peenr", "peenx", "peenj", "geens"].contains(String(wordRawKeys).lowercased())
                     && "hsfrxj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["paats", "paatj", "paaps", "paapj", "paacs", "paacj", "poots", "pootj", "kaats", "kaatj", "kaaps", "kaapj", "kaacs", "kaacj"].contains(String(wordRawKeys).lowercased())
+                || (["paats", "paatj", "paaps", "paapj", "paacs", "paacj", "poots", "pootj", "poops", "poopj", "kaats", "kaatj", "kaaps", "kaapj", "kaacs", "kaacj", "koots", "kootj", "koops", "koopj"].contains(String(wordRawKeys).lowercased())
                     && "wsj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
-                || (["poocs", "poocj", "peets", "peetj", "peechs", "peechj"].contains(String(wordRawKeys).lowercased())
+                || (["poocs", "poocj", "peets", "peetj", "peechs", "peechj", "koocs", "koocj"].contains(String(wordRawKeys).lowercased())
                     && "sj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["peecs", "peecj"].contains(String(wordRawKeys).lowercased())
@@ -4794,7 +4794,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "kaanf": ["cấn", "nhấn"],
         "kaanr": ["cấn", "nhấn"],
         "kaanx": ["cấn", "nhấn"],
-        "kaanj": ["cấn", "nhấn"]
+        "kaanj": ["cấn", "nhấn"],
+        "kaams": ["tấm", "nấm"],
+        "kaamf": ["tấm", "nấm"],
+        "kaamr": ["tấm", "nấm"],
+        "kaamx": ["tấm", "nấm"],
+        "kaamj": ["tấm", "nấm"],
+        "kaangs": ["tầng", "vầng"],
+        "kaangf": ["tầng", "vầng"],
+        "kaangr": ["tầng", "vầng"],
+        "kaangx": ["tầng", "vầng"],
+        "kaangj": ["tầng", "vầng"],
+        "kaats": ["tất", "nhất"],
+        "kaatj": ["tất", "nhất"],
+        "kaaps": ["tấp", "cấp"],
+        "kaapj": ["tấp", "cấp"],
+        "kaacs": ["bấc", "giấc"],
+        "kaacj": ["bấc", "giấc"],
+        "koons": ["bốn", "tốn"],
+        "koonf": ["bốn", "tốn"],
+        "koonr": ["bốn", "tốn"],
+        "koonx": ["bốn", "tốn"],
+        "koonj": ["bốn", "tốn"],
+        "kooms": ["đốm", "ốm"],
+        "koomf": ["đốm", "ốm"],
+        "koomr": ["đốm", "ốm"],
+        "koomx": ["đốm", "ốm"],
+        "koomj": ["đốm", "ốm"],
+        "koongs": ["bống", "thống"],
+        "koongf": ["bống", "thống"],
+        "koongr": ["bống", "thống"],
+        "koongx": ["bống", "thống"],
+        "koongj": ["bống", "thống"],
+        "koots": ["tốt", "chốt"],
+        "kootj": ["tốt", "chốt"],
+        "koops": ["hộp", "lốp"],
+        "koopj": ["hộp", "lốp"],
+        "koocs": ["cốc", "gốc"],
+        "koocj": ["cốc", "gốc"],
+        "poops": ["hộp", "lốp"],
+        "poopj": ["hộp", "lốp"],
+        "geens": ["bến", "đến"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
