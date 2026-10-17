@@ -1562,8 +1562,30 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertNil(escDelta)
         XCTAssertEqual(engine.currentSyllable, "")
     }
+
+    func test_389_backspace_across_technical_separator_restores_active_syllable() {
+        engine.reset()
+        // 1. Vietnamese compound across technical separator: delete separator and tone preceding syllable
+        XCTAssertEqual(apply("toan_hoc<BS><BS><BS><BS>s"), "toán")
+
+        // 2. Variable identifier: delete separator and continue appending word suffix
+        engine.reset()
+        XCTAssertEqual(apply("user_name<BS><BS><BS><BS><BS>s"), "users")
+
+        // 3. Hyphenated identifier: delete separator and edit preceding onset/rhyme
+        engine.reset()
+        XCTAssertEqual(apply("my-app<BS><BS><BS><BS><BS>inh"), "minh")
+
+        // 4. Dotted filename: delete extension and dot separator, continue typing filename
+        engine.reset()
+        XCTAssertEqual(apply("file.txt<BS><BS><BS><BS>r"), "filer")
+
+        // 5. Slash path: delete trailing segments across multiple separators
+        engine.reset()
+        XCTAssertEqual(apply("a/b/c<BS><BS><BS><BS>nh"), "anh")
+    }
     
-    // MARK: - Test Registry (388 Tests)
+    // MARK: - Test Registry (389 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -1992,10 +2014,11 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_384_long_essay_vni_complex_mixed_english_and_numbers", test_384_long_essay_vni_complex_mixed_english_and_numbers),
             ("test_385_stress_test_delete_entire_paragraph_and_retype", test_385_stress_test_delete_entire_paragraph_and_retype),
 
-            // Section 21: Regression Coverage for Backspace and Duplicate Coda (3 tests)
+            // Section 21: Regression Coverage for Backspace and Duplicate Coda (4 tests)
             ("test_386_backspace_deleted_g_then_type_n_preserves_ascii_and_recovers_vietnamese_ng", test_386_backspace_deleted_g_then_type_n_preserves_ascii_and_recovers_vietnamese_ng),
             ("test_387_duplicate_coda_consonant_suppression_on_vietnamese_syllables", test_387_duplicate_coda_consonant_suppression_on_vietnamese_syllables),
             ("test_388_ascii_control_characters_reset_engine_buffer", test_388_ascii_control_characters_reset_engine_buffer),
+            ("test_389_backspace_across_technical_separator_restores_active_syllable", test_389_backspace_across_technical_separator_restores_active_syllable),
         ]
     }
 }
