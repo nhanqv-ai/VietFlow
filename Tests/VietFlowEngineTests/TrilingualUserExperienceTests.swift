@@ -4715,6 +4715,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 133: 40 Collocation Entries (3,082 Total), paans..paacj and poons..poocj Unlatch
+
+    func test_tier4_746_vietnamese_collocation_phrases_ngemj_to_poonj() {
+        let input = "ngemj kems ngemj nems ngemj ngenhs beenhj ngenhs leenhj ngenhs ngenhf beenhj ngenhf leenhj ngenhf ngenhr beenhj ngenhr leenhj ngenhr ngenhx beenhj ngenhx leenhj ngenhx ngenhj beenhj ngenhj leenhj ngenhj ngets kets ngets nets ngets ngetj kets ngetj nets ngetj ngeps keps ngeps neps ngeps ngepj keps ngepj neps ngepj ngecs xecs ngecs tecs ngecs ngecj xecs ngecj tecs ngecj ngechs leechj ngechs xeechs ngechs ngechj leechj ngechj xeechs ngechj paans taans paans phaans paans paanf taans paanf phaans paanf paanr taans paanr phaans paanr paanx taans paanx phaans paanx paanj taans paanj phaans paanj paams taams paams naams paams paamf taams paamf naams paamf paamr taams paamr naams paamr paamx taams paamx naams paamx paamj taams paamj naams paamj paangs taangf paangs vaangf paangs paangf taangf paangf vaangf paangf paangr taangf paangr vaangf paangr paangx taangf paangx vaangf paangx paangj taangf paangj vaangf paangj paats taats paats nhaats paats paatj taats paatj nhaats paatj paaps taaps paaps caaps paaps paapj taaps paapj caaps paapj paacs baacs paacs giaacs paacs paacj baacs paacj giaacs paacj poons boons poons toons poons poonf boons poonf toons poonf poonr boons poonr toons poonr poonx boons poonx toons poonx poonj boons poonj toons poonj"
+        let expected = "ngemj kém ngẹm ném ngẹm ngenhs bệnh ngénh lệnh ngénh ngenhf bệnh ngènh lệnh ngènh ngenhr bệnh ngẻnh lệnh ngẻnh ngenhx bệnh ngẽnh lệnh ngẽnh ngenhj bệnh ngẹnh lệnh ngẹnh ngets két ngét nét ngét ngetj két ngẹt nét ngẹt ngeps kép ngép nép ngép ngepj kép ngẹp nép ngẹp ngecs xéc ngéc téc ngéc ngecj xéc ngẹc téc ngẹc ngechs lệch ngéch xếch ngéch ngechj lệch ngẹch xếch ngẹch paans tấn pấn phấn pấn paanf tấn pần phấn pần paanr tấn pẩn phấn pẩn paanx tấn pẫn phấn pẫn paanj tấn pận phấn pận paams tấm pấm nấm pấm paamf tấm pầm nấm pầm paamr tấm pẩm nấm pẩm paamx tấm pẫm nấm pẫm paamj tấm pậm nấm pậm paangs tầng pấng vầng pấng paangf tầng pầng vầng pầng paangr tầng pẩng vầng pẩng paangx tầng pẫng vầng pẫng paangj tầng pậng vầng pậng paats tất pất nhất pất paatj tất pật nhất pật paaps tấp pấp cấp pấp paapj tấp pập cấp pập paacs bấc pấc giấc pấc paacj bấc pậc giấc pậc poons bốn pốn tốn pốn poonf bốn pồn tốn pồn poonr bốn pổn tốn pổn poonx bốn pỗn tốn pỗn poonj bốn pộn tốn pộn"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_747_paans_to_paangj_extension_breve_and_tone_override_unlatch() {
+        let input = "paans paansg paansw paansf paansr paansx paansj paanf paanfg paanfw paanfs paanfr paanfx paanfj paanr paanrg paanrw paanrs paanrf paanrx paanrj paanx paanxg paanxw paanxs paanxf paanxr paanxj paanj paanjg paanjw paanjs paanjf paanjr paanjx paams paamsw paamsf paamsr paamsx paamsj paamf paamfw paamfs paamfr paamfx paamfj paamr paamrw paamrs paamrf paamrx paamrj paamx paamxw paamxs paamxf paamxr paamxj paamj paamjw paamjs paamjf paamjr paamjx paangs paangsw paangsf paangsr paangsx paangsj paangf paangfw paangfs paangfr paangfx paangfj paangr paangrw paangrs paangrf paangrx paangrj paangx paangxw paangxs paangxf paangxr paangxj paangj paangjw paangjs paangjf paangjr paangjx"
+        let expected = "paans pấng pắn pần pẩn pẫn pận paanf pầng pằn pấn pẩn pẫn pận paanr pẩng pẳn pấn pần pẫn pận paanx pẫng pẵn pấn pần pẩn pận paanj pậng pặn pấn pần pẩn pẫn paams pắm pầm pẩm pẫm pậm paamf pằm pấm pẩm pẫm pậm paamr pẳm pấm pầm pẫm pậm paamx pẵm pấm pầm pẩm pậm paamj pặm pấm pầm pẩm pẫm paangs pắng pầng pẩng pẫng pậng paangf pằng pấng pẩng pẫng pậng paangr pẳng pấng pầng pẫng pậng paangx pẵng pấng pầng pẩng pậng paangj pặng pấng pầng pẩng pẫng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_748_paats_to_paacj_breve_and_tone_override_unlatch() {
+        let input = "paats paatsw paatsj paatj paatjw paatjs paaps paapsw paapsj paapj paapjw paapjs paacs paacsw paacsj paacj paacjw paacjs"
+        let expected = "paats pắt pật paatj pặt pất paaps pắp pập paapj pặp pấp paacs pắc pậc paacj pặc pấc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_749_poons_to_poocj_extension_horn_and_tone_override_unlatch() {
+        let input = "poons poonsg poonsw poonsf poonsr poonsx poonsj poonf poonfg poonfw poonfs poonfr poonfx poonfj poonr poonrg poonrw poonrs poonrf poonrx poonrj poonx poonxg poonxw poonxs poonxf poonxr poonxj poonj poonjg poonjw poonjs poonjf poonjr poonjx pooms poomsw poomsf poomsr poomsx poomsj poomf poomfw poomfs poomfr poomfx poomfj poomr poomrw poomrs poomrf poomrx poomrj poomx poomxw poomxs poomxf poomxr poomxj poomj poomjw poomjs poomjf poomjr poomjx poongs poongsf poongsr poongsx poongsj poongf poongfs poongfr poongfx poongfj poongr poongrs poongrf poongrx poongrj poongx poongxs poongxf poongxr poongxj poongj poongjs poongjf poongjr poongjx poots pootsw pootsj pootj pootjw pootjs poocs poocsj poocj poocjs"
+        let expected = "poons pống pớn pồn pổn pỗn pộn poonf pồng pờn pốn pổn pỗn pộn poonr pổng pởn pốn pồn pỗn pộn poonx pỗng pỡn pốn pồn pổn pộn poonj pộng pợn pốn pồn pổn pỗn pooms pớm pồm pổm pỗm pộm poomf pờm pốm pổm pỗm pộm poomr pởm pốm pồm pỗm pộm poomx pỡm pốm pồm pổm pộm poomj pợm pốm pồm pổm pỗm poongs pồng pổng pỗng pộng poongf pống pổng pỗng pộng poongr pống pồng pỗng pộng poongx pống pồng pổng pộng poongj pống pồng pổng pỗng poots pớt pột pootj pợt pốt poocs pộc poocj pốc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_750_scenario135_trilingual_paans_paats_poons_and_vietnamese_tan_pan_tat_pat_bon_pon_chat() {
+        let input = "Khi vận hành thử nghiệm ba cụm truyền động paans, paats và poons trong xưởng cơ khí chính xác, kỹ sư trưởng vừa kiểm tra lực tấn pấn (taans paans), vừa rà soát khâu tất pất (taats paats) và cụm bốn pốn (boons poons) đạt chuẩn kỹ thuật!"
+        let expected = "Khi vận hành thử nghiệm ba cụm truyền động paans, paats và poons trong xưởng cơ khí chính xác, kỹ sư trưởng vừa kiểm tra lực tấn pấn (tấn pấn), vừa rà soát khâu tất pất (tất pất) và cụm bốn pốn (bốn pốn) đạt chuẩn kỹ thuật!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5469,6 +5501,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_743_gets_to_gechj_and_pecse_pecje_extension_circumflex_and_tone_override_unlatch", test_tier4_743_gets_to_gechj_and_pecse_pecje_extension_circumflex_and_tone_override_unlatch),
             ("test_tier4_744_ngens_to_ngechj_extension_circumflex_and_tone_override_unlatch", test_tier4_744_ngens_to_ngechj_extension_circumflex_and_tone_override_unlatch),
             ("test_tier4_745_scenario134_trilingual_pits_gens_gets_and_vietnamese_tit_pit_ken_gen_ket_get_chat", test_tier4_745_scenario134_trilingual_pits_gens_gets_and_vietnamese_tit_pit_ken_gen_ket_get_chat),
+            ("test_tier4_746_vietnamese_collocation_phrases_ngemj_to_poonj", test_tier4_746_vietnamese_collocation_phrases_ngemj_to_poonj),
+            ("test_tier4_747_paans_to_paangj_extension_breve_and_tone_override_unlatch", test_tier4_747_paans_to_paangj_extension_breve_and_tone_override_unlatch),
+            ("test_tier4_748_paats_to_paacj_breve_and_tone_override_unlatch", test_tier4_748_paats_to_paacj_breve_and_tone_override_unlatch),
+            ("test_tier4_749_poons_to_poocj_extension_horn_and_tone_override_unlatch", test_tier4_749_poons_to_poocj_extension_horn_and_tone_override_unlatch),
+            ("test_tier4_750_scenario135_trilingual_paans_paats_poons_and_vietnamese_tan_pan_tat_pat_bon_pon_chat", test_tier4_750_scenario135_trilingual_paans_paats_poons_and_vietnamese_tan_pan_tat_pat_bon_pon_chat),
         ]
     }
 }
