@@ -4619,6 +4619,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 127: 40 Collocation Entries (2,962 Total), kuns..punj, kums..pungj, kuts..pucj Unlatch
+
+    func test_tier4_731_vietnamese_collocation_phrases_pocj_to_kucj() {
+        let input = "pocj khocs pocj gocs pocj kuns buns kuns cuns kuns kunf buns kunf cuns kunf kunr buns kunr cuns kunr kunx buns kunx cuns kunx kunj buns kunj cuns kunj puns buns puns cuns puns punf buns punf cuns punf punr buns punr cuns punr punx buns punx cuns punx punj buns punj cuns punj kums tums kums nums kums kumf tums kumf nums kumf kumr tums kumr nums kumr kumx tums kumx nums kumx kumj tums kumj nums kumj pums tums pums nums pums pumf tums pumf nums pumf pumr tums pumr nums pumr pumx tums pumx nums pumx pumj tums pumj nums pumj kungs bungs kungs cungs kungs kungf bungs kungf cungs kungf kungr bungs kungr cungs kungr kungx bungs kungx cungs kungx kungj bungs kungj cungs kungj pungs bungs pungs cungs pungs pungf bungs pungf cungs pungf pungr bungs pungr cungs pungr pungx bungs pungx cungs pungx pungj bungs pungj cungs pungj kuts buts kuts ruts kuts kutj buts kutj ruts kutj putj buts putj ruts putj kups bups kups giups kups kupj bups kupj giups kupj pups bups pups giups pups pupj bups pupj giups pupj kucs cucs kucs mucs kucs kucj cucs kucj mucs kucj"
+        let expected = "pocj khóc pọc góc pọc kuns bún kún cún kún kunf bún kùn cún kùn kunr bún kủn cún kủn kunx bún kũn cún kũn kunj bún kụn cún kụn puns bún pún cún pún punf bún pùn cún pùn punr bún pủn cún pủn punx bún pũn cún pũn punj bún pụn cún pụn kums túm kúm núm kúm kumf túm kùm núm kùm kumr túm kủm núm kủm kumx túm kũm núm kũm kumj túm kụm núm kụm pums túm púm núm púm pumf túm pùm núm pùm pumr túm pủm núm pủm pumx túm pũm núm pũm pumj túm pụm núm pụm kungs búng kúng cúng kúng kungf búng kùng cúng kùng kungr búng kủng cúng kủng kungx búng kũng cúng kũng kungj búng kụng cúng kụng pungs búng púng cúng púng pungf búng pùng cúng pùng pungr búng pủng cúng pủng pungx búng pũng cúng pũng pungj búng pụng cúng pụng kuts bút kút rút kút kutj bút kụt rút kụt putj bút pụt rút pụt kups búp kúp giúp kúp kupj búp kụp giúp kụp pups búp púp giúp púp pupj búp pụp giúp pụp kucs cúc kúc múc kúc kucj cúc kục múc kục"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_732_kuns_to_punj_extension_horn_and_tone_override_unlatch() {
+        let input = "kuns kunsg kunsw kunsf kunsr kunsx kunsj kunf kunfg kunfw kunfs kunfr kunfx kunfj kunr kunrg kunrw kunrs kunrf kunrx kunrj kunx kunxg kunxw kunxs kunxf kunxr kunxj kunj kunjg kunjw kunjs kunjf kunjr kunjx puns punsg punsw punsf punsr punsx punsj punf punfg punfw punfs punfr punfx punfj punr punrg punrw punrs punrf punrx punrj punx punxg punxw punxs punxf punxr punxj punj punjg punjw punjs punjf punjr punjx punjabi"
+        let expected = "kuns kúng kứn kùn kủn kũn kụn kunf kùng kừn kún kủn kũn kụn kunr kủng kửn kún kùn kũn kụn kunx kũng kữn kún kùn kủn kụn kunj kụng kựn kún kùn kủn kũn puns púng pứn pùn pủn pũn pụn punf pùng pừn pún pủn pũn pụn punr pủng pửn pún pùn pũn pụn punx pũng pữn pún pùn pủn pụn punj pụng pựn pún pùn pủn pũn punjabi"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_733_kums_to_pumj_and_kungs_to_pungj_horn_and_tone_override_unlatch() {
+        let input = "kums kumsw kumsf kumsr kumsx kumsj kumf kumfw kumfs kumfr kumfx kumfj kumr kumrw kumrs kumrf kumrx kumrj kumx kumxw kumxs kumxf kumxr kumxj kumj kumjw kumjs kumjf kumjr kumjx pums pumsw pumsf pumsr pumsx pumsj pumf pumfw pumfs pumfr pumfx pumfj pumr pumrw pumrs pumrf pumrx pumrj pumx pumxw pumxs pumxf pumxr pumxj pumj pumjw pumjs pumjf pumjr pumjx kungs kungsw kungsf kungsr kungsx kungsj kungf kungfw kungfs kungfr kungfx kungfj kungr kungrw kungrs kungrf kungrx kungrj kungx kungxw kungxs kungxf kungxr kungxj kungj kungjw kungjs kungjf kungjr kungjx pungs pungsw pungsf pungsr pungsx pungsj pungf pungfw pungfs pungfr pungfx pungfj pungr pungrw pungrs pungrf pungrx pungrj pungx pungxw pungxs pungxf pungxr pungxj pungj pungjw pungjs pungjf pungjr pungjx"
+        let expected = "kums kứm kùm kủm kũm kụm kumf kừm kúm kủm kũm kụm kumr kửm kúm kùm kũm kụm kumx kữm kúm kùm kủm kụm kumj kựm kúm kùm kủm kũm pums pứm pùm pủm pũm pụm pumf pừm púm pủm pũm pụm pumr pửm púm pùm pũm pụm pumx pữm púm pùm pủm pụm pumj pựm púm pùm pủm pũm kungs kứng kùng kủng kũng kụng kungf kừng kúng kủng kũng kụng kungr kửng kúng kùng kũng kụng kungx kững kúng kùng kủng kụng kungj kựng kúng kùng kủng kũng pungs pứng pùng pủng pũng pụng pungf pừng púng pủng pũng pụng pungr pửng púng pùng pũng pụng pungx pững púng pùng pủng pụng pungj pựng púng pùng pủng pũng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_734_kuts_to_pucj_horn_and_tone_override_unlatch() {
+        let input = "kuts kutsw kutsj kutj kutjw kutjs puts putsw putsj putj putjw putjs kups kupsw kupsj kupj kupjw kupjs pups pupsw pupsj pupj pupjw pupjs kucs kucsw kucsj kucj kucjw kucjs pucs pucsw pucsj pucj pucjw pucjs kutsu"
+        let expected = "kuts kứt kụt kutj kựt kút puts pứt pụt putj pựt pút kups kứp kụp kupj kựp kúp pups pứp pụp pupj pựp púp kucs kức kục kucj kực kúc pucs pức pục pucj pực púc kutsu"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_735_scenario132_trilingual_puns_kums_pups_and_vietnamese_bun_pun_tum_kum_bup_pup_chat() {
+        let input = "Khi kiểm thử ba mô-đun điều khiển puns, kums và pups trên bo mạch xử lý trung tâm, nhóm kỹ sư vừa ghi nhận xung bún pún (buns puns), vừa hiệu chỉnh cụm túm kúm (tums kums) và đầu nối búp púp (bups pups) đạt chuẩn tuyệt đối!"
+        let expected = "Khi kiểm thử ba mô-đun điều khiển puns, kums và pups trên bo mạch xử lý trung tâm, nhóm kỹ sư vừa ghi nhận xung bún pún (bún pún), vừa hiệu chỉnh cụm túm kúm (túm kúm) và đầu nối búp púp (búp púp) đạt chuẩn tuyệt đối!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5358,6 +5390,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_728_kots_to_pocj_circumflex_horn_and_tone_override_unlatch", test_tier4_728_kots_to_pocj_circumflex_horn_and_tone_override_unlatch),
             ("test_tier4_729_scenario131_trilingual_pons_koms_pops_and_vietnamese_don_pon_nhom_kom_bop_pop_chat", test_tier4_729_scenario131_trilingual_pons_koms_pops_and_vietnamese_don_pon_nhom_kom_bop_pop_chat),
             ("test_tier4_730_email_cc_bcc_gcc_acc_nn_cnn_inn_and_sentence", test_tier4_730_email_cc_bcc_gcc_acc_nn_cnn_inn_and_sentence),
+            ("test_tier4_731_vietnamese_collocation_phrases_pocj_to_kucj", test_tier4_731_vietnamese_collocation_phrases_pocj_to_kucj),
+            ("test_tier4_732_kuns_to_punj_extension_horn_and_tone_override_unlatch", test_tier4_732_kuns_to_punj_extension_horn_and_tone_override_unlatch),
+            ("test_tier4_733_kums_to_pumj_and_kungs_to_pungj_horn_and_tone_override_unlatch", test_tier4_733_kums_to_pumj_and_kungs_to_pungj_horn_and_tone_override_unlatch),
+            ("test_tier4_734_kuts_to_pucj_horn_and_tone_override_unlatch", test_tier4_734_kuts_to_pucj_horn_and_tone_override_unlatch),
+            ("test_tier4_735_scenario132_trilingual_puns_kums_pups_and_vietnamese_bun_pun_tum_kum_bup_pup_chat", test_tier4_735_scenario132_trilingual_puns_kums_pups_and_vietnamese_bun_pun_tum_kum_bup_pup_chat),
         ]
     }
 }

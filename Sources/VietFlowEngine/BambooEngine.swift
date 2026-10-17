@@ -614,6 +614,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (["kocs", "kocj", "pocs", "pocj"].contains(String(wordRawKeys).lowercased())
                     && "osj".contains(character.lowercased())
                     && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["kuns", "kunf", "kunr", "kunx", "kunj", "puns", "punf", "punr", "punx", "punj"].contains(String(wordRawKeys).lowercased())
+                    && "gwsfrxj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["kums", "kumf", "kumr", "kumx", "kumj", "pums", "pumf", "pumr", "pumx", "pumj", "kungs", "kungf", "kungr", "kungx", "kungj", "pungs", "pungf", "pungr", "pungx", "pungj"].contains(String(wordRawKeys).lowercased())
+                    && "wsfrxj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
+                || (["kuts", "kutj", "puts", "putj", "kups", "kupj", "pups", "pupj", "kucs", "kucj", "pucs", "pucj"].contains(String(wordRawKeys).lowercased())
+                    && "wsj".contains(character.lowercased())
+                    && character.lowercased() != wordRawKeys.last?.lowercased())
                 || (["arau", "harau", "sarau", "tarau", "narau", "asaru", "hasaru", "masaru", "nasaru", "sasaru", "tasaru", "gaaru", "paaru", "beeru", "meeru", "neeru", "reeru", "seeru", "teeru", "uraya", "urana", "guree", "ieru", "kieru", "mieru", "hieru", "nieru", "tieru", "bieru", "sieru", "gieru", "rieru", "chieru"].contains(String(wordRawKeys).lowercased())
                     && "sfxj".contains(character.lowercased()))
                 || (["haafu", "saafu", "taafu", "seefu"].contains(String(wordRawKeys).lowercased())
@@ -4321,7 +4330,47 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "popj": ["bóp", "góp"],
         "kocs": ["khóc", "góc"],
         "kocj": ["khóc", "góc"],
-        "pocs": ["khóc", "góc"]
+        "pocs": ["khóc", "góc"],
+        "pocj": ["khóc", "góc"],
+        "kuns": ["bún", "cún"],
+        "kunf": ["bún", "cún"],
+        "kunr": ["bún", "cún"],
+        "kunx": ["bún", "cún"],
+        "kunj": ["bún", "cún"],
+        "puns": ["bún", "cún"],
+        "punf": ["bún", "cún"],
+        "punr": ["bún", "cún"],
+        "punx": ["bún", "cún"],
+        "punj": ["bún", "cún"],
+        "kums": ["túm", "núm"],
+        "kumf": ["túm", "núm"],
+        "kumr": ["túm", "núm"],
+        "kumx": ["túm", "núm"],
+        "kumj": ["túm", "núm"],
+        "pums": ["túm", "núm"],
+        "pumf": ["túm", "núm"],
+        "pumr": ["túm", "núm"],
+        "pumx": ["túm", "núm"],
+        "pumj": ["túm", "núm"],
+        "kungs": ["búng", "cúng"],
+        "kungf": ["búng", "cúng"],
+        "kungr": ["búng", "cúng"],
+        "kungx": ["búng", "cúng"],
+        "kungj": ["búng", "cúng"],
+        "pungs": ["búng", "cúng"],
+        "pungf": ["búng", "cúng"],
+        "pungr": ["búng", "cúng"],
+        "pungx": ["búng", "cúng"],
+        "pungj": ["búng", "cúng"],
+        "kuts": ["bút", "rút"],
+        "kutj": ["bút", "rút"],
+        "putj": ["bút", "rút"],
+        "kups": ["búp", "giúp"],
+        "kupj": ["búp", "giúp"],
+        "pups": ["búp", "giúp"],
+        "pupj": ["búp", "giúp"],
+        "kucs": ["cúc", "múc"],
+        "kucj": ["cúc", "múc"]
     ]
 
     private static func matchesIeUeStemDelayedDiacriticUnlatch(
