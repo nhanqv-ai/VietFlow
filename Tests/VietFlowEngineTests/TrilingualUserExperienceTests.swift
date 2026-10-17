@@ -4517,6 +4517,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 121: 40 Collocation Entries (2,842 Total), kans..panj/kams..pangj/kanhs..panhj Unlatch & pixe/kixe Tone Override
+
+    func test_tier4_715_vietnamese_collocation_phrases_suje_to_pamf() {
+        let input = "suje vui suje ver suje tuje vui tuje ver tuje chuje vui chuje ver chuje kuse vui kuse ver kuse kufe vui kufe ver kufe kure vui kure ver kure kuxe vui kuxe ver kuxe kuje vui kuje ver kuje pufe vui pufe ver pufe puxe vui puxe ver puxe puje vui puje ver puje dire vui dire ver dire hire vui hire ver hire life vui life ver life mire vui mire ver mire sire vui sire ver sire tire vui tire ver tire rise vui rise ver rise pise vui pise ver pise pife vui pife ver pife pire vui pire ver pire pixe vui pixe ver pixe pije vui pije ver pije kans banf kans ddanf kans kanf banf kanf ddanf kanf kanr banf kanr ddanf kanr kanx banf kanx ddanf kanx kanj banf kanj ddanf kanj pans banf pans ddanf pans panf banf panf ddanf panf panr banf panr ddanf panr panx banf panx ddanf panx panj banf panj ddanf panj kams bams kams nhams kams kamf bams kamf nhams kamf kamr bams kamr nhams kamr kamx bams kamx nhams kamx kamj bams kamj nhams kamj pams bams pams nhams pams pamf bams pamf nhams pamf"
+        let expected = "suje vui sụe vẻ sụe tuje vui tụe vẻ tụe chuje vui chụe vẻ chụe kuse vui kúe vẻ kúe kufe vui kùe vẻ kùe kure vui kủe vẻ kủe kuxe vui kũe vẻ kũe kuje vui kụe vẻ kụe pufe vui pùe vẻ pùe puxe vui pũe vẻ pũe puje vui pụe vẻ pụe dire vui dỉe vẻ dỉe hire vui hỉe vẻ hỉe life vui lìe vẻ lìe mire vui mỉe vẻ mỉe sire vui sỉe vẻ sỉe tire vui tỉe vẻ tỉe rise vui ríe vẻ ríe pise vui píe vẻ píe pife vui pìe vẻ pìe pire vui pỉe vẻ pỉe pixe vui pĩe vẻ pĩe pije vui pịe vẻ pịe kans bàn kán đàn kán kanf bàn kàn đàn kàn kanr bàn kản đàn kản kanx bàn kãn đàn kãn kanj bàn kạn đàn kạn pans bàn pán đàn pán panf bàn pàn đàn pàn panr bàn pản đàn pản panx bàn pãn đàn pãn panj bàn pạn đàn pạn kams bám kám nhám kám kamf bám kàm nhám kàm kamr bám kảm nhám kảm kamx bám kãm nhám kãm kamj bám kạm nhám kạm pams bám pám nhám pám pamf bám pàm nhám pàm"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_716_kans_to_panj_extension_circumflex_breve_and_tone_override_unlatch() {
+        let input = "kans kansg kansh kansw kansf kansr kansx kansj kanf kanfg kanfh kanfa kanfw kanfs kanfr kanfx kanfj kanr kanrg kanrh kanra kanrw kanrs kanrf kanrx kanrj kanx kanxg kanxh kanxa kanxw kanxs kanxf kanxr kanxj kanj kanjg kanjh kanja kanjw kanjs kanjf kanjr kanjx pans pansg pansh pansa pansw pansf pansr pansx pansj panf panfg panfh panfa panfw panfs panfr panfx panfj panr panrg panrh panra panrw panrs panrf panrx panrj panx panxg panxh panxa panxw panxs panxf panxr panxj panj panjg panjh panja panjw panjs panjf panjr panjx kansai"
+        let expected = "kans káng kánh kắn kàn kản kãn kạn kanf kàng kành kần kằn kán kản kãn kạn kanr kảng kảnh kẩn kẳn kán kàn kãn kạn kanx kãng kãnh kẫn kẵn kán kàn kản kạn kanj kạng kạnh kận kặn kán kàn kản kãn pans páng pánh pấn pắn pàn pản pãn pạn panf pàng pành pần pằn pán pản pãn pạn panr pảng pảnh pẩn pẳn pán pàn pãn pạn panx pãng pãnh pẫn pẵn pán pàn pản pạn panj pạng pạnh pận pặn pán pàn pản pãn kansai"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_717_kams_to_pamj_and_kangs_to_pangj_circumflex_breve_and_tone_override_unlatch() {
+        let input = "kams kamsa kamsw kamsf kamsr kamsx kamsj kamf kamfa kamfw kamfs kamfr kamfx kamfj kamr kamra kamrw kamrs kamrf kamrx kamrj kamx kamxa kamxw kamxs kamxf kamxr kamxj kamj kamja kamjw kamjs kamjf kamjr kamjx pams pamsa pamsw pamsf pamsr pamsx pamsj pamf pamfa pamfw pamfs pamfr pamfx pamfj pamr pamra pamrw pamrs pamrf pamrx pamrj pamx pamxa pamxw pamxs pamxf pamxr pamxj pamj pamja pamjw pamjs pamjf pamjr pamjx kangs kangsa kangsw kangsf kangsr kangsx kangsj kangf kangfa kangfw kangfs kangfr kangfx kangfj kangr kangra kangrw kangrs kangrf kangrx kangrj kangx kangxa kangxw kangxs kangxf kangxr kangxj kangj kangja kangjw kangjs kangjf kangjr kangjx pangs pangsa pangsw pangsf pangsr pangsx pangsj pangf pangfa pangfw pangfs pangfr pangfx pangfj pangr pangra pangrw pangrs pangrf pangrx pangrj pangx pangxa pangxw pangxs pangxf pangxr pangxj pangj pangja pangjw pangjs pangjf pangjr pangjx"
+        let expected = "kams kấm kắm kàm kảm kãm kạm kamf kầm kằm kám kảm kãm kạm kamr kẩm kẳm kám kàm kãm kạm kamx kẫm kẵm kám kàm kảm kạm kamj kậm kặm kám kàm kảm kãm pams pấm pắm pàm pảm pãm pạm pamf pầm pằm pám pảm pãm pạm pamr pẩm pẳm pám pàm pãm pạm pamx pẫm pẵm pám pàm pảm pạm pamj pậm pặm pám pàm pảm pãm kangs kấng kắng kàng kảng kãng kạng kangf kầng kằng káng kảng kãng kạng kangr kẩng kẳng káng kàng kãng kạng kangx kẫng kẵng káng kàng kảng kạng kangj kậng kặng káng kàng kảng kãng pangs pấng pắng pàng pảng pãng pạng pangf pầng pằng páng pảng pãng pạng pangr pẩng pẳng páng pàng pãng pạng pangx pẫng pẵng páng pàng pảng pạng pangj pậng pặng páng pàng pảng pãng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_718_kanhs_to_panhj_and_pixe_kixe_pise_to_pije_tone_override_unlatch() {
+        let input = "kanhs kanhsf kanhsr kanhsx kanhsj kanhf kanhfs kanhfr kanhfx kanhfj kanhr kanhrs kanhrf kanhrx kanhrj kanhx kanhxs kanhxf kanhxr kanhxj kanhj kanhjs kanhjf kanhjr kanhjx panhs panhsf panhsr panhsx panhsj panhf panhfs panhfr panhfx panhfj panhr panhrs panhrf panhrx panhrj panhx panhxs panhxf panhxr panhxj panhj panhjs panhjf panhjr panhjx pixe pixes pixef pixer pixej pixese pixefe pixere pixeje kixe kixes kixef kixer kixej kixese kixefe kixere kixeje pise pisef piser pisex pisej pisefe pisere pisexe piseje pife pifes pifer pifex pifej pifese pifere pifexe pifeje pire pires piref pirex pirej pirese pirefe pirexe pireje pije pijes pijef pijer pijex pijese pijefe pijere pijexe"
+        let expected = "kanhs kành kảnh kãnh kạnh kanhf kánh kảnh kãnh kạnh kanhr kánh kành kãnh kạnh kanhx kánh kành kảnh kạnh kanhj kánh kành kảnh kãnh panhs pành pảnh pãnh pạnh panhf pánh pảnh pãnh pạnh panhr pánh pành pãnh pạnh panhx pánh pành pảnh pạnh panhj pánh pành pảnh pãnh pixe píe pìe pỉe pịe piế piề piể piệ kĩe kíe kìe kỉe kịe kiế kiề kiể kiệ pise pìe pỉe pĩe pịe piề piể piễ piệ pife píe pỉe pĩe pịe piế piể piễ piệ pire píe pìe pĩe pịe piế piề piễ piệ pije píe pìe pỉe pĩe piế piề piể piễ"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_719_scenario129_trilingual_hire_kans_kams_and_vietnamese_vui_hie_ban_kan_bam_kam_chat() {
+        let input = "Khi tuyển dụng qua cổng hire kết hợp hai phân hệ kans và kams trong nền tảng quản trị nhân sự, các chuyên viên vừa ghi nhận nét vui hỉe (vui hire), vừa trao đổi tại bàn kán (banf kans) và kiểm tra độ bám kám (bams kams) của tiến độ dự án!"
+        let expected = "Khi tuyển dụng qua cổng hire kết hợp hai phân hệ kans và kams trong nền tảng quản trị nhân sự, các chuyên viên vừa ghi nhận nét vui hỉe (vui hỉe), vừa trao đổi tại bàn kán (bàn kán) và kiểm tra độ bám kám (bám kám) của tiến độ dự án!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5240,6 +5272,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_712_buse_to_chuje_tone_override_and_delayed_e_unlatch", test_tier4_712_buse_to_chuje_tone_override_and_delayed_e_unlatch),
             ("test_tier4_713_kuse_to_kuje_and_puse_to_puje_circumflex_coda_extensions", test_tier4_713_kuse_to_kuje_and_puse_to_puje_circumflex_coda_extensions),
             ("test_tier4_714_scenario128_trilingual_buse_pure_luxe_and_vietnamese_vui_bue_ve_pue_vui_lue_chat", test_tier4_714_scenario128_trilingual_buse_pure_luxe_and_vietnamese_vui_bue_ve_pue_vui_lue_chat),
+            ("test_tier4_715_vietnamese_collocation_phrases_suje_to_pamf", test_tier4_715_vietnamese_collocation_phrases_suje_to_pamf),
+            ("test_tier4_716_kans_to_panj_extension_circumflex_breve_and_tone_override_unlatch", test_tier4_716_kans_to_panj_extension_circumflex_breve_and_tone_override_unlatch),
+            ("test_tier4_717_kams_to_pamj_and_kangs_to_pangj_circumflex_breve_and_tone_override_unlatch", test_tier4_717_kams_to_pamj_and_kangs_to_pangj_circumflex_breve_and_tone_override_unlatch),
+            ("test_tier4_718_kanhs_to_panhj_and_pixe_kixe_pise_to_pije_tone_override_unlatch", test_tier4_718_kanhs_to_panhj_and_pixe_kixe_pise_to_pije_tone_override_unlatch),
+            ("test_tier4_719_scenario129_trilingual_hire_kans_kams_and_vietnamese_vui_hie_ban_kan_bam_kam_chat", test_tier4_719_scenario129_trilingual_hire_kans_kams_and_vietnamese_vui_hie_ban_kan_bam_kam_chat),
         ]
     }
 }
