@@ -255,6 +255,37 @@ public final class EnglishRestoreTests: VietFlowTestCase {
         assertRestore("barcode target tarrget carpet carrpet garden carbon partner margin harvest harbor normal formal morning corner border order short sport storm form born corn horn torn pork fork lord cord sword first worst burst thirst moist hoist", "barcode target target carpet carpet garden carbon partner margin harvest harbor normal formal morning corner border order short sport storm form born corn horn torn pork fork lord cord sword first worst burst thirst moist hoist")
     }
     
+    func test_dev_double_consonant_keywords_and_abbreviations() {
+        // arr dev shorthand and casing
+        assertRestore("arr", "arr")
+        assertRestore("Arr", "Arr")
+        assertRestore("ARR", "ARR")
+        assertRestore("arr.length", "arr.length")
+        assertRestore("arr[0]", "arr[0]")
+
+        // Common developer abbreviations and acronyms with double consonants
+        assertRestore("tdd", "tdd")
+        assertRestore("bdd", "bdd")
+        assertRestore("hdd", "hdd")
+        assertRestore("ssd", "ssd")
+        assertRestore("add", "add")
+        assertRestore("odd", "odd")
+        assertRestore("css", "css")
+        assertRestore("rss", "rss")
+        assertRestore("ssh", "ssh")
+        assertRestore("ssl", "ssl")
+        assertRestore("cpp", "cpp")
+        assertRestore("hpp", "hpp")
+        assertRestore("app", "app")
+        assertRestore("diff", "diff")
+        assertRestore("tiff", "tiff")
+        assertRestore("bff", "bff")
+        assertRestore("dll", "dll")
+        assertRestore("ull", "ull")
+        assertRestore("err", "err")
+        assertRestore("hmm", "hmm")
+    }
+    
     // MARK: - Registration of all tests
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -376,6 +407,7 @@ public final class EnglishRestoreTests: VietFlowTestCase {
             ("test_more_w_words_single_and_double_w", test_more_w_words_single_and_double_w),
             ("test_standalone_w_english_words_with_and_want_and_would", test_standalone_w_english_words_with_and_want_and_would),
             ("test_multi_syllable_and_r_s_f_english_words", test_multi_syllable_and_r_s_f_english_words),
+            ("test_dev_double_consonant_keywords_and_abbreviations", test_dev_double_consonant_keywords_and_abbreviations),
         ]
     }
 }
