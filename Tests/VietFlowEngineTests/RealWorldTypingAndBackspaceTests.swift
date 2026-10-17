@@ -1780,8 +1780,100 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         engine.reset()
         XCTAssertEqual(apply("carrpet"), "carpet")
     }
+
+    func test_394_double_diacritic_undo_followed_by_backspace_and_retyping() {
+        engine.reset()
+        // 1. Telex double diacritic mark undo followed by Backspace and retyping diacritic trigger key
+        XCTAssertEqual(apply("baaa<BS>a"), "bâ")
+        engine.reset()
+        XCTAssertEqual(apply("beee<BS>e"), "bê")
+        engine.reset()
+        XCTAssertEqual(apply("booo<BS>o"), "bô")
+        engine.reset()
+        XCTAssertEqual(apply("caww<BS>w"), "că")
+        engine.reset()
+        XCTAssertEqual(apply("moww<BS>w"), "mơ")
+        engine.reset()
+        XCTAssertEqual(apply("tuww<BS>w"), "tư")
+        engine.reset()
+        XCTAssertEqual(apply("muoww<BS>w"), "mươ")
+        engine.reset()
+        XCTAssertEqual(apply("ddd<BS>d"), "đ")
+
+        // 2. Double diacritic undo followed by Backspace and new tone key
+        engine.reset()
+        XCTAssertEqual(apply("baaa<BS>s"), "bá")
+        engine.reset()
+        XCTAssertEqual(apply("beee<BS>f"), "bè")
+        engine.reset()
+        XCTAssertEqual(apply("booo<BS>r"), "bỏ")
+        engine.reset()
+        XCTAssertEqual(apply("caww<BS>x"), "cã")
+        engine.reset()
+        XCTAssertEqual(apply("moww<BS>j"), "mọ")
+        engine.reset()
+        XCTAssertEqual(apply("tuww<BS>s"), "tú")
+
+        // 3. Double diacritic undo followed by multi-step Backspace and new vowel / onset
+        engine.reset()
+        XCTAssertEqual(apply("baaa<BS><BS>o"), "bo")
+        engine.reset()
+        XCTAssertEqual(apply("beee<BS><BS>a"), "ba")
+        engine.reset()
+        XCTAssertEqual(apply("booo<BS><BS>e"), "be")
+        engine.reset()
+        XCTAssertEqual(apply("caww<BS><BS>o"), "co")
+        engine.reset()
+        XCTAssertEqual(apply("moww<BS><BS>a"), "ma")
+        engine.reset()
+        XCTAssertEqual(apply("tuww<BS><BS>e"), "te")
+        engine.reset()
+        XCTAssertEqual(apply("muoww<BS><BS><BS>a"), "ma")
+        engine.reset()
+        XCTAssertEqual(apply("baaa<BS><BS><BS>c"), "c")
+        engine.reset()
+        XCTAssertEqual(apply("ddda<BS><BS>d"), "đ")
+
+        // 4. Double diacritic undo continuation without desync (English keywords/shorthand)
+        engine.reset()
+        XCTAssertEqual(apply("baaat"), "baat")
+        engine.reset()
+        XCTAssertEqual(apply("beeer"), "beer")
+        engine.reset()
+        XCTAssertEqual(apply("boook"), "book")
+        engine.reset()
+        XCTAssertEqual(apply("cawws"), "caws")
+        engine.reset()
+        XCTAssertEqual(apply("mowws"), "mows")
+        engine.reset()
+        XCTAssertEqual(apply("tuwwu"), "tuwu")
+        engine.reset()
+        XCTAssertEqual(apply("dddo"), "ddo")
+
+        // 5. VNI double diacritic undo followed by Backspace and retyping
+        let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        XCTAssertEqual(apply("ca66<BS>6", engine: vniEng), "câ")
+        vniEng.reset()
+        XCTAssertEqual(apply("be66<BS>6", engine: vniEng), "bê")
+        vniEng.reset()
+        XCTAssertEqual(apply("co66<BS>6", engine: vniEng), "cô")
+        vniEng.reset()
+        XCTAssertEqual(apply("co77<BS>7", engine: vniEng), "cơ")
+        vniEng.reset()
+        XCTAssertEqual(apply("cu77<BS>7", engine: vniEng), "cư")
+        vniEng.reset()
+        XCTAssertEqual(apply("ca88<BS>8", engine: vniEng), "că")
+        vniEng.reset()
+        XCTAssertEqual(apply("d99<BS>9", engine: vniEng), "đ")
+        vniEng.reset()
+        XCTAssertEqual(apply("ca66<BS>1", engine: vniEng), "cá")
+        vniEng.reset()
+        XCTAssertEqual(apply("co77<BS>2", engine: vniEng), "cò")
+        vniEng.reset()
+        XCTAssertEqual(apply("ca66<BS><BS>e", engine: vniEng), "ce")
+    }
     
-    // MARK: - Test Registry (393 Tests)
+    // MARK: - Test Registry (394 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2218,9 +2310,10 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_390_deep_backspace_across_technical_separators_and_mixed_bypass", test_390_deep_backspace_across_technical_separators_and_mixed_bypass),
             ("test_391_backspace_across_compound_words_2_and_3_syllables", test_391_backspace_across_compound_words_2_and_3_syllables),
 
-            // Section 22: Backspace Across Punctuation / Delimiters & Double-Tone Undo Recovery (2 tests)
+            // Section 22: Backspace Across Punctuation / Delimiters & Double-Tone / Double-Diacritic Undo Recovery (3 tests)
             ("test_392_backspace_across_punctuation_and_bracket_boundaries", test_392_backspace_across_punctuation_and_bracket_boundaries),
             ("test_393_double_tone_undo_followed_by_backspace_and_retyping", test_393_double_tone_undo_followed_by_backspace_and_retyping),
+            ("test_394_double_diacritic_undo_followed_by_backspace_and_retyping", test_394_double_diacritic_undo_followed_by_backspace_and_retyping),
         ]
     }
 }
