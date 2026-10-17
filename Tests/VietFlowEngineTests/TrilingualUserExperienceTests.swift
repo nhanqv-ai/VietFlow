@@ -4843,6 +4843,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 140: 40 Collocation Entries (3,242 Total), pawns..pawcj and kawns..kawcj Unlatch
+
+    func test_tier4_766_vietnamese_collocation_phrases_ngeepj_to_kawngx() {
+        let input = "ngeepj beeps ngeepj xeeps ngeepj ngeecs teets ngeecs leechj ngeecs ngeecj teets ngeecj leechj ngeecj ngeechs leechj ngeechs xeechs ngeechs ngeechj leechj ngeechj xeechs ngeechj pawns bawns pawns cawns pawns pawnf bawns pawnf cawns pawnf pawnr bawns pawnr cawns pawnr pawnx bawns pawnx cawns pawnx pawnj bawns pawnj cawns pawnj pawms bawms pawms cawms pawms pawmf bawms pawmf cawms pawmf pawmr bawms pawmr cawms pawmr pawmx bawms pawmx cawms pawmx pawmj bawms pawmj cawms pawmj pawngs bawngs pawngs vawngs pawngs pawngf bawngs pawngf vawngs pawngf pawngr bawngs pawngr vawngs pawngr pawngx bawngs pawngx vawngs pawngx pawngj bawngs pawngj vawngs pawngj pawts bawts pawts cawts pawts pawtj bawts pawtj cawts pawtj pawps bawps pawps lawps pawps pawpj bawps pawpj lawps pawpj pawcs bawcs pawcs mawcs pawcs pawcj bawcs pawcj mawcs pawcj kawns bawns kawns cawns kawns kawnf bawns kawnf cawns kawnf kawnr bawns kawnr cawns kawnr kawnx bawns kawnx cawns kawnx kawnj bawns kawnj cawns kawnj kawms bawms kawms cawms kawms kawmf bawms kawmf cawms kawmf kawmr bawms kawmr cawms kawmr kawmx bawms kawmx cawms kawmx kawmj bawms kawmj cawms kawmj kawngs bawngs kawngs vawngs kawngs kawngf bawngs kawngf vawngs kawngf kawngr bawngs kawngr vawngs kawngr kawngx bawngs kawngx vawngs kawngx kawngj bawngs kawngj vawngs kawngj"
+        let expected = "ngeepj bếp ngệp xếp ngệp ngeecs tết ngếc lệch ngếc ngeecj tết ngệc lệch ngệc ngeechs lệch ngếch xếch ngếch ngeechj lệch ngệch xếch ngệch pawns bắn pắn cắn pắn pawnf bắn pằn cắn pằn pawnr bắn pẳn cắn pẳn pawnx bắn pẵn cắn pẵn pawnj bắn pặn cắn pặn pawms bắm pắm cắm pắm pawmf bắm pằm cắm pằm pawmr bắm pẳm cắm pẳm pawmx bắm pẵm cắm pẵm pawmj bắm pặm cắm pặm pawngs bắng pắng vắng pắng pawngf bắng pằng vắng pằng pawngr bắng pẳng vắng pẳng pawngx bắng pẵng vắng pẵng pawngj bắng pặng vắng pặng pawts bắt pắt cắt pắt pawtj bắt pặt cắt pặt pawps bắp pắp lắp pắp pawpj bắp pặp lắp pặp pawcs bắc pắc mắc pắc pawcj bắc pặc mắc pặc kawns bắn kắn cắn kắn kawnf bắn kằn cắn kằn kawnr bắn kẳn cắn kẳn kawnx bắn kẵn cắn kẵn kawnj bắn kặn cắn kặn kawms bắm kắm cắm kắm kawmf bắm kằm cắm kằm kawmr bắm kẳm cắm kẳm kawmx bắm kẵm cắm kẵm kawmj bắm kặm cắm kặm kawngs bắng kắng vắng kắng kawngf bắng kằng vắng kằng kawngr bắng kẳng vắng kẳng kawngx bắng kẵng vắng kẵng kawngj bắng kặng vắng kặng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_767_pawns_to_pawcj_extension_circumflex_and_tone_override_unlatch() {
+        let input = "pawns pawnsg pawnsa pawnsf pawnsr pawnsx pawnsj pawnf pawnfg pawnfa pawnfs pawnfr pawnfx pawnfj pawnr pawnrg pawnra pawnrs pawnrf pawnrx pawnrj pawnx pawnxg pawnxa pawnxs pawnxf pawnxr pawnxj pawnj pawnjg pawnja pawnjs pawnjf pawnjr pawnjx pawms pawmsa pawmsf pawmsr pawmsx pawmsj pawmf pawmfa pawmfs pawmfr pawmfx pawmfj pawmr pawmra pawmrs pawmrf pawmrx pawmrj pawmx pawmxa pawmxs pawmxf pawmxr pawmxj pawmj pawmja pawmjs pawmjf pawmjr pawmjx pawngs pawngsa pawngsf pawngsr pawngsx pawngsj pawngf pawngfa pawngfs pawngfr pawngfx pawngfj pawngr pawngra pawngrs pawngrf pawngrx pawngrj pawngx pawngxa pawngxs pawngxf pawngxr pawngxj pawngj pawngja pawngjs pawngjf pawngjr pawngjx pawts pawtsa pawtsj pawtj pawtja pawtjs pawps pawpsa pawpsj pawpj pawpja pawpjs pawcs pawcsa pawcsj pawcj pawcja pawcjs"
+        let expected = "pawns pắng pấn pằn pẳn pẵn pặn pawnf pằng pần pắn pẳn pẵn pặn pawnr pẳng pẩn pắn pằn pẵn pặn pawnx pẵng pẫn pắn pằn pẳn pặn pawnj pặng pận pắn pằn pẳn pẵn pawms pấm pằm pẳm pẵm pặm pawmf pầm pắm pẳm pẵm pặm pawmr pẩm pắm pằm pẵm pặm pawmx pẫm pắm pằm pẳm pặm pawmj pậm pắm pằm pẳm pẵm pawngs pấng pằng pẳng pẵng pặng pawngf pầng pắng pẳng pẵng pặng pawngr pẩng pắng pằng pẵng pặng pawngx pẫng pắng pằng pẳng pặng pawngj pậng pắng pằng pẳng pẵng pawts pất pặt pawtj pật pắt pawps pấp pặp pawpj pập pắp pawcs pấc pặc pawcj pậc pắc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_768_kawns_to_kawngj_extension_circumflex_and_tone_override_unlatch() {
+        let input = "kawns kawnsg kawnsa kawnsf kawnsr kawnsx kawnsj kawnf kawnfg kawnfa kawnfs kawnfr kawnfx kawnfj kawnr kawnrg kawnra kawnrs kawnrf kawnrx kawnrj kawnx kawnxg kawnxa kawnxs kawnxf kawnxr kawnxj kawnj kawnjg kawnja kawnjs kawnjf kawnjr kawnjx kawms kawmsa kawmsf kawmsr kawmsx kawmsj kawmf kawmfa kawmfs kawmfr kawmfx kawmfj kawmr kawmra kawmrs kawmrf kawmrx kawmrj kawmx kawmxa kawmxs kawmxf kawmxr kawmxj kawmj kawmja kawmjs kawmjf kawmjr kawmjx kawngs kawngsa kawngsf kawngsr kawngsx kawngsj kawngf kawngfa kawngfs kawngfr kawngfx kawngfj kawngr kawngra kawngrs kawngrf kawngrx kawngrj kawngx kawngxa kawngxs kawngxf kawngxr kawngxj kawngj kawngja kawngjs kawngjf kawngjr kawngjx"
+        let expected = "kawns kắng kấn kằn kẳn kẵn kặn kawnf kằng kần kắn kẳn kẵn kặn kawnr kẳng kẩn kắn kằn kẵn kặn kawnx kẵng kẫn kắn kằn kẳn kặn kawnj kặng kận kắn kằn kẳn kẵn kawms kấm kằm kẳm kẵm kặm kawmf kầm kắm kẳm kẵm kặm kawmr kẩm kắm kằm kẵm kặm kawmx kẫm kắm kằm kẳm kặm kawmj kậm kắm kằm kẳm kẵm kawngs kấng kằng kẳng kẵng kặng kawngf kầng kắng kẳng kẵng kặng kawngr kẩng kắng kằng kẵng kặng kawngx kẫng kắng kằng kẳng kặng kawngj kậng kắng kằng kẳng kẵng"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_769_kawts_to_kawcj_circumflex_and_tone_override_unlatch() {
+        let input = "kawts kawtsa kawtsj kawtj kawtja kawtjs kawps kawpsa kawpsj kawpj kawpja kawpjs kawcs kawcsa kawcsj kawcj kawcja kawcjs"
+        let expected = "kawts kất kặt kawtj kật kắt kawps kấp kặp kawpj kập kắp kawcs kấc kặc kawcj kậc kắc"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_770_scenario140_trilingual_pawns_pawts_kawns_and_vietnamese_ban_pan_bat_pat_can_kan_chat() {
+        let input = "Khi kiểm thử ba van điều áp pawns, pawts và kawns trong buồng chân không, kỹ sư vận hành vừa đo lực bắn pắn (bawns pawns), vừa kiểm tra chốt bắt pắt (bawts pawts) và ngàm cắn kắn (cawns kawns) đạt chuẩn an toàn!"
+        let expected = "Khi kiểm thử ba van điều áp pawns, pawts và kawns trong buồng chân không, kỹ sư vận hành vừa đo lực bắn pắn (bắn pắn), vừa kiểm tra chốt bắt pắt (bắt pắt) và ngàm cắn kắn (cắn kắn) đạt chuẩn an toàn!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5617,6 +5649,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_763_geets_to_geechj_extension_and_tone_override_unlatch", test_tier4_763_geets_to_geechj_extension_and_tone_override_unlatch),
             ("test_tier4_764_ngeens_to_ngeechj_extension_and_tone_override_unlatch", test_tier4_764_ngeens_to_ngeechj_extension_and_tone_override_unlatch),
             ("test_tier4_765_scenario139_trilingual_geems_geets_ngeens_and_vietnamese_dem_gem_tet_get_ben_ngen_chat", test_tier4_765_scenario139_trilingual_geems_geets_ngeens_and_vietnamese_dem_gem_tet_get_ben_ngen_chat),
+            ("test_tier4_766_vietnamese_collocation_phrases_ngeepj_to_kawngx", test_tier4_766_vietnamese_collocation_phrases_ngeepj_to_kawngx),
+            ("test_tier4_767_pawns_to_pawcj_extension_circumflex_and_tone_override_unlatch", test_tier4_767_pawns_to_pawcj_extension_circumflex_and_tone_override_unlatch),
+            ("test_tier4_768_kawns_to_kawngj_extension_circumflex_and_tone_override_unlatch", test_tier4_768_kawns_to_kawngj_extension_circumflex_and_tone_override_unlatch),
+            ("test_tier4_769_kawts_to_kawcj_circumflex_and_tone_override_unlatch", test_tier4_769_kawts_to_kawcj_circumflex_and_tone_override_unlatch),
+            ("test_tier4_770_scenario140_trilingual_pawns_pawts_kawns_and_vietnamese_ban_pan_bat_pat_can_kan_chat", test_tier4_770_scenario140_trilingual_pawns_pawts_kawns_and_vietnamese_ban_pan_bat_pat_can_kan_chat),
         ]
     }
 }
