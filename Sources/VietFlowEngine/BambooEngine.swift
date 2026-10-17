@@ -1362,6 +1362,31 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 return true
             }
 
+            // If backspace removed a technical separator from committedPrefix while activePreedit was empty,
+            // pull the preceding segment before the separator back into activePreedit so the user can
+            // seamlessly continue editing/toning the preceding word.
+            if activePreedit.isEmpty && !committedPrefix.isEmpty, let deleted = lastDeletedChar, EnglishRestoreDetector.isTechnicalSeparator(deleted) {
+                if let lastSepIndex = committedPrefix.lastIndex(where: { EnglishRestoreDetector.isTechnicalSeparator($0) }) {
+                    let nextIndex = committedPrefix.index(after: lastSepIndex)
+                    activePreedit = String(committedPrefix[nextIndex...])
+                    committedPrefix = String(committedPrefix[..<nextIndex])
+                } else {
+                    activePreedit = committedPrefix
+                    committedPrefix = ""
+                }
+                
+                let lowerActive = activePreedit.lowercased()
+                let isSwEng = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+                    && EnglishRestoreDetector.hasInvalidTelexSwPrefix(lowerActive)
+                if wasBypassed
+                    || EnglishRestoreDetector.isEnglishKeyword(lowerActive)
+                    || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerActive)
+                    || isSwEng
+                    || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerActive) {
+                    isBypassed = true
+                }
+            }
+
             if wasBypassed {
                 if !wordRawKeys.isEmpty {
                     wordRawKeys.removeLast()
