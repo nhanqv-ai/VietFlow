@@ -4651,6 +4651,38 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
         assertBuffer(input, equals: expected)
     }
 
+    // MARK: - Cycle 129: 40 Collocation Entries (3,002 Total), pens..penj, pems..pechj, pins..pichj Unlatch
+
+    func test_tier4_736_vietnamese_collocation_phrases_pucs_to_pinhj() {
+        let input = "pucs cucs pucs mucs pucs pucj cucs pucj mucs pucj pens kens pens lens pens penf kens penf lens penf penr kens penr lens penr penx kens penx lens penx penj kens penj lens penj pems kems pems nems pems pemf kems pemf nems pemf pemr kems pemr nems pemr pemx kems pemx nems pemx pemj kems pemj nems pemj penhs beenhj penhs leenhj penhs penhf beenhj penhf leenhj penhf penhr beenhj penhr leenhj penhr penhx beenhj penhx leenhj penhx penhj beenhj penhj leenhj penhj pets kets pets nets pets petj kets petj nets petj peps keps peps neps peps pepj keps pepj neps pepj pecs xecs pecs tecs pecs pecj xecs pecj tecs pecj pechs leechj pechs xeechs pechs pechj leechj pechj xeechs pechj pins tins pins kins pins pinf tins pinf kins pinf pinr tins pinr kins pinr pinx tins pinx kins pinx pinj tins pinj kins pinj pims tims pims nhims pims pimf tims pimf nhims pimf pimr tims pimr nhims pimr pimx tims pimx nhims pimx pimj tims pimj nhims pimj pinhs tinhs pinhs kinhs pinhs pinhf tinhs pinhf kinhs pinhf pinhr tinhs pinhr kinhs pinhr pinhx tinhs pinhx kinhs pinhx pinhj tinhs pinhj kinhs pinhj"
+        let expected = "pucs cúc púc múc púc pucj cúc pục múc pục pens kén pén lén pén penf kén pèn lén pèn penr kén pẻn lén pẻn penx kén pẽn lén pẽn penj kén pẹn lén pẹn pems kém pém ném pém pemf kém pèm ném pèm pemr kém pẻm ném pẻm pemx kém pẽm ném pẽm pemj kém pẹm ném pẹm penhs bệnh pénh lệnh pénh penhf bệnh pènh lệnh pènh penhr bệnh pẻnh lệnh pẻnh penhx bệnh pẽnh lệnh pẽnh penhj bệnh pẹnh lệnh pẹnh pets két pét nét pét petj két pẹt nét pẹt peps kép pép nép pép pepj kép pẹp nép pẹp pecs xéc péc téc péc pecj xéc pẹc téc pẹc pechs lệch péch xếch péch pechj lệch pẹch xếch pẹch pins tín pín kín pín pinf tín pìn kín pìn pinr tín pỉn kín pỉn pinx tín pĩn kín pĩn pinj tín pịn kín pịn pims tím pím nhím pím pimf tím pìm nhím pìm pimr tím pỉm nhím pỉm pimx tím pĩm nhím pĩm pimj tím pịm nhím pịm pinhs tính pính kính pính pinhf tính pình kính pình pinhr tính pỉnh kính pỉnh pinhx tính pĩnh kính pĩnh pinhj tính pịnh kính pịnh"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_737_pens_to_penhj_extension_circumflex_and_tone_override_unlatch() {
+        let input = "pens pensh pense pensf pensr pensx pensj penf penfh penfe penfs penfr penfx penfj penr penrh penre penrs penrf penrx penrj penx penxh penxe penxs penxf penxr penxj penj penjh penje penjs penjf penjr penjx pems pemse pemsf pemsr pemsx pemsj pemf pemfe pemfs pemfr pemfx pemfj pemr pemre pemrs pemrf pemrx pemrj pemx pemxe pemxs pemxf pemxr pemxj pemj pemje pemjs pemjf pemjr pemjx penhs penhse penhsf penhsr penhsx penhsj penhf penhfe penhfs penhfr penhfx penhfj penhr penhre penhrs penhrf penhrx penhrj penhx penhxe penhxs penhxf penhxr penhxj penhj penhje penhjs penhjf penhjr penhjx pension pensive"
+        let expected = "pens pénh pến pèn pẻn pẽn pẹn penf pènh pền pén pẻn pẽn pẹn penr pẻnh pển pén pèn pẽn pẹn penx pẽnh pễn pén pèn pẻn pẹn penj pẹnh pện pén pèn pẻn pẽn pems pếm pèm pẻm pẽm pẹm pemf pềm pém pẻm pẽm pẹm pemr pểm pém pèm pẽm pẹm pemx pễm pém pèm pẻm pẹm pemj pệm pém pèm pẻm pẽm penhs pếnh pènh pẻnh pẽnh pẹnh penhf pềnh pénh pẻnh pẽnh pẹnh penhr pểnh pénh pènh pẽnh pẹnh penhx pễnh pénh pènh pẻnh pẹnh penhj pệnh pénh pènh pẻnh pẽnh pension pensive"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_738_pets_to_pechj_extension_circumflex_and_tone_override_unlatch() {
+        let input = "pets petse petsj petj petje petjs peps pepse pepsj pepj pepje pepjs pecs pecsh pecsj pecj pecjh pecjs pechs pechse pechsj pechj pechje pechjs"
+        let expected = "pets pết pẹt petj pệt pét peps pếp pẹp pepj pệp pép pecs péch pẹc pecj pẹch péc pechs pếch pẹch pechj pệch péch"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_739_pins_to_pichj_extension_and_tone_override_unlatch() {
+        let input = "pins pinsh pinsf pinsr pinsx pinsj pinf pinfh pinfs pinfr pinfx pinfj pinr pinrh pinrs pinrf pinrx pinrj pinx pinxh pinxs pinxf pinxr pinxj pinj pinjh pinjs pinjf pinjr pinjx pims pimsf pimsr pimsx pimsj pimf pimfs pimfr pimfx pimfj pimr pimrs pimrf pimrx pimrj pimx pimxs pimxf pimxr pimxj pimj pimjs pimjf pimjr pimjx pinhs pinhsf pinhsr pinhsx pinhsj pinhf pinhfs pinhfr pinhfx pinhfj pinhr pinhrs pinhrf pinhrx pinhrj pinhx pinhxs pinhxf pinhxr pinhxj pinhj pinhjs pinhjf pinhjr pinhjx pits pitsj pitj pitjs pips pipsj pipj pipjs pics picsh picsj picj picjh picjs pichs pichsj pichj pichjs"
+        let expected = "pins pính pìn pỉn pĩn pịn pinf pình pín pỉn pĩn pịn pinr pỉnh pín pìn pĩn pịn pinx pĩnh pín pìn pỉn pịn pinj pịnh pín pìn pỉn pĩn pims pìm pỉm pĩm pịm pimf pím pỉm pĩm pịm pimr pím pìm pĩm pịm pimx pím pìm pỉm pịm pimj pím pìm pỉm pĩm pinhs pình pỉnh pĩnh pịnh pinhf pính pỉnh pĩnh pịnh pinhr pính pình pĩnh pịnh pinhx pính pình pỉnh pịnh pinhj pính pình pỉnh pĩnh pits pịt pitj pít pips pịp pipj píp pics pích pịc picj pịch píc pichs pịch pichj pích"
+        assertBuffer(input, equals: expected)
+    }
+
+    func test_tier4_740_scenario133_trilingual_pens_pets_pins_and_vietnamese_ken_pen_ket_pet_tin_pin_chat() {
+        let input = "Khi kiểm kê lô phụ kiện pens, pets và pins trong kho linh kiện điện tử, nhân viên kỹ thuật vừa phân loại bút kén pén (kens pens), vừa kiểm tra chốt két pét (kets pets) và đầu cắm tín pín (tins pins) trước khi đóng gói!"
+        let expected = "Khi kiểm kê lô phụ kiện pens, pets và pins trong kho linh kiện điện tử, nhân viên kỹ thuật vừa phân loại bút kén pén (kén pén), vừa kiểm tra chốt két pét (két pét) và đầu cắm tín pín (tín pín) trước khi đóng gói!"
+        assertBuffer(input, equals: expected)
+    }
+
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
             // Tier 1: Feature Coverage (48 tests)
@@ -5395,6 +5427,11 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
             ("test_tier4_733_kums_to_pumj_and_kungs_to_pungj_horn_and_tone_override_unlatch", test_tier4_733_kums_to_pumj_and_kungs_to_pungj_horn_and_tone_override_unlatch),
             ("test_tier4_734_kuts_to_pucj_horn_and_tone_override_unlatch", test_tier4_734_kuts_to_pucj_horn_and_tone_override_unlatch),
             ("test_tier4_735_scenario132_trilingual_puns_kums_pups_and_vietnamese_bun_pun_tum_kum_bup_pup_chat", test_tier4_735_scenario132_trilingual_puns_kums_pups_and_vietnamese_bun_pun_tum_kum_bup_pup_chat),
+            ("test_tier4_736_vietnamese_collocation_phrases_pucs_to_pinhj", test_tier4_736_vietnamese_collocation_phrases_pucs_to_pinhj),
+            ("test_tier4_737_pens_to_penhj_extension_circumflex_and_tone_override_unlatch", test_tier4_737_pens_to_penhj_extension_circumflex_and_tone_override_unlatch),
+            ("test_tier4_738_pets_to_pechj_extension_circumflex_and_tone_override_unlatch", test_tier4_738_pets_to_pechj_extension_circumflex_and_tone_override_unlatch),
+            ("test_tier4_739_pins_to_pichj_extension_and_tone_override_unlatch", test_tier4_739_pins_to_pichj_extension_and_tone_override_unlatch),
+            ("test_tier4_740_scenario133_trilingual_pens_pets_pins_and_vietnamese_ken_pen_ket_pet_tin_pin_chat", test_tier4_740_scenario133_trilingual_pens_pets_pins_and_vietnamese_ken_pen_ket_pet_tin_pin_chat),
         ]
     }
 }
