@@ -1399,13 +1399,40 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let lowerActive = activePreedit.lowercased()
                 let isSwEng = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
                     && EnglishRestoreDetector.hasInvalidTelexSwPrefix(lowerActive)
-                if wasBypassed
-                    || EnglishRestoreDetector.isEnglishKeyword(lowerActive)
+                var shouldBypass = EnglishRestoreDetector.isEnglishKeyword(lowerActive)
                     || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerActive)
                     || isSwEng
-                    || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerActive) {
-                    isBypassed = true
+                    || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerActive)
+
+                if !shouldBypass {
+                    for cluster in EnglishRestoreDetector.invalidOnsetClusters {
+                        if _config.inputMethod == .telex && cluster == "sw" { continue }
+                        if lowerActive.hasPrefix(cluster) {
+                            shouldBypass = true
+                            break
+                        }
+                    }
                 }
+
+                if shouldBypass {
+                    isBypassed = true
+                    activeRawKeys = Array(activePreedit)
+                    wordRawKeys = Array(committedPrefix + activePreedit)
+                    transformState = SyllableTransformState()
+                } else {
+                    isBypassed = false
+                    activeRawKeys = Self.canonicalRawKeys(for: activePreedit, method: _config.inputMethod)
+                    wordRawKeys = Self.canonicalRawKeys(for: committedPrefix, method: _config.inputMethod) + activeRawKeys
+                    if !activeRawKeys.isEmpty {
+                        var (_, state) = evaluateRaw(keys: activeRawKeys)
+                        state.lastToneKey = nil
+                        state.lastDiacriticKey = nil
+                        transformState = state
+                    } else {
+                        transformState = SyllableTransformState()
+                    }
+                }
+                return true
             }
 
             if wasBypassed {

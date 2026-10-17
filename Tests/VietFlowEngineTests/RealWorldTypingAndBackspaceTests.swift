@@ -1584,8 +1584,51 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         engine.reset()
         XCTAssertEqual(apply("a/b/c<BS><BS><BS><BS>nh"), "anh")
     }
+
+    func test_390_deep_backspace_across_technical_separators_and_mixed_bypass() {
+        engine.reset()
+        // 1. Vietnamese word before separator when following segment was bypassed (e.g. toan_abc)
+        // Deleting separator should NOT inherit wasBypassed from abc, allowing tone modification on preceding syllable
+        XCTAssertEqual(apply("toan_abc<BS><BS><BS><BS>s"), "toán")
+
+        // 2. Deeper backspace through restored English word after deleting separator
+        engine.reset()
+        _ = apply("file.txt<BS><BS><BS><BS><BS>")
+        XCTAssertEqual(engine.currentSyllable, "fil")
+
+        // 2b. English keyword before separator: backspacing into restored keyword preserves syllable without wiping
+        engine.reset()
+        _ = apply("data_user<BS><BS><BS><BS><BS><BS>")
+        XCTAssertEqual(engine.currentSyllable, "dat")
+
+        // 3. Backspacing deeper and typing new letters on restored English segment
+        engine.reset()
+        XCTAssertEqual(apply("file.txt<BS><BS><BS><BS><BS><BS>nd"), "find")
+        XCTAssertEqual(engine.currentSyllable, "find")
+
+        // 4. Multi-level path backspacing across multiple separators
+        engine.reset()
+        XCTAssertEqual(apply("src/test.txt<BS><BS><BS><BS><BS><BS>mp"), "src/temp")
+        XCTAssertEqual(engine.currentSyllable, "src/temp")
+
+        // 5. Vietnamese word followed by technical extension / bypassed identifier
+        engine.reset()
+        XCTAssertEqual(apply("viet_app<BS><BS><BS><BS>j"), "việt")
+        XCTAssertEqual(engine.currentSyllable, "việt")
+
+        // 6. Email address multi-step backspace across multiple separators (@ and .)
+        engine.reset()
+        XCTAssertEqual(apply("admin@site.vn<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>user"), "admuser")
+        XCTAssertEqual(engine.currentSyllable, "admuser")
+
+        // 7. VNI mode: backspace across technical separator and apply numeric tone
+        let vniEngine = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        let vniResult = applyKeystrokesAndBackspacesToScreenBuffer("toan_hoc<BS><BS><BS><BS>1", engine: vniEngine)
+        XCTAssertEqual(vniResult, "toán")
+        XCTAssertEqual(vniEngine.currentSyllable, "toán")
+    }
     
-    // MARK: - Test Registry (389 Tests)
+    // MARK: - Test Registry (390 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2014,11 +2057,12 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_384_long_essay_vni_complex_mixed_english_and_numbers", test_384_long_essay_vni_complex_mixed_english_and_numbers),
             ("test_385_stress_test_delete_entire_paragraph_and_retype", test_385_stress_test_delete_entire_paragraph_and_retype),
 
-            // Section 21: Regression Coverage for Backspace and Duplicate Coda (4 tests)
+            // Section 21: Regression Coverage for Backspace and Duplicate Coda (5 tests)
             ("test_386_backspace_deleted_g_then_type_n_preserves_ascii_and_recovers_vietnamese_ng", test_386_backspace_deleted_g_then_type_n_preserves_ascii_and_recovers_vietnamese_ng),
             ("test_387_duplicate_coda_consonant_suppression_on_vietnamese_syllables", test_387_duplicate_coda_consonant_suppression_on_vietnamese_syllables),
             ("test_388_ascii_control_characters_reset_engine_buffer", test_388_ascii_control_characters_reset_engine_buffer),
             ("test_389_backspace_across_technical_separator_restores_active_syllable", test_389_backspace_across_technical_separator_restores_active_syllable),
+            ("test_390_deep_backspace_across_technical_separators_and_mixed_bypass", test_390_deep_backspace_across_technical_separators_and_mixed_bypass),
         ]
     }
 }
