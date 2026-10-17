@@ -926,6 +926,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     activeRawKeys = Self.canonicalRawKeys(for: activePreedit, method: _config.inputMethod)
                     wordRawKeys = Self.canonicalRawKeys(for: committedPrefix, method: _config.inputMethod) + activeRawKeys
                 }
+            } else if lowerDeleted == "g" && activePreedit.lowercased().hasSuffix("n") && character.lowercased() == "n" {
+                activePreedit.removeLast()
+                activeRawKeys = Self.canonicalRawKeys(for: activePreedit, method: _config.inputMethod)
+                wordRawKeys = Self.canonicalRawKeys(for: committedPrefix, method: _config.inputMethod) + activeRawKeys
             }
         }
 
@@ -1765,14 +1769,6 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     return (modified, true)
                 }
             }
-        }
-
-        // MARK: Ignore duplicate consonant coda to prevent invalid clusters (e.g. truon + n -> truon)
-        if let lastRaw = rawHistory.last,
-           lastRaw.lowercased() == inputChar.lowercased(),
-           ((previousDisplay.lowercased().hasSuffix("n") && inputChar.lowercased() == "n")
-            || (previousDisplay.lowercased().hasSuffix("c") && inputChar.lowercased() == "c")) {
-            return (previousDisplay, true)
         }
 
         // MARK: Delayed 'd -> đ' ('d' in Telex, '9' in VNI)

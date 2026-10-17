@@ -483,6 +483,9 @@ public final class EventTapManager: @unchecked Sendable {
         
         // Process through BambooEngine
         if let delta = engine.processKey(typedChar) {
+            if delta.backspaces == 0 && delta.insertText == String(typedChar) {
+                return Unmanaged.passRetained(event)
+            }
             applyDelta(delta)
             return nil // Swallow the triggering key!
         }
