@@ -2357,16 +2357,27 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         // MARK: Double-Press Diacritic Undo (e.g. 'â' + 'a' -> 'aa', 'đ' + 'd' -> 'dd', 'ươ' + 'w' -> 'uow')
         if escape, state.lastDiacriticKey == inputChar {
             if (inputChar == "w" || inputChar == "W" || inputChar == "7"),
-               previousDisplay.lowercased().hasSuffix("ươ"),
+               TonePlacement.stripTone(from: previousDisplay).lowercased().hasSuffix("ươ"),
                rawHistory.filter({ $0.lowercased() == "w" || $0 == "7" }).count <= 1 {
                 state.lastDiacriticKey = nil
                 state.isBypassed = true
                 state.didUndoDiacritic = true
                 let chars = Array(previousDisplay)
+                guard chars.count >= 2 else { return (previousDisplay + String(inputChar), false) }
+                let (_, uTone) = TonePlacement.removeTone(from: chars[chars.count - 2])
+                let (_, oTone) = TonePlacement.removeTone(from: chars[chars.count - 1])
+                let tone = oTone != .none ? oTone : uTone
                 let uChar = chars[chars.count - 2].isUppercase ? "U" : "u"
                 let oChar = chars[chars.count - 1].isUppercase ? "O" : "o"
                 let prefix = String(chars.dropLast(2))
-                return (prefix + uChar + oChar + String(inputChar), true)
+                let composed = TonePlacement.composeSyllable(
+                    vowels: [Character(uChar), Character(oChar)],
+                    onset: prefix,
+                    coda: "",
+                    tone: tone,
+                    style: toneStyle
+                )
+                return (composed + String(inputChar), true)
             }
             if let undone = tryUndoDiacritic(lastChar: previousDisplay.last, trigger: inputChar, method: method) {
                 state.lastDiacriticKey = nil
