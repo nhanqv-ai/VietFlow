@@ -2357,27 +2357,31 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         // MARK: Double-Press Diacritic Undo (e.g. 'â' + 'a' -> 'aa', 'đ' + 'd' -> 'dd', 'ươ' + 'w' -> 'uow')
         if escape, state.lastDiacriticKey == inputChar {
             if (inputChar == "w" || inputChar == "W" || inputChar == "7"),
-               TonePlacement.stripTone(from: previousDisplay).lowercased().hasSuffix("ươ"),
-               rawHistory.filter({ $0.lowercased() == "w" || $0 == "7" }).count <= 1 {
-                state.lastDiacriticKey = nil
-                state.isBypassed = true
-                state.didUndoDiacritic = true
-                let chars = Array(previousDisplay)
-                guard chars.count >= 2 else { return (previousDisplay + String(inputChar), false) }
-                let (_, uTone) = TonePlacement.removeTone(from: chars[chars.count - 2])
-                let (_, oTone) = TonePlacement.removeTone(from: chars[chars.count - 1])
-                let tone = oTone != .none ? oTone : uTone
-                let uChar = chars[chars.count - 2].isUppercase ? "U" : "u"
-                let oChar = chars[chars.count - 1].isUppercase ? "O" : "o"
-                let prefix = String(chars.dropLast(2))
-                let composed = TonePlacement.composeSyllable(
-                    vowels: [Character(uChar), Character(oChar)],
-                    onset: prefix,
-                    coda: "",
-                    tone: tone,
-                    style: toneStyle
-                )
-                return (composed + String(inputChar), true)
+               rawHistory.filter({ $0.lowercased() == "w" || $0 == "7" }).count <= 1,
+               let parsed = Syllable.parse(from: previousDisplay) {
+                let lowerNuc = parsed.nucleus.lowercased()
+                var restoredVowels: [Character]? = nil
+                if lowerNuc == "ươ" || lowerNuc == "uơ" {
+                    restoredVowels = ["u", "o"]
+                } else if lowerNuc == "ươi" {
+                    restoredVowels = ["u", "o", "i"]
+                } else if lowerNuc == "ươu" {
+                    restoredVowels = ["u", "o", "u"]
+                }
+
+                if let vowels = restoredVowels {
+                    state.lastDiacriticKey = nil
+                    state.isBypassed = true
+                    state.didUndoDiacritic = true
+                    let composed = TonePlacement.composeSyllable(
+                        vowels: vowels,
+                        onset: parsed.onset,
+                        coda: parsed.coda,
+                        tone: parsed.tone,
+                        style: toneStyle
+                    )
+                    return (parsed.applyCasing(composed) + String(inputChar), true)
+                }
             }
             if let undone = tryUndoDiacritic(lastChar: previousDisplay.last, trigger: inputChar, method: method) {
                 state.lastDiacriticKey = nil
