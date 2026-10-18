@@ -2377,6 +2377,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 modified.append(contentsOf: undone)
                 return (modified, true)
             }
+            if !rawHistory.isEmpty {
+                state.lastDiacriticKey = nil
+                state.isBypassed = true
+                state.didUndoDiacritic = true
+                return (String(rawHistory), true)
+            }
         }
 
         // MARK: Dual Horn Shortcut ('uow' / 'uwow' -> 'ươ') & 'w' on 'uô' absorption

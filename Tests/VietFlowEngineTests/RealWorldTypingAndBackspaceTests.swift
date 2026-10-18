@@ -1916,8 +1916,69 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         engine.reset()
         XCTAssertEqual(apply("xin chafo anh-em<BS><BS><BS><BS><BS><BS><BS>s"), "xin cháo")
     }
+
+    func test_396_delayed_diacritic_double_key_undo_and_backspace_retyping() {
+        engine.reset()
+        // 1. Telex delayed 'd' double-key undo on vowels & codas
+        XCTAssertEqual(apply("didd"), "did")
+        engine.reset()
+        XCTAssertEqual(apply("dadd"), "dad")
+        engine.reset()
+        XCTAssertEqual(apply("dodd"), "dod")
+        engine.reset()
+        XCTAssertEqual(apply("dudd"), "dud")
+        engine.reset()
+        XCTAssertEqual(apply("dedd"), "ded")
+        engine.reset()
+        XCTAssertEqual(apply("DIDD"), "DID")
+        engine.reset()
+        XCTAssertEqual(apply("DADD"), "DAD")
+
+        // 2. Telex delayed horn & breve double-key undo across codas
+        engine.reset()
+        XCTAssertEqual(apply("toanww"), "toanw")
+
+        // 3. VNI delayed '9' double-key undo on vowels & codas
+        let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        XCTAssertEqual(apply("di99", engine: vniEng), "di9")
+        vniEng.reset()
+        XCTAssertEqual(apply("da99", engine: vniEng), "da9")
+        vniEng.reset()
+        XCTAssertEqual(apply("do99", engine: vniEng), "do9")
+        vniEng.reset()
+        XCTAssertEqual(apply("du99", engine: vniEng), "du9")
+        vniEng.reset()
+        XCTAssertEqual(apply("de99", engine: vniEng), "de9")
+        vniEng.reset()
+        XCTAssertEqual(apply("DI99", engine: vniEng), "DI9")
+        vniEng.reset()
+        XCTAssertEqual(apply("DA99", engine: vniEng), "DA9")
+
+        // 4. VNI delayed breve double-key undo across codas
+        vniEng.reset()
+        XCTAssertEqual(apply("toan88", engine: vniEng), "toan8")
+
+        // 5. Backspace and retyping after delayed diacritic double-key undo
+        engine.reset()
+        XCTAssertEqual(apply("didd<BS>d"), "đi")
+        engine.reset()
+        XCTAssertEqual(apply("dadd<BS>d"), "đa")
+        engine.reset()
+        XCTAssertEqual(apply("toanww<BS>w"), "toăn")
+        engine.reset()
+        XCTAssertEqual(apply("didd<BS><BS>a"), "da")
+
+        vniEng.reset()
+        XCTAssertEqual(apply("di99<BS>9", engine: vniEng), "đi")
+        vniEng.reset()
+        XCTAssertEqual(apply("da99<BS>9", engine: vniEng), "đa")
+        vniEng.reset()
+        XCTAssertEqual(apply("toan88<BS>8", engine: vniEng), "toăn")
+        vniEng.reset()
+        XCTAssertEqual(apply("di99<BS><BS>a", engine: vniEng), "da")
+    }
     
-    // MARK: - Test Registry (395 Tests)
+    // MARK: - Test Registry (396 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2359,6 +2420,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_393_double_tone_undo_followed_by_backspace_and_retyping", test_393_double_tone_undo_followed_by_backspace_and_retyping),
             ("test_394_double_diacritic_undo_followed_by_backspace_and_retyping", test_394_double_diacritic_undo_followed_by_backspace_and_retyping),
             ("test_395_compound_word_boundary_double_consonants_and_collocation_backspace_recovery", test_395_compound_word_boundary_double_consonants_and_collocation_backspace_recovery),
+            ("test_396_delayed_diacritic_double_key_undo_and_backspace_retyping", test_396_delayed_diacritic_double_key_undo_and_backspace_retyping),
         ]
     }
 }
