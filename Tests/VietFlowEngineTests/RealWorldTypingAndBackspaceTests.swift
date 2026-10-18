@@ -1977,8 +1977,113 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         vniEng.reset()
         XCTAssertEqual(apply("di99<BS><BS>a", engine: vniEng), "da")
     }
-    
-    // MARK: - Test Registry (396 Tests)
+
+    func test_397_uppercase_toned_diacritic_double_key_undo_and_backspace_retyping() {
+        engine.reset()
+        // 1. Telex uppercase toned diacritic double-key undo across tones
+        XCTAssertEqual(apply("COSOO"), "CÓO")
+        engine.reset()
+        XCTAssertEqual(apply("COFOO"), "CÒO")
+        engine.reset()
+        XCTAssertEqual(apply("COROO"), "CỎO")
+        engine.reset()
+        XCTAssertEqual(apply("COXOO"), "CÕO")
+        engine.reset()
+        XCTAssertEqual(apply("COJOO"), "CỌO")
+
+        engine.reset()
+        XCTAssertEqual(apply("COSWW"), "CÓW")
+        engine.reset()
+        XCTAssertEqual(apply("COFWW"), "CÒW")
+        engine.reset()
+        XCTAssertEqual(apply("CORWW"), "CỎW")
+        engine.reset()
+        XCTAssertEqual(apply("COXWW"), "CÕW")
+        engine.reset()
+        XCTAssertEqual(apply("COJWW"), "CỌW")
+
+        engine.reset()
+        XCTAssertEqual(apply("TUSWW"), "TÚW")
+        engine.reset()
+        XCTAssertEqual(apply("TUFWW"), "TÙW")
+        engine.reset()
+        XCTAssertEqual(apply("TURWW"), "TỦW")
+        engine.reset()
+        XCTAssertEqual(apply("TUXWW"), "TŨW")
+        engine.reset()
+        XCTAssertEqual(apply("TUJWW"), "TỤW")
+
+        engine.reset()
+        XCTAssertEqual(apply("OSOO"), "ÓO")
+        engine.reset()
+        XCTAssertEqual(apply("OSWW"), "ÓW")
+        engine.reset()
+        XCTAssertEqual(apply("USWW"), "ÚW")
+        engine.reset()
+        XCTAssertEqual(apply("ASWW"), "ÁW")
+        engine.reset()
+        XCTAssertEqual(apply("CASWW"), "CÁW")
+
+        // 2. VNI uppercase toned diacritic double-key undo across tones
+        let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        XCTAssertEqual(apply("CO166", engine: vniEng), "CÓ6")
+        vniEng.reset()
+        XCTAssertEqual(apply("CO266", engine: vniEng), "CÒ6")
+        vniEng.reset()
+        XCTAssertEqual(apply("CO366", engine: vniEng), "CỎ6")
+        vniEng.reset()
+        XCTAssertEqual(apply("CO466", engine: vniEng), "CÕ6")
+        vniEng.reset()
+        XCTAssertEqual(apply("CO566", engine: vniEng), "CỌ6")
+
+        vniEng.reset()
+        XCTAssertEqual(apply("CO177", engine: vniEng), "CÓ7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CO277", engine: vniEng), "CÒ7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CO377", engine: vniEng), "CỎ7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CO477", engine: vniEng), "CÕ7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CO577", engine: vniEng), "CỌ7")
+
+        vniEng.reset()
+        XCTAssertEqual(apply("TU177", engine: vniEng), "TÚ7")
+        vniEng.reset()
+        XCTAssertEqual(apply("TU277", engine: vniEng), "TÙ7")
+        vniEng.reset()
+        XCTAssertEqual(apply("TU377", engine: vniEng), "TỦ7")
+        vniEng.reset()
+        XCTAssertEqual(apply("TU477", engine: vniEng), "TŨ7")
+        vniEng.reset()
+        XCTAssertEqual(apply("TU577", engine: vniEng), "TỤ7")
+
+        vniEng.reset()
+        XCTAssertEqual(apply("A188", engine: vniEng), "Á8")
+        vniEng.reset()
+        XCTAssertEqual(apply("CA188", engine: vniEng), "CÁ8")
+        vniEng.reset()
+        XCTAssertEqual(apply("CA288", engine: vniEng), "CÀ8")
+
+        // 3. Backspace and retyping after uppercase toned diacritic double-key undo
+        engine.reset()
+        XCTAssertEqual(apply("COSOO<BS>O"), "CỐ")
+        engine.reset()
+        XCTAssertEqual(apply("COSWW<BS>W"), "CỚ")
+        engine.reset()
+        XCTAssertEqual(apply("TUSWW<BS>W"), "TỨ")
+
+        vniEng.reset()
+        XCTAssertEqual(apply("CO166<BS>6", engine: vniEng), "CỐ")
+        vniEng.reset()
+        XCTAssertEqual(apply("CO177<BS>7", engine: vniEng), "CỚ")
+        vniEng.reset()
+        XCTAssertEqual(apply("TU177<BS>7", engine: vniEng), "TỨ")
+        vniEng.reset()
+        XCTAssertEqual(apply("A188<BS>8", engine: vniEng), "Ắ")
+    }
+
+    // MARK: - Test Registry (397 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2421,6 +2526,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_394_double_diacritic_undo_followed_by_backspace_and_retyping", test_394_double_diacritic_undo_followed_by_backspace_and_retyping),
             ("test_395_compound_word_boundary_double_consonants_and_collocation_backspace_recovery", test_395_compound_word_boundary_double_consonants_and_collocation_backspace_recovery),
             ("test_396_delayed_diacritic_double_key_undo_and_backspace_retyping", test_396_delayed_diacritic_double_key_undo_and_backspace_retyping),
+            ("test_397_uppercase_toned_diacritic_double_key_undo_and_backspace_retyping", test_397_uppercase_toned_diacritic_double_key_undo_and_backspace_retyping),
         ]
     }
 }

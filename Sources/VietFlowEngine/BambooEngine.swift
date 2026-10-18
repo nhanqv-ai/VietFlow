@@ -5548,9 +5548,9 @@ extension TonePlacementEngine {
     static func composeSyllableWithTone(_ string: String, tone: Tone) -> String {
         guard let first = string.first else { return string }
         let isUpper = first.isUppercase
-        let lower = Character(first.lowercased())
+        let key = isUpper ? Character(first.uppercased()) : Character(first.lowercased())
         let table = isUpper ? uppercaseVowelTable : lowercaseVowelTable
-        if let toneRow = table[lower], let tuned = toneRow[tone] {
+        if let toneRow = table[key], let tuned = toneRow[tone] {
             return String(tuned) + string.dropFirst()
         }
         return string
