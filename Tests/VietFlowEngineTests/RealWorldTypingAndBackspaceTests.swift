@@ -2160,7 +2160,109 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("CUO177<BS>7", engine: vniEng), "CƯỚ")
     }
 
-    // MARK: - Test Registry (398 Tests)
+    func test_399_coda_and_offglide_dual_horn_diacritic_double_key_undo_and_backspace_retyping() {
+        engine.reset()
+        // 1. Telex dual-horn undo with coda consonants across tones
+        XCTAssertEqual(apply("cuongsww"), "cuóngw")
+        engine.reset()
+        XCTAssertEqual(apply("cuongfww"), "cuòngw")
+        engine.reset()
+        XCTAssertEqual(apply("cuongrww"), "cuỏngw")
+        engine.reset()
+        XCTAssertEqual(apply("cuongxww"), "cuõngw")
+        engine.reset()
+        XCTAssertEqual(apply("cuongjww"), "cuọngw")
+
+        engine.reset()
+        XCTAssertEqual(apply("cuocjww"), "cuọcw")
+        engine.reset()
+        XCTAssertEqual(apply("cuocsww"), "cuócw")
+        engine.reset()
+        XCTAssertEqual(apply("cuonsww"), "cuónw")
+        engine.reset()
+        XCTAssertEqual(apply("cuotsww"), "cuótw")
+        engine.reset()
+        XCTAssertEqual(apply("cuomsww"), "cuómw")
+        engine.reset()
+        XCTAssertEqual(apply("cuopsww"), "cuópw")
+
+        // 2. Untoned dual-horn undo with codas & off-glides
+        engine.reset()
+        XCTAssertEqual(apply("cuongww"), "cuongw")
+        engine.reset()
+        XCTAssertEqual(apply("cuocww"), "cuocw")
+        engine.reset()
+        XCTAssertEqual(apply("cuonww"), "cuonw")
+        engine.reset()
+        XCTAssertEqual(apply("cuoiww"), "cuoiw")
+        engine.reset()
+        XCTAssertEqual(apply("cuouww"), "cuouw")
+
+        // 3. Telex dual-horn undo with off-glides
+        engine.reset()
+        XCTAssertEqual(apply("cuoisww"), "cuóiw")
+        engine.reset()
+        XCTAssertEqual(apply("cuoifww"), "cuòiw")
+        engine.reset()
+        XCTAssertEqual(apply("ruoujww"), "ruọuw")
+        engine.reset()
+        XCTAssertEqual(apply("huousww"), "huóuw")
+
+        // 4. Telex uppercase dual-horn undo with codas & off-glides
+        engine.reset()
+        XCTAssertEqual(apply("CUONGSWW"), "CUÓNGW")
+        engine.reset()
+        XCTAssertEqual(apply("CUOCJWW"), "CUỌCW")
+        engine.reset()
+        XCTAssertEqual(apply("CUOISWW"), "CUÓIW")
+        engine.reset()
+        XCTAssertEqual(apply("CUONGWW"), "CUONGW")
+        engine.reset()
+        XCTAssertEqual(apply("CUOIWW"), "CUOIW")
+
+        // 5. VNI dual-horn undo with codas & off-glides
+        let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        XCTAssertEqual(apply("cuong177", engine: vniEng), "cuóng7")
+        vniEng.reset()
+        XCTAssertEqual(apply("cuong277", engine: vniEng), "cuòng7")
+        vniEng.reset()
+        XCTAssertEqual(apply("cuoc577", engine: vniEng), "cuọc7")
+        vniEng.reset()
+        XCTAssertEqual(apply("cuoi177", engine: vniEng), "cuói7")
+        vniEng.reset()
+        XCTAssertEqual(apply("ruou577", engine: vniEng), "ruọu7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUONG177", engine: vniEng), "CUÓNG7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUOC577", engine: vniEng), "CUỌC7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUOI177", engine: vniEng), "CUÓI7")
+        vniEng.reset()
+        XCTAssertEqual(apply("cuong77", engine: vniEng), "cuong7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUONG77", engine: vniEng), "CUONG7")
+
+        // 6. Backspace and retyping after dual-horn undo with codas & off-glides
+        engine.reset()
+        XCTAssertEqual(apply("cuongsww<BS>w"), "cướng")
+        engine.reset()
+        XCTAssertEqual(apply("CUONGSWW<BS>W"), "CƯỚNG")
+        engine.reset()
+        XCTAssertEqual(apply("cuocjww<BS>w"), "cược")
+        engine.reset()
+        XCTAssertEqual(apply("cuoisww<BS>w"), "cưới")
+        engine.reset()
+        XCTAssertEqual(apply("cuongww<BS>w"), "cương")
+
+        vniEng.reset()
+        XCTAssertEqual(apply("cuong177<BS>7", engine: vniEng), "cướng")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUONG177<BS>7", engine: vniEng), "CƯỚNG")
+        vniEng.reset()
+        XCTAssertEqual(apply("cuoc577<BS>7", engine: vniEng), "cược")
+    }
+
+    // MARK: - Test Registry (399 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2605,6 +2707,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_396_delayed_diacritic_double_key_undo_and_backspace_retyping", test_396_delayed_diacritic_double_key_undo_and_backspace_retyping),
             ("test_397_uppercase_toned_diacritic_double_key_undo_and_backspace_retyping", test_397_uppercase_toned_diacritic_double_key_undo_and_backspace_retyping),
             ("test_398_toned_dual_horn_diacritic_double_key_undo_and_backspace_retyping", test_398_toned_dual_horn_diacritic_double_key_undo_and_backspace_retyping),
+            ("test_399_coda_and_offglide_dual_horn_diacritic_double_key_undo_and_backspace_retyping", test_399_coda_and_offglide_dual_horn_diacritic_double_key_undo_and_backspace_retyping),
         ]
     }
 }
