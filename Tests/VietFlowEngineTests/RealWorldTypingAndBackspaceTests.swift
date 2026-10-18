@@ -2083,7 +2083,84 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("A188<BS>8", engine: vniEng), "Ắ")
     }
 
-    // MARK: - Test Registry (397 Tests)
+    func test_398_toned_dual_horn_diacritic_double_key_undo_and_backspace_retyping() {
+        engine.reset()
+        // 1. Telex lowercase toned dual-horn undo across 5 tones
+        XCTAssertEqual(apply("cuosww"), "cúow")
+        engine.reset()
+        XCTAssertEqual(apply("cuofww"), "cùow")
+        engine.reset()
+        XCTAssertEqual(apply("cuorww"), "củow")
+        engine.reset()
+        XCTAssertEqual(apply("cuoxww"), "cũow")
+        engine.reset()
+        XCTAssertEqual(apply("cuojww"), "cụow")
+
+        // 2. Telex uppercase toned dual-horn undo across 5 tones
+        engine.reset()
+        XCTAssertEqual(apply("CUOSWW"), "CÚOW")
+        engine.reset()
+        XCTAssertEqual(apply("CUOFWW"), "CÙOW")
+        engine.reset()
+        XCTAssertEqual(apply("CUORWW"), "CỦOW")
+        engine.reset()
+        XCTAssertEqual(apply("CUOXWW"), "CŨOW")
+        engine.reset()
+        XCTAssertEqual(apply("CUOJWW"), "CỤOW")
+
+        // 3. Telex standalone zero onset across tones
+        engine.reset()
+        XCTAssertEqual(apply("uosww"), "úow")
+        engine.reset()
+        XCTAssertEqual(apply("uofww"), "ùow")
+        engine.reset()
+        XCTAssertEqual(apply("UOSWW"), "ÚOW")
+        engine.reset()
+        XCTAssertEqual(apply("UOFWW"), "ÙOW")
+
+        // 4. VNI lowercase toned dual-horn undo across 5 tones
+        let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        XCTAssertEqual(apply("cuo177", engine: vniEng), "cúo7")
+        vniEng.reset()
+        XCTAssertEqual(apply("cuo277", engine: vniEng), "cùo7")
+        vniEng.reset()
+        XCTAssertEqual(apply("cuo377", engine: vniEng), "củo7")
+        vniEng.reset()
+        XCTAssertEqual(apply("cuo477", engine: vniEng), "cũo7")
+        vniEng.reset()
+        XCTAssertEqual(apply("cuo577", engine: vniEng), "cụo7")
+
+        // 5. VNI uppercase toned dual-horn undo across 5 tones
+        vniEng.reset()
+        XCTAssertEqual(apply("CUO177", engine: vniEng), "CÚO7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUO277", engine: vniEng), "CÙO7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUO377", engine: vniEng), "CỦO7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUO477", engine: vniEng), "CŨO7")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUO577", engine: vniEng), "CỤO7")
+
+        // 6. VNI standalone zero onset across tones
+        vniEng.reset()
+        XCTAssertEqual(apply("uo177", engine: vniEng), "úo7")
+        vniEng.reset()
+        XCTAssertEqual(apply("UO177", engine: vniEng), "ÚO7")
+
+        // 7. Backspace and retyping after toned dual-horn undo
+        engine.reset()
+        XCTAssertEqual(apply("cuosww<BS>w"), "cướ")
+        engine.reset()
+        XCTAssertEqual(apply("CUOSWW<BS>W"), "CƯỚ")
+
+        vniEng.reset()
+        XCTAssertEqual(apply("cuo177<BS>7", engine: vniEng), "cướ")
+        vniEng.reset()
+        XCTAssertEqual(apply("CUO177<BS>7", engine: vniEng), "CƯỚ")
+    }
+
+    // MARK: - Test Registry (398 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2527,6 +2604,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_395_compound_word_boundary_double_consonants_and_collocation_backspace_recovery", test_395_compound_word_boundary_double_consonants_and_collocation_backspace_recovery),
             ("test_396_delayed_diacritic_double_key_undo_and_backspace_retyping", test_396_delayed_diacritic_double_key_undo_and_backspace_retyping),
             ("test_397_uppercase_toned_diacritic_double_key_undo_and_backspace_retyping", test_397_uppercase_toned_diacritic_double_key_undo_and_backspace_retyping),
+            ("test_398_toned_dual_horn_diacritic_double_key_undo_and_backspace_retyping", test_398_toned_dual_horn_diacritic_double_key_undo_and_backspace_retyping),
         ]
     }
 }
