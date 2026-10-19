@@ -2365,7 +2365,119 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("di199<BS>9", engine: vniEng), "đí")
     }
 
-    // MARK: - Test Registry (400 Tests)
+    func test_401_offglide_diphthong_circumflex_and_untoned_stroke_diacritic_double_key_undo() {
+        // 1. Telex circumflex (a/e/o) double-key undo on off-glides and diphthongs with tones
+        engine.reset()
+        XCTAssertEqual(apply("caysaa"), "cáya")
+        engine.reset()
+        XCTAssertEqual(apply("cayfaa"), "càya")
+        engine.reset()
+        XCTAssertEqual(apply("cayraa"), "cảya")
+        engine.reset()
+        XCTAssertEqual(apply("cayxaa"), "cãya")
+        engine.reset()
+        XCTAssertEqual(apply("cayjaa"), "cạya")
+
+        engine.reset()
+        XCTAssertEqual(apply("causaa"), "cáua")
+        engine.reset()
+        XCTAssertEqual(apply("cauxaa"), "cãua")
+
+        engine.reset()
+        XCTAssertEqual(apply("toisoo"), "tóio")
+        engine.reset()
+        XCTAssertEqual(apply("chuoisoo"), "chuóio")
+
+        engine.reset()
+        XCTAssertEqual(apply("neusee"), "néue")
+        engine.reset()
+        XCTAssertEqual(apply("tieusee"), "tiéue")
+        engine.reset()
+        XCTAssertEqual(apply("thuesee"), "thúee")
+
+        // 2. Telex toned stroke onset double-key undo across codas
+        engine.reset()
+        XCTAssertEqual(apply("dangsdd"), "dángd")
+        engine.reset()
+        XCTAssertEqual(apply("dangrdd"), "dảngd")
+        engine.reset()
+        XCTAssertEqual(apply("dangxdd"), "dãngd")
+        engine.reset()
+        XCTAssertEqual(apply("dangjdd"), "dạngd")
+
+        // 3. Uppercase circumflex and stroke double-key undo on off-glides
+        engine.reset()
+        XCTAssertEqual(apply("CAYSAA"), "CÁYA")
+        engine.reset()
+        XCTAssertEqual(apply("CAUSAA"), "CÁUA")
+        engine.reset()
+        XCTAssertEqual(apply("TOISOO"), "TÓIO")
+        engine.reset()
+        XCTAssertEqual(apply("CHUOISOO"), "CHUÓIO")
+        engine.reset()
+        XCTAssertEqual(apply("NEUSEE"), "NÉUE")
+        engine.reset()
+        XCTAssertEqual(apply("DANGSDD"), "DÁNGD")
+
+        // 4. VNI circumflex double-key undo on off-glides and toned stroke onset
+        let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        XCTAssertEqual(apply("cay166", engine: vniEng), "cáy6")
+        vniEng.reset()
+        XCTAssertEqual(apply("cau166", engine: vniEng), "cáu6")
+        vniEng.reset()
+        XCTAssertEqual(apply("toi166", engine: vniEng), "tói6")
+        vniEng.reset()
+        XCTAssertEqual(apply("chuoi166", engine: vniEng), "chuói6")
+        vniEng.reset()
+        XCTAssertEqual(apply("neu166", engine: vniEng), "néu6")
+        vniEng.reset()
+        XCTAssertEqual(apply("dang199", engine: vniEng), "dáng9")
+        vniEng.reset()
+        XCTAssertEqual(apply("CAY166", engine: vniEng), "CÁY6")
+        vniEng.reset()
+        XCTAssertEqual(apply("TOI166", engine: vniEng), "TÓI6")
+        vniEng.reset()
+        XCTAssertEqual(apply("DANG199", engine: vniEng), "DÁNG9")
+
+        // 5. Backspace and retyping after double-key undo across off-glides and stroke onset
+        engine.reset()
+        XCTAssertEqual(apply("caysaa<BS>a"), "cấy")
+        engine.reset()
+        XCTAssertEqual(apply("causaa<BS>a"), "cấu")
+        engine.reset()
+        XCTAssertEqual(apply("toisoo<BS>o"), "tối")
+        engine.reset()
+        XCTAssertEqual(apply("chuoisoo<BS>o"), "chuối")
+        engine.reset()
+        XCTAssertEqual(apply("neusee<BS>e"), "nếu")
+        engine.reset()
+        XCTAssertEqual(apply("tieusee<BS>e"), "tiếu")
+        engine.reset()
+        XCTAssertEqual(apply("thuesee<BS>e"), "thuế")
+        engine.reset()
+        XCTAssertEqual(apply("dangsdd<BS>d"), "đáng")
+        engine.reset()
+        XCTAssertEqual(apply("CAYSAA<BS>A"), "CẤY")
+        engine.reset()
+        XCTAssertEqual(apply("TOISOO<BS>O"), "TỐI")
+        engine.reset()
+        XCTAssertEqual(apply("DANGSDD<BS>D"), "ĐÁNG")
+
+        vniEng.reset()
+        XCTAssertEqual(apply("cay166<BS>6", engine: vniEng), "cấy")
+        vniEng.reset()
+        XCTAssertEqual(apply("cau166<BS>6", engine: vniEng), "cấu")
+        vniEng.reset()
+        XCTAssertEqual(apply("toi166<BS>6", engine: vniEng), "tối")
+        vniEng.reset()
+        XCTAssertEqual(apply("chuoi166<BS>6", engine: vniEng), "chuối")
+        vniEng.reset()
+        XCTAssertEqual(apply("neu166<BS>6", engine: vniEng), "nếu")
+        vniEng.reset()
+        XCTAssertEqual(apply("dang199<BS>9", engine: vniEng), "đáng")
+    }
+
+    // MARK: - Test Registry (401 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2812,6 +2924,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_398_toned_dual_horn_diacritic_double_key_undo_and_backspace_retyping", test_398_toned_dual_horn_diacritic_double_key_undo_and_backspace_retyping),
             ("test_399_coda_and_offglide_dual_horn_diacritic_double_key_undo_and_backspace_retyping", test_399_coda_and_offglide_dual_horn_diacritic_double_key_undo_and_backspace_retyping),
             ("test_400_circumflex_breve_stroke_diacritic_double_key_undo_with_codas_and_tones", test_400_circumflex_breve_stroke_diacritic_double_key_undo_with_codas_and_tones),
+            ("test_401_offglide_diphthong_circumflex_and_untoned_stroke_diacritic_double_key_undo", test_401_offglide_diphthong_circumflex_and_untoned_stroke_diacritic_double_key_undo),
         ]
     }
 }
