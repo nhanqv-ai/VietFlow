@@ -2477,7 +2477,102 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("dang199<BS>9", engine: vniEng), "đáng")
     }
 
-    // MARK: - Test Registry (401 Tests)
+    func test_402_open_diphthong_circumflex_double_key_undo_and_backspace_retyping() {
+        // 1. Telex circumflex (o/e/a) double-key undo on open diphthongs and triphthongs across 5 tones
+        engine.reset()
+        XCTAssertEqual(apply("muosoo"), "múoo")
+        engine.reset()
+        XCTAssertEqual(apply("muofoo"), "mùoo")
+        engine.reset()
+        XCTAssertEqual(apply("muoroo"), "mủoo")
+        engine.reset()
+        XCTAssertEqual(apply("muoxoo"), "mũoo")
+        engine.reset()
+        XCTAssertEqual(apply("muojoo"), "mụoo")
+
+        engine.reset()
+        XCTAssertEqual(apply("tiesee"), "tíee")
+        engine.reset()
+        XCTAssertEqual(apply("tiefee"), "tìee")
+        engine.reset()
+        XCTAssertEqual(apply("tieree"), "tỉee")
+        engine.reset()
+        XCTAssertEqual(apply("tiexee"), "tĩee")
+        engine.reset()
+        XCTAssertEqual(apply("tiejee"), "tịee")
+
+        engine.reset()
+        XCTAssertEqual(apply("khuasaa"), "khúaa")
+        engine.reset()
+        XCTAssertEqual(apply("khuafaa"), "khùaa")
+        engine.reset()
+        XCTAssertEqual(apply("khuaraa"), "khủaa")
+        engine.reset()
+        XCTAssertEqual(apply("khuaxaa"), "khũaa")
+        engine.reset()
+        XCTAssertEqual(apply("khuajaa"), "khụaa")
+
+        engine.reset()
+        XCTAssertEqual(apply("khuyesee"), "khuýee")
+
+        // 2. Uppercase open diphthong circumflex double-key undo
+        engine.reset()
+        XCTAssertEqual(apply("MUOSOO"), "MÚOO")
+        engine.reset()
+        XCTAssertEqual(apply("TIESEE"), "TÍEE")
+        engine.reset()
+        XCTAssertEqual(apply("KHUASAA"), "KHÚAA")
+        engine.reset()
+        XCTAssertEqual(apply("KHUYESEE"), "KHUÝEE")
+
+        // 3. VNI open diphthong circumflex double-key undo
+        let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        XCTAssertEqual(apply("muo166", engine: vniEng), "múo6")
+        vniEng.reset()
+        XCTAssertEqual(apply("tie166", engine: vniEng), "tíe6")
+        vniEng.reset()
+        XCTAssertEqual(apply("khua166", engine: vniEng), "khúa6")
+        vniEng.reset()
+        XCTAssertEqual(apply("khuye166", engine: vniEng), "khuýe6")
+        vniEng.reset()
+        XCTAssertEqual(apply("MUO166", engine: vniEng), "MÚO6")
+        vniEng.reset()
+        XCTAssertEqual(apply("TIE166", engine: vniEng), "TÍE6")
+        vniEng.reset()
+        XCTAssertEqual(apply("KHUA166", engine: vniEng), "KHÚA6")
+        vniEng.reset()
+        XCTAssertEqual(apply("KHUYE166", engine: vniEng), "KHUÝE6")
+
+        // 4. Backspace and retyping after open diphthong circumflex double-key undo
+        engine.reset()
+        XCTAssertEqual(apply("muosoo<BS>o"), "muố")
+        engine.reset()
+        XCTAssertEqual(apply("tiesee<BS>e"), "tiế")
+        engine.reset()
+        XCTAssertEqual(apply("khuasaa<BS>a"), "khuấ")
+        engine.reset()
+        XCTAssertEqual(apply("khuyesee<BS>e"), "khuyế")
+
+        engine.reset()
+        XCTAssertEqual(apply("MUOSOO<BS>O"), "MUỐ")
+        engine.reset()
+        XCTAssertEqual(apply("TIESEE<BS>E"), "TIẾ")
+        engine.reset()
+        XCTAssertEqual(apply("KHUASAA<BS>A"), "KHUẤ")
+        engine.reset()
+        XCTAssertEqual(apply("KHUYESEE<BS>E"), "KHUYẾ")
+
+        vniEng.reset()
+        XCTAssertEqual(apply("muo166<BS>6", engine: vniEng), "muố")
+        vniEng.reset()
+        XCTAssertEqual(apply("tie166<BS>6", engine: vniEng), "tiế")
+        vniEng.reset()
+        XCTAssertEqual(apply("khua166<BS>6", engine: vniEng), "khuấ")
+        vniEng.reset()
+        XCTAssertEqual(apply("khuye166<BS>6", engine: vniEng), "khuyế")
+    }
+
+    // MARK: - Test Registry (402 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -2925,6 +3020,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_399_coda_and_offglide_dual_horn_diacritic_double_key_undo_and_backspace_retyping", test_399_coda_and_offglide_dual_horn_diacritic_double_key_undo_and_backspace_retyping),
             ("test_400_circumflex_breve_stroke_diacritic_double_key_undo_with_codas_and_tones", test_400_circumflex_breve_stroke_diacritic_double_key_undo_with_codas_and_tones),
             ("test_401_offglide_diphthong_circumflex_and_untoned_stroke_diacritic_double_key_undo", test_401_offglide_diphthong_circumflex_and_untoned_stroke_diacritic_double_key_undo),
+            ("test_402_open_diphthong_circumflex_double_key_undo_and_backspace_retyping", test_402_open_diphthong_circumflex_double_key_undo_and_backspace_retyping),
         ]
     }
 }
