@@ -166,9 +166,14 @@ public struct TonePlacementEngine {
                 return 0 // tone on first vowel: mía, múa, mứa
             }
             
-            // Diphthongs ending in off-glides: ai, ao, au, ay, eo, oi, ui, ưi
-            if ["ai", "ao", "au", "ay", "eo", "oi", "ui", "ưi"].contains(vowelString) {
-                return 0 // tone on first vowel: mái, báo, sáu, máy, khéo, nói, túi, ngửi
+            // Diphthongs ending in off-glides: ai, ao, au, ay, eo, oi, ui, ưi, iu, ưu
+            if ["ai", "ao", "au", "ay", "eo", "oi", "ui", "ưi", "iu", "ưu"].contains(vowelString) {
+                return 0 // tone on first vowel: mái, báo, sáu, máy, khéo, nói, túi, ngửi, dịu, cừu
+            }
+
+            // On-glide diphthongs starting with semiconsonant y: ya, ye, yo, yu
+            if ["ya", "ye", "yo", "yu"].contains(vowelString) {
+                return 1 // tone on nuclear vowel: yá/yà, yé/yè, yó/yò, yú/yù
             }
         }
         
