@@ -85,6 +85,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "l", "m", "n", "ng", "ngh", "nh", "p", "ph", "r", "s",
         "t", "th", "tr", "v", "x"
     ]
+    private static let circumflexDiphthongs: Set<String> = [
+        "uây", "ây", "âu", "uâ",
+        "iêu", "yêu", "êu", "uê", "iê", "yê", "uyê",
+        "uôi", "ôi", "uô"
+    ]
 
     // MARK: - Initialization
     public init(config: EngineConfig = EngineConfig(), adaptiveLearner: AdaptiveLearningManager? = nil) {
@@ -2403,7 +2408,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     }
                 }
 
-                let isOffGlideCircumflexWithTone = parsed.tone != .none && ["uây", "ây", "âu", "iêu", "yêu", "êu", "uê", "uôi", "ôi"].contains(lowerNuc)
+                let isOffGlideCircumflexWithTone = parsed.tone != .none && Self.circumflexDiphthongs.contains(lowerNuc)
                 let requiresCircumflexUndo = (method == .vni) || (!parsed.coda.isEmpty && parsed.tone != .none) || isOffGlideCircumflexWithTone
                 let requiresBreveUndo = (method == .vni) || (!parsed.coda.isEmpty && parsed.tone != .none)
 
