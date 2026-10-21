@@ -1278,8 +1278,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         if isPreservedInStep8 && activeImeFrictionRuleTrigger == nil {
             activeImeFrictionRuleTrigger = (String(wordRawKeys) + String(character)).lowercased()
         }
-        let isTonedDiacriticUndo = candidateState.didUndoDiacritic && (_config.inputMethod == .vni || targetActive.contains(where: { TonePlacement.removeTone(from: $0).tone != .none }))
-        if _config.autoCorrectEnglish && !isPreservedInStep8 && !isTonedDiacriticUndo {
+        let isDiacriticUndo = candidateState.didUndoDiacritic
+        if _config.autoCorrectEnglish && !isPreservedInStep8 && !isDiacriticUndo {
             if let parsed = Syllable.parse(from: targetActive) {
                 let hasMedialConsonantInNucleus = !parsed.nucleus.allSatisfy { PhonotacticsMatrix.isVowelChar($0) }
                 let lowerNuc = parsed.nucleus.lowercased()
@@ -2353,46 +2353,48 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
         // MARK: Double-Press Diacritic Undo (e.g. 'â' + 'a' -> 'aa', 'đ' + 'd' -> 'dd', 'ươ' + 'w' -> 'uow')
         if escape, state.lastDiacriticKey == inputChar {
-            if let parsed = Syllable.parse(from: previousDisplay) {
-                let isTonedOrVni = (method == .vni) || parsed.tone != .none
+            let isUntonedOnsetlessStopCoda: Bool = {
+                guard let p = Syllable.parse(from: previousDisplay) else { return false }
+                return p.onset.isEmpty && p.tone == .none && PhonotacticsMatrix.stopCodas.contains(p.coda.lowercased())
+            }()
+            if !isUntonedOnsetlessStopCoda {
+                if let parsed = Syllable.parse(from: previousDisplay) {
+                    // 1. Delayed stroke on onset 'đ' (Telex 'd'/'D', VNI '9')
+                    let isStrokeKey = (method == .telex || method == .simpleTelex) && (inputChar == "d" || inputChar == "D") || (method == .vni && inputChar == "9")
+                    if isStrokeKey && parsed.onset.lowercased() == "đ" && !parsed.nucleus.isEmpty {
+                        state.lastDiacriticKey = nil
+                        state.isBypassed = true
+                        state.didUndoDiacritic = true
+                        let isUpperOnset = parsed.onset.first?.isUppercase ?? false
+                        let newOnset = isUpperOnset ? "D" : "d"
+                        let composed = TonePlacement.composeSyllable(
+                            vowels: Array(parsed.nucleus),
+                            onset: newOnset,
+                            coda: parsed.coda,
+                            tone: parsed.tone,
+                            style: toneStyle
+                        )
+                        return (parsed.applyCasing(composed) + String(inputChar), true)
+                    }
 
-                // 1. Delayed stroke on onset 'đ' (Telex 'd'/'D', VNI '9')
-                let isStrokeKey = (method == .telex || method == .simpleTelex) && (inputChar == "d" || inputChar == "D") || (method == .vni && inputChar == "9")
-                if isStrokeKey && parsed.onset.lowercased() == "đ" && !parsed.nucleus.isEmpty && isTonedOrVni {
-                    state.lastDiacriticKey = nil
-                    state.isBypassed = true
-                    state.didUndoDiacritic = true
-                    let isUpperOnset = parsed.onset.first?.isUppercase ?? false
-                    let newOnset = isUpperOnset ? "D" : "d"
-                    let composed = TonePlacement.composeSyllable(
-                        vowels: Array(parsed.nucleus),
-                        onset: newOnset,
-                        coda: parsed.coda,
-                        tone: parsed.tone,
-                        style: toneStyle
-                    )
-                    return (parsed.applyCasing(composed) + String(inputChar), true)
-                }
+                    // 2. Vowel diacritics: Horn, Breve, and Circumflex across codas, tones, and off-glides
+                    let isHornKey = (method == .telex || method == .simpleTelex) && (inputChar == "w" || inputChar == "W") || (method == .vni && inputChar == "7")
+                    let isBreveKey = (method == .telex || method == .simpleTelex) && (inputChar == "w" || inputChar == "W") || (method == .vni && inputChar == "8")
+                    let isCircumflexA = (method == .telex || method == .simpleTelex) && (inputChar == "a" || inputChar == "A") || (method == .vni && inputChar == "6")
+                    let isCircumflexE = (method == .telex || method == .simpleTelex) && (inputChar == "e" || inputChar == "E") || (method == .vni && inputChar == "6")
+                    let isCircumflexO = (method == .telex || method == .simpleTelex) && (inputChar == "o" || inputChar == "O") || (method == .vni && inputChar == "6")
 
-                // 2. Vowel diacritics: Horn, Breve, and Circumflex across codas, tones, and off-glides
-                let isHornKey = (method == .telex || method == .simpleTelex) && (inputChar == "w" || inputChar == "W") || (method == .vni && inputChar == "7")
-                let isBreveKey = (method == .telex || method == .simpleTelex) && (inputChar == "w" || inputChar == "W") || (method == .vni && inputChar == "8")
-                let isCircumflexA = (method == .telex || method == .simpleTelex) && (inputChar == "a" || inputChar == "A") || (method == .vni && inputChar == "6")
-                let isCircumflexE = (method == .telex || method == .simpleTelex) && (inputChar == "e" || inputChar == "E") || (method == .vni && inputChar == "6")
-                let isCircumflexO = (method == .telex || method == .simpleTelex) && (inputChar == "o" || inputChar == "O") || (method == .vni && inputChar == "6")
+                    let lowerNuc = parsed.nucleus.lowercased()
+                    var restoredVowels: [Character]? = nil
 
-                let lowerNuc = parsed.nucleus.lowercased()
-                var restoredVowels: [Character]? = nil
-
-                if isHornKey {
-                    if lowerNuc == "ươ" || lowerNuc == "uơ" {
-                        restoredVowels = ["u", "o"]
-                    } else if lowerNuc == "ươi" {
-                        restoredVowels = ["u", "o", "i"]
-                    } else if lowerNuc == "ươu" {
-                        restoredVowels = ["u", "o", "u"]
-                    } else if isTonedOrVni {
-                        if lowerNuc == "ơ" {
+                    if isHornKey {
+                        if lowerNuc == "ươ" || lowerNuc == "uơ" {
+                            restoredVowels = ["u", "o"]
+                        } else if lowerNuc == "ươi" {
+                            restoredVowels = ["u", "o", "i"]
+                        } else if lowerNuc == "ươu" {
+                            restoredVowels = ["u", "o", "u"]
+                        } else if lowerNuc == "ơ" {
                             restoredVowels = ["o"]
                         } else if lowerNuc == "ơi" {
                             restoredVowels = ["o", "i"]
@@ -2406,94 +2408,93 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                             restoredVowels = ["u", "i"]
                         }
                     }
-                }
 
-                let isOffGlideCircumflexWithTone = parsed.tone != .none && Self.circumflexDiphthongs.contains(lowerNuc)
-                let requiresCircumflexUndo = (method == .vni) || (!parsed.coda.isEmpty && parsed.tone != .none) || isOffGlideCircumflexWithTone
-                let requiresBreveUndo = (method == .vni) || (!parsed.coda.isEmpty && parsed.tone != .none)
+                    let requiresCircumflexUndo = true
+                    let requiresBreveUndo = true
 
-                if restoredVowels == nil && isBreveKey && requiresBreveUndo {
-                    if lowerNuc == "ă" {
-                        restoredVowels = ["a"]
-                    } else if lowerNuc == "oă" {
-                        restoredVowels = ["o", "a"]
+                    if restoredVowels == nil && isBreveKey && requiresBreveUndo {
+                        if lowerNuc == "ă" {
+                            restoredVowels = ["a"]
+                        } else if lowerNuc == "oă" {
+                            restoredVowels = ["o", "a"]
+                        }
+                    }
+
+                    if restoredVowels == nil && isCircumflexA && requiresCircumflexUndo {
+                        if lowerNuc == "â" {
+                            restoredVowels = ["a"]
+                        } else if lowerNuc == "uâ" {
+                            restoredVowels = ["u", "a"]
+                        } else if lowerNuc == "uây" {
+                            restoredVowels = ["u", "a", "y"]
+                        } else if lowerNuc == "ây" {
+                            restoredVowels = ["a", "y"]
+                        } else if lowerNuc == "âu" {
+                            restoredVowels = ["a", "u"]
+                        }
+                    }
+
+                    if restoredVowels == nil && isCircumflexE && requiresCircumflexUndo {
+                        if lowerNuc == "ê" {
+                            restoredVowels = ["e"]
+                        } else if lowerNuc == "iê" {
+                            restoredVowels = ["i", "e"]
+                        } else if lowerNuc == "yê" {
+                            restoredVowels = ["y", "e"]
+                        } else if lowerNuc == "uyê" {
+                            restoredVowels = ["u", "y", "e"]
+                        } else if lowerNuc == "iêu" {
+                            restoredVowels = ["i", "e", "u"]
+                        } else if lowerNuc == "yêu" {
+                            restoredVowels = ["y", "e", "u"]
+                        } else if lowerNuc == "êu" {
+                            restoredVowels = ["e", "u"]
+                        } else if lowerNuc == "uê" {
+                            restoredVowels = ["u", "e"]
+                        }
+                    }
+
+                    if restoredVowels == nil && isCircumflexO && requiresCircumflexUndo {
+                        if lowerNuc == "ô" {
+                            restoredVowels = ["o"]
+                        } else if lowerNuc == "uô" {
+                            restoredVowels = ["u", "o"]
+                        } else if lowerNuc == "uôi" {
+                            restoredVowels = ["u", "o", "i"]
+                        } else if lowerNuc == "ôi" {
+                            restoredVowels = ["o", "i"]
+                        }
+                    }
+
+                    if let vowels = restoredVowels {
+                        state.lastDiacriticKey = nil
+                        state.isBypassed = true
+                        state.didUndoDiacritic = true
+                        let composed = TonePlacement.composeSyllable(
+                            vowels: vowels,
+                            onset: parsed.onset,
+                            coda: parsed.coda,
+                            tone: parsed.tone,
+                            style: toneStyle
+                        )
+                        return (parsed.applyCasing(composed) + String(inputChar), true)
                     }
                 }
-
-                if restoredVowels == nil && isCircumflexA && requiresCircumflexUndo {
-                    if lowerNuc == "â" {
-                        restoredVowels = ["a"]
-                    } else if lowerNuc == "uâ" {
-                        restoredVowels = ["u", "a"]
-                    } else if lowerNuc == "uây" {
-                        restoredVowels = ["u", "a", "y"]
-                    } else if lowerNuc == "ây" {
-                        restoredVowels = ["a", "y"]
-                    } else if lowerNuc == "âu" {
-                        restoredVowels = ["a", "u"]
-                    }
-                }
-
-                if restoredVowels == nil && isCircumflexE && requiresCircumflexUndo {
-                    if lowerNuc == "ê" {
-                        restoredVowels = ["e"]
-                    } else if lowerNuc == "iê" {
-                        restoredVowels = ["i", "e"]
-                    } else if lowerNuc == "yê" {
-                        restoredVowels = ["y", "e"]
-                    } else if lowerNuc == "uyê" {
-                        restoredVowels = ["u", "y", "e"]
-                    } else if lowerNuc == "iêu" {
-                        restoredVowels = ["i", "e", "u"]
-                    } else if lowerNuc == "yêu" {
-                        restoredVowels = ["y", "e", "u"]
-                    } else if lowerNuc == "êu" {
-                        restoredVowels = ["e", "u"]
-                    } else if lowerNuc == "uê" {
-                        restoredVowels = ["u", "e"]
-                    }
-                }
-
-                if restoredVowels == nil && isCircumflexO && requiresCircumflexUndo {
-                    if lowerNuc == "ô" {
-                        restoredVowels = ["o"]
-                    } else if lowerNuc == "uô" {
-                        restoredVowels = ["u", "o"]
-                    } else if lowerNuc == "uôi" {
-                        restoredVowels = ["u", "o", "i"]
-                    } else if lowerNuc == "ôi" {
-                        restoredVowels = ["o", "i"]
-                    }
-                }
-
-                if let vowels = restoredVowels {
+                if let undone = tryUndoDiacritic(lastChar: previousDisplay.last, trigger: inputChar, method: method) {
                     state.lastDiacriticKey = nil
                     state.isBypassed = true
                     state.didUndoDiacritic = true
-                    let composed = TonePlacement.composeSyllable(
-                        vowels: vowels,
-                        onset: parsed.onset,
-                        coda: parsed.coda,
-                        tone: parsed.tone,
-                        style: toneStyle
-                    )
-                    return (parsed.applyCasing(composed) + String(inputChar), true)
+                    var modified = previousDisplay
+                    modified.removeLast()
+                    modified.append(contentsOf: undone)
+                    return (modified, true)
                 }
-            }
-            if let undone = tryUndoDiacritic(lastChar: previousDisplay.last, trigger: inputChar, method: method) {
-                state.lastDiacriticKey = nil
-                state.isBypassed = true
-                state.didUndoDiacritic = true
-                var modified = previousDisplay
-                modified.removeLast()
-                modified.append(contentsOf: undone)
-                return (modified, true)
-            }
-            if !rawHistory.isEmpty {
-                state.lastDiacriticKey = nil
-                state.isBypassed = true
-                state.didUndoDiacritic = true
-                return (String(rawHistory), true)
+                if !rawHistory.isEmpty {
+                    state.lastDiacriticKey = nil
+                    state.isBypassed = true
+                    state.didUndoDiacritic = true
+                    return (String(rawHistory), true)
+                }
             }
         }
 
