@@ -171,7 +171,7 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
     @inline(__always)
     public func shouldBypassForImeFriction(word: String) -> Bool {
         guard isEnabled && hasActiveBypassRules else { return false }
-        let lower = word.lowercased()
+        let lower = word.utf8.contains(where: { ($0 >= 65 && $0 <= 90) || $0 >= 128 }) ? word.lowercased() : word
         return lock.withLock {
             activeImeBypassWords.contains(lower)
         }
@@ -180,7 +180,7 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
     @inline(__always)
     public func shouldPreserveVietnameseForImeFriction(word: String) -> Bool {
         guard isEnabled && hasActivePreserveRules else { return false }
-        let lower = word.lowercased()
+        let lower = word.utf8.contains(where: { ($0 >= 65 && $0 <= 90) || $0 >= 128 }) ? word.lowercased() : word
         return lock.withLock {
             activeImePreserveWords.contains(lower)
         }
@@ -189,7 +189,7 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
     @inline(__always)
     public func replacementForPersonalTypo(word: String) -> String? {
         guard isEnabled && hasActiveTypoRules else { return nil }
-        let lower = word.lowercased()
+        let lower = word.utf8.contains(where: { ($0 >= 65 && $0 <= 90) || $0 >= 128 }) ? word.lowercased() : word
         return lock.withLock {
             activePersonalTypos[lower]
         }

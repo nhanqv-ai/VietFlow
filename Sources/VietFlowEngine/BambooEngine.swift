@@ -67,7 +67,25 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     private var preBackspaceSnapshot: PreBackspaceSnapshot? = nil
     private var lastAppliedCorrection: AppliedCorrection? = nil
     private var activeImeFrictionRuleTrigger: String? = nil
-    
+
+    private static let step8TransitionalNuclei: Set<String> = [
+        "ie", "uye", "ye", "uo", "uoi", "uou", "ưo", "ưoi", "ưou",
+        "uơ", "uơi", "uơu", "ieu", "yeu", "eu", "ue", "uay", "uu"
+    ]
+    private static let step8OffGlidesForbiddingCoda: Set<String> = [
+        "ai", "ao", "au", "âu", "ay", "ây", "eo", "êu", "ia", "iêu", "iu",
+        "oai", "oao", "oay", "oeo", "oi", "ôi", "ơi", "ưa", "uây", "ui",
+        "ưi", "uôi", "ươi", "ươu", "ưu", "uya", "uyu", "yêu"
+    ]
+    private static let step8InvalidOaiOnsets: Set<String> = ["b", "m", "p", "ph", "v", "n", "g", "gh", "d", "r", "tr"]
+    private static let step8InvalidOeOnsets: Set<String> = ["b", "c", "d", "g", "gh", "m", "n", "p", "ph", "r", "s", "tr", "v"]
+    private static let step8InvalidOaOnsets: Set<String> = ["b", "g", "gh", "m", "n", "p", "ph", "r", "tr", "v"]
+    private static let shorthandWValidOnsets: Set<String> = [
+        "b", "c", "ch", "d", "đ", "g", "gh", "gi", "h", "k", "kh",
+        "l", "m", "n", "ng", "ngh", "nh", "p", "ph", "r", "s",
+        "t", "th", "tr", "v", "x"
+    ]
+
     // MARK: - Initialization
     public init(config: EngineConfig = EngineConfig(), adaptiveLearner: AdaptiveLearningManager? = nil) {
         self.lock = OSAllocatedUnfairLock()
@@ -1251,7 +1269,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
 
         // 8. Stop Coda Tone, Invalid Coda Cluster & Multi-Syllable / Phonotactic Validation on Result
-        let isPreservedInStep8 = shouldPreserveInStep5b || (adaptiveLearner?.isEnabled == true && adaptiveLearner?.shouldPreserveVietnameseForImeFriction(word: targetActive.lowercased()) == true)
+        let isPreservedInStep8 = shouldPreserveInStep5b || (adaptiveLearner?.isEnabled == true && adaptiveLearner?.hasActivePreserveRules == true && adaptiveLearner?.shouldPreserveVietnameseForImeFriction(word: targetActive.lowercased()) == true)
         if isPreservedInStep8 && activeImeFrictionRuleTrigger == nil {
             activeImeFrictionRuleTrigger = (String(wordRawKeys) + String(character)).lowercased()
         }
@@ -1260,15 +1278,6 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if let parsed = Syllable.parse(from: targetActive) {
                 let hasMedialConsonantInNucleus = !parsed.nucleus.allSatisfy { PhonotacticsMatrix.isVowelChar($0) }
                 let lowerNuc = parsed.nucleus.lowercased()
-                let transitionalNuclei: Set<String> = [
-                    "ie", "uye", "ye", "uo", "uoi", "uou", "ưo", "ưoi", "ưou",
-                    "uơ", "uơi", "uơu", "ieu", "yeu", "eu", "ue", "uay", "uu"
-                ]
-                let offGlidesForbiddingCoda: Set<String> = [
-                    "ai", "ao", "au", "âu", "ay", "ây", "eo", "êu", "ia", "iêu", "iu",
-                    "oai", "oao", "oay", "oeo", "oi", "ôi", "ơi", "ưa", "uây", "ui",
-                    "ưi", "uôi", "ươi", "ươu", "ưu", "uya", "uyu", "yêu"
-                ]
                 let hasSplitPrefix = !committedPrefix.isEmpty && !hasPrecedingTechSep
                 let isTransformed = hasSplitPrefix || (
                     (targetActive.lowercased() != candidateRaw.lowercased())
@@ -1277,9 +1286,6 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let lowerOnset = parsed.onset.lowercased()
                 let isTransientQu = (lowerOnset == "q" && lowerNuc.hasPrefix("u"))
                 let firstNuc = lowerNuc.first
-                let invalidOaiOnsets: Set<String> = ["b", "m", "p", "ph", "v", "n", "g", "gh", "d", "r", "tr"]
-                let invalidOeOnsets: Set<String> = ["b", "c", "d", "g", "gh", "m", "n", "p", "ph", "r", "s", "tr", "v"]
-                let invalidOaOnsets: Set<String> = ["b", "g", "gh", "m", "n", "p", "ph", "r", "tr", "v"]
                 let isValidVietnameseGoa = lowerOnset == "g"
                     && lowerNuc == "oa"
                     && parsed.coda.isEmpty
@@ -1302,9 +1308,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let isInvalidKOrZOrthography = (lowerOnset == "k" && firstNuc != nil && !"ieêy".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (lowerOnset == "c" && firstNuc != nil && "ieêy".contains(firstNuc!))
                     || ((lowerOnset == "g" || lowerOnset == "ng") && firstNuc != nil && "eê".contains(firstNuc!) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
-                    || (invalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
-                    || (invalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
-                    || (invalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
+                    || (Self.step8InvalidOaiOnsets.contains(lowerOnset) && ["oai", "oao", "oay", "oeo"].contains(lowerNuc) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
+                    || (Self.step8InvalidOeOnsets.contains(lowerOnset) && lowerNuc == "oe" && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
+                    || (Self.step8InvalidOaOnsets.contains(lowerOnset) && ["oa", "oă"].contains(lowerNuc) && !isValidVietnameseGoa && !isValidVietnameseNoan && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (!lowerOnset.isEmpty && lowerOnset != "qu" && parsed.nucleus.count >= 2 && lowerNuc.hasPrefix("y") && !isVietCollocationFull)
                     || (lowerOnset == "p" && (parsed.tone != .none || lowerNuc.contains(where: { "ăơư".contains($0) })) && !isVietCollocationFull && !wasUnlatchedOrToneOverride)
                     || (lowerOnset == "z")
@@ -1316,10 +1322,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let hasInvalidTransformedNucleus = isTransformed
                     && parsed.nucleus.count >= 2
                     && PhonotacticsMatrix.lookupVO(lowerNuc).isEmpty
-                    && !transitionalNuclei.contains(lowerNuc)
+                    && !Self.step8TransitionalNuclei.contains(lowerNuc)
                 let hasIllegalOffGlideCoda = isTransformed
                     && !parsed.coda.isEmpty
-                    && offGlidesForbiddingCoda.contains(lowerNuc)
+                    && Self.step8OffGlidesForbiddingCoda.contains(lowerNuc)
                 let hasInvalidTransformedCoda = isTransformed
                     && !candidateState.isBypassed
                     && !parsed.coda.isEmpty
@@ -1769,14 +1775,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
         var bestSplitIndex: Int? = nil
 
-        let offGlides: Set<String> = [
-            "ai", "ao", "au", "âu", "ay", "ây", "eo", "êu", "ia", "iêu", "iu",
-            "oai", "oao", "oay", "oeo", "oi", "ôi", "ơi", "ưa", "uây", "ui",
-            "ưi", "uôi", "ươi", "ươu", "ưu", "uya", "uyu", "yêu"
-        ]
         let penultNucChars = String(chars[penultRange.start...penultRange.end]).lowercased()
         let strippedPenult = TonePlacement.stripTone(from: penultNucChars).lowercased()
-        let isPenultOffGlide = offGlides.contains(strippedPenult)
+        let isPenultOffGlide = Self.step8OffGlidesForbiddingCoda.contains(strippedPenult)
 
         for k in cStart...cEnd {
             let preCoda = String(chars[cStart..<k]).lowercased()
@@ -1930,13 +1931,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let lastRawIsVowel = activeRawKeys.last.map { PhonotacticsMatrix.isVowelChar($0) } ?? false
 
         // Case 1: Nucleus is an off-glide (cannot take any coda)
-        let offGlides: Set<String> = [
-            "ai", "ao", "au", "âu", "ay", "ây", "eo", "êu", "ia", "iêu", "iu",
-            "oai", "oao", "oay", "oeo", "oi", "ôi", "ơi", "ưa", "uây", "ui",
-            "ưi", "uôi", "ươi", "ươu", "ưu", "uya", "uyu", "yêu"
-        ]
         let lowerNuc = parsed.nucleus.lowercased()
-        if offGlides.contains(lowerNuc) {
+        if Self.step8OffGlidesForbiddingCoda.contains(lowerNuc) {
             // Do not split if a tone key was typed between the two vowels (e.g. 'n-a-r-u' in 'naruto', 'm-i-s-a' in 'misaki', 'a-s-o' in 'asoko')
             // or if multiple tone keys were typed in the syllable (e.g. 'r-e-f-o-r-m', 'r-e-s-o-r-t', 'd-e-f-o-r-m', 'd-e-f-r-o-s-t')
             let toneKeyCount = activeRawKeys.dropFirst().filter { "sfrxj".contains($0.lowercased()) }.count
@@ -2025,12 +2021,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || TonePlacement.stripTone(from: previousDisplay).lowercased() == "gi" {
                 let strippedPrev = TonePlacement.stripTone(from: previousDisplay)
                 let lowerOnset = strippedPrev.lowercased()
-                let validOnsets: Set<String> = [
-                    "b", "c", "ch", "d", "đ", "g", "gh", "gi", "h", "k", "kh",
-                    "l", "m", "n", "ng", "ngh", "nh", "p", "ph", "r", "s",
-                    "t", "th", "tr", "v", "x"
-                ]
-                if validOnsets.contains(lowerOnset) {
+                if Self.shorthandWValidOnsets.contains(lowerOnset) {
                     state.isShorthandW = true
                     state.lastDiacriticKey = inputChar
                     let isUpper = inputChar.isUppercase || (strippedPrev.count > 1 && strippedPrev.allSatisfy { $0.isUppercase })
@@ -2412,9 +2403,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     }
                 }
 
-                let requiresTonedCodaOrVni = (method == .vni) || (!parsed.coda.isEmpty && parsed.tone != .none)
+                let isOffGlideCircumflexWithTone = parsed.tone != .none && ["uây", "ây", "âu", "iêu", "yêu", "êu", "uê", "uôi", "ôi"].contains(lowerNuc)
+                let requiresCircumflexUndo = (method == .vni) || (!parsed.coda.isEmpty && parsed.tone != .none) || isOffGlideCircumflexWithTone
+                let requiresBreveUndo = (method == .vni) || (!parsed.coda.isEmpty && parsed.tone != .none)
 
-                if restoredVowels == nil && isBreveKey && requiresTonedCodaOrVni {
+                if restoredVowels == nil && isBreveKey && requiresBreveUndo {
                     if lowerNuc == "ă" {
                         restoredVowels = ["a"]
                     } else if lowerNuc == "oă" {
@@ -2422,7 +2415,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     }
                 }
 
-                if restoredVowels == nil && isCircumflexA && requiresTonedCodaOrVni {
+                if restoredVowels == nil && isCircumflexA && requiresCircumflexUndo {
                     if lowerNuc == "â" {
                         restoredVowels = ["a"]
                     } else if lowerNuc == "uâ" {
@@ -2436,7 +2429,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     }
                 }
 
-                if restoredVowels == nil && isCircumflexE && requiresTonedCodaOrVni {
+                if restoredVowels == nil && isCircumflexE && requiresCircumflexUndo {
                     if lowerNuc == "ê" {
                         restoredVowels = ["e"]
                     } else if lowerNuc == "iê" {
@@ -2456,7 +2449,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     }
                 }
 
-                if restoredVowels == nil && isCircumflexO && requiresTonedCodaOrVni {
+                if restoredVowels == nil && isCircumflexO && requiresCircumflexUndo {
                     if lowerNuc == "ô" {
                         restoredVowels = ["o"]
                     } else if lowerNuc == "uô" {
@@ -2562,12 +2555,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 } else if lowerNuc == "ơa" {
                     parsed.nucleus = isUpperNuc ? "OĂ" : "oă"
                 }
-                let transitionalNuclei: Set<String> = [
-                    "ie", "uye", "ye", "uo", "uoi", "uou", "ưo", "ưoi", "ưou",
-                    "uơ", "uơi", "uơu", "ieu", "yeu", "eu", "ue", "uay", "uu"
-                ]
                 let finalLowerNuc = parsed.nucleus.lowercased()
-                if !PhonotacticsMatrix.lookupVO(finalLowerNuc).isEmpty || transitionalNuclei.contains(finalLowerNuc) {
+                if !PhonotacticsMatrix.lookupVO(finalLowerNuc).isEmpty || Self.step8TransitionalNuclei.contains(finalLowerNuc) {
                     let recomposed = TonePlacement.composeSyllable(
                         vowels: Array(parsed.nucleus),
                         onset: parsed.onset,
