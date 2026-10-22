@@ -326,14 +326,12 @@ public enum EnglishRestoreDetector {
         "ppa", "ppe", "ppi", "ppo", "ppu", "ppy",
         "bba", "bbe", "bbi", "bbo", "bbu", "bby",
         "ffa", "ffe", "ffi", "ffo", "ffu", "ffy", "ffl", "ffs", "ffh", "ffr",
-        "ffb", "ffc", "ffd", "ffg", "ffk", "ffm", "ffn", "ffp", "fft", "ffv", "ffw",
         "mma", "mme", "mmi", "mmo", "mmu", "mmy",
         "nna", "nne", "nni", "nno", "nnu", "nny", "nnx", "dnn", "nnl", "nns",
         "cca", "cce", "cci", "cco", "ccu", "ccy", "cch",
         "rra", "rre", "rri", "rro", "rru", "rry", "rrh", "rrs",
         "ssa", "sse", "ssi", "sso", "ssu", "ssy",
-        "ssw", "ssc", "ssp", "ssk", "ssr", "ssh", "ssl", "ssm", "ssn",
-        "ssb", "ssd", "ssf", "ssg", "sst", "ssv"
+        "ssw", "ssr", "ssh", "ssl", "ssm", "ssn", "ssb"
     ]
 
     /// English 'sw-', 'tw-', 'dw-', and 'thw-' prefixes that are not valid Vietnamese 'sư-' / 'tư-' / 'dư-' / 'thư-' syllables in Telex.

@@ -23,6 +23,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         var lastDiacriticKey: Character? = nil
         var isBypassed: Bool = false
         var didUndoDiacritic: Bool = false
+        var didUndoTone: Bool = false
         var didAbsorbBypassW: Bool = false
     }
 
@@ -276,7 +277,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
         // 2. English Bypass Latch Check
         let wasBypassedBeforeStep2 = isBypassed
-        if isBypassed {
+        if isBypassed && !transformState.didUndoTone {
             let prefix2 = wordRawKeys.count >= 2 ? String(wordRawKeys[0...1]).lowercased() : ""
             let prefix3 = wordRawKeys.count >= 3 ? String(wordRawKeys[0...2]).lowercased() : ""
             let onsetLen = prefix3 == "ngh" ? 3 : ((["ch", "ph", "th", "kh", "tr", "nh", "gh", "ng", "qu", "dd"].contains(prefix2)
@@ -972,7 +973,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = false
                 activeRawKeys = wordRawKeys
                 (activePreedit, transformState) = evaluateRaw(keys: wordRawKeys)
-            } else if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws", "thaws", "caws", "maws", "haws", "toes", "hoes", "roes", "noes", "dues", "hues", "cues", "sues", "rues", "tues"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
+            }
+        }
+        if isBypassed {
+            if _config.escapeByDoubleKey && ["ties", "laws", "raws", "saws", "thaws", "caws", "maws", "haws", "toes", "hoes", "roes", "noes", "dues", "hues", "cues", "sues", "rues", "tues"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "s" {
                 return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
             } else {
                 lastDeletedChar = nil
@@ -996,6 +1000,75 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 }
                 transformState.didAbsorbBypassW = false
 
+                // If word was already bypassed (or restored as a 4-letter -ss/-ff keyword like 'pass', 'mass', 'loss', 'miss')
+                // and user typed double 's' or double 'f' out of Telex tone-undo habit before 't'/'k'/'p'/'c' (e.g. 'wesst' -> 'west',
+                // 'lasst' -> 'last', 'masst' -> 'mast', 'massk' -> 'mask', 'minibeassts' -> 'minibeasts', 'shifft' -> 'shift'),
+                // collapse the duplicate 's'/'f' before appending the consonant unless it forms a literal English 'ss'/'ff' compound
+                // (e.g. 'misstep', 'misstate', 'misspell', 'classpath', 'passcode', 'passport', 'passkey', 'crosspost').
+                var didCollapseDuplicateToneKey = false
+                let hasPrecedingSepInBypass = committedPrefix.last != nil && EnglishRestoreDetector.isTechnicalSeparator(committedPrefix.last!)
+                if _config.escapeByDoubleKey
+                    && (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+                    && activePreedit == String(activeRawKeys)
+                    && !(hasPrecedingSepInBypass && activePreedit.lowercased() == "css") {
+                    let lowerPreedit = activePreedit.lowercased()
+                    let lowerChar = character.lowercased()
+                    if lowerPreedit.hasSuffix("ss") {
+                        let stemBeforeSS = String(lowerPreedit.dropLast(2))
+                        let hasVowelOrVrBeforeSS = stemBeforeSS.last.map { lastCh in
+                            "aeiouy".contains(lastCh)
+                                || (lastCh == "r" && stemBeforeSS.dropLast().last.map { "aeiouy".contains($0) } == true)
+                        } ?? false
+                        let isLiteralSSCompoundPrefix = (lowerPreedit == "miss" && lowerChar == "p")
+                            || (lowerPreedit.hasSuffix("class") && lowerPreedit != "class" && "tpkc".contains(lowerChar))
+                            || (lowerPreedit.hasSuffix("pass") && "kpc".contains(lowerChar))
+                            || (lowerPreedit.hasSuffix("cross") && "tpkc".contains(lowerChar))
+                            || (lowerPreedit.hasSuffix("glass") && "tpkc".contains(lowerChar))
+                            || (lowerPreedit.hasSuffix("grass") && lowerChar == "t")
+                            || (lowerPreedit.hasSuffix("less") && "tpkc".contains(lowerChar))
+                        let isTargetConsonantAfterSS = !isLiteralSSCompoundPrefix
+                            && (lowerChar == "t" || "kpc".contains(lowerChar))
+                        if hasVowelOrVrBeforeSS && isTargetConsonantAfterSS {
+                            activePreedit.removeLast()
+                            activeRawKeys.removeLast()
+                            if !wordRawKeys.isEmpty {
+                                wordRawKeys.removeLast()
+                            }
+                            transformState.didUndoTone = true
+                            didCollapseDuplicateToneKey = true
+                        }
+                    } else if lowerPreedit.hasSuffix("ff") && lowerChar == "t" {
+                        let stemBeforeFF = String(lowerPreedit.dropLast(2))
+                        let isLiteralFFCompoundPrefix = lowerPreedit.hasSuffix("off")
+                            || lowerPreedit.hasSuffix("stiff")
+                            || lowerPreedit.hasSuffix("cliff")
+                            || lowerPreedit.hasSuffix("staff")
+                            || lowerPreedit.hasSuffix("bluff")
+                            || lowerPreedit.hasSuffix("stuff")
+                        if !isLiteralFFCompoundPrefix, let lastCh = stemBeforeFF.last, "aeiouy".contains(lastCh) {
+                            activePreedit.removeLast()
+                            activeRawKeys.removeLast()
+                            if !wordRawKeys.isEmpty {
+                                wordRawKeys.removeLast()
+                            }
+                            transformState.didUndoTone = true
+                            didCollapseDuplicateToneKey = true
+                        }
+                    } else if transformState.didUndoTone
+                        && ((lowerPreedit == "mist" && "ea".contains(lowerChar))
+                            || (lowerPreedit == "guest" && lowerChar == "i")
+                            || (lowerPreedit == "clasp" && lowerChar == "a")) {
+                        // Restore collapsed 's' when 'misst' continues into 'misstep'/'misstate', 'guesst' into 'guesstimate', or 'classp' into 'classpath'
+                        let sChar: Character = activePreedit.dropLast().last?.isUppercase == true ? "S" : "s"
+                        let lastCons = activePreedit.removeLast()
+                        activePreedit.append(sChar)
+                        activePreedit.append(lastCons)
+                        activeRawKeys = Array(activePreedit)
+                        wordRawKeys = Array(committedPrefix + activePreedit)
+                        didCollapseDuplicateToneKey = true
+                    }
+                }
+
                 if committedPrefix.isEmpty && activePreedit.lowercased() == "apa" && character.lowercased() == "t", let lastA = activePreedit.last {
                     wordRawKeys.append(lastA)
                     activeRawKeys.append(lastA)
@@ -1011,9 +1084,13 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys.append(character)
                 activePreedit.append(character)
 
+                if didCollapseDuplicateToneKey {
+                    let newDisplay = committedPrefix + activePreedit
+                    return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
+                }
+
                 let rawActive = String(activeRawKeys)
                 let lowerRawActive = rawActive.lowercased()
-                let hasPrecedingSepInBypass = committedPrefix.last != nil && EnglishRestoreDetector.isTechnicalSeparator(committedPrefix.last!)
                 let fullRawWord = String(wordRawKeys)
                 let lowerFullRawWord = fullRawWord.lowercased()
                 if activePreedit != rawActive || (!hasPrecedingSepInBypass && !committedPrefix.isEmpty) {
@@ -1033,10 +1110,18 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         let newDisplay = committedPrefix + activePreedit
                         return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
                     } else if !"aeiouy".contains(character.lowercased()) {
-                        // A non-vowel followed a double-key tone undo (e.g. 'tarr' + 'g' in 'target'):
+                        // A non-vowel followed a double-key tone undo (e.g. 'tarr' + 'g' in 'target', 'contesst' -> 'contest'):
                         // synchronize raw key buffers with the undone display string.
+                        if !hasPrecedingSepInBypass && !committedPrefix.isEmpty {
+                            activePreedit = committedPrefix + activePreedit
+                            committedPrefix = ""
+                        }
                         activeRawKeys = Array(activePreedit)
                         wordRawKeys = Array(committedPrefix + activePreedit)
+                        let newDisplay = committedPrefix + activePreedit
+                        if newDisplay != prevDisplay + String(character) {
+                            return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
+                        }
                     }
                 }
 
@@ -1406,6 +1491,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 wordRawKeys = Array(committedPrefix + targetActive)
                 transformState.didAbsorbBypassW = (character == "w" || character == "W")
             } else {
+                if !committedPrefix.isEmpty && !hasPrecedingTechSep && wordRawKeys.count >= activeRawKeys.count {
+                    let rawPrefix = String(wordRawKeys.dropLast(activeRawKeys.count))
+                    if committedPrefix != rawPrefix {
+                        committedPrefix = rawPrefix
+                    }
+                }
                 wordRawKeys.append(character)
                 activeRawKeys.append(character)
             }
@@ -1516,6 +1607,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             }
 
             let wasBypassed = isBypassed
+            let preservedDidUndoTone = transformState.didUndoTone
             isBypassed = false
             didBackspace = false
 
@@ -1686,7 +1778,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     transformState = SyllableTransformState()
                 }
             } else {
-                transformState = SyllableTransformState()
+                transformState = SyllableTransformState(didUndoTone: preservedDidUndoTone)
             }
 
             return true
@@ -2077,6 +2169,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let toneStyle = _config.tonePlacement
         let escape = _config.escapeByDoubleKey
         state.didUndoDiacritic = false
+        state.didUndoTone = false
 
         // MARK: Full Telex Standalone & Shorthand 'w'
         if method == .telex && (inputChar == "w" || inputChar == "W") {
@@ -2169,9 +2262,10 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
 
         // MARK: Double-Press Tone Undo (e.g. 'bá' + 's' -> 'bas', 'mẹ' + 'j' -> 'mej')
-        if let _ = toneRes.tone, escape, state.lastToneKey == inputChar {
+        if let _ = toneRes.tone, escape, state.lastToneKey?.lowercased() == inputChar.lowercased() {
             state.lastToneKey = nil
             state.isBypassed = true
+            state.didUndoTone = true
             return (String(rawHistory), true)
         }
 
