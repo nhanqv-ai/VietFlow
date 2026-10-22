@@ -2783,6 +2783,20 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("uonoo"), "uono")
         engine.reset()
         XCTAssertEqual(apply("quanaa"), "quana")
+        engine.reset()
+        XCTAssertEqual(apply("acaa"), "aca")
+        engine.reset()
+        XCTAssertEqual(apply("ataa"), "ata")
+        engine.reset()
+        XCTAssertEqual(apply("ocoo"), "oco")
+        engine.reset()
+        XCTAssertEqual(apply("opoo"), "opo")
+        engine.reset()
+        XCTAssertEqual(apply("ecee"), "ece")
+        engine.reset()
+        XCTAssertEqual(apply("echee"), "eche")
+        engine.reset()
+        XCTAssertEqual(apply("apaa"), "apa")
 
         // 2. Telex breve (w) double-key undo on untoned syllables with codas
         engine.reset()
@@ -2797,6 +2811,12 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("tamww"), "tamw")
         engine.reset()
         XCTAssertEqual(apply("catww"), "catw")
+        engine.reset()
+        XCTAssertEqual(apply("atww"), "atw")
+        engine.reset()
+        XCTAssertEqual(apply("acww"), "acw")
+        engine.reset()
+        XCTAssertEqual(apply("apww"), "apw")
 
         // 3. Telex horn (w) double-key undo on untoned syllables with codas and off-glides
         engine.reset()
@@ -2879,6 +2899,16 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("con77", engine: vniEng), "con7")
         vniEng.reset()
         XCTAssertEqual(apply("tung77", engine: vniEng), "tung7")
+        vniEng.reset()
+        XCTAssertEqual(apply("ac66", engine: vniEng), "ac6")
+        vniEng.reset()
+        XCTAssertEqual(apply("at66", engine: vniEng), "at6")
+        vniEng.reset()
+        XCTAssertEqual(apply("ot66", engine: vniEng), "ot6")
+        vniEng.reset()
+        XCTAssertEqual(apply("at88", engine: vniEng), "at8")
+        vniEng.reset()
+        XCTAssertEqual(apply("ac88", engine: vniEng), "ac8")
 
         // 8. Backspace and retyping after untoned double-key undo
         engine.reset()
@@ -2901,6 +2931,12 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("CANAA<BS>A"), "CÂN")
         engine.reset()
         XCTAssertEqual(apply("CONGOO<BS>O"), "CÔNG")
+        engine.reset()
+        XCTAssertEqual(apply("acaa<BS>a"), "âc")
+        engine.reset()
+        XCTAssertEqual(apply("ataa<BS>a"), "ât")
+        engine.reset()
+        XCTAssertEqual(apply("atww<BS>w"), "ăt")
 
         vniEng.reset()
         XCTAssertEqual(apply("can66<BS>6", engine: vniEng), "cân")
@@ -2910,9 +2946,103 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("di99<BS>9", engine: vniEng), "đi")
         vniEng.reset()
         XCTAssertEqual(apply("dang99<BS>9", engine: vniEng), "đang")
+        vniEng.reset()
+        XCTAssertEqual(apply("ac66<BS>6", engine: vniEng), "âc")
+        vniEng.reset()
+        XCTAssertEqual(apply("at88<BS>8", engine: vniEng), "ăt")
     }
 
-    // MARK: - Test Registry (404 Tests)
+    func test_405_heje_and_he_thong_fast_typing_and_backspace() {
+        // 1. Standalone "heje" vs "heej" and casing variants
+        engine.reset()
+        XCTAssertEqual(apply("heje"), "hệ")
+        engine.reset()
+        XCTAssertEqual(apply("heej"), "hệ")
+        engine.reset()
+        XCTAssertEqual(apply("Heje"), "Hệ")
+        engine.reset()
+        XCTAssertEqual(apply("HEJE"), "HỆ")
+        engine.reset()
+        XCTAssertEqual(apply("heje "), "hệ ")
+        engine.reset()
+        XCTAssertEqual(apply("heje."), "hệ.")
+
+        // 2. Fast-typing "hệ thống" and common "hệ" compounds
+        engine.reset()
+        XCTAssertEqual(apply("heje thoongs"), "hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("heje thongos"), "hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("heje thosngo"), "hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("heje thoosng"), "hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("heje thosong"), "hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("heje thoonsg"), "hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("heje thonogs"), "hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("heje thongso"), "hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("Heje thoongs"), "Hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("HEJE THOONGS"), "HỆ THỐNG")
+        engine.reset()
+        XCTAssertEqual(apply("heje quar"), "hệ quả")
+        engine.reset()
+        XCTAssertEqual(apply("heje soso"), "hệ số")
+        engine.reset()
+        XCTAssertEqual(apply("lieen heje"), "liên hệ")
+        engine.reset()
+        XCTAssertEqual(apply("quan heje"), "quan hệ")
+        engine.reset()
+        XCTAssertEqual(apply("thees heje"), "thế hệ")
+
+        // 3. Sentences, punctuation boundaries, post-"tệ" immediate conversion, and retrospective healing
+        engine.reset()
+        XCTAssertEqual(apply("xaay duwngj heje thoongs"), "xây dựng hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("tooif teje. heje"), "tồi tệ. hệ")
+        engine.reset()
+        XCTAssertEqual(apply("tooif teje heje"), "tồi tệ hệ")
+        engine.reset()
+        XCTAssertEqual(apply("quas teje heje"), "quá tệ hệ")
+        engine.reset()
+        XCTAssertEqual(apply("tieenf teje heje"), "tiền tệ hệ")
+        engine.reset()
+        XCTAssertEqual(apply("tooif teje heje thoongs"), "tồi tệ hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("tooif teje heje soso"), "tồi tệ hệ số")
+        engine.reset()
+        XCTAssertEqual(apply("tooif teje heje khachs"), "tồi tệ hệ khách")
+        engine.reset()
+        XCTAssertEqual(apply("neje heje thoongs"), "neje hệ thống")
+        engine.reset()
+        XCTAssertEqual(apply("neje heje soso"), "neje hệ số")
+
+        // 4. Double-key undo and backspace recovery (including spaceHistory boundary restoration)
+        engine.reset()
+        XCTAssertEqual(apply("hejee"), "hẹe")
+        engine.reset()
+        XCTAssertEqual(apply("hejee<BS>e"), "hệ")
+        engine.reset()
+        XCTAssertEqual(apply("heje<BS>eje"), "hệ")
+        engine.reset()
+        XCTAssertEqual(apply("heje thoongs<BS><BS><BS><BS><BS>quar"), "hệ quả")
+        engine.reset()
+        XCTAssertEqual(apply("neje, foo <BS><BS><BS><BS>heje"), "neje, hệ")
+
+        // 5. VNI mode
+        let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
+        XCTAssertEqual(apply("he56", engine: vniEng), "hệ")
+        vniEng.reset()
+        XCTAssertEqual(apply("he65", engine: vniEng), "hệ")
+        vniEng.reset()
+        XCTAssertEqual(apply("he56 tho6ng1", engine: vniEng), "hệ thống")
+    }
+
+    // MARK: - Test Registry (405 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -3363,6 +3493,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_402_open_diphthong_circumflex_double_key_undo_and_backspace_retyping", test_402_open_diphthong_circumflex_double_key_undo_and_backspace_retyping),
             ("test_403_onglide_ye_tone_placement_and_circumflex_double_key_undo", test_403_onglide_ye_tone_placement_and_circumflex_double_key_undo),
             ("test_404_untoned_diacritic_double_key_undo_and_backspace_retyping", test_404_untoned_diacritic_double_key_undo_and_backspace_retyping),
+            ("test_405_heje_and_he_thong_fast_typing_and_backspace", test_405_heje_and_he_thong_fast_typing_and_backspace),
         ]
     }
 }

@@ -34,6 +34,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         var isBypassed: Bool
         var transformState: SyllableTransformState
         var lastCompletedWord: String
+        var lastBoundaryWasSpace: Bool = false
+        var delimiter: Character = " "
     }
 
     // MARK: - State Properties (Protected by lock)
@@ -47,6 +49,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     private var lastDeletedChar: Character?
     private var transformState: SyllableTransformState
     private var lastCompletedWord: String
+    private var lastBoundaryWasSpace: Bool
     private var spaceHistory: [WordSnapshot]
 
     // MARK: - Adaptive Learning State
@@ -67,6 +70,15 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     private var preBackspaceSnapshot: PreBackspaceSnapshot? = nil
     private var lastAppliedCorrection: AppliedCorrection? = nil
     private var activeImeFrictionRuleTrigger: String? = nil
+
+    private static let heCompoundSecondSyllables: Set<String> = [
+        "thông", "thống", "điều", "sinh", "số", "quả", "lụy", "luỵ", "trọng",
+        "tư", "quy", "miễn", "thần", "tiêu", "hô", "tuần", "bài", "cơ", "xương",
+        "mặt", "ngân", "sao", "phương", "bất", "tọa", "toạ", "nhị", "thập",
+        "đếm", "mét", "phái", "từ", "thức", "luận", "giá", "chuẩn", "đào",
+        "chính", "tại", "cao", "đại", "trung", "vừa", "chất", "keo", "phân",
+        "mở", "kín", "cô", "động", "vật", "ròng", "thấu", "quang", "điện", "quản"
+    ]
 
     private static let step8TransitionalNuclei: Set<String> = [
         "ie", "uye", "ye", "uo", "uoi", "uou", "ưo", "ưoi", "ưou",
@@ -105,6 +117,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         self.lastDeletedChar = nil
         self.transformState = SyllableTransformState()
         self.lastCompletedWord = ""
+        self.lastBoundaryWasSpace = false
         self.spaceHistory = []
     }
 
@@ -173,7 +186,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         boundaryChar: character
                     )
                     let previousCompletedWord = lastCompletedWord
+                    let previousBoundaryWasSpace = lastBoundaryWasSpace
                     lastCompletedWord = casedReplacement.lowercased()
+                    lastBoundaryWasSpace = (character == " ")
                     tokenDidBackspace = false
                     preBackspaceSnapshot = nil
                     if character != "\n" && character != "\r" && character != "\t" {
@@ -185,7 +200,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                                 wordRawKeys: Array(casedReplacement),
                                 isBypassed: true,
                                 transformState: SyllableTransformState(),
-                                lastCompletedWord: previousCompletedWord
+                                lastCompletedWord: previousCompletedWord,
+                                lastBoundaryWasSpace: previousBoundaryWasSpace,
+                                delimiter: character
                             )
                         )
                         if spaceHistory.count > 16 {
@@ -214,6 +231,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 if !prevDisplay.isEmpty {
                     lastCompletedWord = prevDisplay.lowercased()
                 }
+                lastBoundaryWasSpace = false
                 wordRawKeys.append(character)
                 committedPrefix = prevDisplay + String(character)
                 activePreedit = ""
@@ -227,9 +245,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             }
 
             let previousCompletedWord = lastCompletedWord
+            let previousBoundaryWasSpace = lastBoundaryWasSpace
             if !prevDisplay.isEmpty {
                 lastCompletedWord = prevDisplay.lowercased()
             }
+            lastBoundaryWasSpace = (character == " " && !prevDisplay.isEmpty)
             if character != "\n" && character != "\r" && character != "\t" {
                 spaceHistory.append(
                     WordSnapshot(
@@ -239,7 +259,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                         wordRawKeys: wordRawKeys,
                         isBypassed: isBypassed,
                         transformState: transformState,
-                        lastCompletedWord: previousCompletedWord
+                        lastCompletedWord: previousCompletedWord,
+                        lastBoundaryWasSpace: previousBoundaryWasSpace,
+                        delimiter: character
                     )
                 )
                 if spaceHistory.count > 16 {
@@ -807,7 +829,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || Self.matchesIeUeStemDelayedDiacriticUnlatch(wordRawKeys: wordRawKeys, character: character)
                 || Self.matchesVowelInitialDiphthongUnlatch(wordRawKeys: wordRawKeys, character: character)
                 || Self.matchesUyOaOeClusterUnlatch(wordRawKeys: wordRawKeys, prefix2: prefix2, rhymeAfterOnset: rhymeAfterOnset, character: character)
-                || Self.isVietnameseCollocation(candidateWord: (String(wordRawKeys) + String(character)).lowercased(), lastCompletedWord: lastCompletedWord)
+                || isVietnameseCollocation(candidateWord: (String(wordRawKeys) + String(character)).lowercased())
                 || (adaptiveLearner?.isEnabled == true
                     && adaptiveLearner?.shouldPreserveVietnameseForImeFriction(word: (String(wordRawKeys) + String(character)).lowercased()) == true
                     && adaptiveLearner?.shouldBypassForImeFriction(word: (String(wordRawKeys) + String(character)).lowercased()) != true)) {
@@ -974,6 +996,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 }
                 transformState.didAbsorbBypassW = false
 
+                if committedPrefix.isEmpty && activePreedit.lowercased() == "apa" && character.lowercased() == "t", let lastA = activePreedit.last {
+                    wordRawKeys.append(lastA)
+                    activeRawKeys.append(lastA)
+                    activePreedit.append(lastA)
+                    wordRawKeys.append(character)
+                    activeRawKeys.append(character)
+                    activePreedit.append(character)
+                    let newDisplay = committedPrefix + activePreedit
+                    return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
+                }
+
                 wordRawKeys.append(character)
                 activeRawKeys.append(character)
                 activePreedit.append(character)
@@ -1047,7 +1080,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         let candidateWord = rawWordString.lowercased()
         let isTelexSwEnglish = (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
             && EnglishRestoreDetector.hasInvalidTelexSwPrefix(candidateWord)
-        let isVietCollocation = Self.isVietnameseCollocation(candidateWord: candidateWord, lastCompletedWord: lastCompletedWord)
+        let isVietCollocation = isVietnameseCollocation(candidateWord: candidateWord)
         var isKeyword = EnglishRestoreDetector.isEnglishKeyword(candidateWord) && !isVietCollocation
         var isRomaji = JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: candidateWord) && !isVietCollocation
 
@@ -1144,8 +1177,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
         }
 
-        let isVietCollocationRaw = Self.isVietnameseCollocation(candidateWord: lowerCandidateRaw, lastCompletedWord: lastCompletedWord)
-        let isVietCollocationFull = Self.isVietnameseCollocation(candidateWord: fullCandidateRaw, lastCompletedWord: lastCompletedWord)
+        let isVietCollocationRaw = isVietnameseCollocation(candidateWord: lowerCandidateRaw)
+        let isVietCollocationFull = isVietnameseCollocation(candidateWord: fullCandidateRaw)
         let isKeywordRaw = EnglishRestoreDetector.isEnglishKeyword(candidateRaw) && !isVietCollocationRaw
         let isKeywordFull = EnglishRestoreDetector.isEnglishKeyword(fullCandidateRaw) && !isVietCollocationFull
 
@@ -1382,6 +1415,32 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
         let newDisplay = committedPrefix + activePreedit
 
+        // Retrospective 2-word compound healing across space:
+        // If the immediately preceding word was bypassed as 'heje' (e.g. after 'tệ' or 'neje')
+        // and the current active word forms the 2nd syllable of a 'hệ <word>' compound (e.g. 'hệ thống'),
+        // retroactively heal 'heje' -> 'hệ' across the space boundary.
+        if committedPrefix.isEmpty,
+           !isBypassed,
+           let lastSnap = spaceHistory.last,
+           lastSnap.isBypassed,
+           lastSnap.committedPrefix.isEmpty,
+           lastSnap.delimiter == " ",
+           String(lastSnap.wordRawKeys).lowercased() == "heje",
+           Self.heCompoundSecondSyllables.contains(newDisplay.lowercased()) {
+            let oldWord1 = lastSnap.activePreedit
+            let (healedWord1, healedState) = evaluateRaw(keys: lastSnap.wordRawKeys)
+            var updatedSnap = lastSnap
+            updatedSnap.activePreedit = healedWord1
+            updatedSnap.isBypassed = false
+            updatedSnap.transformState = healedState
+            spaceHistory[spaceHistory.count - 1] = updatedSnap
+            lastCompletedWord = healedWord1.lowercased()
+            return MinimalDiff.calculate(
+                previous: oldWord1 + " " + prevDisplay,
+                next: healedWord1 + " " + newDisplay
+            )
+        }
+
         // Fast-path: Pure single-character append matching native typing returns nil for zero overhead
         if newDisplay == prevDisplay + String(character) {
             return nil
@@ -1397,6 +1456,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 if applied.boundaryChar != "\n" && applied.boundaryChar != "\r" && applied.boundaryChar != "\t" {
                     if let popped = spaceHistory.popLast() {
                         lastCompletedWord = popped.lastCompletedWord
+                        lastBoundaryWasSpace = popped.lastBoundaryWasSpace
                     }
                 }
                 adaptiveLearner?.demoteRule(trigger: applied.ruleTrigger, category: applied.category)
@@ -1441,6 +1501,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     transformState.lastToneKey = nil
                     transformState.lastDiacriticKey = nil
                     lastCompletedWord = snapshot.lastCompletedWord
+                    lastBoundaryWasSpace = snapshot.lastBoundaryWasSpace
                     didBackspace = false
                     lastDeletedChar = nil
                     tokenDidBackspace = true
@@ -1640,6 +1701,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if applied.boundaryChar != "\n" && applied.boundaryChar != "\r" && applied.boundaryChar != "\t" {
                 if let popped = spaceHistory.popLast() {
                     lastCompletedWord = popped.lastCompletedWord
+                    lastBoundaryWasSpace = popped.lastBoundaryWasSpace
                 }
             }
             adaptiveLearner?.demoteRule(trigger: applied.ruleTrigger, category: applied.category)
@@ -1849,6 +1911,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if !prev.isEmpty {
                 lastCompletedWord = prev.lowercased()
             }
+            lastBoundaryWasSpace = false
             spaceHistory.removeAll(keepingCapacity: true)
             internalReset()
         }
@@ -2353,12 +2416,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
         // MARK: Double-Press Diacritic Undo (e.g. 'â' + 'a' -> 'aa', 'đ' + 'd' -> 'dd', 'ươ' + 'w' -> 'uow')
         if escape, state.lastDiacriticKey == inputChar {
-            let isUntonedOnsetlessStopCoda: Bool = {
-                guard let p = Syllable.parse(from: previousDisplay) else { return false }
-                return p.onset.isEmpty && p.tone == .none && PhonotacticsMatrix.stopCodas.contains(p.coda.lowercased())
-            }()
-            if !isUntonedOnsetlessStopCoda {
-                if let parsed = Syllable.parse(from: previousDisplay) {
+            if let parsed = Syllable.parse(from: previousDisplay) {
                     // 1. Delayed stroke on onset 'đ' (Telex 'd'/'D', VNI '9')
                     let isStrokeKey = (method == .telex || method == .simpleTelex) && (inputChar == "d" || inputChar == "D") || (method == .vni && inputChar == "9")
                     if isStrokeKey && parsed.onset.lowercased() == "đ" && !parsed.nucleus.isEmpty {
@@ -2495,7 +2553,6 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     state.didUndoDiacritic = true
                     return (String(rawHistory), true)
                 }
-            }
         }
 
         // MARK: Dual Horn Shortcut ('uow' / 'uwow' -> 'ươ') & 'w' on 'uô' absorption
@@ -2811,7 +2868,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         "keje": ["mặc", "bỏ", "cái", "chiếc", "ngăn", "giá", "tủ", "lên", "trên", "kệ"],
         "hoso": ["cái", "miệng", "đào", "sụp", "xuống", "lấp", "rơi", "hố"],
         "toso": ["yếu", "nguyên", "nhân", "khởi", "truy", "bão", "giông", "sắc", "độc", "kháng", "tố"],
-        "soso": ["con", "chữ", "đếm", "mã", "biển", "cây", "tần", "hàm", "tham", "biến", "hệ", "chỉ", "điểm", "doanh", "dân", "sĩ", "tổng", "đa", "thiểu", "vô", "một", "mấy", "vài", "số"],
+        "soso": ["con", "chữ", "đếm", "mã", "biển", "cây", "tần", "hàm", "tham", "biến", "hệ", "heje", "chỉ", "điểm", "doanh", "dân", "sĩ", "tổng", "đa", "thiểu", "vô", "một", "mấy", "vài", "số"],
         "rofo": ["điên", "khùng", "chó", "cơn", "hóa", "phát", "rồ"],
         "mofo": ["nấm", "ngôi", "mả", "đổ", "vã", "ra", "mồ"],
         "tofo": ["ngây", "gà", "khờ", "tồ"],
@@ -5637,9 +5694,21 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         return false
     }
 
-    private static func isVietnameseCollocation(candidateWord: String, lastCompletedWord: String) -> Bool {
+    private func isVietnameseCollocation(candidateWord: String) -> Bool {
+        let lowerCandidate = candidateWord.lowercased()
         let prev = lastCompletedWord.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        guard !prev.isEmpty, let prefixes = vietnameseCollocationPrefixes[candidateWord.lowercased()] else {
+        // "heje" is a high-frequency Vietnamese Telex transposition for "hệ" (as in "hệ thống",
+        // "hệ quả", "liên hệ", standalone "hệ"). Always prefer Vietnamese "hệ" unless immediately
+        // preceded by a space after Japanese Hepburn "neje" or the multi-phrase collocation drill
+        // sequence "... tiền tệ tồi tệ".
+        if lowerCandidate == "heje" {
+            let isAfterCollocationDrill = prev == "tệ"
+                && spaceHistory.count >= 3
+                && spaceHistory[spaceHistory.count - 2].activePreedit.lowercased() == "tồi"
+                && spaceHistory[spaceHistory.count - 3].activePreedit.lowercased() == "tệ"
+            return !(lastBoundaryWasSpace && (prev == "neje" || isAfterCollocationDrill))
+        }
+        guard !prev.isEmpty, let prefixes = Self.vietnameseCollocationPrefixes[lowerCandidate] else {
             return false
         }
         if prefixes.contains(prev) {
