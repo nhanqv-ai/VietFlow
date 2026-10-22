@@ -3042,7 +3042,162 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("he56 tho6ng1", engine: vniEng), "hệ thống")
     }
 
-    // MARK: - Test Registry (405 Tests)
+    func test_406_double_key_tone_escape_for_test_and_english_coda_clusters() {
+        // 1. Core 'test' family typed with double 's' (tesst, tessts, tesster, tessted, tessting) and casing
+        let testCases: [(String, String)] = [
+            ("tesst", "test"),
+            ("tessts", "tests"),
+            ("tesster", "tester"),
+            ("tessters", "testers"),
+            ("tessted", "tested"),
+            ("tessting", "testing"),
+            ("Tesst", "Test"),
+            ("TESST", "TEST"),
+            ("Tessting", "Testing"),
+            // 2. Other -st words typed with double 's'
+            ("besst", "best"),
+            ("resst", "rest"),
+            ("wesst", "west"),
+            ("nesst", "nest"),
+            ("pesst", "pest"),
+            ("vesst", "vest"),
+            ("chesst", "chest"),
+            ("guesst", "guest"),
+            ("quesst", "quest"),
+            ("requesst", "request"),
+            ("latesst", "latest"),
+            ("fasst", "fast"),
+            ("lasst", "last"),
+            ("masst", "mast"),
+            ("passt", "past"),
+            ("casst", "cast"),
+            ("vasst", "vast"),
+            ("lisst", "list"),
+            ("misst", "mist"),
+            ("fisst", "fist"),
+            ("cosst", "cost"),
+            ("mosst", "most"),
+            ("losst", "lost"),
+            ("hosst", "host"),
+            ("posst", "post"),
+            ("dusst", "dust"),
+            ("russt", "rust"),
+            ("musst", "must"),
+            ("jusst", "just"),
+            ("busst", "bust"),
+            ("trusst", "trust"),
+            ("firsst", "first"),
+            ("bursst", "burst"),
+            ("harvesst", "harvest"),
+            ("foresst", "forest"),
+            ("manifesst", "manifest"),
+            ("minibeassts", "minibeasts"),
+            ("honesst", "honest"),
+            ("modesst", "modest"),
+            ("detesst", "detest"),
+            ("protesst", "protest"),
+            ("contesst", "contest"),
+            ("invesst", "invest"),
+            ("suggesst", "suggest"),
+            ("digesst", "digest"),
+            ("assisst", "assist"),
+            // 3. -sk, -sp, -sc words typed with double 's', while preserving pass* compounds and ss+vowel words
+            ("tassk", "task"),
+            ("tassks", "tasks"),
+            ("massk", "mask"),
+            ("assk", "ask"),
+            ("dessk", "desk"),
+            ("rissk", "risk"),
+            ("dissk", "disk"),
+            ("dussk", "dusk"),
+            ("gassp", "gasp"),
+            ("rassp", "rasp"),
+            ("lissp", "lisp"),
+            ("cussp", "cusp"),
+            ("classp", "clasp"),
+            ("grassp", "grasp"),
+            ("crissp", "crisp"),
+            ("dissc", "disc"),
+            ("disscs", "discs"),
+            ("passcode", "passcode"),
+            ("passport", "passport"),
+            ("passkey", "passkey"),
+            ("password", "password"),
+            ("Passcode", "Passcode"),
+            ("Passport", "Passport"),
+            ("Passkey", "Passkey"),
+            ("Crosspost", "Crosspost"),
+            ("crosscheck", "crosscheck"),
+            ("crosstalk", "crosstalk"),
+            ("misstep", "misstep"),
+            ("misstate", "misstate"),
+            ("misspell", "misspell"),
+            ("classpath", "classpath"),
+            ("guesstimate", "guesstimate"),
+            ("offtrack", "offtrack"),
+            ("session", "session"),
+            ("message", "message"),
+            ("lesson", "lesson"),
+            // 4. Multi-syllable words where the first syllable has a Vietnamese diacritic before splitting
+            ("domesstic", "domestic"),
+            ("domesstics", "domestics"),
+            ("tootesst", "tootest"),
+            ("deetesst", "deetest"),
+            ("darrkness", "darkness"),
+            // 5. -ft and -rt/-rd/-rm/-rk words typed with double 'f' / double 'r'
+            ("lefft", "left"),
+            ("lifft", "lift"),
+            ("gifft", "gift"),
+            ("shifft", "shift"),
+            ("swifft", "swift"),
+            ("drifft", "drift"),
+            ("sofft", "soft"),
+            ("lofft", "loft"),
+            ("crafft", "craft"),
+            ("drafft", "draft"),
+            ("tarrt", "tart"),
+            ("carrd", "card"),
+            ("sorrt", "sort"),
+            ("terrm", "term"),
+            ("darrk", "dark"),
+            ("borrn", "born"),
+            ("offset", "offset"),
+            ("offline", "offline"),
+            ("carry", "carry"),
+            ("sorry", "sorry"),
+            ("style.csst", "style.csst"),
+        ]
+        for (raw, expected) in testCases {
+            engine.reset()
+            XCTAssertEqual(apply(raw), expected, "Failed for input: \(raw)")
+        }
+
+        // 6. Backspace and mixed Vietnamese-English sentence flows
+        engine.reset()
+        XCTAssertEqual(apply("tesst<BS>t"), "test")
+        engine.reset()
+        XCTAssertEqual(apply("wesst<BS>t"), "west")
+        engine.reset()
+        XCTAssertEqual(apply("lasst<BS>s"), "lass")
+        engine.reset()
+        XCTAssertEqual(apply("tesste<BS>ed"), "tested")
+        engine.reset()
+        XCTAssertEqual(apply("tessted<BS>r"), "tester")
+        engine.reset()
+        XCTAssertEqual(apply("tesst<BS><BS>s"), "té")
+        engine.reset()
+        XCTAssertEqual(apply("tooi ddang tesst heej thoongs vaf latesst tassk"), "tôi đang test hệ thống và latest task")
+
+        // 7. SimpleTelex mode
+        let simpleEng = makeEngine(inputMethod: .simpleTelex, tonePlacement: .modern)
+        XCTAssertEqual(apply("tesst", engine: simpleEng), "test")
+        simpleEng.reset()
+        XCTAssertEqual(apply("tessting", engine: simpleEng), "testing")
+        simpleEng.reset()
+        XCTAssertEqual(apply("domesstic", engine: simpleEng), "domestic")
+    }
+
+    // MARK: - Test Registry (406 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -3494,6 +3649,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_403_onglide_ye_tone_placement_and_circumflex_double_key_undo", test_403_onglide_ye_tone_placement_and_circumflex_double_key_undo),
             ("test_404_untoned_diacritic_double_key_undo_and_backspace_retyping", test_404_untoned_diacritic_double_key_undo_and_backspace_retyping),
             ("test_405_heje_and_he_thong_fast_typing_and_backspace", test_405_heje_and_he_thong_fast_typing_and_backspace),
+            ("test_406_double_key_tone_escape_for_test_and_english_coda_clusters", test_406_double_key_tone_escape_for_test_and_english_coda_clusters),
         ]
     }
 }
