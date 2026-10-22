@@ -88,7 +88,7 @@ public enum JapaneseRomajiLexicon {
         "kentoushimasu", "taioushimasu", "shuuseishimasu", "teishutsushimasu",
         "sakuseishimasu", "henshinshimasu", "chikatetsu", "takushii", "kousaten",
         "shingou", "kippu", "nimotsu", "omiyage", "resutoran", "shokudou", "kissaten",
-        "depaato", "suupaa", "kusuri", "kangoshi", "yuubinkyoku", "keisatsu",
+        "apaato", "depaato", "suupaa", "kusuri", "kangoshi", "yuubinkyoku", "keisatsu",
         "toshokan", "bijutsukan", "eigakan", "doubutsuen", "taishikan", "chuugakkou",
         "shougakkou", "youchien", "kyoushitsu", "shokugyou", "kaishain", "ginkouin",
         "kyoushi", "gakusei", "ryuugakusei", "kenkyuusha", "bengoshi", "keisatsukan",
