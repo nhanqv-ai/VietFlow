@@ -3197,7 +3197,110 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("domesstic", engine: simpleEng), "domestic")
     }
 
-    // MARK: - Test Registry (406 Tests)
+    func test_407_barn_to_ban_telex_and_backspace_recovery() {
+        // 1. Standalone 'barn' and 'banr' permutations, casing, and punctuation boundaries
+        let standaloneCases: [(String, String)] = [
+            ("barn", "bản"),
+            ("banr", "bản"),
+            ("Barn", "Bản"),
+            ("BARN", "BẢN"),
+            ("barn ", "bản "),
+            ("barn.", "bản."),
+            ("barn,", "bản,"),
+            ("(barn)", "(bản)"),
+            // 2. Vietnamese compounds and phrases starting or ending with 'bản', including 'bản cơ...' / 'bản cờ'
+            ("barn ddoof", "bản đồ"),
+            ("barn thaan", "bản thân"),
+            ("barn chaats", "bản chất"),
+            ("barn sao", "bản sao"),
+            ("barn tin", "bản tin"),
+            ("barn nhacj", "bản nhạc"),
+            ("barn ans", "bản án"),
+            ("barn aasn", "bản ấn"),
+            ("barn quyenef", "bản quyền"),
+            ("barn cow", "bản cơ"),
+            ("barn cow barn", "bản cơ bản"),
+            ("barn cow sowr", "bản cơ sở"),
+            ("barn cowf", "bản cờ"),
+            ("barn cows", "bản cớ"),
+            ("barn cowr", "bản cở"),
+            ("barn cowx", "bản cỡ"),
+            ("barn cowj", "bản cợ"),
+            ("barn cowm", "bản cơm"),
+            ("barn cown", "bản cơn"),
+            ("cow barn", "cơ bản"),
+            ("vawn barn", "văn bản"),
+            ("phieen barn", "phiên bản"),
+            ("kijch barn", "kịch bản"),
+            ("nguyeen barn", "nguyên bản"),
+            ("xuaats barn", "xuất bản"),
+            // 3. Continuations from 'barn' ('bản') and English derivatives starting with 'barn'
+            ("barng", "bảng"),
+            ("barnh", "bảnh"),
+            ("barnw", "bẳn"),
+            ("barngw", "bẳng"),
+            ("barna", "bẩn"),
+            ("barnga", "bẩng"),
+            ("barnf", "bàn"),
+            ("barnj", "bạn"),
+            ("barnx", "bãn"),
+            ("barns", "barns"),
+            ("mua barns", "mua bán"),
+            ("barnacle", "barnacle"),
+            ("barnyard", "barnyard"),
+            ("barnstorm", "barnstorm"),
+            ("barndoor", "barndoor"),
+            ("barnet", "barnet"),
+            // 4. Double-key tone undo for English 'barn' (standalone and after technical separators)
+            ("barnr", "barn"),
+            ("barrn", "barn"),
+            ("Barnr", "Barn"),
+            ("Barrn", "Barn"),
+            ("BARNR", "BARN"),
+            ("BARRN", "BARN"),
+            ("foo-barnr", "foo-barn"),
+            ("foo/barnr", "foo/barn"),
+            ("foo_barnr", "foo_barn"),
+            ("foo.barnr", "foo.barn"),
+            ("foo-barrn", "foo-barn"),
+        ]
+        for (raw, expected) in standaloneCases {
+            engine.reset()
+            XCTAssertEqual(apply(raw), expected, "Failed for input: \(raw)")
+        }
+
+        // 5. Backspace recovery (within-word and across word boundary after retrospective restoration)
+        engine.reset()
+        XCTAssertEqual(apply("barn<BS>n"), "bản")
+        engine.reset()
+        XCTAssertEqual(apply("barn<BS>ng"), "bảng")
+        engine.reset()
+        XCTAssertEqual(apply("barnr<BS>"), "bar")
+        engine.reset()
+        XCTAssertEqual(apply("barnr<BS>n"), "barn")
+        engine.reset()
+        XCTAssertEqual(apply("barnr<BS><BS>rn"), "bản")
+        engine.reset()
+        XCTAssertEqual(apply("barrn<BS>"), "bar")
+        engine.reset()
+        XCTAssertEqual(apply("barrn<BS>n"), "barn")
+        engine.reset()
+        XCTAssertEqual(apply("barrn<BS><BS>rn"), "bản")
+        engine.reset()
+        XCTAssertEqual(apply("barn barnh<BS><BS><BS><BS><BS>n"), "bản")
+
+        // 6. SimpleTelex mode
+        let simpleEng = makeEngine(inputMethod: .simpleTelex, tonePlacement: .modern)
+        XCTAssertEqual(apply("barn", engine: simpleEng), "bản")
+        simpleEng.reset()
+        XCTAssertEqual(apply("barn ddoof", engine: simpleEng), "bản đồ")
+        simpleEng.reset()
+        XCTAssertEqual(apply("barnr", engine: simpleEng), "barn")
+        simpleEng.reset()
+        XCTAssertEqual(apply("barrn", engine: simpleEng), "barn")
+    }
+
+    // MARK: - Test Registry (407 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -3650,6 +3753,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_404_untoned_diacritic_double_key_undo_and_backspace_retyping", test_404_untoned_diacritic_double_key_undo_and_backspace_retyping),
             ("test_405_heje_and_he_thong_fast_typing_and_backspace", test_405_heje_and_he_thong_fast_typing_and_backspace),
             ("test_406_double_key_tone_escape_for_test_and_english_coda_clusters", test_406_double_key_tone_escape_for_test_and_english_coda_clusters),
+            ("test_407_barn_to_ban_telex_and_backspace_recovery", test_407_barn_to_ban_telex_and_backspace_recovery),
         ]
     }
 }

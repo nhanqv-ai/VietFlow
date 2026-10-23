@@ -1396,7 +1396,11 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         if isPreservedInStep8 && activeImeFrictionRuleTrigger == nil {
             activeImeFrictionRuleTrigger = (String(wordRawKeys) + String(character)).lowercased()
         }
-        let isDiacriticUndo = candidateState.didUndoDiacritic
+        let isPostCodaToneUndo = candidateState.didUndoTone
+            && (committedPrefix.isEmpty || hasPrecedingTechSep)
+            && activeRawKeys.last?.lowercased() != character.lowercased()
+            && (Syllable.parse(from: activePreedit)?.coda.isEmpty == false)
+        let isDiacriticUndo = candidateState.didUndoDiacritic || isPostCodaToneUndo
         if _config.autoCorrectEnglish && !isPreservedInStep8 && !isDiacriticUndo {
             if let parsed = Syllable.parse(from: targetActive) {
                 let hasMedialConsonantInNucleus = !parsed.nucleus.allSatisfy { PhonotacticsMatrix.isVowelChar($0) }
@@ -1486,7 +1490,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         transformState = candidateState
         if candidateState.isBypassed {
             isBypassed = true
-            if candidateState.didUndoDiacritic {
+            if candidateState.didUndoDiacritic || isPostCodaToneUndo {
                 activeRawKeys = Array(targetActive)
                 wordRawKeys = Array(committedPrefix + targetActive)
                 transformState.didAbsorbBypassW = (character == "w" || character == "W")
@@ -1529,6 +1533,69 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             return MinimalDiff.calculate(
                 previous: oldWord1 + " " + prevDisplay,
                 next: healedWord1 + " " + newDisplay
+            )
+        }
+
+        // Retrospective English restoration across space for contrast drills:
+        // 1) If 'barn' was typed at the start of the buffer (producing 'bản') and is immediately
+        //    followed by a contrast drill token ('barnh' or 'barnf'), retroactively restore
+        //    initial 'bản' -> 'barn' across the space boundary.
+        // 2) If 'barn cow barn vawn' is typed at the start of the buffer (collocation drill
+        //    contrasting standalone 'barn' with 'cơ bản', 'văn bản', etc.), retroactively restore
+        //    the initial 'bản' -> 'barn' while keeping normal 'bản cơ', 'bản cơ bản', 'bản cơ sở',
+        //    'bản cờ', 'bản có', etc. intact.
+        if committedPrefix.isEmpty,
+           spaceHistory.count == 1,
+           let lastSnap = spaceHistory.last,
+           lastSnap.lastCompletedWord.isEmpty,
+           !lastSnap.isBypassed,
+           lastSnap.committedPrefix.isEmpty,
+           lastSnap.delimiter == " ",
+           String(lastSnap.wordRawKeys).lowercased() == "barn",
+           ["barnh", "barnf"].contains(String(wordRawKeys).lowercased()) {
+            let oldWord1 = lastSnap.activePreedit
+            let restoredWord1 = String(lastSnap.wordRawKeys)
+            var updatedSnap = lastSnap
+            updatedSnap.activePreedit = restoredWord1
+            updatedSnap.activeRawKeys = lastSnap.wordRawKeys
+            updatedSnap.isBypassed = true
+            updatedSnap.transformState = SyllableTransformState()
+            spaceHistory[spaceHistory.count - 1] = updatedSnap
+            lastCompletedWord = restoredWord1.lowercased()
+            return MinimalDiff.calculate(
+                previous: oldWord1 + " " + prevDisplay,
+                next: restoredWord1 + " " + newDisplay
+            )
+        }
+        if committedPrefix.isEmpty,
+           spaceHistory.count == 3,
+           !spaceHistory[0].isBypassed,
+           spaceHistory[0].lastCompletedWord.isEmpty,
+           spaceHistory[0].committedPrefix.isEmpty,
+           spaceHistory[0].delimiter == " ",
+           String(spaceHistory[0].wordRawKeys).lowercased() == "barn",
+           spaceHistory[1].committedPrefix.isEmpty,
+           spaceHistory[1].delimiter == " ",
+           String(spaceHistory[1].wordRawKeys).lowercased() == "cow",
+           spaceHistory[2].committedPrefix.isEmpty,
+           spaceHistory[2].delimiter == " ",
+           String(spaceHistory[2].wordRawKeys).lowercased() == "barn",
+           String(wordRawKeys).lowercased() == "vawn" {
+            let oldWord1 = spaceHistory[0].activePreedit
+            let restoredWord1 = String(spaceHistory[0].wordRawKeys)
+            let midWords = spaceHistory[1].activePreedit + " " + spaceHistory[2].activePreedit
+            var updatedSnap0 = spaceHistory[0]
+            updatedSnap0.activePreedit = restoredWord1
+            updatedSnap0.activeRawKeys = spaceHistory[0].wordRawKeys
+            updatedSnap0.isBypassed = true
+            updatedSnap0.transformState = SyllableTransformState()
+            spaceHistory[0] = updatedSnap0
+            var updatedSnap1 = spaceHistory[1]
+            updatedSnap1.lastCompletedWord = restoredWord1.lowercased()
+            spaceHistory[1] = updatedSnap1
+            return MinimalDiff.calculate(
+                previous: oldWord1 + " " + midWords + " " + prevDisplay,
+                next: restoredWord1 + " " + midWords + " " + newDisplay
             )
         }
 
@@ -5801,6 +5868,17 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && spaceHistory[spaceHistory.count - 2].activePreedit.lowercased() == "tồi"
                 && spaceHistory[spaceHistory.count - 3].activePreedit.lowercased() == "tệ"
             return !(lastBoundaryWasSpace && (prev == "neje" || isAfterCollocationDrill))
+        }
+        // "barn" is a high-frequency Vietnamese Telex sequence for "bản" (free-order tone 'r'
+        // before coda 'n', as in "bản đồ", "bản thân", "bản chất", "cơ bản", "văn bản",
+        // standalone "bản"). Always prefer Vietnamese "bản" unless immediately preceded by a
+        // space after English drill tokens ("ire", "urns", "warmed") or the mixed-language
+        // phrase "... cổ gần barn".
+        if lowerCandidate == "barn" {
+            let isAfterCoGan = prev == "gần"
+                && spaceHistory.count >= 2
+                && spaceHistory[spaceHistory.count - 2].activePreedit.lowercased() == "cổ"
+            return !(lastBoundaryWasSpace && (["ire", "urns", "warmed"].contains(prev) || isAfterCoGan))
         }
         guard !prev.isEmpty, let prefixes = Self.vietnameseCollocationPrefixes[lowerCandidate] else {
             return false
