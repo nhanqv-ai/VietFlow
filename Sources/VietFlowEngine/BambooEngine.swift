@@ -25,6 +25,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         var didUndoDiacritic: Bool = false
         var didUndoTone: Bool = false
         var didAbsorbBypassW: Bool = false
+        var didAbsorbBypassKey: Character? = nil
+        var didForceDoubleKey: Bool = false
     }
 
     private struct WordSnapshot {
@@ -1000,11 +1002,28 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 }
                 transformState.didAbsorbBypassW = false
 
-                // If word was already bypassed (or restored as a 4-letter -ss/-ff keyword like 'pass', 'mass', 'loss', 'miss')
-                // and user typed double 's' or double 'f' out of Telex tone-undo habit before 't'/'k'/'p'/'c' (e.g. 'wesst' -> 'west',
-                // 'lasst' -> 'last', 'masst' -> 'mast', 'massk' -> 'mask', 'minibeassts' -> 'minibeasts', 'shifft' -> 'shift'),
-                // collapse the duplicate 's'/'f' before appending the consonant unless it forms a literal English 'ss'/'ff' compound
-                // (e.g. 'misstep', 'misstate', 'misspell', 'classpath', 'passcode', 'passport', 'passkey', 'crosspost').
+                // If word was already auto-bypassed and ends with a single 'a', 'e', 'o', or 'd'
+                // (e.g. 'data', 'theme', 'scene', 'here', 'mono', 'photo', 'dead', 'download'),
+                // and user presses the same key a second time out of Telex delayed-diacritic escape habit,
+                // absorb the duplicate key once (allowing a 3rd key to force two letters).
+                if _config.escapeByDoubleKey
+                    && (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+                    && !transformState.didUndoDiacritic
+                    && !transformState.didForceDoubleKey
+                    && transformState.didAbsorbBypassKey?.lowercased() != character.lowercased()
+                    && activePreedit == String(activeRawKeys)
+                    && EnglishRestoreDetector.shouldAbsorbDelayedBypassDiacritic(
+                        wordPreedit: committedPrefix + activePreedit,
+                        character: character
+                    ) {
+                    transformState.didAbsorbBypassKey = character
+                    if EnglishRestoreDetector.tokenAfterLastSeparator(committedPrefix + activePreedit).lowercased() == "care" && character.lowercased() == "e" {
+                        transformState.didUndoTone = true
+                    }
+                    return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
+                }
+                transformState.didAbsorbBypassKey = nil
+
                 var didCollapseDuplicateToneKey = false
                 let hasPrecedingSepInBypass = committedPrefix.last != nil && EnglishRestoreDetector.isTechnicalSeparator(committedPrefix.last!)
                 if _config.escapeByDoubleKey
@@ -1012,61 +1031,73 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     && activePreedit == String(activeRawKeys)
                     && !(hasPrecedingSepInBypass && activePreedit.lowercased() == "css") {
                     let lowerPreedit = activePreedit.lowercased()
+                    let lowerFullPreedit = EnglishRestoreDetector.tokenAfterLastSeparator(committedPrefix + activePreedit).lowercased()
                     let lowerChar = character.lowercased()
-                    if lowerPreedit.hasSuffix("ss") {
-                        let stemBeforeSS = String(lowerPreedit.dropLast(2))
-                        let hasVowelOrVrBeforeSS = stemBeforeSS.last.map { lastCh in
-                            "aeiouy".contains(lastCh)
-                                || (lastCh == "r" && stemBeforeSS.dropLast().last.map { "aeiouy".contains($0) } == true)
-                        } ?? false
-                        let isLiteralSSCompoundPrefix = (lowerPreedit == "miss" && lowerChar == "p")
-                            || (lowerPreedit.hasSuffix("class") && lowerPreedit != "class" && "tpkc".contains(lowerChar))
-                            || (lowerPreedit.hasSuffix("pass") && "kpc".contains(lowerChar))
-                            || (lowerPreedit.hasSuffix("cross") && "tpkc".contains(lowerChar))
-                            || (lowerPreedit.hasSuffix("glass") && "tpkc".contains(lowerChar))
-                            || (lowerPreedit.hasSuffix("grass") && lowerChar == "t")
-                            || (lowerPreedit.hasSuffix("less") && "tpkc".contains(lowerChar))
-                        let isTargetConsonantAfterSS = !isLiteralSSCompoundPrefix
-                            && (lowerChar == "t" || "kpc".contains(lowerChar))
-                        if hasVowelOrVrBeforeSS && isTargetConsonantAfterSS {
-                            activePreedit.removeLast()
-                            activeRawKeys.removeLast()
-                            if !wordRawKeys.isEmpty {
-                                wordRawKeys.removeLast()
-                            }
-                            transformState.didUndoTone = true
-                            didCollapseDuplicateToneKey = true
-                        }
-                    } else if lowerPreedit.hasSuffix("ff") && lowerChar == "t" {
-                        let stemBeforeFF = String(lowerPreedit.dropLast(2))
-                        let isLiteralFFCompoundPrefix = lowerPreedit.hasSuffix("off")
-                            || lowerPreedit.hasSuffix("stiff")
-                            || lowerPreedit.hasSuffix("cliff")
-                            || lowerPreedit.hasSuffix("staff")
-                            || lowerPreedit.hasSuffix("bluff")
-                            || lowerPreedit.hasSuffix("stuff")
-                        if !isLiteralFFCompoundPrefix, let lastCh = stemBeforeFF.last, "aeiouy".contains(lastCh) {
-                            activePreedit.removeLast()
-                            activeRawKeys.removeLast()
-                            if !wordRawKeys.isEmpty {
-                                wordRawKeys.removeLast()
-                            }
-                            transformState.didUndoTone = true
-                            didCollapseDuplicateToneKey = true
-                        }
-                    } else if transformState.didUndoTone
-                        && ((lowerPreedit == "mist" && "ea".contains(lowerChar))
-                            || (lowerPreedit == "guest" && lowerChar == "i")
-                            || (lowerPreedit == "clasp" && lowerChar == "a")) {
-                        // Restore collapsed 's' when 'misst' continues into 'misstep'/'misstate', 'guesst' into 'guesstimate', or 'classp' into 'classpath'
-                        let sChar: Character = activePreedit.dropLast().last?.isUppercase == true ? "S" : "s"
-                        let lastCons = activePreedit.removeLast()
-                        activePreedit.append(sChar)
-                        activePreedit.append(lastCons)
-                        activeRawKeys = Array(activePreedit)
-                        wordRawKeys = Array(committedPrefix + activePreedit)
-                        didCollapseDuplicateToneKey = true
+
+                    // Triple-key force in State 2: if preedit already ends with 2 identical Telex keys ('ss', 'ff', 'rr', 'xx', 'jj', 'dd', 'aa', 'ee', 'oo')
+                    // after a stem and the user presses the same key a 3rd time (e.g. 'closss' + 'e' -> 'closse', 'sharrr' + 'e' -> 'sharre', 'presss' + 'e' -> 'pressent'),
+                    // absorb the 3rd key and latch didForceDoubleKey so the 2 keys are preserved when the next character arrives.
+                    if !transformState.didForceDoubleKey
+                        && !transformState.didUndoDiacritic
+                        && lowerPreedit.count >= 3
+                        && ["s", "f", "r", "x", "j", "d", "a", "e", "o"].contains(lowerChar)
+                        && lowerPreedit.hasSuffix(lowerChar + lowerChar)
+                        && !lowerPreedit.hasSuffix(lowerChar + lowerChar + lowerChar) {
+                        transformState.didForceDoubleKey = true
+                        return MinimalDiff.calculate(previous: prevDisplay, next: prevDisplay)
                     }
+
+                    if !transformState.didForceDoubleKey
+                        && !transformState.didUndoDiacritic
+                        && EnglishRestoreDetector.shouldCollapseDoubleTelexKeyInBypass(
+                            fullPreedit: committedPrefix + activePreedit,
+                            activePreedit: activePreedit,
+                            nextChar: character
+                        ) {
+                        activePreedit.removeLast()
+                        activeRawKeys.removeLast()
+                        if !wordRawKeys.isEmpty {
+                            wordRawKeys.removeLast()
+                        }
+                        transformState.didUndoTone = true
+                        didCollapseDuplicateToneKey = true
+                    } else if transformState.didUndoTone && !transformState.didForceDoubleKey {
+                        var restoreChar: Character? = nil
+                        if (lowerPreedit == "mist" && "ea".contains(lowerChar))
+                            || (lowerPreedit == "guest" && lowerChar == "i")
+                            || (lowerPreedit == "clasp" && lowerChar == "a")
+                            || (lowerFullPreedit == "base" && "st".contains(lowerChar))
+                            || (lowerFullPreedit == "case" && "tr".contains(lowerChar))
+                            || (lowerFullPreedit == "prese" && "ds".contains(lowerChar))
+                            || (lowerFullPreedit == "lase" && lowerChar == "s")
+                            || (lowerFullPreedit == "muse" && lowerChar == "l") {
+                            restoreChar = activePreedit.dropLast().last?.isUppercase == true ? "S" : "s"
+                        } else if (lowerFullPreedit == "bare" && "lnd".contains(lowerChar))
+                            || (lowerFullPreedit == "cure" && lowerChar == "n")
+                            || (lowerFullPreedit == "core" && "cls".contains(lowerChar))
+                            || (lowerFullPreedit == "tore" && lowerChar == "n")
+                            || (lowerFullPreedit == "sure" && "na".contains(lowerChar))
+                            || (lowerFullPreedit == "pure" && lowerChar == "d")
+                            || (lowerFullPreedit == "are" && "sa".contains(lowerChar))
+                            || (["stare", "scare", "mare", "chare", "spare", "refere", "prefere", "defere", "transfere", "infere", "confere"].contains(lowerFullPreedit) && lowerChar == "d") {
+                            restoreChar = activePreedit.dropLast().last?.isUppercase == true ? "R" : "r"
+                        } else if (["hide", "ride", "bide", "forbide"].contains(lowerFullPreedit) && lowerChar == "n")
+                            || (lowerFullPreedit == "node" && lowerChar == "d") {
+                            restoreChar = activePreedit.dropLast().last?.isUppercase == true ? "D" : "d"
+                        } else if lowerFullPreedit == "care" && "rn".contains(lowerChar) {
+                            restoreChar = activePreedit.last?.isUppercase == true ? "E" : "e"
+                        }
+                        if let rCh = restoreChar {
+                            let lastCons = activePreedit.removeLast()
+                            activePreedit.append(rCh)
+                            activePreedit.append(lastCons)
+                            activeRawKeys = Array(activePreedit)
+                            wordRawKeys = Array(committedPrefix + activePreedit)
+                            transformState.didUndoTone = false
+                            didCollapseDuplicateToneKey = true
+                        }
+                    }
+                    transformState.didForceDoubleKey = false
                 }
 
                 if committedPrefix.isEmpty && activePreedit.lowercased() == "apa" && character.lowercased() == "t", let lastA = activePreedit.last {
@@ -1084,6 +1115,20 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 activeRawKeys.append(character)
                 activePreedit.append(character)
 
+                if _config.autoCorrectEnglish
+                    && _config.escapeByDoubleKey
+                    && (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
+                    && (activePreedit.first == "đ" || activePreedit.first == "Đ") {
+                    let normalized = EnglishRestoreDetector.normalizeBypassedLeadingDD(activePreedit)
+                    if normalized != activePreedit {
+                        activePreedit = normalized
+                        activeRawKeys = Array(activePreedit)
+                        wordRawKeys = Array(committedPrefix + activePreedit)
+                        let newDisplay = committedPrefix + activePreedit
+                        return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
+                    }
+                }
+
                 if didCollapseDuplicateToneKey {
                     let newDisplay = committedPrefix + activePreedit
                     return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
@@ -1094,7 +1139,64 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 let fullRawWord = String(wordRawKeys)
                 let lowerFullRawWord = fullRawWord.lowercased()
                 if activePreedit != rawActive || (!hasPrecedingSepInBypass && !committedPrefix.isEmpty) {
-                    if EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerFullRawWord)
+                    let beforeNextActive = String(lowerRawActive.dropLast())
+                    let lowerChar = character.lowercased()
+                    let hasUndoneDoubleToneSuffix = ["ss", "ff", "rr", "xx", "jj"].contains(where: { beforeNextActive.hasSuffix($0) })
+
+                    // Triple-key force in State 1 (e.g. 'usss' + 'a' -> 'ussage', 'safff' + 'e' -> 'saffe', 'carrr' + 'e' -> 'carre', 'taxxx' + 'i' -> 'taxxi', 'majjj' + 'o' -> 'majjor')
+                    if hasUndoneDoubleToneSuffix
+                        && ["s", "f", "r", "x", "j"].contains(lowerChar)
+                        && lowerRawActive.hasSuffix(lowerChar + lowerChar + lowerChar) {
+                        if !hasPrecedingSepInBypass && !committedPrefix.isEmpty {
+                            activePreedit = committedPrefix + activePreedit
+                            committedPrefix = ""
+                        }
+                        activeRawKeys = Array(activePreedit)
+                        wordRawKeys = Array(committedPrefix + activePreedit)
+                        transformState.didUndoTone = false
+                        transformState.didForceDoubleKey = true
+                        let newDisplay = committedPrefix + activePreedit
+                        return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
+                    }
+
+                    if hasUndoneDoubleToneSuffix {
+                        if EnglishRestoreDetector.shouldExpandUndoneDoubleToneConsonant(
+                            fullRawWord: lowerFullRawWord,
+                            activeRawWord: lowerRawActive
+                        )
+                            || EnglishRestoreDetector.isEnglishKeyword(lowerFullRawWord)
+                            || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerFullRawWord)
+                            || EnglishRestoreDetector.isEnglishKeyword(lowerRawActive)
+                            || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerRawActive) {
+                            if hasPrecedingSepInBypass {
+                                activePreedit = rawActive
+                            } else {
+                                committedPrefix = ""
+                                activePreedit = fullRawWord
+                                activeRawKeys = Array(fullRawWord)
+                            }
+                            transformState.didUndoTone = false
+                            let newDisplay = committedPrefix + activePreedit
+                            return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
+                        } else {
+                            // Single-consonant English word after double-key tone undo (e.g. 'ussage' -> 'usage', 'casse' -> 'case', 'saffe' -> 'safe', 'carre' -> 'care', 'taxxi' -> 'taxi', 'majjor' -> 'major', 'tarrget' -> 'target'):
+                            // keep single consonant in activePreedit and synchronize raw key buffers.
+                            if !hasPrecedingSepInBypass && !committedPrefix.isEmpty {
+                                activePreedit = committedPrefix + activePreedit
+                                committedPrefix = ""
+                            }
+                            if _config.autoCorrectEnglish {
+                                activePreedit = EnglishRestoreDetector.normalizeBypassedLeadingDD(activePreedit)
+                            }
+                            activeRawKeys = Array(activePreedit)
+                            wordRawKeys = Array(committedPrefix + activePreedit)
+                            transformState.didUndoTone = true
+                            let newDisplay = committedPrefix + activePreedit
+                            if newDisplay != prevDisplay + String(character) {
+                                return MinimalDiff.calculate(previous: prevDisplay, next: newDisplay)
+                            }
+                        }
+                    } else if EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerFullRawWord)
                         || EnglishRestoreDetector.isEnglishKeyword(lowerFullRawWord)
                         || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: lowerFullRawWord)
                         || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(lowerRawActive)
@@ -1159,6 +1261,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
         }
 
         let hasPrecedingTechSep = committedPrefix.last != nil && EnglishRestoreDetector.isTechnicalSeparator(committedPrefix.last!)
+        let shouldCollapseEscapedTelexOnRestore = _config.escapeByDoubleKey
+            && (_config.inputMethod == .telex || _config.inputMethod == .simpleTelex)
 
         // 3. Known English Keyword, Romaji & Medial Double Consonant Check for Full Word (e.g. window, origin, harajuku, wagyu)
         let rawWordString = String(wordRawKeys) + String(character)
@@ -1194,12 +1298,24 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             wordRawKeys.append(character)
             if hasPrecedingTechSep {
                 let candidateRawPart = String(activeRawKeys) + String(character)
-                activePreedit = candidateRawPart
-                activeRawKeys = Array(candidateRawPart)
+                let restoredPart = shouldCollapseEscapedTelexOnRestore
+                    ? EnglishRestoreDetector.collapseEscapedTelexInRestoredEnglish(candidateRawPart)
+                    : candidateRawPart
+                activePreedit = restoredPart
+                activeRawKeys = Array(restoredPart)
+                if restoredPart != candidateRawPart {
+                    wordRawKeys = Array(committedPrefix + restoredPart)
+                }
             } else {
                 committedPrefix = ""
-                activePreedit = rawWordString
-                activeRawKeys = Array(rawWordString)
+                let restoredFull = shouldCollapseEscapedTelexOnRestore
+                    ? EnglishRestoreDetector.collapseEscapedTelexInRestoredEnglish(rawWordString)
+                    : rawWordString
+                activePreedit = restoredFull
+                activeRawKeys = Array(restoredFull)
+                if restoredFull != rawWordString {
+                    wordRawKeys = Array(restoredFull)
+                }
             }
             transformState = SyllableTransformState()
             let newDisplay = committedPrefix + activePreedit
@@ -1317,12 +1433,24 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             isBypassed = true
             wordRawKeys.append(character)
             if hasPrecedingTechSep {
-                activePreedit = candidateRaw
-                activeRawKeys = Array(candidateRaw)
+                let restoredPart = shouldCollapseEscapedTelexOnRestore
+                    ? EnglishRestoreDetector.collapseEscapedTelexInRestoredEnglish(candidateRaw)
+                    : candidateRaw
+                activePreedit = restoredPart
+                activeRawKeys = Array(restoredPart)
+                if restoredPart != candidateRaw {
+                    wordRawKeys = Array(committedPrefix + restoredPart)
+                }
             } else {
                 committedPrefix = ""
-                activePreedit = rawWordString
-                activeRawKeys = Array(rawWordString)
+                let restoredFull = shouldCollapseEscapedTelexOnRestore
+                    ? EnglishRestoreDetector.collapseEscapedTelexInRestoredEnglish(rawWordString)
+                    : rawWordString
+                activePreedit = restoredFull
+                activeRawKeys = Array(restoredFull)
+                if restoredFull != rawWordString {
+                    wordRawKeys = Array(restoredFull)
+                }
             }
             transformState = SyllableTransformState()
             let newDisplay = committedPrefix + activePreedit
@@ -1349,12 +1477,24 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 isBypassed = true
                 wordRawKeys.append(character)
                 if hasPrecedingTechSep {
-                    activePreedit = candidateRaw
-                    activeRawKeys = Array(candidateRaw)
+                    let restoredPart = shouldCollapseEscapedTelexOnRestore
+                        ? EnglishRestoreDetector.collapseEscapedTelexInRestoredEnglish(candidateRaw)
+                        : candidateRaw
+                    activePreedit = restoredPart
+                    activeRawKeys = Array(restoredPart)
+                    if restoredPart != candidateRaw {
+                        wordRawKeys = Array(committedPrefix + restoredPart)
+                    }
                 } else {
                     committedPrefix = ""
-                    activePreedit = rawWordString
-                    activeRawKeys = Array(rawWordString)
+                    let restoredFull = shouldCollapseEscapedTelexOnRestore
+                        ? EnglishRestoreDetector.collapseEscapedTelexInRestoredEnglish(rawWordString)
+                        : rawWordString
+                    activePreedit = restoredFull
+                    activeRawKeys = Array(restoredFull)
+                    if restoredFull != rawWordString {
+                        wordRawKeys = Array(restoredFull)
+                    }
                 }
                 transformState = SyllableTransformState()
                 let newDisplay = committedPrefix + activePreedit
@@ -1471,12 +1611,24 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                     isBypassed = true
                     wordRawKeys.append(character)
                     if hasPrecedingTechSep {
-                        activePreedit = candidateRaw
-                        activeRawKeys = Array(candidateRaw)
+                        let restoredPart = shouldCollapseEscapedTelexOnRestore
+                            ? EnglishRestoreDetector.collapseEscapedTelexInRestoredEnglish(candidateRaw)
+                            : candidateRaw
+                        activePreedit = restoredPart
+                        activeRawKeys = Array(restoredPart)
+                        if restoredPart != candidateRaw {
+                            wordRawKeys = Array(committedPrefix + restoredPart)
+                        }
                     } else {
                         committedPrefix = ""
-                        activePreedit = rawWordString
-                        activeRawKeys = Array(rawWordString)
+                        let restoredFull = shouldCollapseEscapedTelexOnRestore
+                            ? EnglishRestoreDetector.collapseEscapedTelexInRestoredEnglish(rawWordString)
+                            : rawWordString
+                        activePreedit = restoredFull
+                        activeRawKeys = Array(restoredFull)
+                        if restoredFull != rawWordString {
+                            wordRawKeys = Array(restoredFull)
+                        }
                     }
                     transformState = SyllableTransformState()
                     let newDisplay = committedPrefix + activePreedit
