@@ -706,6 +706,7 @@ public final class AdaptiveLearningTests: TestCase {
         XCTAssertEqual(engine.currentSyllable, "xin")
 
         let bsEvent = CGEvent(keyboardEventSource: nil, virtualKey: 51, keyDown: true)!
+        bsEvent.flags = []
         _ = eventTap.handleEvent(type: .keyDown, event: bsEvent)
 
         // Must delete exactly 1 character from preedit ('n'), leaving "xi" (NOT "x"!)

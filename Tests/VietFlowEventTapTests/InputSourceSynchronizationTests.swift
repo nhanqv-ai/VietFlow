@@ -55,6 +55,7 @@ public final class InputSourceSynchronizationTests: TestCase {
     
     private func createKeyDownEvent(character: Character) -> CGEvent {
         let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true)!
+        event.flags = []
         var unichar = UniChar(character.utf16.first!)
         event.keyboardSetUnicodeString(stringLength: 1, unicodeString: &unichar)
         return event
@@ -62,6 +63,7 @@ public final class InputSourceSynchronizationTests: TestCase {
     
     private func createBackspaceEvent() -> CGEvent {
         let event = CGEvent(keyboardEventSource: nil, virtualKey: 51, keyDown: true)!
+        event.flags = []
         return event
     }
     

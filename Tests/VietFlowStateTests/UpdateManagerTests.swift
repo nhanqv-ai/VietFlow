@@ -867,6 +867,237 @@ public final class UpdateManagerTests: TestCase {
         XCTAssertTrue(updateMgr.shouldShowBanner)
     }
 
+    // MARK: - Test 26: Concurrent Background Check Deduplication (Single Network Request)
+    func test_26_concurrent_background_check_deduplication_single_network_call() {
+        class MockProtocol26: URLProtocol {
+            static let lock = NSLock()
+            static var requestCount = 0
+            static var payload: Data?
+
+            override class func canInit(with request: URLRequest) -> Bool { true }
+            override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+            override func startLoading() {
+                Self.lock.lock()
+                Self.requestCount += 1
+                Self.lock.unlock()
+
+                DispatchQueue.global().asyncAfter(deadline: .now() + 0.05) {
+                    let response = HTTPURLResponse(url: self.request.url!, statusCode: 200, httpVersion: nil, headerFields: ["Content-Type": "application/json"])!
+                    self.client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+                    self.client?.urlProtocol(self, didLoad: Self.payload ?? Data())
+                    self.client?.urlProtocolDidFinishLoading(self)
+                }
+            }
+            override func stopLoading() {}
+        }
+
+        MockProtocol26.requestCount = 0
+        MockProtocol26.payload = """
+        {
+            "tag_name": "v1.3.0",
+            "name": "VietFlow 1.3.0",
+            "body": "Notes",
+            "html_url": "https://github.com/nhanqv-ai/VietFlow/releases/tag/v1.3.0",
+            "assets": []
+        }
+        """.data(using: .utf8)!
+
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MockProtocol26.self]
+        let updateMgr = UpdateManager(session: URLSession(configuration: config))
+        updateMgr.currentVersion = "1.2.0"
+
+        let totalCalls = 50
+        var completedCalls = 0
+        let countLock = NSLock()
+        let queue = DispatchQueue(label: "test.concurrent.check", attributes: .concurrent)
+
+        for _ in 0..<totalCalls {
+            queue.async {
+                updateMgr.checkForUpdates(userInitiated: true) { _ in
+                    countLock.lock()
+                    completedCalls += 1
+                    countLock.unlock()
+                }
+            }
+        }
+
+        let deadline = Date().addingTimeInterval(3.0)
+        while completedCalls < totalCalls && Date() < deadline {
+            RunLoop.current.run(mode: .default, before: Date().addingTimeInterval(0.01))
+        }
+
+        XCTAssertEqual(completedCalls, totalCalls, "All concurrent checkForUpdates callbacks must complete")
+        XCTAssertEqual(MockProtocol26.requestCount, 1, "Concurrent checkForUpdates calls must be coalesced into a single HTTP request")
+    }
+
+    // MARK: - Test 27: Conditional Request ETag / If-None-Match & HTTP 304 Not Modified
+    func test_27_etag_if_none_match_and_304_not_modified() {
+        class MockProtocol27: URLProtocol {
+            static var lastIfNoneMatch: String?
+            static var statusCode: Int = 200
+            static var etagHeader: String? = "\"etag-v1.3.0\""
+            static var payload: Data?
+
+            override class func canInit(with request: URLRequest) -> Bool { true }
+            override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+            override func startLoading() {
+                Self.lastIfNoneMatch = request.value(forHTTPHeaderField: "If-None-Match")
+                var headers: [String: String] = ["Content-Type": "application/json"]
+                if let etag = Self.etagHeader {
+                    headers["ETag"] = etag
+                }
+                let response = HTTPURLResponse(url: request.url!, statusCode: Self.statusCode, httpVersion: nil, headerFields: headers)!
+                client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+                if Self.statusCode != 304, let data = Self.payload {
+                    client?.urlProtocol(self, didLoad: data)
+                }
+                client?.urlProtocolDidFinishLoading(self)
+            }
+            override func stopLoading() {}
+        }
+
+        MockProtocol27.payload = """
+        {
+            "tag_name": "v1.3.0",
+            "name": "VietFlow 1.3.0",
+            "body": "ETag release",
+            "html_url": "https://github.com/nhanqv-ai/VietFlow/releases/tag/v1.3.0",
+            "assets": [
+                {
+                    "name": "VietFlow-v1.3.0.zip",
+                    "browser_download_url": "https://github.com/nhanqv-ai/VietFlow/releases/download/v1.3.0/VietFlow-v1.3.0.zip"
+                }
+            ]
+        }
+        """.data(using: .utf8)!
+
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MockProtocol27.self]
+        let updateMgr = UpdateManager(session: URLSession(configuration: config))
+        updateMgr.currentVersion = "1.2.0"
+
+        // First request: 200 OK with ETag
+        MockProtocol27.statusCode = 200
+        MockProtocol27.lastIfNoneMatch = nil
+        var firstDone = false
+        updateMgr.checkForUpdates(userInitiated: true) { _ in firstDone = true }
+        let dl1 = Date().addingTimeInterval(2.0)
+        while !firstDone && Date() < dl1 {
+            RunLoop.current.run(mode: .default, before: Date().addingTimeInterval(0.01))
+        }
+        XCTAssertNil(MockProtocol27.lastIfNoneMatch)
+
+        // Second request: 304 Not Modified (free on GitHub API rate limit)
+        MockProtocol27.statusCode = 304
+        var secondDone = false
+        var secondRelease: ReleaseInfo?
+        updateMgr.checkForUpdates(userInitiated: true) { result in
+            if case .success(let rel) = result {
+                secondRelease = rel
+            }
+            secondDone = true
+        }
+        let dl2 = Date().addingTimeInterval(2.0)
+        while !secondDone && Date() < dl2 {
+            RunLoop.current.run(mode: .default, before: Date().addingTimeInterval(0.01))
+        }
+        XCTAssertEqual(MockProtocol27.lastIfNoneMatch, "\"etag-v1.3.0\"", "Second check must send If-None-Match header with cached ETag")
+        XCTAssertEqual(secondRelease?.tagName, "v1.3.0", "304 Not Modified must reuse cached release data")
+    }
+
+    // MARK: - Test 28: Web Redirect Fallback When GitHub REST API Returns 403/429 Rate Limit
+    func test_28_web_redirect_fallback_when_api_rate_limited_403() {
+        class MockProtocol28: URLProtocol {
+            override class func canInit(with request: URLRequest) -> Bool { true }
+            override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+            override func startLoading() {
+                if request.url?.host == "api.github.com" {
+                    let response = HTTPURLResponse(url: request.url!, statusCode: 403, httpVersion: nil, headerFields: nil)!
+                    client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+                    client?.urlProtocolDidFinishLoading(self)
+                } else {
+                    let redirectedURL = URL(string: "https://github.com/nhanqv-ai/VietFlow/releases/tag/v1.2.154")!
+                    let response = HTTPURLResponse(
+                        url: redirectedURL,
+                        statusCode: 200,
+                        httpVersion: nil,
+                        headerFields: ["Location": "https://github.com/nhanqv-ai/VietFlow/releases/tag/v1.2.154"]
+                    )!
+                    client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+                    client?.urlProtocolDidFinishLoading(self)
+                }
+            }
+            override func stopLoading() {}
+        }
+
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MockProtocol28.self]
+        let updateMgr = UpdateManager(session: URLSession(configuration: config))
+        updateMgr.currentVersion = "1.2.152"
+
+        var done = false
+        var fallbackRelease: ReleaseInfo?
+        updateMgr.checkForUpdates(userInitiated: true) { result in
+            if case .success(let rel) = result {
+                fallbackRelease = rel
+            }
+            done = true
+        }
+
+        let deadline = Date().addingTimeInterval(2.0)
+        while !done && Date() < deadline {
+            RunLoop.current.run(mode: .default, before: Date().addingTimeInterval(0.01))
+        }
+
+        XCTAssertEqual(fallbackRelease?.tagName, "v1.2.154", "Must resolve latest release via web redirect when api.github.com returns 403")
+        XCTAssertEqual(
+            fallbackRelease?.zipAssetURL?.absoluteString,
+            "https://github.com/nhanqv-ai/VietFlow/releases/download/v1.2.154/VietFlow-v1.2.154.zip"
+        )
+        XCTAssertTrue(updateMgr.hasPendingUpdate)
+    }
+
+    // MARK: - Test 29: Optional GitHub Token Authorization Header
+    func test_29_optional_github_token_authorization_header() {
+        class MockProtocol29: URLProtocol {
+            static var lastAuthHeader: String?
+            override class func canInit(with request: URLRequest) -> Bool { true }
+            override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+            override func startLoading() {
+                Self.lastAuthHeader = request.value(forHTTPHeaderField: "Authorization")
+                let payload = """
+                {
+                    "tag_name": "v1.2.154",
+                    "name": "VietFlow 1.2.154",
+                    "body": "",
+                    "html_url": "https://github.com/nhanqv-ai/VietFlow/releases/tag/v1.2.154",
+                    "assets": []
+                }
+                """.data(using: .utf8)!
+                let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+                client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+                client?.urlProtocol(self, didLoad: payload)
+                client?.urlProtocolDidFinishLoading(self)
+            }
+            override func stopLoading() {}
+        }
+
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MockProtocol29.self]
+        let updateMgr = UpdateManager(session: URLSession(configuration: config))
+        updateMgr.githubToken = "ghp_test_token_123"
+
+        var done = false
+        updateMgr.checkForUpdates(userInitiated: true) { _ in done = true }
+        let deadline = Date().addingTimeInterval(2.0)
+        while !done && Date() < deadline {
+            RunLoop.current.run(mode: .default, before: Date().addingTimeInterval(0.01))
+        }
+
+        XCTAssertEqual(MockProtocol29.lastAuthHeader, "Bearer ghp_test_token_123")
+    }
+
     // MARK: - Test Registry Registration
     public override var allTests: [(name: String, test: () throws -> Void)] {
         return [
@@ -895,6 +1126,10 @@ public final class UpdateManagerTests: TestCase {
             ("test_23_app_delegate_user_notification_center_wiring", test_23_app_delegate_user_notification_center_wiring),
             ("test_24_version_string_empty_and_prefix_fallback", test_24_version_string_empty_and_prefix_fallback),
             ("test_25_manual_check_un_dismisses_session_banner", test_25_manual_check_un_dismisses_session_banner),
+            ("test_26_concurrent_background_check_deduplication_single_network_call", test_26_concurrent_background_check_deduplication_single_network_call),
+            ("test_27_etag_if_none_match_and_304_not_modified", test_27_etag_if_none_match_and_304_not_modified),
+            ("test_28_web_redirect_fallback_when_api_rate_limited_403", test_28_web_redirect_fallback_when_api_rate_limited_403),
+            ("test_29_optional_github_token_authorization_header", test_29_optional_github_token_authorization_header),
         ]
     }
 }
