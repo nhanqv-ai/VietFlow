@@ -195,7 +195,7 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
     private var _customVersion: String? = nil
     public var currentVersion: String {
         get {
-            let ver = _customVersion ?? (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2.154")
+            let ver = _customVersion ?? (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2.155")
             var clean = ver.trimmingCharacters(in: .whitespacesAndNewlines)
             while clean.lowercased().hasPrefix("v") {
                 clean = String(clean.dropFirst())
@@ -208,6 +208,21 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
     }
 
     public var apiURL: URL = URL(string: "https://api.github.com/repos/nhanqv-ai/VietFlow/releases/latest")!
+    public var webReleasesLatestURL: URL = URL(string: "https://github.com/nhanqv-ai/VietFlow/releases/latest")!
+    public var enableWebFallbackOnRateLimit: Bool = true
+    public var githubToken: String? = {
+        let env = ProcessInfo.processInfo.environment
+        if let token = env["GITHUB_TOKEN"]?.trimmingCharacters(in: .whitespacesAndNewlines), !token.isEmpty {
+            return token
+        }
+        if let token = env["GH_TOKEN"]?.trimmingCharacters(in: .whitespacesAndNewlines), !token.isEmpty {
+            return token
+        }
+        if let token = UserDefaults.standard.string(forKey: "GitHubAPIToken")?.trimmingCharacters(in: .whitespacesAndNewlines), !token.isEmpty {
+            return token
+        }
+        return nil
+    }()
     public var stagingTargetURL: URL = URL(fileURLWithPath: "/Applications/VietFlow.app")
     public var verifyCodeSignature: Bool = true
     public var appLauncher: (URL) -> Void = { targetURL in
@@ -223,6 +238,13 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
     public weak var stateManager: AppStateManager?
 
     private var periodicTimer: Timer?
+    private let checkLock = NSRecursiveLock()
+    private var isCheckTaskInFlight: Bool = false
+    private var isCheckUserInitiated: Bool = false
+    private var pendingCheckCompletions: [((Result<ReleaseInfo?, Error>) -> Void)] = []
+    private var lastETag: String? = nil
+    private var lastETagURL: URL? = nil
+    private var lastCachedReleaseData: Data? = nil
 
     // MARK: - Computed Properties
 
@@ -330,26 +352,101 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
         )
     }
 
+    /// Parses a `ReleaseInfo` from a redirected GitHub web release URL (e.g. `https://github.com/nhanqv-ai/VietFlow/releases/tag/v1.2.154`).
+    public static func parseReleaseFromWebRedirectURL(_ redirectURL: URL) -> ReleaseInfo? {
+        let path = redirectURL.path
+        guard let range = path.range(of: "/releases/tag/") else { return nil }
+        let rawTag = String(path[range.upperBound...]).trimmingCharacters(in: CharacterSet(charactersIn: "/ \t\n\r"))
+        let tag = (rawTag.removingPercentEncoding ?? rawTag).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !tag.isEmpty else { return nil }
+
+        let htmlURL = URL(string: "https://github.com/nhanqv-ai/VietFlow/releases/tag/\(tag)") ?? redirectURL
+        let zipURL = URL(string: "https://github.com/nhanqv-ai/VietFlow/releases/download/\(tag)/VietFlow-\(tag).zip")
+        return ReleaseInfo(
+            tagName: tag,
+            name: "VietFlow \(tag)",
+            releaseNotes: "",
+            htmlURL: htmlURL,
+            zipAssetURL: zipURL
+        )
+    }
+
+    private func fetchLatestReleaseViaWebRedirect(completion: @escaping (ReleaseInfo?) -> Void) {
+        var request = URLRequest(url: webReleasesLatestURL)
+        request.httpMethod = "HEAD"
+        let sanitizedVersion = currentVersion.trimmingCharacters(in: .whitespacesAndNewlines)
+        request.setValue("VietFlow/\(sanitizedVersion) (macOS)", forHTTPHeaderField: "User-Agent")
+        request.timeoutInterval = 15.0
+
+        let task = urlSession.dataTask(with: request) { data, response, error in
+            guard error == nil, let httpResponse = response as? HTTPURLResponse else {
+                completion(nil)
+                return
+            }
+
+            if let location = httpResponse.value(forHTTPHeaderField: "Location"),
+               let locationURL = URL(string: location, relativeTo: self.webReleasesLatestURL)?.absoluteURL,
+               let release = Self.parseReleaseFromWebRedirectURL(locationURL) {
+                completion(release)
+                return
+            }
+
+            if (200...399).contains(httpResponse.statusCode),
+               let finalURL = httpResponse.url,
+               let release = Self.parseReleaseFromWebRedirectURL(finalURL) {
+                completion(release)
+                return
+            }
+
+            completion(nil)
+        }
+        task.resume()
+    }
+
     // MARK: - Checking for Updates
 
     public func checkForUpdates(userInitiated: Bool = false, completion: ((Result<ReleaseInfo?, Error>) -> Void)? = nil) {
+        checkLock.lock()
         if case .downloading = status {
-            completion?(.success(latestRelease))
+            let rel = latestRelease
+            checkLock.unlock()
+            completion?(.success(rel))
+            return
+        }
+
+        if isCheckTaskInFlight {
+            if userInitiated {
+                isCheckUserInitiated = true
+            }
+            if let completion = completion {
+                pendingCheckCompletions.append(completion)
+            }
+            checkLock.unlock()
             return
         }
 
         if case .checking = status {
-            completion?(.success(latestRelease))
+            let rel = latestRelease
+            checkLock.unlock()
+            completion?(.success(rel))
             return
         }
 
         // If an update is already downloaded and staged, background checks should not disturb it
         if !userInitiated, case .readyToRestart(let release) = status {
+            checkLock.unlock()
             completion?(.success(release))
             return
         }
 
         let previousStatus = self.status
+        isCheckTaskInFlight = true
+        isCheckUserInitiated = userInitiated
+        if let completion = completion {
+            pendingCheckCompletions.append(completion)
+        }
+        let cachedETag = (lastETagURL == apiURL && lastCachedReleaseData != nil) ? lastETag : nil
+        checkLock.unlock()
 
         if Thread.isMainThread {
             self.status = .checking
@@ -364,7 +461,82 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
         request.setValue("application/vnd.github.v3+json", forHTTPHeaderField: "Accept")
         let sanitizedVersion = currentVersion.trimmingCharacters(in: .whitespacesAndNewlines)
         request.setValue("VietFlow/\(sanitizedVersion) (macOS)", forHTTPHeaderField: "User-Agent")
+        if let token = githubToken?.trimmingCharacters(in: .whitespacesAndNewlines), !token.isEmpty {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        if let etag = cachedETag, !etag.isEmpty {
+            request.cachePolicy = .reloadIgnoringLocalCacheData
+            request.setValue(etag, forHTTPHeaderField: "If-None-Match")
+        }
         request.timeoutInterval = 15.0
+
+        let finishCallbacks: (Result<ReleaseInfo?, Error>) -> Void = { [weak self] result in
+            guard let self = self else { return }
+            self.checkLock.lock()
+            self.isCheckTaskInFlight = false
+            self.isCheckUserInitiated = false
+            let callbacks = self.pendingCheckCompletions
+            self.pendingCheckCompletions.removeAll()
+            self.checkLock.unlock()
+            for cb in callbacks {
+                cb(result)
+            }
+        }
+
+        let applyRelease: (ReleaseInfo) -> Void = { [weak self] release in
+            guard let self = self else { return }
+            self.checkLock.lock()
+            let effectiveUserInitiated = self.isCheckUserInitiated
+            self.checkLock.unlock()
+            let isNewer = Self.isVersion(release.tagName, greaterThan: self.currentVersion)
+            DispatchQueue.main.async {
+                if isNewer {
+                    self.latestRelease = release
+                    // If this release is already staged, preserve readyToRestart state
+                    if case .readyToRestart(let staged) = previousStatus, staged.tagName == release.tagName {
+                        self.status = previousStatus
+                        self.hasPendingUpdate = true
+                        if effectiveUserInitiated {
+                            self.isBannerDismissedForSession = false
+                        }
+                        self.updateLastCheckDate()
+                        finishCallbacks(.success(release))
+                        return
+                    }
+                    if let stagedURL = self.stagedAppURL,
+                       FileManager.default.fileExists(atPath: stagedURL.path),
+                       self.stagedRelease?.tagName == release.tagName {
+                        self.status = .readyToRestart(release)
+                        self.hasPendingUpdate = true
+                        self.isBannerDismissedForSession = false
+                        self.updateLastCheckDate()
+                        finishCallbacks(.success(release))
+                        return
+                    }
+
+                    self.status = .updateAvailable(release)
+                    self.hasPendingUpdate = true
+                    self.isBannerDismissedForSession = false
+                    self.postUpdateNotification(release: release)
+                    self.updateLastCheckDate()
+                    finishCallbacks(.success(release))
+                } else {
+                    if case .readyToRestart = previousStatus {
+                        self.status = previousStatus
+                        finishCallbacks(.success(nil))
+                        return
+                    }
+                    self.latestRelease = nil
+                    self.status = .upToDate(currentVersion: self.currentVersion)
+                    self.hasPendingUpdate = false
+                    if effectiveUserInitiated {
+                        self.postUpToDateNotification(currentVersion: self.currentVersion)
+                    }
+                    self.updateLastCheckDate()
+                    finishCallbacks(.success(nil))
+                }
+            }
+        }
 
         let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
             guard let self = self else { return }
@@ -376,13 +548,21 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
                     } else {
                         self.status = .error(message: error.localizedDescription)
                     }
-                    completion?(.failure(error))
+                    finishCallbacks(.failure(error))
                 }
                 return
             }
 
             if let httpResponse = response as? HTTPURLResponse {
-                if httpResponse.statusCode == 404 {
+                if httpResponse.statusCode == 304 {
+                    self.checkLock.lock()
+                    let cachedData = self.lastCachedReleaseData
+                    self.checkLock.unlock()
+                    if let cachedData = cachedData, let release = try? Self.parseRelease(from: cachedData) {
+                        applyRelease(release)
+                        return
+                    }
+                } else if httpResponse.statusCode == 404 {
                     let err = UpdateError.noReleaseFound
                     DispatchQueue.main.async {
                         if case .readyToRestart = previousStatus {
@@ -390,18 +570,38 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
                         } else {
                             self.status = .error(message: err.localizedDescription)
                         }
-                        completion?(.failure(err))
+                        finishCallbacks(.failure(err))
                     }
                     return
                 } else if httpResponse.statusCode == 403 || httpResponse.statusCode == 429 {
+                    if self.enableWebFallbackOnRateLimit && self.apiURL.host?.lowercased() == "api.github.com" {
+                        self.fetchLatestReleaseViaWebRedirect { fallbackRelease in
+                            if let fallbackRelease = fallbackRelease {
+                                applyRelease(fallbackRelease)
+                            } else {
+                                let err = UpdateError.rateLimitExceeded
+                                DispatchQueue.main.async {
+                                    self.updateLastCheckDate()
+                                    if case .readyToRestart = previousStatus {
+                                        self.status = previousStatus
+                                    } else {
+                                        self.status = .error(message: err.localizedDescription)
+                                    }
+                                    finishCallbacks(.failure(err))
+                                }
+                            }
+                        }
+                        return
+                    }
                     let err = UpdateError.rateLimitExceeded
                     DispatchQueue.main.async {
+                        self.updateLastCheckDate()
                         if case .readyToRestart = previousStatus {
                             self.status = previousStatus
                         } else {
                             self.status = .error(message: err.localizedDescription)
                         }
-                        completion?(.failure(err))
+                        finishCallbacks(.failure(err))
                     }
                     return
                 } else if !(200...299).contains(httpResponse.statusCode) {
@@ -412,7 +612,7 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
                         } else {
                             self.status = .error(message: err.localizedDescription)
                         }
-                        completion?(.failure(err))
+                        finishCallbacks(.failure(err))
                     }
                     return
                 }
@@ -426,59 +626,23 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
                     } else {
                         self.status = .error(message: err.localizedDescription)
                     }
-                    completion?(.failure(err))
+                    finishCallbacks(.failure(err))
                 }
                 return
             }
 
             do {
                 let release = try Self.parseRelease(from: data)
-                let isNewer = Self.isVersion(release.tagName, greaterThan: self.currentVersion)
-
-                DispatchQueue.main.async {
-                    self.latestRelease = release
-                    if isNewer {
-                        // If this release is already staged, preserve readyToRestart state
-                        if case .readyToRestart(let staged) = previousStatus, staged.tagName == release.tagName {
-                            self.status = previousStatus
-                            self.hasPendingUpdate = true
-                            self.isBannerDismissedForSession = false
-                            self.updateLastCheckDate()
-                            completion?(.success(release))
-                            return
-                        }
-                        if let stagedURL = self.stagedAppURL,
-                           FileManager.default.fileExists(atPath: stagedURL.path),
-                           self.stagedRelease?.tagName == release.tagName {
-                            self.status = .readyToRestart(release)
-                            self.hasPendingUpdate = true
-                            self.isBannerDismissedForSession = false
-                            self.updateLastCheckDate()
-                            completion?(.success(release))
-                            return
-                        }
-
-                        self.status = .updateAvailable(release)
-                        self.hasPendingUpdate = true
-                        self.isBannerDismissedForSession = false
-                        self.postUpdateNotification(release: release)
-                        self.updateLastCheckDate()
-                        completion?(.success(release))
-                    } else {
-                        if case .readyToRestart = previousStatus {
-                            self.status = previousStatus
-                            completion?(.success(nil))
-                            return
-                        }
-                        self.status = .upToDate(currentVersion: self.currentVersion)
-                        self.hasPendingUpdate = false
-                        if userInitiated {
-                            self.postUpToDateNotification(currentVersion: self.currentVersion)
-                        }
-                        self.updateLastCheckDate()
-                        completion?(.success(nil))
-                    }
+                if let httpResponse = response as? HTTPURLResponse,
+                   let etag = httpResponse.value(forHTTPHeaderField: "ETag")?.trimmingCharacters(in: .whitespacesAndNewlines),
+                   !etag.isEmpty {
+                    self.checkLock.lock()
+                    self.lastETag = etag
+                    self.lastETagURL = self.apiURL
+                    self.lastCachedReleaseData = data
+                    self.checkLock.unlock()
                 }
+                applyRelease(release)
             } catch {
                 DispatchQueue.main.async {
                     if case .readyToRestart = previousStatus {
@@ -486,7 +650,7 @@ public final class UpdateManager: ObservableObject, @unchecked Sendable {
                     } else {
                         self.status = .error(message: error.localizedDescription)
                     }
-                    completion?(.failure(error))
+                    finishCallbacks(.failure(error))
                 }
             }
         }
