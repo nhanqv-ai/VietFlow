@@ -224,7 +224,7 @@ public enum EnglishKeywords {
         "doom", "dooms", "loom", "looms", "goop", "goops", "goons", "loons",
         "teems", "teens", "queens", "keen", "keens", "keenly", "cheep", "cheeps",
         "airs", "haircut", "haircuts", "hairpin", "hairpins", "hairnet", "hairless", "airless",
-        "chair", "lair", "sire", "sires", "sired", "mire", "mires", "mired",
+        "air", "chair", "lair", "sire", "sires", "sired", "mire", "mires", "mired",
         "muse", "muses", "mused", "musing", "ruse", "ruses",
         "goer", "goers", "doer", "doers", "poem", "poems", "poet", "poets", "duet", "duets",
         "photo", "photos", "homo", "phono", "exo", "moron", "morons", "loco", "coco",
@@ -300,7 +300,7 @@ public enum EnglishRestoreDetector {
         ".", ",", "!", "?", ":", ";", "/", "\\",
         "-", "_", "(", ")", "[", "]", "{", "}",
         "\"", "'", "`", "@", "#", "$", "%", "^",
-        "&", "*", "+", "=", "<", ">", "|", "~"
+        "&", "*", "+", "=", "<", ">", "|", "~", "¥"
     ]
 
     /// Invalid onset consonant clusters in Vietnamese (English-only clusters).

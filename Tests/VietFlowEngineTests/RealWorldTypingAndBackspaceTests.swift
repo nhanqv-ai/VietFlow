@@ -3617,7 +3617,102 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         }
     }
 
-    // MARK: - Test Registry (408 Tests)
+    func test_409_boro_daasu_rofo_twu_air_and_yen_delimiter() {
+        let cases: [(String, String)] = [
+            // 1. Free-order Telex prioritized over short Romaji for 'boro', 'daasu', 'rofo'
+            ("boro", "bổ"),
+            ("boro sung", "bổ sung"),
+            ("boro nhieemj", "bổ nhiệm"),
+            ("Boro", "Bổ"),
+            ("BORO", "BỔ"),
+            ("daasu", "dấu"),
+            ("daasu hieej", "dấu hiệ"),
+            ("daasu caau", "dấu câu"),
+            ("Daasu", "Dấu"),
+            ("DAASU", "DẤU"),
+            ("rofo", "rồ"),
+            ("rofoi", "rồi"),
+            ("rofoi sao", "rồi sao"),
+            ("Rofo", "Rồ"),
+            // Distinct Japanese Romaji words remain restored
+            ("chotto", "chotto"),
+            ("arigatou", "arigatou"),
+            ("tabemasu", "tabemasu"),
+            ("shinjuku", "shinjuku"),
+            ("tsunami", "tsunami"),
+            // 2. Redundant 'u' absorbed after shorthand 'w' ('twu' -> 'tư', 'twucs' -> 'tức')
+            ("twu", "tư"),
+            ("twucs", "tức"),
+            ("twuf", "từ"),
+            ("twus", "tứ"),
+            ("twur", "tử"),
+            ("twux", "tữ"),
+            ("twuj", "tự"),
+            ("thwu", "thư"),
+            ("nhwu", "như"),
+            ("lwung", "lưng"),
+            ("cwung", "cưng"),
+            ("trwung", "trưng"),
+            ("lwuar", "lửa"),
+            ("cwuar", "cửa"),
+            ("trwua", "trưa"),
+            ("lwuowng", "lương"),
+            ("lwuong", "lương"),
+            ("trwuowngf", "trường"),
+            ("cwuowngf", "cường"),
+            // Valid '-ưu' open syllables preserved
+            ("lwu", "lưu"),
+            ("cwus", "cứu"),
+            ("cwuf", "cừu"),
+            ("trwuf", "trừu"),
+            // 3. English 'air' auto-restored by default, with Vietnamese collocations & tone overrides
+            ("air", "air"),
+            ("Air", "Air"),
+            ("AIR", "AIR"),
+            ("macbook air", "macbook air"),
+            ("air conditioner", "air conditioner"),
+            ("quan air", "quan ải"),
+            ("cuwar air", "cửa ải"),
+            ("ueer oair", "uể oải"),
+            ("bair hoair", "bải hoải"),
+            ("airf", "ài"),
+            ("airj", "ại"),
+            ("airx", "ãi"),
+            // 4. JIS '¥' word delimiter
+            ("hieenj¥", "hiện¥"),
+            ("thanh¥", "thanh¥"),
+            ("air¥hieenj", "air¥hiện"),
+            // 5. 'Myx' -> 'Mỹ' and duplicate initial capital onset recovery ('MMyx' -> 'MMỹ')
+            ("Myx", "Mỹ"),
+            ("myx", "mỹ"),
+            ("MYX", "MỸ"),
+            ("MMyx", "MMỹ"),
+            ("mMyx", "mMỹ"),
+        ]
+        for (raw, expected) in cases {
+            engine.reset()
+            XCTAssertEqual(apply(raw), expected, "Failed for input: \(raw)")
+        }
+        XCTAssertTrue(EnglishRestoreDetector.isWordDelimiter("¥"), "JIS Yen symbol must be a word delimiter")
+
+        // 6. Backspace leaving a stale single consonant in engine ('My' + BS -> 'M') followed by retyping 'Myx' -> 'Mỹ'
+        engine.reset()
+        _ = apply("My")
+        _ = engine.handleBackspace()
+        XCTAssertEqual(apply("Myx"), "Mỹ", "Retyping 'Myx' after 'My' + Backspace must transform to 'Mỹ'")
+
+        engine.reset()
+        _ = apply("my")
+        _ = engine.handleBackspace()
+        XCTAssertEqual(apply("Myx"), "Mỹ", "Retyping 'Myx' after 'my' + Backspace must transform to 'Mỹ'")
+
+        engine.reset()
+        _ = apply("my")
+        _ = engine.handleBackspace()
+        XCTAssertEqual(apply("myx"), "mỹ", "Retyping 'myx' after 'my' + Backspace must transform to 'mỹ'")
+    }
+
+    // MARK: - Test Registry (409 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -4072,6 +4167,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_406_double_key_tone_escape_for_test_and_english_coda_clusters", test_406_double_key_tone_escape_for_test_and_english_coda_clusters),
             ("test_407_barn_to_ban_telex_and_backspace_recovery", test_407_barn_to_ban_telex_and_backspace_recovery),
             ("test_408_smart_telex_double_key_escape_disambiguation_and_backspace", test_408_smart_telex_double_key_escape_disambiguation_and_backspace),
+            ("test_409_boro_daasu_rofo_twu_air_and_yen_delimiter", test_409_boro_daasu_rofo_twu_air_and_yen_delimiter),
         ]
     }
 }

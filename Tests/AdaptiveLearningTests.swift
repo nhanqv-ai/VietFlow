@@ -916,6 +916,122 @@ public final class AdaptiveLearningTests: TestCase {
         XCTAssertEqual(outCorrected, "việt ", "Typing 'vieej ' must auto-correct to 'việt ' on word boundary")
     }
 
+    // MARK: - Test 28: Telex Evaluation Distinguishes imeFriction vs personalTypo
+    func test_28_telex_evaluation_distinguishes_ime_friction_vs_personal_typo() {
+        // 1. Key transpositions and slips that were bypassed before backspace ("kohong" -> "không",
+        //    "thya" -> "thay", "cahan" -> "chân", "leehcj" -> "lệch", "nguiowf" -> "người")
+        //    do NOT evaluate to the committed Vietnamese text under Telex, so they must be classified
+        //    as personalTypo (NOT imeFriction with isPreserveVietnamese = true).
+        let typoCases: [(raw: String, disp: String, committed: String)] = [
+            ("kohong", "kohong", "không"),
+            ("thya", "thya", "thay"),
+            ("cahan", "cahan", "chân"),
+            ("leehcj", "leehcj", "lệch"),
+            ("nguiowf", "nguiowf", "người"),
+            ("chpuj", "chpuj", "chụp"),
+            ("hineej", "hineej", "hiện"),
+            ("htiene", "htiene", "thiện"),
+        ]
+        for tc in typoCases {
+            let res = AdaptiveLearningManager.classifyCorrection(
+                rawKeysBeforeBackspace: tc.raw,
+                displayedBeforeBackspace: tc.disp,
+                finalCommittedText: tc.committed,
+                wasBypassedBeforeBackspace: true
+            )
+            XCTAssertNotNil(res, "Expected \(tc.raw) -> \(tc.committed) to be classified")
+            XCTAssertEqual(res?.category, .personalTypo, "Expected \(tc.raw) -> \(tc.committed) to be personalTypo, not imeFriction")
+            XCTAssertFalse(res?.isPreserve ?? true)
+        }
+
+        // 2. Genuine IME friction where rawKeysBeforeBackspace transforms into finalCommittedText under Telex
+        let frictionCases: [(raw: String, disp: String, committed: String)] = [
+            ("cost", "cost", "cót"),
+            ("kas", "kas", "ká"),
+            ("view", "view", "viêu"),
+        ]
+        for fc in frictionCases {
+            let res = AdaptiveLearningManager.classifyCorrection(
+                rawKeysBeforeBackspace: fc.raw,
+                displayedBeforeBackspace: fc.disp,
+                finalCommittedText: fc.committed,
+                wasBypassedBeforeBackspace: true
+            )
+            XCTAssertNotNil(res, "Expected \(fc.raw) -> \(fc.committed) to be classified")
+            XCTAssertEqual(res?.category, .imeFriction, "Expected \(fc.raw) -> \(fc.committed) to be imeFriction")
+            XCTAssertTrue(res?.isPreserve == true)
+        }
+    }
+
+    // MARK: - Test 29: Noise Filtering for Word Rewrites, Prefix Extensions, Suffix Truncations & JIS Yen
+    func test_29_personal_typo_noise_filtering_and_log_sanitization() {
+        let noiseCases: [(raw: String, disp: String, committed: String)] = [
+            // Deleting a valid meaningful Vietnamese word to write a different word
+            ("tieengs", "tiếng", "đang"),
+            ("tieeps", "tiếp", "giúp"),
+            ("treen", "trên", "trong"),
+            ("thoong", "thông", "tên"),
+            ("ddeef", "đề", "vẽ"),
+            ("daaus", "dấu", "dẫn"),
+            ("daaus", "dấu", "đánh"),
+            ("banj", "bạn", "cá"),
+            ("cacsh", "cách", "cấu"),
+            ("hieeur", "hiểu", "hiểm"),
+            ("khoas", "khóa", "xóa"),
+            ("khoong", "không", "đang"),
+            ("trang", "trang", "ảnh"),
+            ("truowngf", "trường", "trong"),
+            ("aso", "áo", "sao"),
+            ("danhs", "dánh", "danh"),
+            ("tha", "tha", "the"),
+            ("Chit", "Chit", "Chia"),
+            // Prefix extensions & mid-word backspace continuations into longer words
+            ("wings", "wings", "wingspan"),
+            ("devo", "devo", "devtools"),
+            ("chi", "chi", "chip"),
+            ("impl", "impl", "implement"),
+            ("iterm", "iterm", "iterm2"),
+            ("SideL", "SideL", "Sideloadly"),
+            ("musi", "musi", "music"),
+            ("facebook-background-p", "facebook-background-p", "facebook-background-play"),
+            ("vie", "vie", "video"),
+            ("overwar", "overwar", "overwater"),
+            ("minibeass", "minibeass", "minibeasts"),
+            ("bride", "bride", "bridges"),
+            ("updte", "updte", "updates"),
+            ("djaa", "djaa", "dấu"),
+            ("Tah", "Tah", "Tạo"),
+            ("/gi", "/gi", "/gri"),
+            // Suffix truncations
+            ("ecosysr", "ecosysr", "eco"),
+            ("playvid", "playvid", "play"),
+            ("macbooknuwax", "macbooknuwax", "macbook"),
+            ("mainvaf", "mainvaf", "main"),
+            ("places", "places", "place"),
+            // Single-char / case-only / 2-letter ALL-CAPS acronym / trailing separator / JIS ¥
+            ("m", "m", "M"),
+            ("TOOI", "TÔI", "tôi"),
+            ("a", "a", "và"),
+            ("AP", "AP", "AI"),
+            ("cp/", "cp/", "cpu"),
+            ("HIEEN¥", "HIEEN¥", "hiện"),
+            ("thah¥n¥", "thah¥n¥", "thanh"),
+            // Adding a forgotten tone mark to a valid toneless syllable
+            ("chon", "chon", "chọn"),
+            ("loong", "loong", "lồng"),
+            ("suw", "suw", "sử"),
+        ]
+        for nc in noiseCases {
+            let res = AdaptiveLearningManager.classifyCorrection(
+                rawKeysBeforeBackspace: nc.raw,
+                displayedBeforeBackspace: nc.disp,
+                finalCommittedText: nc.committed,
+                wasBypassedBeforeBackspace: false
+            )
+            XCTAssertNil(res, "Expected noise case (\(nc.disp) -> \(nc.committed)) to be filtered out, but got \(String(describing: res))")
+        }
+    }
+
     // MARK: - Registration of All Tests
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -946,6 +1062,8 @@ public final class AdaptiveLearningTests: TestCase {
             ("test_25_step8_orthography_restored_syllable_learned_preservation", test_25_step8_orthography_restored_syllable_learned_preservation),
             ("test_26_ime_friction_self_healing_demotion_on_backspace", test_26_ime_friction_self_healing_demotion_on_backspace),
             ("test_27_backspace_across_space_history_personal_typo", test_27_backspace_across_space_history_personal_typo),
+            ("test_28_telex_evaluation_distinguishes_ime_friction_vs_personal_typo", test_28_telex_evaluation_distinguishes_ime_friction_vs_personal_typo),
+            ("test_29_personal_typo_noise_filtering_and_log_sanitization", test_29_personal_typo_noise_filtering_and_log_sanitization),
         ]
     }
 }

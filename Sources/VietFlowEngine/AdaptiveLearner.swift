@@ -202,41 +202,72 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
         finalCommittedText: String,
         wasBypassedBeforeBackspace: Bool = false
     ) -> (category: CorrectionCategory, trigger: String, replacement: String, isBypass: Bool, isPreserve: Bool)? {
-        let beforeDisplay = displayedBeforeBackspace.trimmingCharacters(in: .whitespacesAndNewlines)
-        let beforeRaw = rawKeysBeforeBackspace.trimmingCharacters(in: .whitespacesAndNewlines)
-        let committed = finalCommittedText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let beforeDisplay = displayedBeforeBackspace
+            .precomposedStringWithCanonicalMapping
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        let beforeRaw = rawKeysBeforeBackspace
+            .precomposedStringWithCanonicalMapping
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        let committed = finalCommittedText
+            .precomposedStringWithCanonicalMapping
+            .trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !beforeDisplay.isEmpty && !committed.isEmpty else { return nil }
         guard beforeDisplay != committed else { return nil }
+        guard !beforeDisplay.contains("¥") && !committed.contains("¥") && !beforeRaw.contains("¥") else {
+            return nil
+        }
 
         let s1 = beforeDisplay.lowercased()
         let s2 = committed.lowercased()
         let r1 = beforeRaw.lowercased()
 
+        // Check for proper nouns with internal capital letters (e.g. "Việt Nam", "iPhone", "MacBook")
+        let hasInternalMixedCase = committed.contains(where: { $0.isUppercase })
+            && committed.contains(where: { $0.isLowercase })
+            && (!committed.first!.isUppercase || (committed.dropFirst().contains(where: { $0.isUppercase }) && committed.dropFirst().contains(where: { $0.isLowercase })))
+
+        // Ignore pure case-only changes (e.g. "m" -> "M", "TÔI" -> "tôi") unless fixing internal mixed-case ("iphone" -> "iPhone")
+        if s1 == s2 && !hasInternalMixedCase {
+            return nil
+        }
+
         let u1 = stripDiacritics(s1)
         let u2 = stripDiacritics(s2)
+
+        let hadDiacritics = hasVietnameseDiacritics(s1)
+        let hasDiacriticsNow = hasVietnameseDiacritics(s2)
+
+        let trig = r1.isEmpty ? s1 : r1
+        let telexEval = BambooEngine.evaluatePureTelex(trig).precomposedStringWithCanonicalMapping.lowercased()
+        let uTelex = stripDiacritics(telexEval)
+        let uCollapsedTelex = hasDiacriticsNow ? collapseUnconsumedTelex(uTelex) : uTelex
 
         let distDirect = damerauLevenshtein(s1, s2)
         let distRaw = damerauLevenshtein(r1, s2)
         let distUnaccented = damerauLevenshtein(u1, u2)
-        let minDist = min(distDirect, distRaw, distUnaccented)
+        let distTelex = damerauLevenshtein(telexEval, s2)
+        let distTelexUnaccented = damerauLevenshtein(uTelex, u2)
+        let distCollapsedTelex = damerauLevenshtein(uCollapsedTelex, u2)
+        let minDist = min(distDirect, distRaw, distUnaccented, distTelex, distTelexUnaccented, distCollapsedTelex)
         let maxLen = max(s1.count, s2.count)
 
         let similarity = 1.0 - (Double(minDist) / Double(max(1, maxLen)))
 
-        // Filter out ordinary word replacements where strings are completely unrelated (e.g. "banana" -> "computer", "car" -> "man", "an" -> "to")
-        guard similarity >= 0.35 else {
+        // Filter out ordinary word replacements where strings are unrelated (e.g. "banana" -> "computer", "car" -> "man", "an" -> "to")
+        guard similarity >= 0.50 && minDist <= 2 else {
             return nil
         }
         if maxLen <= 3 && minDist > 1 {
             return nil
         }
 
-        let hadDiacritics = hasVietnameseDiacritics(s1)
-        let hasDiacriticsNow = hasVietnameseDiacritics(s2)
-
-        // Case 1: IME Friction - User backspaces a Vietnamese-transformed word to force raw English/Romaji
-        if hadDiacritics && !hasDiacriticsNow && (u1 == u2 || distRaw <= 1 || distUnaccented <= 1) {
+        // Case 1: IME Friction - User backspaces a Vietnamese-transformed word to force raw English/Romaji.
+        // Require the committed unaccented text to match the raw keys typed before backspace (or the stripped display
+        // only when raw keys are empty) so accidental tone deletions ("dánh" from "danhs" -> "danh"), key transpositions
+        // ("áo" from "aso" -> "sao"), and word rewrites ("trường" -> "trong") are not misclassified.
+        let matchesRawBypass = r1.isEmpty ? (u1 == s2) : (r1 == s2)
+        if hadDiacritics && !hasDiacriticsNow && matchesRawBypass && s2.count >= 2 {
             return (
                 category: .imeFriction,
                 trigger: s2,
@@ -246,9 +277,18 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
             )
         }
 
-        // Case 2: IME Friction - Engine auto-restored English, user backspaced to force Vietnamese diacritics
-        if !hadDiacritics && hasDiacriticsNow && (wasBypassedBeforeBackspace || EnglishRestoreDetector.isEnglishKeyword(s1) || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(s1) || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: s1)) {
-            let trig = r1.isEmpty ? s1 : r1
+        // Case 2: IME Friction - Engine auto-restored English/Romaji, user backspaced to force Vietnamese diacritics.
+        // Only classify as imeFriction (isPreserve: true) if the raw keys before backspace actually evaluate
+        // to the committed Vietnamese word under Telex (or the known "view" -> "viêu" shorthand).
+        // Otherwise (e.g. "kohong" -> "không", "thya" -> "thay", "cahan" -> "chân"), fall through to personalTypo.
+        let isKnownBypassWord = EnglishRestoreDetector.isEnglishKeyword(s1)
+            || JapaneseRomajiDetector.shouldRestoreRomaji(candidateWord: s1)
+        let matchesTelexEval = (telexEval == s2) || (isKnownBypassWord && s1 == "view" && s2 == "viêu")
+
+        if !hadDiacritics && hasDiacriticsNow && matchesTelexEval
+            && (wasBypassedBeforeBackspace
+                || isKnownBypassWord
+                || EnglishRestoreDetector.hasInvalidMedialDoubleConsonant(s1)) {
             return (
                 category: .imeFriction,
                 trigger: trig,
@@ -258,16 +298,92 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
             )
         }
 
-        // Case 3: Recurring Personal Typo (e.g. "teh" -> "the", or habitual Vietnamese typo)
+        // Case 3: Recurring Personal Typo (e.g. "teh" -> "the", "kohong" -> "không", "thya" -> "thay")
+        // Noise filtering for personalTypo:
+        // 1. Reject single-character tokens, trailing technical separators (e.g. "cp/" -> "cpu"), or large length disparities
+        let effectiveLen1 = hasDiacriticsNow ? min(s1.count, uCollapsedTelex.count) : s1.count
+        if s1.count < 2 || s2.count < 2 || abs(effectiveLen1 - s2.count) > 2 {
+            return nil
+        }
+        if s1.contains("/") || s2.contains("/") {
+            return nil
+        }
+        if let last1 = s1.last, EnglishRestoreDetector.isTechnicalSeparator(last1) {
+            return nil
+        }
+        if let last2 = s2.last, EnglishRestoreDetector.isTechnicalSeparator(last2) {
+            return nil
+        }
+        // 2. For 2-character tokens, only allow pure 2-letter ASCII -> 2-letter ASCII typos (e.g. "im" -> "in"),
+        //    excluding ALL-CAPS acronym rewrites (e.g. "AP" -> "AI").
+        if s1.count == 2 || s2.count == 2 {
+            let isBothAllCaps = beforeDisplay.allSatisfy({ $0.isUppercase }) && committed.allSatisfy({ $0.isUppercase })
+            let isTwoLetterAsciiTypo = s1.count == 2 && s2.count == 2
+                && !hadDiacritics && !hasDiacriticsNow
+                && !isBothAllCaps
+                && s1.allSatisfy({ $0.isLetter && $0.isASCII })
+                && s2.allSatisfy({ $0.isLetter && $0.isASCII })
+            if !isTwoLetterAsciiTypo {
+                return nil
+            }
+        }
+        // 3. Reject suffix truncations (e.g. "ecosysr" -> "eco", "playvid" -> "play", "places" -> "place")
+        if (s1.hasPrefix(s2) || u1.hasPrefix(u2)) && s1.count > s2.count {
+            return nil
+        }
+        // 4. Reject prefix extensions and mid-word backspace continuations (e.g. "wings" -> "wingspan",
+        //    "devo" -> "devtools", "chi" -> "chip", "vie" -> "video", "overwar" -> "overwater",
+        //    "minibeass" -> "minibeasts", "djaa" -> "dấu", "Tah" -> "Tạo"),
+        //    except when completing a bound Vietnamese syllable that cannot stand alone (e.g. "việ" -> "việt").
+        let isCompletingBoundVietnamese = hadDiacritics && hasDiacriticsNow && isBoundIncompleteVietnameseSyllable(s1)
+        if !isCompletingBoundVietnamese {
+            if (s2.hasPrefix(s1) || u2.hasPrefix(u1)) && s2.count > s1.count {
+                return nil
+            }
+            if !hadDiacritics && hasDiacriticsNow && u2.hasPrefix(uCollapsedTelex) && u2.count > uCollapsedTelex.count {
+                return nil
+            }
+            if !hadDiacritics && hasDiacriticsNow,
+               let lastU2 = u2.last,
+               !u1.contains(lastU2) && !r1.contains(lastU2) && distCollapsedTelex >= 2 {
+                return nil
+            }
+            if !hadDiacritics && hasDiacriticsNow && maxLen <= 3 && distDirect > 1 && distTelex > 1 {
+                return nil
+            }
+            if s2.count >= s1.count + 2 {
+                return nil
+            }
+            if s2.count == s1.count + 1 {
+                let isMidWordMistype = u1.last != u2.last
+                    || (s2.hasPrefix(s1.dropLast()) && s1.count >= 2 && s1.last == s1.dropLast().last)
+                if isMidWordMistype {
+                    return nil
+                }
+            }
+        }
+        // 5. Reject when the deleted token is already a known English keyword or Romaji word (unless fixing internal mixed-case like "iphone" -> "iPhone")
+        if isKnownBypassWord && s1 != s2 {
+            return nil
+        }
+        // 6. Reject when deleting a valid complete Vietnamese word to write a different word
+        //    (e.g. "tiếng" -> "đang", "tiếp" -> "giúp", "trên" -> "trong", "thông" -> "tên", "đề" -> "vẽ", "tha" -> "the", "chit" -> "chia"),
+        //    or when merely adding a forgotten tone mark to an unaccented syllable ("chon" -> "chọn").
+        if (hadDiacritics || s1.count >= 3) && s1 != s2 && isValidCompleteVietnameseSyllable(s1) {
+            return nil
+        }
+        if !hadDiacritics && hasDiacriticsNow && (s1 == u2 || (isValidCompleteVietnameseSyllable(telexEval) && stripDiacritics(telexEval) == u2)) && !s2.contains(" ") {
+            return nil
+        }
+        if !hadDiacritics && hasDiacriticsNow && isValidCompleteVietnameseSyllable(s1) && distUnaccented >= 2 {
+            return nil
+        }
+
         let normalizedReplacement: String
         let isCommittedAllUpper = committed.allSatisfy { $0.isUppercase }
         let isCommittedTitle = committed.first?.isUppercase == true && committed.dropFirst().allSatisfy { $0.isLowercase }
 
         if isCommittedAllUpper || isCommittedTitle {
-            // Check for proper nouns with internal capital letters (e.g. "Việt Nam", "iPhone", "MacBook")
-            let hasInternalMixedCase = committed.contains(where: { $0.isUppercase })
-                && committed.contains(where: { $0.isLowercase })
-                && (!committed.first!.isUppercase || (committed.dropFirst().contains(where: { $0.isUppercase }) && committed.dropFirst().contains(where: { $0.isLowercase })))
             if hasInternalMixedCase {
                 normalizedReplacement = committed
             } else {
@@ -284,6 +400,81 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
             isBypass: false,
             isPreserve: false
         )
+    }
+
+    private static func collapseUnconsumedTelex(_ str: String) -> String {
+        var result = str
+        if result.count >= 3, let last = result.last, ["s", "f", "r", "x", "j"].contains(last) {
+            result.removeLast()
+        }
+        let telexDigraphs: [(String, String)] = [
+            ("aa", "a"), ("ee", "e"), ("oo", "o"),
+            ("aw", "a"), ("ow", "o"), ("uw", "u"), ("dd", "d")
+        ]
+        for (pattern, replacement) in telexDigraphs {
+            result = result.replacingOccurrences(of: pattern, with: replacement)
+        }
+        return result
+    }
+
+    private static let boundVietnameseNuclei: Set<String> = ["ă", "â", "iê", "yê", "uyê", "uô", "ươ"]
+    private static let offGlidesForbiddingCoda: Set<String> = [
+        "ai", "ao", "au", "âu", "ay", "ây", "eo", "êu", "ia", "iêu", "iu",
+        "oai", "oao", "oay", "oeo", "oi", "ôi", "ơi", "ưa", "uây", "ui",
+        "ưi", "uôi", "ươi", "ươu", "ưu", "uya", "uyu", "yêu"
+    ]
+
+    public static func isBoundIncompleteVietnameseSyllable(_ word: String) -> Bool {
+        let lower = word.precomposedStringWithCanonicalMapping.lowercased()
+        guard !lower.contains(" "), lower.allSatisfy({ $0.isLetter }),
+              let parsed = Syllable.parse(from: lower),
+              parsed.coda.isEmpty,
+              parsed.nucleus.allSatisfy({ PhonotacticsMatrix.isVowelChar($0) }) else {
+            return false
+        }
+        return boundVietnameseNuclei.contains(parsed.nucleus.lowercased())
+    }
+
+    public static func isValidCompleteVietnameseSyllable(_ word: String) -> Bool {
+        let lower = word.precomposedStringWithCanonicalMapping.lowercased()
+        guard !lower.contains(" "), lower.allSatisfy({ $0.isLetter }),
+              let parsed = Syllable.parse(from: lower),
+              parsed.nucleus.allSatisfy({ PhonotacticsMatrix.isVowelChar($0) }) else {
+            return false
+        }
+        let lowerOnset = parsed.onset.lowercased()
+        let lowerNuc = parsed.nucleus.lowercased()
+        let lowerCoda = parsed.coda.lowercased()
+
+        if !lowerOnset.isEmpty {
+            guard !["z", "w", "f", "j"].contains(lowerOnset),
+                  !PhonotacticsMatrix.lookupFC(lowerOnset, isComplete: true).isEmpty else {
+                return false
+            }
+            if let firstNuc = lowerNuc.first {
+                if lowerOnset == "k" && !"ieêy".contains(firstNuc) { return false }
+                if lowerOnset == "c" && "ieêy".contains(firstNuc) { return false }
+                if (lowerOnset == "g" || lowerOnset == "ng") && "eê".contains(firstNuc) { return false }
+                if (lowerOnset == "gh" || lowerOnset == "ngh") && !"eêi".contains(firstNuc) { return false }
+            }
+            if lowerOnset == "q" { return false }
+        }
+
+        guard !PhonotacticsMatrix.lookupVO(lowerNuc).isEmpty else {
+            return false
+        }
+        if lowerCoda.isEmpty && boundVietnameseNuclei.contains(lowerNuc) {
+            return false
+        }
+
+        if !lowerCoda.isEmpty {
+            guard PhonotacticsMatrix.isValidCoda(lowerCoda) && lowerCoda != "k",
+                  PhonotacticsMatrix.isValidStopCodaTone(coda: lowerCoda, tone: parsed.tone),
+                  !offGlidesForbiddingCoda.contains(lowerNuc) else {
+                return false
+            }
+        }
+        return true
     }
 
     // MARK: - Record Correction
@@ -457,6 +648,10 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
                 decoder.dateDecodingStrategy = .iso8601
                 let logFile = try decoder.decode(TypingErrorLogFile.self, from: data)
 
+                let originalEntriesCount = logFile.entries.count
+                let originalRulesCount = logFile.learnedRules.count
+                let originalEntryIds = logFile.entries.map(\.id)
+
                 entries.removeAll(keepingCapacity: true)
                 for entry in logFile.entries {
                     entries[entry.id] = entry
@@ -467,7 +662,15 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
                     rules[rule.id] = rule
                 }
 
+                sanitizeAndMigrateLocked()
                 rebuildLookupTablesLocked()
+
+                let sanitizedEntryIds = entries.keys.sorted()
+                if entries.count != originalEntriesCount
+                    || rules.count != originalRulesCount
+                    || sanitizedEntryIds != originalEntryIds {
+                    saveToFileSyncLocked()
+                }
             } catch {
                 NSLog("VietFlow AdaptiveLearner: Failed to load typing_error_log.json: \(error.localizedDescription)")
                 entries.removeAll(keepingCapacity: true)
@@ -475,6 +678,106 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
                 rebuildLookupTablesLocked()
             }
         }
+    }
+
+    private static let nativelyResolvedEngineTriggers: Set<String> = [
+        "air", "barn", "boro", "daasu", "rofo", "twucs", "twu",
+        "arre", "inssects", "ussage", "ussag", "mall", "item", "fli", "googe", "outlie", "airport", "nag"
+    ]
+
+    /// Re-evaluates all loaded entries against current classification and noise-filtering rules,
+    /// removing noise/obsolete entries and reclassifying misclassified entries.
+    public func sanitizeAndMigrateEntries() {
+        lock.withLock {
+            sanitizeAndMigrateLocked()
+            rebuildLookupTablesLocked()
+            saveToFileSyncLocked()
+        }
+    }
+
+    private func sanitizeAndMigrateLocked() {
+        var cleanedEntries: [String: TypingErrorEntry] = [:]
+        var cleanedRules: [String: LearnedRule] = [:]
+
+        let sortedOriginalEntries = entries.values.sorted(by: { $0.id < $1.id })
+        for entry in sortedOriginalEntries {
+            guard entry.count > 0 else { continue }
+            let rawLower = entry.rawKeysBeforeBackspace
+                .precomposedStringWithCanonicalMapping
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .lowercased()
+            let dispLower = entry.displayedBeforeBackspace
+                .precomposedStringWithCanonicalMapping
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .lowercased()
+
+            if Self.nativelyResolvedEngineTriggers.contains(rawLower) || Self.nativelyResolvedEngineTriggers.contains(dispLower) {
+                continue
+            }
+
+            guard let classification = Self.classifyCorrection(
+                rawKeysBeforeBackspace: entry.rawKeysBeforeBackspace,
+                displayedBeforeBackspace: entry.displayedBeforeBackspace,
+                finalCommittedText: entry.finalCommittedText,
+                wasBypassedBeforeBackspace: (entry.category == .imeFriction)
+            ) else {
+                continue
+            }
+
+            let newEntryId = "\(classification.category.rawValue):\(classification.trigger)->\(classification.replacement.lowercased())"
+            if var existing = cleanedEntries[newEntryId] {
+                existing.count += entry.count
+                existing.timestamps.append(contentsOf: entry.timestamps)
+                existing.timestamps.sort()
+                if entry.firstSeen < existing.firstSeen {
+                    existing.firstSeen = entry.firstSeen
+                }
+                if entry.lastSeen > existing.lastSeen {
+                    existing.lastSeen = entry.lastSeen
+                }
+                existing.isEnabled = existing.isEnabled || entry.isEnabled
+                cleanedEntries[newEntryId] = existing
+            } else {
+                var migrated = TypingErrorEntry(
+                    id: newEntryId,
+                    rawKeysBeforeBackspace: entry.rawKeysBeforeBackspace.precomposedStringWithCanonicalMapping,
+                    displayedBeforeBackspace: entry.displayedBeforeBackspace.precomposedStringWithCanonicalMapping,
+                    finalCommittedText: entry.finalCommittedText.precomposedStringWithCanonicalMapping,
+                    category: classification.category,
+                    count: entry.count,
+                    timestamps: entry.timestamps,
+                    firstSeen: entry.firstSeen,
+                    lastSeen: entry.lastSeen,
+                    isEnabled: entry.isEnabled
+                )
+                migrated.timestamps.sort()
+                cleanedEntries[newEntryId] = migrated
+            }
+
+            let mergedEntry = cleanedEntries[newEntryId]!
+            let ruleId = "rule:\(classification.category.rawValue):\(classification.trigger)"
+            let priorRule = rules[ruleId]
+            let isRuleEnabled: Bool
+            if let prior = priorRule, prior.count >= 3 && !prior.isEnabled {
+                isRuleEnabled = false
+            } else {
+                isRuleEnabled = (mergedEntry.count >= 3) && mergedEntry.isEnabled
+            }
+
+            cleanedRules[ruleId] = LearnedRule(
+                id: ruleId,
+                trigger: classification.trigger,
+                replacement: classification.replacement,
+                category: classification.category,
+                count: mergedEntry.count,
+                isBypassTransform: classification.isBypass,
+                isPreserveVietnamese: classification.isPreserve,
+                isEnabled: isRuleEnabled
+            )
+        }
+
+        entries = cleanedEntries
+        rules = cleanedRules
     }
 
     public func saveToFileSync() {
