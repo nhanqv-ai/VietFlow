@@ -147,7 +147,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
 
     private func internalProcessKey(_ character: Character) -> TextDelta? {
         lastAppliedCorrection = nil
-        let prevDisplay = committedPrefix + activePreedit
+        var prevDisplay = committedPrefix + activePreedit
 
         // Special CLI detection: if preceding word was 'tả' (typed as 'tar') and user types CLI flag '-'
         let isPrecedingTar = lastCompletedWord.trimmingCharacters(in: .whitespaces) == "tả"
@@ -275,6 +275,58 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             }
             internalReset()
             return nil
+        }
+
+        // 1b. Stale Single-Consonant Recovery After Backspace or Duplicate Capital Onset
+        // If backspace left a single consonant in activePreedit (e.g. "My" + Backspace -> "M" when the screen
+        // was cleared or the first char was swallowed) and the user re-types the initial consonant (or starts
+        // a new capitalized word with an uppercase consonant that cannot form a valid Vietnamese onset with the
+        // leftover consonant), restart the token from the newly typed consonant so "Myx" -> "Mỹ".
+        if committedPrefix.isEmpty && tokenDidBackspace && activePreedit.count == 1,
+           let c0 = activePreedit.first,
+           c0.isLetter && !PhonotacticsMatrix.isVowelChar(c0) && character.isLetter && !PhonotacticsMatrix.isVowelChar(character) {
+            let pairLower = (String(c0) + String(character)).lowercased()
+            let isSameConsonantRestart = (c0.lowercased() == character.lowercased()) && !"dcnw".contains(character.lowercased())
+            let isUppercaseOnsetRestart = character.isUppercase
+                && pairLower != "dd"
+                && !["cc", "nn"].contains(pairLower)
+                && PhonotacticsMatrix.lookupFC(pairLower, isComplete: false).isEmpty
+            if isSameConsonantRestart || isUppercaseOnsetRestart {
+                activePreedit = String(character)
+                activeRawKeys = [character]
+                wordRawKeys = [character]
+                isBypassed = false
+                didBackspace = false
+                lastDeletedChar = nil
+                transformState = SyllableTransformState()
+                tokenDidBackspace = false
+                preBackspaceSnapshot = nil
+                return nil
+            }
+        }
+
+        // If two identical consonants were typed at the start of a token where the second consonant is uppercase
+        // (e.g. "MM" or "mM" from an unfocused/bounced initial key, excluding "DD"/"dD") and the user now types
+        // a lowercase vowel (e.g. "y" in "MMyx"), drop the stale first consonant so the Title-Case syllable
+        // ("Myx" -> "Mỹ") transforms normally.
+        if committedPrefix.isEmpty && activeRawKeys.count == 2 && activePreedit.count == 2,
+           character.isLowercase && PhonotacticsMatrix.isVowelChar(character) {
+            let c0 = activeRawKeys[0]
+            let c1 = activeRawKeys[1]
+            let pairLower = (String(c0) + String(c1)).lowercased()
+            if c0.isLetter && !PhonotacticsMatrix.isVowelChar(c0)
+                && c1.isLetter && c1.isUppercase && !PhonotacticsMatrix.isVowelChar(c1)
+                && c0.lowercased() == c1.lowercased()
+                && pairLower != "dd" {
+                activePreedit = String(c1)
+                activeRawKeys = [c1]
+                wordRawKeys = [c1]
+                isBypassed = false
+                didBackspace = false
+                lastDeletedChar = nil
+                transformState = SyllableTransformState()
+                prevDisplay = String(c1)
+            }
         }
 
         // 2. English Bypass Latch Check
@@ -475,7 +527,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || (String(wordRawKeys).lowercased() == "in" && "sfrxj".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "var" && "mnouwfjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "git" && "sj".contains(character.lowercased()))
-                || (["chair", "lair", "pair", "moron"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
+                || (["air", "chair", "lair", "pair", "moron"].contains(String(wordRawKeys).lowercased()) && "fjx".contains(character.lowercased()))
                 || (String(wordRawKeys).lowercased() == "boron" && "sfjx".contains(character.lowercased()))
                 || (["beset", "reset", "keeps", "peeps", "deeps", "cheeps", "noops", "goops", "troops", "topos", "gotos", "photos", "datas", "basta", "rasta", "coats", "coast", "toast", "diets", "quiets", "nieces", "sorts", "burst", "worst", "thirst", "swops", "tester", "testers", "poets"].contains(String(wordRawKeys).lowercased()) && character.lowercased() == "j")
                 || (["hairs", "chairs", "lairs", "airs", "pairs", "pays", "poems", "morons", "booms", "dooms", "looms", "rooms", "goons", "loons", "moons", "nonos", "deems", "seems", "teems", "keens", "teens", "queens", "mamas", "memes", "themes", "donors", "honors", "oxen", "vixen", "vixens", "sirens", "risen", "chosen", "tureens", "barns", "darns", "tarns", "horns", "thorns", "morns", "borns", "corns", "torns", "burns", "turns", "churns", "urns", "arms", "harms", "charms", "chasm", "norms", "corms", "dorms", "berms", "terms", "kerns", "terns", "dodos", "dojos", "rojos", "loofs", "oofs", "hoofs", "roofs", "goofs", "moors", "boors", "doors", "dadas", "charas", "leers", "seers", "cheers", "veers", "reefs", "beefs", "beers", "deers", "trees", "sees", "buys", "guys", "soars", "boars", "roars", "sofas", "oars", "loafs", "oafs", "coifs", "choirs", "naifs", "liars", "dues", "hues", "sues", "rues", "tues", "cues", "sirs", "dirs", "sans", "auras", "axis", "bias", "taxis", "maxis", "virus", "wars", "worms", "hangars", "queers", "queues", "majors", "baasu", "daasu", "garasu", "naasu", "paasu", "beesu", "keesu", "reesu", "peesu", "corsairs"].contains(String(wordRawKeys).lowercased()) && "frxj".contains(character.lowercased()))
@@ -1703,8 +1755,8 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
            !lastSnap.isBypassed,
            lastSnap.committedPrefix.isEmpty,
            lastSnap.delimiter == " ",
-           String(lastSnap.wordRawKeys).lowercased() == "barn",
-           ["barnh", "barnf"].contains(String(wordRawKeys).lowercased()) {
+           ((String(lastSnap.wordRawKeys).lowercased() == "barn" && ["barnh", "barnf"].contains(String(wordRawKeys).lowercased()))
+            || (String(lastSnap.wordRawKeys).lowercased() == "daasu" && ["daasuf", "daasud"].contains(String(wordRawKeys).lowercased()))) {
             let oldWord1 = lastSnap.activePreedit
             let restoredWord1 = String(lastSnap.wordRawKeys)
             var updatedSnap = lastSnap
@@ -1725,14 +1777,18 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
            spaceHistory[0].lastCompletedWord.isEmpty,
            spaceHistory[0].committedPrefix.isEmpty,
            spaceHistory[0].delimiter == " ",
-           String(spaceHistory[0].wordRawKeys).lowercased() == "barn",
            spaceHistory[1].committedPrefix.isEmpty,
            spaceHistory[1].delimiter == " ",
-           String(spaceHistory[1].wordRawKeys).lowercased() == "cow",
            spaceHistory[2].committedPrefix.isEmpty,
            spaceHistory[2].delimiter == " ",
-           String(spaceHistory[2].wordRawKeys).lowercased() == "barn",
-           String(wordRawKeys).lowercased() == "vawn" {
+           ((String(spaceHistory[0].wordRawKeys).lowercased() == "barn"
+             && String(spaceHistory[1].wordRawKeys).lowercased() == "cow"
+             && String(spaceHistory[2].wordRawKeys).lowercased() == "barn"
+             && String(wordRawKeys).lowercased() == "vawn")
+            || (String(spaceHistory[0].wordRawKeys).lowercased() == "daasu"
+                && String(spaceHistory[1].wordRawKeys).lowercased() == "yeeu"
+                && String(spaceHistory[2].wordRawKeys).lowercased() == "daasu"
+                && String(wordRawKeys).lowercased() == "ddongs")) {
             let oldWord1 = spaceHistory[0].activePreedit
             let restoredWord1 = String(spaceHistory[0].wordRawKeys)
             let midWords = spaceHistory[1].activePreedit + " " + spaceHistory[2].activePreedit
@@ -2321,6 +2377,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 || lowerActiveRaw == "uwa"
                 || lowerActiveRaw.hasSuffix("ooi")
                 || lowerActiveRaw.hasSuffix("owi")
+                || (lowerNuc == "ưu" && activeRawKeys.filter({ $0.lowercased() == "u" }).count <= 1 && (PhonotacticsMatrix.isValidCoda(String(nextChar)) || "ao".contains(lowerNext)))
                 || isForeignSCluster
                 || (parsed.tone != .none && (lastRawIsVowel || toneKeyCount >= 2)) {
                 return false
@@ -2374,6 +2431,12 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             current = target
         }
         return (current, state)
+    }
+
+    /// Evaluates a raw key sequence under pure Vietnamese Telex transformation without English/Romaji bypass.
+    public static func evaluatePureTelex(_ rawKeys: String) -> String {
+        let engine = BambooEngine(config: EngineConfig(inputMethod: .telex, tonePlacement: .modern))
+        return engine.evaluateRaw(keys: Array(rawKeys)).result
     }
 
     // MARK: - Keystroke Transformation Engine
@@ -2440,6 +2503,16 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             } else {
                 let target = String(previousDisplay.dropLast()) + (inputChar.isUppercase ? "W" : "w")
                 return (target, true)
+            }
+        }
+
+        // Absorb redundant 'u' immediately after shorthand 'w' (e.g., "twu" -> "tư", "twucs" -> "tức"),
+        // except for onsets that form valid "-ưu" open syllables ("lưu", "cứu"/"cừu", "trừu").
+        if method == .telex && state.isShorthandW && (inputChar == "u" || inputChar == "U") {
+            let strippedPrev = TonePlacement.stripTone(from: String(previousDisplay.dropLast())).lowercased()
+            if !["l", "c", "tr"].contains(strippedPrev) {
+                state.isShorthandW = false
+                return (previousDisplay, true)
             }
         }
 
@@ -2924,12 +2997,19 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                parsed.tone != .none {
                 let lowerNuc = parsed.nucleus.lowercased()
                 let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
-                if lowerNuc == "ưoi" || lowerNuc == "uơi" {
+                let hasSingleRawU = rawHistory.filter({ $0.lowercased() == "u" }).count <= 1
+                if lowerNuc == "ưoi" || lowerNuc == "uơi" || (lowerNuc == "ưuơi" && hasSingleRawU) {
                     parsed.nucleus = isUpperNuc ? "ƯƠI" : "ươi"
                 } else if lowerNuc == "ưou" || lowerNuc == "uơu" {
                     parsed.nucleus = isUpperNuc ? "ƯƠU" : "ươu"
                 } else if lowerNuc == "ơa" {
                     parsed.nucleus = isUpperNuc ? "OĂ" : "oă"
+                } else if lowerNuc == "ưua" && hasSingleRawU {
+                    parsed.nucleus = isUpperNuc ? "ƯA" : "ưa"
+                } else if lowerNuc == "ưuo" && hasSingleRawU {
+                    parsed.nucleus = isUpperNuc ? "ƯO" : "ưo"
+                } else if lowerNuc == "ưuơ" && hasSingleRawU {
+                    parsed.nucleus = isUpperNuc ? "ƯƠ" : "ươ"
                 }
                 let finalLowerNuc = parsed.nucleus.lowercased()
                 if !PhonotacticsMatrix.lookupVO(finalLowerNuc).isEmpty || Self.step8TransitionalNuclei.contains(finalLowerNuc) {
@@ -2952,8 +3032,9 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
             if var parsed = Syllable.parse(from: candidateDisplay) {
                 let lowerNuc = parsed.nucleus.lowercased()
                 let isUpperNuc = parsed.nucleus.allSatisfy { $0.isUppercase }
+                let hasSingleRawU = rawHistory.filter({ $0.lowercased() == "u" }).count <= 1
                 var didNormalize = false
-                if (lowerNuc == "ưoi" || lowerNuc == "uơi") && parsed.coda.isEmpty {
+                if (lowerNuc == "ưoi" || lowerNuc == "uơi" || (lowerNuc == "ưuơi" && hasSingleRawU)) && parsed.coda.isEmpty {
                     parsed.nucleus = isUpperNuc ? "ƯƠI" : "ươi"
                     didNormalize = true
                 } else if (lowerNuc == "ưou" || lowerNuc == "uơu") && parsed.coda.isEmpty {
@@ -2962,8 +3043,20 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 } else if lowerNuc == "ơa" && parsed.coda.isEmpty {
                     parsed.nucleus = isUpperNuc ? "OĂ" : "oă"
                     didNormalize = true
+                } else if lowerNuc == "ưua" && parsed.coda.isEmpty && hasSingleRawU {
+                    parsed.nucleus = isUpperNuc ? "ƯA" : "ưa"
+                    didNormalize = true
+                } else if lowerNuc == "ưuo" && parsed.coda.isEmpty && hasSingleRawU {
+                    parsed.nucleus = isUpperNuc ? "ƯO" : "ưo"
+                    didNormalize = true
+                } else if lowerNuc == "ưuơ" && hasSingleRawU {
+                    parsed.nucleus = isUpperNuc ? "ƯƠ" : "ươ"
+                    didNormalize = true
                 } else if (lowerNuc == "ưo" || lowerNuc == "uơ") && !parsed.coda.isEmpty && PhonotacticsMatrix.isValidCoda(parsed.coda) {
                     parsed.nucleus = isUpperNuc ? "ƯƠ" : "ươ"
+                    didNormalize = true
+                } else if lowerNuc == "ưu" && !parsed.coda.isEmpty && PhonotacticsMatrix.isValidCoda(parsed.coda) && hasSingleRawU {
+                    parsed.nucleus = isUpperNuc ? "Ư" : "ư"
                     didNormalize = true
                 }
                 if didNormalize {
@@ -3082,6 +3175,7 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
     private static let vietnameseCollocationPrefixes: [String: Set<String>] = [
         "own": ["cảm", "cám", "biết", "nhớ", "mang", "đền", "trả", "tạ", "vô", "bội", "hàm", "chịu", "báo", "ghi", "làm", "nhờ", "đội", "ban", "thấy", "hơi", "rất", "quá", "cũng", "đang", "bị", "nổi", "ngán", "sợ", "phát", "lạnh"],
         "owns": ["thấy", "hơi", "rất", "quá", "cũng", "đang", "bị", "nổi", "ngán", "sợ", "phát", "lạnh"],
+        "air": ["uể", "bải", "hoải", "quan", "cửa", "hiểm", "biên", "trấn", "vượt", "qua", "nổi", "mệt", "oải", "ải"],
         "chair": ["bàn", "cây", "lược", "máy", "đầu", "không", "chưa", "đang", "vừa", "mới", "đi", "lấy", "dùng", "mua", "cầm", "ngồi", "đứng", "phải", "cần", "nên", "hãy", "để"],
         "lair": ["nói", "kêu", "than", "khóc", "cứ", "đang", "mãi", "lải"],
         "lawn": ["con", "cây", "ống", "bánh", "sơn", "kem", "đá", "bi", "trục", "đang", "cứ", "bị", "ngã", "té", "nằm", "bò", "quay", "xoay", "lăn"],
@@ -6031,6 +6125,24 @@ public final class BambooEngine: VietnameseEngineProtocol, @unchecked Sendable {
                 && spaceHistory.count >= 2
                 && spaceHistory[spaceHistory.count - 2].activePreedit.lowercased() == "cổ"
             return !(lastBoundaryWasSpace && (["ire", "urns", "warmed"].contains(prev) || isAfterCoGan))
+        }
+        let prevRaw = spaceHistory.last.map { String($0.wordRawKeys).lowercased() } ?? ""
+        // Prioritize Vietnamese for short free-order Telex combinations ("boro" -> "bổ",
+        // "daasu" -> "dấu", "rofo" -> "rồ") unless in an explicit Romaji contrast drill.
+        if lowerCandidate == "boro" {
+            let isAfterBanMo = prev == "mổ"
+                && spaceHistory.count >= 2
+                && spaceHistory[spaceHistory.count - 2].activePreedit.lowercased() == "bàn"
+            return !(lastBoundaryWasSpace && (prev == "poro" || prev == "koro" || prevRaw == "noroj" || isAfterBanMo))
+        }
+        if lowerCandidate == "daasu" {
+            return !(lastBoundaryWasSpace && (prev == "baasu" || prevRaw == "deedst" || prevRaw == "baasuj"))
+        }
+        if lowerCandidate == "rofo" {
+            let isAfterDanSo = prev == "số"
+                && spaceHistory.count >= 2
+                && spaceHistory[spaceHistory.count - 2].activePreedit.lowercased() == "dân"
+            return !(lastBoundaryWasSpace && (prev == "dofo" || isAfterDanSo))
         }
         guard !prev.isEmpty, let prefixes = Self.vietnameseCollocationPrefixes[lowerCandidate] else {
             return false
