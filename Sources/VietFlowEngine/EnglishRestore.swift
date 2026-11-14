@@ -255,7 +255,7 @@ public enum EnglishKeywords {
         "hex", "nix", "tux", "dux",
         "ufo", "ufos", "nasa", "taxa",
         "memes", "themes", "beset", "besets", "xanax",
-        "dodos", "gotos", "topos", "mamas", "datas", "nonos", "rojos", "toxo", "roxo",
+        "dodos", "gotos", "topos", "mamas", "datas", "nonos", "rojos",
         "noop", "noops", "dadas", "hies", "lire", "lise", "vire", "vise", "vises", "quasar", "quasars", "hangars",
         "loofs", "siete", "data", "goto", "sata", "toto", "loto", "topo", "sapa", "napa", "tapa", "capa", "poco",
         "choco", "quoto", "chara", "charas", "boron", "tureen", "tureens", "siren", "sirens", "bisect", "bisects", "bisected",

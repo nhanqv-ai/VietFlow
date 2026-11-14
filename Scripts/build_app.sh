@@ -107,8 +107,10 @@ if [ ! -f "$REPO_ROOT/AppIcon.icns" ]; then
 fi
 cp "$REPO_ROOT/AppIcon.icns" "$APP_DIR/Contents/Resources/AppIcon.icns"
 
-echo "==> Signing VietFlow.app bundle (ad-hoc)..."
-codesign --force --deep --sign - "$APP_DIR"
+echo "==> Signing VietFlow.app bundle with stable designated requirement..."
+codesign --force --sign - -r='designated => identifier "com.nhanqv.VietFlow"' "$APP_DIR/Contents/MacOS/VietFlow"
+codesign --force --sign - -r='designated => identifier "com.nhanqv.VietFlow"' "$APP_DIR"
+codesign -v --deep --strict "$APP_DIR"
 
 echo "================================================================================"
 echo " VietFlow.app successfully built at: $APP_DIR"

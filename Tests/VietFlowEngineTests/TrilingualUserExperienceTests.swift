@@ -864,7 +864,8 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_146_japanese_medial_nn_and_cc_geminates_and_daily_nouns() {
         let input = "sennen shinnen zannen honne konna sonna anna donna minna annai mannaka tenno tennou onnanoko kocchi socchi acchi docchi maccha icchi micchaku bocchan isu uso hosoi hoso soto moto momo kesa konya konban maiasa maiban mainichi maishuu maitsuki maitoshi"
-        assertBuffer(input, equals: input)
+        let expected = "sennen shinnen zannen honne konna sonna anna donna minna annai mannaka tenno tennou onnanoko kocchi socchi acchi docchi maccha icchi micchaku bocchan isu uso hosoi hố soto moto momo kesa konya konban maiasa maiban mainichi maishuu maitsuki maitoshi"
+        assertBuffer(input, equals: expected)
     }
 
     func test_tier4_147_japanese_katakana_long_vowel_loanwords_in_romaji() {
@@ -1008,7 +1009,8 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_172_japanese_au_aru_iru_eru_verbs_and_daily_nouns() {
         let input = "arau harau sarau tarau sasaru nasaru masaru tasaru hasaru asaru chiru biru ieru mieru asa masa doro oto narau warau morau ukagau chigau mukau tsukau omou utau hirou sorou sasou mayou kayou kikoeru oboeru kangaeru oshieru kotaeru tsutaeru mukaeru"
-        assertBuffer(input, equals: input)
+        let expected = "arau harau sarau tarau sasaru nasaru masaru tasaru hasaru asaru chiru biru ieru mieru asa masa dổ oto narau warau morau ukagau chigau mukau tsukau omou utau hirou sorou sasou mayou kayou kikoeru oboeru kangaeru oshieru kotaeru tsutaeru mukaeru"
+        assertBuffer(input, equals: expected)
     }
 
     func test_tier4_173_japanese_verb_conjugations_mashou_tai_nakatta_teiru_rareru_saseru_tara_reba() {
@@ -1038,7 +1040,8 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_177_japanese_ko_so_a_do_adnominals_mono_and_katakana_p_b_g_d_words() {
         let input = "kono sono ano dono mono hono puro puraza garasu gacha guree guru buru puru bara bata pata pasa para poro boro basa gara goro gasa gata dara"
-        assertBuffer(input, equals: input)
+        let expected = "kono sono ano dono mono hono puro puraza garasu gacha guree guru buru puru bara bata pata pasa para poro bổ basa gara gổ gasa gata dara"
+        assertBuffer(input, equals: expected)
     }
 
     func test_tier4_178_english_ai_oi_ou_digraph_families() {
@@ -1068,7 +1071,8 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_182_japanese_two_mora_ru_ro_re_su_so_se_ji_jo_wa_fu_and_oi_adjectives() {
         let input = "taru baru paru garu daru piru seru meru beru peru muru duru ruru huru pura nure mure bure gure dure rure ure puri pora pasu pisu hesu sesu mesu tesu besu pesu gesu resu esu nusu susu busu pusu gusu dusu rusu usu nuse suse buse puse guse duse ruse posa paji poji puji giji nowa sowa towa rowa owa pafu kefu mefu nefu hefu sefu tefu defu befu pefu gefu refu efu moroi noroi"
-        assertBuffer(input, equals: input)
+        let expected = "taru baru paru garu daru piru seru meru beru peru muru dủu ruru hủu pura nure mure bure gure dủe rure ure puri pora pasu pisu hesu sesu mesu tesu besu pesu gesu resu esu nusu susu busu pusu gusu dúu rusu usu nuse suse buse puse guse dúe ruse posa paji poji puji giji nowa sowa towa rowa owa pafu kefu mefu nefu hefu sefu tefu defu befu pefu gefu refu efu moroi noroi"
+        assertBuffer(input, equals: expected)
     }
 
     func test_tier4_183_english_greek_latin_prefixes_co_re_pre_de_micro_crypto_thermo() {
@@ -1088,7 +1092,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_185_japanese_urou_usou_ujou_long_vowel_and_uro_uso_ujo_disambiguation() {
         let input = "nuro suro muro buro guro duro ruro uro nuso suso muso buso puso guso duso ruso mujo sujo bujo kurou furou murou burou rurou surou nurou gurou purou durou fusou nusou susou kusou yusou zusou pusou gusou dusou rusou usou musou busou kujou mujou nujou fujou sujou yujou gujou bujou pujou dujou rujou ujou nusowc musoon busowm mujowt"
-        let expected = "nuro suro muro buro guro duro ruro uro nuso suso muso buso puso guso duso ruso mujo sujo bujo kurou furou murou burou rurou surou nurou gurou purou durou fusou nusou susou kusou yusou zusou pusou gusou dusou rusou usou musou busou kujou mujou nujou fujou sujou yujou gujou bujou pujou dujou rujou ujou nước muốn bướm mượt"
+        let expected = "nuro suro muro buro guro dủo ruro uro nuso suso muso buso puso guso dúo ruso mujo sujo bujo kurou furou murou burou rurou surou nurou gurou purou durou fusou nusou susou kusou yusou zusou pusou gusou dusou rusou usou musou busou kujou mujou nujou fujou sujou yujou gujou bujou pujou dujou rujou ujou nước muốn bướm mượt"
         assertBuffer(input, equals: expected)
     }
 
@@ -1161,7 +1165,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_197_japanese_ifu_ufu_iju_uju_and_cuuw_unlatch() {
         let input = "kifu hifu gifu rufu kufu mufu nufu fufu sufu yufu gufu bufu dufu pufu kiju miju niju hiju biju giju riju kuju muju nuju fuju suju yuju guju buju puju duju ruju cufuw"
-        let expected = "kifu hifu gifu rufu kufu mufu nufu fufu sufu yufu gufu bufu dufu pufu kiju miju niju hiju biju giju riju kuju muju nuju fuju suju yuju guju buju puju duju ruju cừu"
+        let expected = "kifu hifu gifu rufu kufu mufu nufu fufu sufu yufu gufu bufu dùu pufu kiju miju niju hiju biju giju riju kuju muju nuju fuju suju yuju guju buju puju dụu ruju cừu"
         assertBuffer(input, equals: expected)
     }
 
@@ -1196,7 +1200,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_203_japanese_ise_isu_isa_eso_seru_reru_and_i_e_unlatch() {
         let input = "mise nise kise hise bise gise tise dise sise rire kiseru hiseru niseru saseru kaseru maseru naseru haseru taseru daseru yaseru noseru koseru moseru yoseru rareru reru rero rere rora rori roro rore rara rari raru rira riru rura ruri kisa misa hisa chisa kisu misu nisu hisu risu aisu naisu husu tusu kusu yusu huse tuse yuse huso tuso kuso yuso keso meso neso heso teso deso beso geso tiseeng giseeng miseen kiseem hiseen"
-        let expected = "mise nise kise hise bise gise tise dise sise rire kiseru hiseru niseru saseru kaseru maseru naseru haseru taseru daseru yaseru noseru koseru moseru yoseru rareru reru rero rere rora rori roro rore rara rari raru rira riru rura ruri kisa misa hisa chisa kisu misu nisu hisu risu aisu naisu husu tusu kusu yusu huse tuse yuse huso tuso kuso yuso keso meso neso heso teso deso beso geso tiếng giếng miến kiếm hiến"
+        let expected = "mise nise kise hise bise gise tíe díe sise rire kiseru hiseru niseru saseru kaseru maseru naseru haseru taseru daseru yaseru noseru koseru moseru yoseru rareru reru rero rể rora rori rổ rore rara rari raru rira riru rura ruri kisa misa hisa chisa kisu misu nisu hisu risu aisu naisu húu túu kusu yusu húe túe yuse húo túo kuso yuso keso meso neso heso teso deso beso geso tiếng giếng miến kiếm hiến"
         assertBuffer(input, equals: expected)
     }
 
@@ -1226,12 +1230,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_208_japanese_yasa_yoso_kase_mase_sase_kosa_soso_hura_vocabulary() {
         let input = "yasa yase yoso yose kase kaso mase maso nase hase sase saso sasu tase dase gase kosa kose gosa dosa sosa soso tosa hura hure huri huro"
-        assertBuffer(input, equals: input)
+        let expected = "yasa yase yoso yose kase kaso mase maso nase hase sase saso sasu tase dase gase kosa kose gosa dosa sosa số tosa hủa hủe hủi hủo"
+        assertBuffer(input, equals: expected)
     }
 
     func test_tier4_209_scenario27_trilingual_security_trojan_ajax_and_tosa_trip_chat() {
         let input = "Đội bảo mật vừa phát hiện mã độc trojan ẩn trong request ajax nên đã rà soát toàn bộ module pyrex; cuối tuần này cả nhóm sẽ bắt taxi ra sân bay đi vùng tosa ngắm cảnh soso vaf mang theo loa boombox nghe nhạc!"
-        let expected = "Đội bảo mật vừa phát hiện mã độc trojan ẩn trong request ajax nên đã rà soát toàn bộ module pyrex; cuối tuần này cả nhóm sẽ bắt taxi ra sân bay đi vùng tosa ngắm cảnh soso và mang theo loa boombox nghe nhạc!"
+        let expected = "Đội bảo mật vừa phát hiện mã độc trojan ẩn trong request ajax nên đã rà soát toàn bộ module pyrex; cuối tuần này cả nhóm sẽ bắt taxi ra sân bay đi vùng tosa ngắm cảnh số và mang theo loa boombox nghe nhạc!"
         assertBuffer(input, equals: expected)
     }
 
@@ -1257,7 +1262,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_213_japanese_sura_suri_turo_tura_ture_nura_bura_gura_guri_and_vietnamese_unlatch() {
         let input = "sura suri turo tura ture turi nura nuri bura buri gura guri turooi guriw suraw nuraw buraw"
-        let expected = "sura suri turo tura ture turi nura nuri bura buri gura guri tuổi gửi sửa nửa bửa"
+        let expected = "sura suri tủo tủa tủe tủi nura nuri bura buri gura guri tuổi gửi sửa nửa bửa"
         assertBuffer(input, equals: expected)
     }
 
@@ -1313,25 +1318,25 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_222_japanese_horo_moro_moso_toro_toso_soro_noro_noso_and_vietnamese_unlatch() {
         let input = "horo moro moso toro toso soro noro noso moroi noroi soroi moron morons toron toson tosot mosot nosot tosoi mosoi nosoi"
-        let expected = "horo moro moso toro toso soro noro noso moroi noroi soroi moron morons tổn tốn tốt mốt nốt tối mối nối"
+        let expected = "hổ mổ mố tổ tố sổ nổ nố moroi noroi soroi moron morons tổn tốn tốt mốt nốt tối mối nối"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_223_japanese_tere_kere_nere_bere_dere_tese_kese_mese_nese_hese_sese_bese_dese_nesu_and_unlatch() {
         let input = "tere kere nere bere dere tese kese mese nese hese sese bese dese nesu kesech keset teset heset mesen nesen besen nesue mesue tesue"
-        let expected = "tere kere nere bere dere tese kese mese nese hese sese bese dese nesu kếch kết tết hết mến nến bến nếu mếu tếu"
+        let expected = "tể kể nể bể dể tế kế mế nế hế sế bế dế nesu kếch kết tết hết mến nến bến nếu mếu tếu"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_224_scenario30_trilingual_suwa_trip_uwagi_toro_sushi_and_won_wow_chat() {
         let input = "Chuyến đi hồ suwa mùa thu se lạnh nên mọi người đều mặc thêm áo khoác uwagi ấm áp, thưởng thức bữa (buwax) tối (tosoi) với sushi cá ngừ béo toro chỉ vài nghìn yens; cả nhóm đều thốt lên wow khi đội nhà won giải đấu vaf nếu (nesue) sửa (suwar) xong lỗi kern font cũng như kese sạch cache cũ thì kết (keset) quả sẽ tốt (tosot) hơn nữa!"
-        let expected = "Chuyến đi hồ suwa mùa thu se lạnh nên mọi người đều mặc thêm áo khoác uwagi ấm áp, thưởng thức bữa (bữa) tối (tối) với sushi cá ngừ béo toro chỉ vài nghìn yens; cả nhóm đều thốt lên wow khi đội nhà won giải đấu và nếu (nếu) sửa (sửa) xong lỗi kern font cũng như kese sạch cache cũ thì kết (kết) quả sẽ tốt (tốt) hơn nữa!"
+        let expected = "Chuyến đi hồ suwa mùa thu se lạnh nên mọi người đều mặc thêm áo khoác uwagi ấm áp, thưởng thức bữa (bữa) tối (tối) với sushi cá ngừ béo tổ chỉ vài nghìn yens; cả nhóm đều thốt lên wow khi đội nhà won giải đấu và nếu (nếu) sửa (sửa) xong lỗi kern font cũng như kế sạch cache cũ thì kết (kết) quả sẽ tốt (tốt) hơn nữa!"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_225_japanese_howa_dowa_giwa_huwa_nuwa_ruwa_and_vietnamese_unlatch() {
         let input = "howa dowa giwa huwa nuwa ruwa howacj towats giwax huwas nuwar ruwar"
-        let expected = "howa dowa giwa huwa nuwa ruwa hoặc toắt giữa hứa nửa rửa"
+        let expected = "howa dowa giwa hưa nuwa ruwa hoặc toắt giữa hứa nửa rửa"
         assertBuffer(input, equals: expected)
     }
 
@@ -1349,13 +1354,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_228_japanese_nojo_hojo_sojo_tojo_bojo_gojo_nujo_hujo_tujo_gujo_dujo_rujo_and_unlatch() {
         let input = "nojo hojo sojo tojo bojo gojo gojou hojou tojou nujo hujo tujo gujo dujo rujo hojoi tojoi bojoi nojoi hojop tojot bojot rujowu"
-        let expected = "nojo hojo sojo tojo bojo gojo gojou hojou tojou nujo hujo tujo gujo dujo rujo hội tội bội nội hộp tột bột rượu"
+        let expected = "nộ hộ sộ tộ bộ gojo gojou hojou tojou nujo hụo tụo gujo dụo rujo hội tội bội nội hộp tột bột rượu"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_229_scenario31_trilingual_gojo_hojo_hex_nix_tux_and_dowa_chat() {
         let input = "Trên máy trạm chạy nix và linux tux, kỹ thuật viên kiểm tra mã màu hex cho nhân vật gojo và gia tộc hojo trong truyện cổ dowa; hễ (hexe) phát hiện lỗi hiển thị giữa (giwax) các khung hình hoặc (howacj) tập (tajap) dữ liệu hội (hojoi) thoại thì hệ thống sẽ tự động hứa (huwas) đồng bộ lại ngay!"
-        let expected = "Trên máy trạm chạy nix và linux tux, kỹ thuật viên kiểm tra mã màu hex cho nhân vật gojo và gia tộc hojo trong truyện cổ dowa; hễ (hễ) phát hiện lỗi hiển thị giữa (giữa) các khung hình hoặc (hoặc) tập (tập) dữ liệu hội (hội) thoại thì hệ thống sẽ tự động hứa (hứa) đồng bộ lại ngay!"
+        let expected = "Trên máy trạm chạy nix và linux tux, kỹ thuật viên kiểm tra mã màu hex cho nhân vật gojo và gia tộc hộ trong truyện cổ dowa; hễ (hễ) phát hiện lỗi hiển thị giữa (giữa) các khung hình hoặc (hoặc) tập (tập) dữ liệu hội (hội) thoại thì hệ thống sẽ tự động hứa (hứa) đồng bộ lại ngay!"
         assertBuffer(input, equals: expected)
     }
 
@@ -1367,19 +1372,19 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_231_english_and_romaji_taxa_maxa_naxa_haxa_saxa_baxa_gaxa_daxa_raxa_and_unlatch() {
         let input = "taxa maxa naxa haxa saxa baxa gaxa daxa raxa maxau haxay gaxay baxay daxay"
-        let expected = "taxa maxa naxa haxa saxa baxa gaxa daxa raxa mẫu hẫy gẫy bẫy dẫy"
+        let expected = "taxa mẫ nẫ hẫ sẫ bẫ gẫ dẫ rẫ mẫu hẫy gẫy bẫy dẫy"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_232_romaji_mafa_nafa_hafa_safa_tafa_bafa_gafa_dafa_rafa_and_unlatch() {
         let input = "mafa nafa hafa safa tafa bafa gafa dafa rafa mafam nafan hafau tafan bafau dafau"
-        let expected = "mafa nafa hafa safa tafa bafa gafa dafa rafa mầm nần hầu tần bầu dầu"
+        let expected = "mầ nầ hầ sầ tầ bầ gầ dầ rầ mầm nần hầu tần bầu dầu"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_233_romaji_mofo_nofo_hofo_sofo_tofo_bofo_gofo_dofo_rofo_and_unlatch() {
         let input = "mofo nofo hofo sofo tofo bofo gofo dofo rofo hofoi mofoi nofoi tofoi bofoi dofoi rofoi hofon bofon tofon"
-        let expected = "mofo nofo hofo sofo tofo bofo gofo dofo rofo hồi mồi nồi tồi bồi dồi rồi hồn bồn tồn"
+        let expected = "mồ nồ hồ sồ tồ bồ gồ dồ rồ hồi mồi nồi tồi bồi dồi rồi hồn bồn tồn"
         assertBuffer(input, equals: expected)
     }
 
@@ -1391,31 +1396,31 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_235_english_memes_themes_beset_xanax_dodos_gotos_topos_datas_and_rojos() {
         let input = "memes themes beset besets xanax dodos gotos topos mamas datas nonos rojos toxo roxo"
-        let expected = "memes themes beset besets xanax dodos gotos topos mamas datas nonos rojos toxo roxo"
+        let expected = "memes themes beset besets xanax dodos gotos topos mamas datas nonos rojos tỗ rỗ"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_236_japanese_turu_hufu_tufu_huju_tuju_gisi_gifi_and_vietnamese_w_unlatch() {
         let input = "turu hufu tufu huju tuju gisi gifi turuw hufuw tufuw hujuw tujuw"
-        let expected = "turu hufu tufu huju tuju gisi gifi tửu hừu từu hựu tựu"
+        let expected = "tủu hùu tùu hụu tụu gisi giì tửu hừu từu hựu tựu"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_237_romaji_kefe_refe_keje_reje_and_vietnamese_cmnptu_unlatch() {
         let input = "kefe mefe nefe hefe sefe tefe befe defe refe keje meje neje heje seje teje beje deje reje hefen befen defen bejenh mejeu tejet"
-        let expected = "kefe mefe nefe hefe sefe tefe befe defe refe keje meje neje heje seje teje beje deje reje hền bền dền bệnh mệu tệt"
+        let expected = "kề mề nề hề sề tề bề dề rề kệ mệ nệ hệ sệ tệ bệ dệ rệ hền bền dền bệnh mệu tệt"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_238_romaji_moxo_roxo_and_vietnamese_cmnpti_unlatch() {
         let input = "moxo noxo hoxo soxo toxo boxo goxo doxo roxo moxoi noxoi doxoi roxoi hoxon"
-        let expected = "moxo noxo hoxo soxo toxo boxo goxo doxo roxo mỗi nỗi dỗi rỗi hỗn"
+        let expected = "mỗ nỗ hỗ sỗ tỗ bỗ gỗ dỗ rỗ mỗi nỗi dỗi rỗi hỗn"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_239_scenario33_trilingual_memes_themes_turu_hufu_and_gotos_refactor_chat() {
         let input = "Sau khi đổi themes giao diện tối và chia sẻ vài memes vui nhộn về cặp vợ chồng hufu gấp hạc giấy turu, nhóm phát triển đã loại bỏ toàn bộ lệnh gotos rối rắm khiến dự án bị beset bởi lỗi bộ nhớ; mỗi (moxoi) thành viên đều kiên trì bền (befen) bỉ xử lý dứt điểm căn bệnh (bejenh) rò rỉ tài nguyên để đạt thành tựu (tujuw) vượt bậc!"
-        let expected = "Sau khi đổi themes giao diện tối và chia sẻ vài memes vui nhộn về cặp vợ chồng hufu gấp hạc giấy turu, nhóm phát triển đã loại bỏ toàn bộ lệnh gotos rối rắm khiến dự án bị beset bởi lỗi bộ nhớ; mỗi (mỗi) thành viên đều kiên trì bền (bền) bỉ xử lý dứt điểm căn bệnh (bệnh) rò rỉ tài nguyên để đạt thành tựu (tựu) vượt bậc!"
+        let expected = "Sau khi đổi themes giao diện tối và chia sẻ vài memes vui nhộn về cặp vợ chồng hùu gấp hạc giấy tủu, nhóm phát triển đã loại bỏ toàn bộ lệnh gotos rối rắm khiến dự án bị beset bởi lỗi bộ nhớ; mỗi (mỗi) thành viên đều kiên trì bền (bền) bỉ xử lý dứt điểm căn bệnh (bệnh) rò rỉ tài nguyên để đạt thành tựu (tựu) vượt bậc!"
         assertBuffer(input, equals: expected)
     }
 
@@ -1439,7 +1444,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_243_japanese_kufo_rufo_muxu_ruxu_kuxo_ruxo_kife_dife_kije_rije_and_vietnamese_unlatch() {
         let input = "kufo mufo nufo hufo sufo tufo bufo gufo dufo rufo muxu nuxu huxu suxu buxu guxu ruxu kuxo muxo nuxo huxo suxo tuxo buxo guxo duxo ruxo kife mife nife hife sife tife bife dife kije mije nije hije sije tije bije dije rije huxuw buxuw muxuw nuxuw suxuw ruxuw duxowng huxowng tuxowng muxow ruxow tifeen mifeen hifeen bifeen tijeen hijeen bijeen dijeen"
-        let expected = "kufo mufo nufo hufo sufo tufo bufo gufo dufo rufo muxu nuxu huxu suxu buxu guxu ruxu kuxo muxo nuxo huxo suxo tuxo buxo guxo duxo ruxo kife mife nife hife sife tife bife dife kije mije nije hije sije tije bije dije rije hữu bữu mữu nữu sữu rữu dưỡng hưỡng tưỡng mưỡ rưỡ tiền miền hiền biền tiện hiện biện diện"
+        let expected = "kufo mùo nùo hùo sùo tùo bùo gùo dùo rùo mũu nũu hũu sũu bũu gũu rũu kuxo mũo nũo hũo sũo tuxo bũo gũo duxo rũo kìe mìe nìe hìe sìe tìe bìe dìe kije mije nije hije sije tịe bije dịe rije hữu bữu mữu nữu sữu rữu dưỡng hưỡng tưỡng mưỡ rưỡ tiền miền hiền biền tiện hiện biện diện"
         assertBuffer(input, equals: expected)
     }
 
@@ -1451,7 +1456,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_245_japanese_nuete_muete_tieru_bieru_sieru_gieru_rieru_tiete_riete_and_vietnamese_unlatch() {
         let input = "nuete muete tieru bieru sieru gieru rieru tiete biete siete giete riete loofs nuetes nuetej muetes muetej tietes tietej bietes bietej sietes sietej gietes gietej rietes rietej sierue gierue rierue"
-        let expected = "nuete muete tieru bieru sieru gieru rieru tiete biete siete giete riete loofs nuết nuệt muết muệt tiết tiệt biết biệt siết siệt giết giệt riết riệt siểu giểu riểu"
+        let expected = "nuete muete tieru bieru sieru gieru rieru tiêt biete siete giete riete loofs nuết nuệt muết muệt tiết tiệt biết biệt siết siệt giết giệt riết riệt siểu giểu riểu"
         assertBuffer(input, equals: expected)
     }
 
@@ -1487,7 +1492,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_251_english_and_romaji_sapa_napa_tapa_capa_topo_lapa_hopo_and_vietnamese_ap_op_ep_unlatch() {
         let input = "sapa napa tapa capa lapa hapa gapa dapa bapa mapa rapa topo hopo lopo bopo copo nopo dopo sopo mopo ropo bepe sepe nepe tepe depe hepe kepe mepe repe sapas sapaj napas napaj tapas tapaj capas capaj lapas lapaj hapas hapaj gapas gapaj dapas dapaj dapads dapadj bapas bapaj mapas mapaj rapas rapaj topos topoj hopos hopoj lopos lopoj bopos bopoj copos copoj nopos nopoj dopos dopoj dopods dopodj sopos sopoj mopos mopoj ropos ropoj bepes bepej sepes sepej nepes nepej tepes tepej depes depej depeds depedj hepes hepej mepes mepej repes repej"
-        let expected = "sapa napa tapa capa lapa hapa gapa dapa bapa mapa rapa topo hopo lopo bopo copo nopo dopo sopo mopo ropo bepe sepe nepe tepe depe hepe kepe mepe repe sấp sập nấp nập tấp tập cấp cập lấp lập hấp hập gấp gập dấp dập đấp đập bấp bập mấp mập rấp rập topos tộp hốp hộp lốp lộp bốp bộp cốp cộp nốp nộp dốp dộp đốp độp sốp sộp mốp mộp rốp rộp bếp bệp sếp sệp nếp nệp tếp tệp dếp dệp đếp đệp hếp hệp mếp mệp rếp rệp"
+        let expected = "sapa napa tapa capa lâp hapa gapa dapa bapa mapa rapa topo hopo lôp bopo copo nopo dopo sopo mopo ropo bepe sepe nepe tepe depe hepe kepe mepe repe sấp sập nấp nập tấp tập cấp cập lấp lập hấp hập gấp gập dấp dập đấp đập bấp bập mấp mập rấp rập topos tộp hốp hộp lốp lộp bốp bộp cốp cộp nốp nộp dốp dộp đốp độp sốp sộp mốp mộp rốp rộp bếp bệp sếp sệp nếp nệp tếp tệp dếp dệp đếp đệp hếp hệp mếp mệp rếp rệp"
         assertBuffer(input, equals: expected)
     }
 
@@ -1517,19 +1522,19 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_256_japanese_chire_chise_chife_chije_chixe_chieru_chiete_and_vietnamese_ie_unlatch() {
         let input = "chire chise chife chije chixe chieru chiete chireen chiseen chifeen chijeen chixeen chireeu chiseeu chifeeu chijeeu chixeeu chiseet chijeet chiseec chierue chietes chietej"
-        let expected = "chire chise chife chije chixe chieru chiete chiển chiến chiền chiện chiễn chiểu chiếu chiều chiệu chiễu chiết chiệt chiếc chiểu chiết chiệt"
+        let expected = "chire chise chìe chije chĩe chieru chiete chiển chiến chiền chiện chiễn chiểu chiếu chiều chiệu chiễu chiết chiệt chiếc chiểu chiết chiệt"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_257_japanese_churu_chure_churo_chusu_chuse_chuso_chujo_chuju_chufo_chufu_chuxu_chuxo_and_vietnamese_unlatch() {
         let input = "churu chure churo chusu chuse chuso chujo chuju chufo chufu chuxu chuxo churuw chuxuw churowng chusowng chujowng chufowng chuxowng chusowc chujowc"
-        let expected = "churu chure churo chusu chuse chuso chujo chuju chufo chufu chuxu chuxo chửu chữu chưởng chướng chượng chường chưỡng chước chược"
+        let expected = "churu chure churo chusu chuse chuso chujo chuju chùo chufu chũu chũo chửu chữu chưởng chướng chượng chường chưỡng chước chược"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_258_japanese_chaja_chafa_chaxa_chasa_and_vietnamese_digraph_circumflex_unlatch() {
         let input = "chaja chafa chaxa chasa chajac chajam chajan chajap chajat chajau chajay chafam chafan chafau chafay chaxam chaxan chaxau chaxay chasac chasam chasan chasap chasat chasau chasay"
-        let expected = "chaja chafa chaxa chasa chậc chậm chận chập chật chậu chậy trầm chần chầu chầy chẫm chẫn chẫu chẫyấc chấm chấn chấp chất chấu chấy".replacingOccurrences(of: "trầm", with: "chầm").replacingOccurrences(of: "chẫyấc", with: "chẫy chấc")
+        let expected = "chaja chầ chẫ chasa chậc chậm chận chập chật chậu chậy chầm chần chầu chầy chẫm chẫn chẫu chẫy chấc chấm chấn chấp chất chấu chấy"
         assertBuffer(input, equals: expected)
     }
 
@@ -1547,13 +1552,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_261_japanese_koro_boro_goro_doro_roro_horo_toro_and_vietnamese_or_unlatch() {
         let input = "koro boro goro doro roro horo moro toro soro noro moroi noroi soroi moron morons boron borom boroi gorom goron goroi dorom doron doroi rorom roron roroi horom horon horoi torom toron toroi sorom soron noron choroi chorom"
-        let expected = "koro boro goro doro roro horo moro toro soro noro moroi noroi soroi moron morons boron bổm bổi gổm gổn gổi dổm dổn dổi rổm rổn rổi hổm hổn hổi tổm tổn tổi sổm sổn nổn chổi chổm"
+        let expected = "koro bổ gổ dổ rổ hổ mổ tổ sổ nổ moroi noroi soroi moron morons boron bổm bổi gổm gổn gổi dổm dổn dổi rổm rổn rổi hổm hổn hổi tổm tổn tổi sổm sổn nổn chổi chổm"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_262_japanese_mufe_chufe_muje_chuje_and_vietnamese_free_tone_ue_unlatch() {
         let input = "mufe nufe hufe sufe tufe bufe gufe dufe rufe chufe muje nuje huje suje tuje buje guje duje ruje chuje husee hufee hujee tusee tujee dusee dujee susee chusee chujee huseenh chuseenh tuseet dujeet"
-        let expected = "mufe nufe hufe sufe tufe bufe gufe dufe rufe chufe muje nuje huje suje tuje buje guje duje ruje chuje huế huề huệ tuế tuệ duế duệ suế chuế chuệ huếnh chuếnh tuết duệt"
+        let expected = "mùe nùe hùe sùe tùe bùe gùe dùe rùe chùe muje nuje hụe suje tụe buje guje dụe ruje chuje huế huề huệ tuế tuệ duế duệ suế chuế chuệ huếnh chuếnh tuết duệt"
         assertBuffer(input, equals: expected)
     }
 
@@ -1565,7 +1570,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_264_scenario38_trilingual_chara_bara_nara_and_vietnamese_free_tone_ue_ar_or_chat() {
         let input = "Khi thiết kế chara mới lấy cảm hứng từ vườn hoa hồng bara tại thành phố nara và dạo chơi ngắm cảnh goro, họa sĩ đi chuyến tàu đêm về cố đô Huế (husee) vẫn cẩn (charan) thận dùng tẩy (taray) chỉnh lại từng bản tẩm (taram) màu phác thảo, dùng đòn bẩy (baray) sáng tạo để hạt giống nghệ thuật nẩy (naray) mầm và không để tổn (toron) hại đến tiến độ duyệt (dujeet) bản mẫu!"
-        let expected = "Khi thiết kế chara mới lấy cảm hứng từ vườn hoa hồng bara tại thành phố nara và dạo chơi ngắm cảnh goro, họa sĩ đi chuyến tàu đêm về cố đô Huế (huế) vẫn cẩn (chẩn) thận dùng tẩy (tẩy) chỉnh lại từng bản tẩm (tẩm) màu phác thảo, dùng đòn bẩy (bẩy) sáng tạo để hạt giống nghệ thuật nẩy (nẩy) mầm và không để tổn (tổn) hại đến tiến độ duyệt (duệt) bản mẫu!"
+        let expected = "Khi thiết kế chara mới lấy cảm hứng từ vườn hoa hồng bara tại thành phố nara và dạo chơi ngắm cảnh gổ, họa sĩ đi chuyến tàu đêm về cố đô Huế (huế) vẫn cẩn (chẩn) thận dùng tẩy (tẩy) chỉnh lại từng bản tẩm (tẩm) màu phác thảo, dùng đòn bẩy (bẩy) sáng tạo để hạt giống nghệ thuật nẩy (nẩy) mầm và không để tổn (tổn) hại đến tiến độ duyệt (duệt) bản mẫu!"
         assertBuffer(input, equals: expected)
     }
 
@@ -1575,13 +1580,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_265_japanese_dura_duri_chura_churi_and_vietnamese_ur_w_unlatch() {
         let input = "dura duri chura churi sura suri bura buri gura guri nura nuri duraw duriw churaw churiw suraw buraw nuraw guriw"
-        let expected = "dura duri chura churi sura suri bura buri gura guri nura nuri dửa dửi chửa chửi sửa bửa nửa gửi"
+        let expected = "dủa dủi chura churi sura suri bura buri gura guri nura nuri dửa dửi chửa chửi sửa bửa nửa gửi"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_266_japanese_rese_chese_chefe_cheje_chere_cheru_and_vietnamese_e_unlatch() {
         let input = "rese chese chefe cheje chere cheru reset resets resen reseu cheset chejet chesem chesen chefen chejen cheseu chefeu chejeu cherem cheren chereu cherue"
-        let expected = "rese chese chefe cheje chere cheru reset resets rến rếu chết chệt chếm chến chền chện chếu chều chệu chểm chển chểu chểu"
+        let expected = "rế chế chề chệ chể cheru reset resets rến rếu chết chệt chếm chến chền chện chếu chều chệu chểm chển chểu chểu"
         assertBuffer(input, equals: expected)
     }
 
@@ -1599,7 +1604,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_269_scenario39_trilingual_chura_okinawa_turn_burn_and_vietnamese_free_tone_rng_chat() {
         let input = "Trong chuyến thăm thủy cung chura tại Okinawa, kỹ sư kiểm tra bộ truyền động dura trước mỗi turn chạy thử để tránh burn mạch hay gây harm cho thiết bị; cả đội luôn ủng (urng) hộ việc lập bảng (barng) theo dõi trên từng tảng (tarng) băng mỏng (morng), phòng tránh hư hỏng (horng) hoặc bỏng (borng) nhiệt khi nắng ửng (urngw) lên và giữ tinh thần chững chạc trước mọi chủng (churng) loại lỗi phát sinh!"
-        let expected = "Trong chuyến thăm thủy cung chura tại Okinawa, kỹ sư kiểm tra bộ truyền động dura trước mỗi turn chạy thử để tránh burn mạch hay gây harm cho thiết bị; cả đội luôn ủng (ủng) hộ việc lập bảng (bảng) theo dõi trên từng tảng (tảng) băng mỏng (mỏng), phòng tránh hư hỏng (hỏng) hoặc bỏng (bỏng) nhiệt khi nắng ửng (ửng) lên và giữ tinh thần chững chạc trước mọi chủng (chủng) loại lỗi phát sinh!"
+        let expected = "Trong chuyến thăm thủy cung chura tại Okinawa, kỹ sư kiểm tra bộ truyền động dủa trước mỗi turn chạy thử để tránh burn mạch hay gây harm cho thiết bị; cả đội luôn ủng (ủng) hộ việc lập bảng (bảng) theo dõi trên từng tảng (tảng) băng mỏng (mỏng), phòng tránh hư hỏng (hỏng) hoặc bỏng (bỏng) nhiệt khi nắng ửng (ửng) lên và giữ tinh thần chững chạc trước mọi chủng (chủng) loại lỗi phát sinh!"
         assertBuffer(input, equals: expected)
     }
 
@@ -1627,13 +1632,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_273_japanese_hure_ture_dure_chure_preservation_and_vietnamese_huenh_tuenh_chuenh_unlatch() {
         let input = "hure ture dure sure bure gure nure mure rure chure tureen huree turee duree churee hureenh tureenh chureenh"
-        let expected = "hure ture dure sure bure gure nure mure rure chure tureen huể tuể duể chuể huểnh tuểnh chuểnh"
+        let expected = "hủe tủe dủe sure bure gure nure mure rure chure tureen huể tuể duể chuể huểnh tuểnh chuểnh"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_274_scenario40_trilingual_goop_loom_keen_sees_toes_and_vietnamese_gop_lom_ken_sep_toet_chat() {
         let input = "Khi đọc báo cáo tổng gộp (goopj) từ nhánh main mà hệ thống CI sees trên các cây quyết định trees, anh trưởng nhóm keen với quy trình kiểm thử không để bất kỳ lỗi nào lồm (loomf) cồm hay lộm (loomj) cộm xuất hiện, nhắc nhở đội ngũ không được làm việc huểnh (hureenh) hoảng, chuểnh (chureenh) choảng, gửi tài liệu cho sếp (seesp) đúng hẹn và nở nụ cười toét (toest) miệng khi đàn sếu (seesu) cùng chim kền (keenf) kền bay qua bầu trời chuyến đi hure tại Nhật!"
-        let expected = "Khi đọc báo cáo tổng gộp (gộp) từ nhánh main mà hệ thống CI sees trên các cây quyết định trees, anh trưởng nhóm keen với quy trình kiểm thử không để bất kỳ lỗi nào lồm (lồm) cồm hay lộm (lộm) cộm xuất hiện, nhắc nhở đội ngũ không được làm việc huểnh (huểnh) hoảng, chuểnh (chuểnh) choảng, gửi tài liệu cho sếp (sếp) đúng hẹn và nở nụ cười toét (toét) miệng khi đàn sếu (sếu) cùng chim kền (kền) kền bay qua bầu trời chuyến đi hure tại Nhật!"
+        let expected = "Khi đọc báo cáo tổng gộp (gộp) từ nhánh main mà hệ thống CI sees trên các cây quyết định trees, anh trưởng nhóm keen với quy trình kiểm thử không để bất kỳ lỗi nào lồm (lồm) cồm hay lộm (lộm) cộm xuất hiện, nhắc nhở đội ngũ không được làm việc huểnh (huểnh) hoảng, chuểnh (chuểnh) choảng, gửi tài liệu cho sếp (sếp) đúng hẹn và nở nụ cười toét (toét) miệng khi đàn sếu (sếu) cùng chim kền (kền) kền bay qua bầu trời chuyến đi hủe tại Nhật!"
         assertBuffer(input, equals: expected)
     }
 
@@ -1825,7 +1830,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_302_japanese_tura_chura_hura_sura_and_english_vary_chose_those_with_vietnamese_unlatch() {
         let input = "tura turan turana turaya chura churana churaya hura hurana sura surana vary varya chose chosen choset those thoset"
-        let expected = "tura turan tuẩn tuẩy chura chuẩn chuẩy hura huẩn sura suẩn vary vẩy chose chosen choét those thoét"
+        let expected = "tủa tuản tuẩn tuẩy chura chuẩn chuẩy hủa huẩn sura suẩn vary vẩy chose chosen choét those thoét"
         assertBuffer(input, equals: expected)
     }
 
@@ -1865,7 +1870,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_308_japanese_tura_chura_hura_sura_deso_daru_dasu_and_vietnamese_uang_delayed_d_unlatch() {
         let input = "tura turanga chura churanga hura huranga sura suranga deso desod daru darud dasu dasud"
-        let expected = "tura tuẩng chura chuẩng hura huẩng sura suẩng deso đéo daru đảu dasu đáu"
+        let expected = "tủa tuẩng chura chuẩng hủa huẩng sura suẩng deso đéo daru đảu dasu đáu"
         assertBuffer(input, equals: expected)
     }
 
@@ -1933,7 +1938,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_318_english_and_romaji_giro_gifu_giju_gire_gise_and_vietnamese_ue_coda_e_unlatch() {
         let input = "giro giroi giroa giroe giroo girow girom giron girong giroio girono gironw giromo giromw gifu gifua gifuw gifui gifuy gifum gifun gifung gifunw gifumw giju gijua gijuw gijui gijuy gijum gijun gijuc gijup gijut gijung gijutw gijucw gire gireo gise giseo tues tuesne tuesme tueste tuespe tufe tufene tufeme ture tureen tureens turene tureme tuje tujene tujeme chuse chusene chufe chufene chure churene chuje chujene duse dusene dufe dufene dure durene duje dujene huse husene hufe hufene hure hurene huje hujene lure lurene luxe luxene suse susene sufe sufene sure surely surene suje sujene use used user users usene useme usete usepe ure ureshii urene ureme"
-        let expected = "giro giỏi giỏa giỏe giổ giở giỏm giỏn giỏng giổi giổn giởn giổm giởm gifu giùa giừ giùi giùy giùm giùn giùng giừn giừm giju giụa giự giụi giụy giụm giụn giục giụp giụt giụng giựt giực gire giẻo gise giéo tues tuến tuếm tuết tuếp tufe tuền tuềm ture tureen tureens tuển tuểm tuje tuện tuệm chuse chuến chufe chuền chure chuển chuje chuện duse duến dufe duền dure duển duje duện huse huến hufe huền hure huển huje huện lure luển luxe luễn suse suến sufe suền sure surely suển suje suện use used user users uến uếm uết uếp ure ureshii uển uểm"
+        let expected = "giro giỏi giỏa giỏe giổ giở giỏm giỏn giỏng giổi giổn giởn giổm giởm gifu giùa giừ giùi giùy giùm giùn giùng giừn giừm giju giụa giự giụi giụy giụm giụn giục giụp giụt giụng giựt giực gire giẻo gise giéo tues tuến tuếm tuết tuếp tùe tuền tuềm tủe tureen tureens tuển tuểm tụe tuện tuệm chuse chuến chùe chuền chure chuển chuje chuện dúe duến dùe duền dủe duển dụe duện húe huến hùe huền hủe huển hụe huện lure luển luxe luễn suse suến sùe suền sure surely suển suje suện use used user users uến uếm uết uếp ure ureshii uển uểm"
         assertBuffer(input, equals: expected)
     }
 
@@ -1955,7 +1960,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_321_english_and_romaji_dodos_dadas_deeds_coda_and_delayed_d_unlatch() {
         let input = "dodos dodosi dodosm dodosn dodosng dodosc dodosp dodost dadas dadasu dadasy dadasm dadasn dadasng dadasc dadasp dadast deeds deedsu deedsm deedsn deedsnh deedsch deedsp deedst daasu daasud datas datasd dawns dawnsd downs downsd darns darnsd deems deemsd dense densed dojos dojosd dooms doomsd donors donorsd dura durad duri durid dorm dormd"
-        let expected = "dodos đối đốm đốn đống đốc đốp đốt dadas đấu đấy đấm đấn đấng đấc đấp đất deeds đếu đếm đến đếnh đếch đếp đết daasu đấu datas đất dawns đắn downs đớn darns đán deems đếm dense đến dojos đố dooms đốm donors đốn dura đủa duri đủi dorm đỏm"
+        let expected = "dodos đối đốm đốn đống đốc đốp đốt dadas đấu đấy đấm đấn đấng đấc đấp đất deeds đếu đếm đến đếnh đếch đếp đết daasu đấu datas đất dawns đắn downs đớn darns đán deems đếm dense đến dojos đố dooms đốm donors đốn dủa đủa dủi đủi dorm đỏm"
         assertBuffer(input, equals: expected)
     }
 
@@ -1995,7 +2000,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_327_romaji_bura_chura_dura_gura_hura_mura_nura_rura_sura_tura_and_vietnamese_uay_uam_uan_unlatch() {
         let input = "bura buraa buraay buraam buraan burama burana chura churaa churaay churaam churaan churama churana dura duraa duraay duraam duraan durama durana duraayd duramad duranad gura guraa guraay guraam guraan gurama gurana hura huraa huraay huraam huraan hurama hurana mura muraa muraay muraam muraan murama murana nura nuraa nuraay nuraam nuraan nurama nurana rura ruraa ruraay ruraam ruraan rurama rurana sura suraa suraay suraam suraan surama surana tura turaa turaay turaam turaan turama turana"
-        let expected = "bura buẩ buẩy buẩm buẩn buẩm buẩn chura chuẩ chuẩy chuẩm chuẩn chuẩm chuẩn dura duẩ duẩy duẩm duẩn duẩm duẩn đuẩy đuẩm đuẩn gura guẩ guẩy guẩm guẩn guẩm guẩn hura huẩ huẩy huẩm huẩn huẩm huẩn mura muẩ muẩy muẩm muẩn muẩm muẩn nura nuẩ nuẩy nuẩm nuẩn nuẩm nuẩn rura ruẩ ruẩy ruẩm ruẩn ruẩm ruẩn sura suẩ suẩy suẩm suẩn suẩm suẩn tura tuẩ tuẩy tuẩm tuẩn tuẩm tuẩn"
+        let expected = "bura buẩ buẩy buẩm buẩn buẩm buẩn chura chuẩ chuẩy chuẩm chuẩn chuẩm chuẩn dủa duẩ duẩy duẩm duẩn duẩm duẩn đuẩy đuẩm đuẩn gura guẩ guẩy guẩm guẩn guẩm guẩn hủa huẩ huẩy huẩm huẩn huẩm huẩn mura muẩ muẩy muẩm muẩn muẩm muẩn nura nuẩ nuẩy nuẩm nuẩn nuẩm nuẩn rura ruẩ ruẩy ruẩm ruẩn ruẩm ruẩn sura suẩ suẩy suẩm suẩn suẩm suẩn tủa tuẩ tuẩy tuẩm tuẩn tuẩm tuẩn"
         assertBuffer(input, equals: expected)
     }
 
@@ -2059,7 +2064,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_337_romaji_gifi_gisi_giji_preservation_and_vietnamese_gim_gin_ginh_gic_gich_gip_git_unlatch() {
         let input = "gifi gifim gifin gifinh gisi gisim gisin gisinh gisic gisich gisip gisit giji gijim gijin gijinh gijic gijich gijip gijit"
-        let expected = "gifi giìm giìn giình gisi giím giín giính giíc giích giíp giít giji giịm giịn giịnh giịc giịch giịp giịt"
+        let expected = "giì giìm giìn giình gisi giím giín giính giíc giích giíp giít giji giịm giịn giịnh giịc giịch giịp giịt"
         assertBuffer(input, equals: expected)
     }
 
@@ -2081,13 +2086,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_340_romaji_dufo_duro_duso_duxo_dujo_duru_dusu_dufu_duju_delayed_d_unlatch() {
         let input = "dufo dufodw dufodngw dufongd dufongdw dufoidw dufoido duro durodw durodngw durongd durongdw duroidw duroido duso dusodw dusodcw dusocdw dusocdo dusoidw dusoido dusotdw dusotdo dujo dujodw dujodcw dujocdw dujocdo dujoidw dujoido dujotdw dujotdo duru durudw dusu dusudw dufu dufudw duju dujudw"
-        let expected = "dufo đườ đường đường đường đười đuồi duro đưở đưởng đưởng đưởng đưởi đuổi duso đướ đước đước đuốc đưới đuối đướt đuốt dujo đượ được được thuộc đượi đuội đượt đuột duru đửu dusu đứu dufu đừu duju đựu".replacingOccurrences(of: "thuộc", with: "đuộc")
+        let expected = "dùo đườ đường đường đường đười đuồi dủo đưở đưởng đưởng đưởng đưởi đuổi dúo đướ đước đước đuốc đưới đuối đướt đuốt dụo đượ được được đuộc đượi đuội đượt đuột dủu đửu dúu đứu dùu đừu dụu đựu"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_341_romaji_dife_dise_dije_dire_delayed_d_ie_unlatch() {
         let input = "dife difede difedm difedn difedue difeude dise disede disedm disedn disedc disedp disedt disedue diseude dije dijede dijedm dijedn dijedc dijedp dijedt dijedue dijeude dire diremd dirend direude"
-        let expected = "dife điề điềm điền điều điều dise điế điếm điến điếc điếp điết điếu điếu dije điệ điệm điện điệc điệp điệt điệu điệu dire điểm điển điểu"
+        let expected = "dìe điề điềm điền điều điều díe điế điếm điến điếc điếp điết điếu điếu dịe điệ điệm điện điệc điệp điệt điệu điệu dire điểm điển điểu"
         assertBuffer(input, equals: expected)
     }
 
@@ -2115,13 +2120,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_345_romaji_du_a_du_i_delayed_d_unlatch_and_soaps_preservation() {
         let input = "dura duradw duri durid duridw dusa dusadw dufa dufadw duxa duxadw duja dujadw duranda dusanda dufanda duxanda dujanda dusatda dujatda durayda dusayda dufayda duxayda dujayda soaps soapsw"
-        let expected = "dura đửa duri đủi đửi dúa đứa dùa đừa dũa đữa dụa đựa đuẩn đuấn đuần đuẫn đuận đuất đuật đuẩy đuấy đuầy đuẫy đuậy soaps soắp"
+        let expected = "dủa đửa dủi đủi đửi dúa đứa dùa đừa dũa đữa dụa đựa đuẩn đuấn đuần đuẫn đuận đuất đuật đuẩy đuấy đuầy đuẫy đuậy soaps soắp"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_346_romaji_du_e_di_e_delayed_d_before_final_e_unlatch() {
         let input = "dufe dufede dufende dure durede durende duse dusede dusende dusetde duje dujede dujende dujetde dues duesde duesnde duestde dire direde dirende diremde difende difemde disende disemde disetde disepde disecde dijende dijemde dijetde dijepde dijecde"
-        let expected = "dufe đuề đuền dure đuể đuển duse đuế đuến đuết duje đuệ đuện đuệt dues đuế đuến đuết dire điể điển điểm điền điềm điến điếm điết điếp điếc điện điệm điệt điệp điệc"
+        let expected = "dùe đuề đuền dủe đuể đuển dúe đuế đuến đuết dụe đuệ đuện đuệt dues đuế đuến đuết dire điể điển điểm điền điềm điến điếm điết điếp điếc điện điệm điệt điệp điệc"
         assertBuffer(input, equals: expected)
     }
 
@@ -2183,13 +2188,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_355_romaji_coro_cofo_coso_cojo_w_unlatch_and_preservation() {
         let input = "moro morow morown morowm horo horow horown horowm toro torow torown torowm soro sorow sorown noro norow norown doro dorow dorowd dorowdn hofo hofow hofown hofowm sofo sofow sofown tofo tofow tofowm mofo mofow mofowm dofo dofow dofowd dofowdm hoso hosow hosown hosowt hosowp toso tosow tosown tosowt tosowp soso sosow sosown sosowm moso mosow mosown mosowm dojo dojow dojowd dojowdn dojowdt dojowdp hojo hojow hojowt hojowp sojo sojow sojowm tojo tojow bojo bojow bojowm bojowp"
-        let expected = "moro mở mởn mởm horo hở hởn hởm toro tở tởn tởm soro sở sởn noro nở nởn doro dở đở đởn hofo hờ hờn hờm sofo sờ sờn tofo tờ tờm mofo mờ mờm dofo dờ đờ đờm hoso hớ hớn hớt hớp toso tớ tớn tớt tớp soso sớ sớn sớm moso mớ mớn mớm dojo dợ đợ đợn đợt đợp hojo hợ hợt hợp sojo sợ sợm tojo tợ bojo bợ bợm bợp"
+        let expected = "mổ mở mởn mởm hổ hở hởn hởm tổ tở tởn tởm sổ sở sởn nổ nở nởn dổ dở đở đởn hồ hờ hờn hờm sồ sờ sờn tồ tờ tờm mồ mờ mờm dồ dờ đờ đờm hố hớ hớn hớt hớp tố tớ tớn tớt tớp số sớ sớn sớm mố mớ mớn mớm dojo dợ đợ đợn đợt đợp hộ hợ hợt hợp sộ sợ sợm tộ tợ bộ bợ bợm bợp"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_356_romaji_cara_casa_cafa_caja_w_unlatch_and_preservation() {
         let input = "mara maraw marawn marawng hara haraw harawn harawng sara saraw sarawn tara taraw tarawn nara naraw narawn dara daraw darawd darawdn chara charaw charawn charawng masa masaw masawn masawng masawt masawc nasa nasaw nasawn nasawng sasa sasaw sasawn sasawt sasawc tasa tasaw tasawt dasa dasawd dasawdn dasawdng dasawdt dafa dafawd dafawdn dafawdng dafawdm maja majawt majawc naja najawng daja dajawd dajawdn dajawdng dajawdt dajawdc dajawdp"
-        let expected = "mara mẳ mẳn mẳng hara hẳ hẳn hẳng sara sẳ sẳn tara tẳ tẳn nara nẳ nẳn dara dẳ đẳ đẳn chara chẳ chẳn chẳng masa mắ mắn mắng mắt mắc nasa nắ nắn nắng sasa sắ sắn sắt sắc tasa tắ tắt dasa đắ đắn đắng đắt dafa đằ đằn đằng đằm maja mặt mặc naja nặng daja đặ đặn đặng đặt đặc đặp"
+        let expected = "mara mẳ mẳn mẳng hara hẳ hẳn hẳng sara sẳ sẳn tara tẳ tẳn nara nẳ nẳn dara dẳ đẳ đẳn chara chẳ chẳn chẳng masa mắ mắn mắng mắt mắc nasa nắ nắn nắng sasa sắ sắn sắt sắc tasa tắ tắt dasa đắ đắn đắng đắt dầ đằ đằn đằng đằm maja mặt mặc naja nặng daja đặ đặn đặng đặt đặc đặp"
         assertBuffer(input, equals: expected)
     }
 
@@ -2661,7 +2666,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_426_vietnamese_collocation_phrases_tui_mui_rui_hui_sui_rai_sao_biu_biu_niu_riu_riu_niu() {
         let input = "turi buoonf turi ngaamj nguif turi thaan muri thaays muri longf chanhj longf muri longf ruri may ruri xui ruri vaanj ruri huri hawts huri beenhj huri suri vieen suri thuoocs suri awn suri caro rari muwa rari racs nawmf rari racs saso chim saso thooir saso tieengs saso biru def biru chee bai def biru biju baanj biju vuwowngs biju niju nungx niju hay nungx niju riju raauf riju buoonf raauf riju risu lius risu roonj risu nisu bams nisu giuwx nisu"
-        let expected = "turi buồn tủi ngậm ngùi tủi thân muri thấy mủi lòng chạnh lòng mủi lòng ruri may rủi xui rủi vận rủi huri hắt hủi bệnh hủi suri viên sủi thuốc sủi ăn sủi cảo rari mưa rải rác nằm rải rác saso chim sáo thổi sáo tiếng sáo biru dè bỉu chê bai dè bỉu biju bận bịu vướng bịu niju nũng nịu hay nũng nịu riju rầu rịu buồn rầu rịu risu líu ríu rộn ríu nisu bám níu giữ níu"
+        let expected = "tủi buồn tủi ngậm ngùi tủi thân muri thấy mủi lòng chạnh lòng mủi lòng ruri may rủi xui rủi vận rủi hủi hắt hủi bệnh hủi suri viên sủi thuốc sủi ăn sủi cảo rari mưa rải rác nằm rải rác saso chim sáo thổi sáo tiếng sáo biru dè bỉu chê bai dè bỉu biju bận bịu vướng bịu niju nũng nịu hay nũng nịu riju rầu rịu buồn rầu rịu risu líu ríu rộn ríu nisu bám níu giữ níu"
         assertBuffer(input, equals: expected)
     }
 
@@ -2673,7 +2678,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_428_romaji_uri_iru_isu_ifu_iju_aru_asu_tone_override_unlatch() {
         let input = "muri murif muris murix murij suri surif suris surix surij turi turif turis turix turij nuri nurif nuris nurix nurij buri burif buris burix burij duri durif duris durix durij huri hurif huris hurix hurij ruri rurif ruris rurix rurij churi churif churis churix churij biru biruf birus birux biruj miru miruf mirus mirux miruj niru niruf nirus nirux niruj chiru chiruf chirus chirux chiruj risu risuf risur risux risuj nisu nisuf nisur nisux nisuj misu misuf misur misux misuj hisu hisuf hisur hisux hisuj biju bijuf bijus bijur bijux niju nijuf nijus nijur nijux riju rijuf rijus rijur rijux haru haruf harus harux haruj maru maruf marus marux maruj taru taruf tarus tarux taruj baru baruf barus barux baruj basu basuf basur basux basuj sasu sasuf sasur sasux sasuj nasu nasuf nasur nasux nasuj tasu tasuf tasur tasux tasuj"
-        let expected = "muri mùi múi mũi mụi suri sùi súi sũi sụi turi tùi túi tũi tụi nuri nùi núi nũi nụi buri bùi búi bũi bụi duri dùi dúi dũi dụi huri hùi húi hũi hụi ruri rùi rúi rũi rụi churi chùi chúi chũi chụi biru bìu bíu bĩu bịu miru mìu míu mĩu mịu niru nìu níu nĩu nịu chiru chìu chíu chĩu chịu risu rìu rỉu rĩu rịu nisu nìu nỉu nĩu nịu misu mìu mỉu mĩu mịu hisu hìu hỉu hĩu hịu biju bìu bíu bỉu bĩu niju nìu níu nỉu nĩu riju rìu ríu rỉu rĩu haru hàu háu hãu hạu maru màu máu mãu mạu taru tàu táu tãu tạu baru bàu báu bãu bạu basu bàu bảu bãu bạu sasu sàu sảu sãu sạu nasu nàu nảu nãu nạu tasu tàu tảu tãu tạu"
+        let expected = "muri mùi múi mũi mụi suri sùi súi sũi sụi tủi tùi túi tũi tụi nuri nùi núi nũi nụi buri bùi búi bũi bụi dủi dùi dúi dũi dụi hủi hùi húi hũi hụi ruri rùi rúi rũi rụi churi chùi chúi chũi chụi biru bìu bíu bĩu bịu miru mìu míu mĩu mịu niru nìu níu nĩu nịu chiru chìu chíu chĩu chịu risu rìu rỉu rĩu rịu nisu nìu nỉu nĩu nịu misu mìu mỉu mĩu mịu hisu hìu hỉu hĩu hịu biju bìu bíu bỉu bĩu niju nìu níu nỉu nĩu riju rìu ríu rỉu rĩu haru hàu háu hãu hạu maru màu máu mãu mạu taru tàu táu tãu tạu baru bàu báu bãu bạu basu bàu bảu bãu bạu sasu sàu sảu sãu sạu nasu nàu nảu nãu nạu tasu tàu tảu tãu tạu"
         assertBuffer(input, equals: expected)
     }
 
@@ -2689,25 +2694,25 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_430_vietnamese_medial_tone_goa_noan_and_oa_ua_e_o_collocations() {
         let input = "gosa baf gosa owr gosa noxan caauf nora norax noraxn tosa chayj tosa bawns tosa lora tawms lora bura vaay bura giawng bura tura mocj tua tura gai tua tura kere nghe kere baats kere ddangs kere bere bowi bere boons bere nere kinhs nere trongj nere rere con rere changf rere horo con horo xaaus horo toro chim toro gioox toro soro cuoons soro cuwar soro noro chays noro bungf noro moro ca moro banf moro boro booif boro thuoocs boro hofo mawtj hofo bowf hofo bofo chim bofo caau"
-        let expected = "gosa bà góa ở góa noãn cầu nora nõa noãn tosa chạy tóa bắn tóa lora tắm lỏa bura vây bủa giăng bủa tura mọc tua tủa gai tua tủa kere nghe kể bất kể đáng kể bere bơi bể bốn bể nere kính nể trọng nể rere con rể chàng rể horo con hổ xấu hổ toro chim tổ giỗ tổ soro cuốn sổ cửa sổ noro cháy nổ bùng nổ moro ca mổ bàn mổ boro bồi bổ thuốc bổ hofo mặt hồ bờ hồ bofo chim bồ câu"
+        let expected = "gosa bà góa ở góa noãn cầu nora nõa noãn tosa chạy tóa bắn tóa lora tắm lỏa bura vây bủa giăng bủa tủa mọc tua tủa gai tua tủa kể nghe kể bất kể đáng kể bể bơi bể bốn bể nể kính nể trọng nể rể con rể chàng rể hổ con hổ xấu hổ tổ chim tổ giỗ tổ sổ cuốn sổ cửa sổ nổ cháy nổ bùng nổ mổ ca mổ bàn mổ bổ bồi bổ thuốc bổ hồ mặt hồ bờ hồ bồ chim bồ câu"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_431_romaji_ura_ora_osa_sofa_tone_override_unlatch() {
         let input = "mura muraf muras murax muraj hura huraf huras hurax huraj sura suraf suras surax suraj tura turaf turas turax turaj nura nuraf nuras nurax nuraj bura buraf buras burax buraj gura guraf guras gurax guraj dura duraf durafd duras durasd durax duraxd duraj durajd rura ruraf ruras rurax ruraj chura churaf churas churax churaj sora soraf soras sorax soraj lora loraf loras lorax loraj dora doraf dorafd doras dorasd dorax doraxd doraj dorajd sosa sosaf sosar sosax sosaj tosa tosaf tosar tosax tosaj dosa dosaf dosafd dosar dosard dosax dosaxd dosaj dosajd sofa sofar sofax sofaj"
-        let expected = "mura mùa múa mũa mụa hura hùa húa hũa hụa sura sùa súa sũa sụa tura tùa túa tũa tụa nura nùa núa nũa nụa bura bùa búa bũa bụa gura gùa gúa gũa gụa dura dùa đùa dúa đúa dũa đũa dụa đụa rura rùa rúa rũa rụa chura chùa chúa chũa chụa sora sòa sóa sõa sọa lora lòa lóa lõa lọa dora dòa đòa dóa đóa dõa đõa dọa đọa sosa sòa sỏa sõa sọa tosa tòa tỏa tõa tọa dosa dòa đòa dỏa đỏa dõa đõa dọa đọa sofa sỏa sõa sọa"
+        let expected = "mura mùa múa mũa mụa hủa hùa húa hũa hụa sura sùa súa sũa sụa tủa tùa túa tũa tụa nura nùa núa nũa nụa bura bùa búa bũa bụa gura gùa gúa gũa gụa dủa dùa đùa dúa đúa dũa đũa dụa đụa rura rùa rúa rũa rụa chura chùa chúa chũa chụa sora sòa sóa sõa sọa lora lòa lóa lõa lọa dora dòa đòa dóa đóa dõa đõa dọa đọa sosa sòa sỏa sõa sọa tosa tòa tỏa tõa tọa dosa dòa đòa dỏa đỏa dõa đõa dọa đọa sofa sỏa sõa sọa"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_432_romaji_coro_coso_cofo_cojo_coxo_tone_override_unlatch() {
         let input = "horo horof horox horoj moro morof morox moroj toro torof torox toroj soro sorof sorox soroj noro norof norox noroj boro borof borox boroj goro gorof gorox goroj doro dorof dorofd dorox doroxd doroj dorojd roro rorof rorox roroj hoso hosof hosor hosox hosoj toso tosof tosor tosox tosoj moso mosof mosor mosox mosoj noso nosof nosor nosox nosoj hofo hofos hofor hofox hofoj bofo bofos bofor bofox bofoj tofo tofos tofor tofox tofoj dofo dofos dofosd dofor doford dofox dofoxd dofoj dofojd"
-        let expected = "horo hồ hỗ hộ moro mồ mỗ mộ toro tồ tỗ tộ soro sồ sỗ sộ noro nồ nỗ nộ boro bồ bỗ bộ goro gồ gỗ gộ doro dồ đồ dỗ đỗ dộ độ roro rồ rỗ rộ hoso hồ hổ hỗ hộ toso tồ tổ tỗ tộ moso mồ mổ mỗ mộ noso nồ nổ nỗ nộ hofo hố hổ hỗ hộ bofo bố bổ bỗ bộ tofo tố tổ tỗ tộ dofo dố đố dổ đổ dỗ đỗ dộ độ"
+        let expected = "hổ hồ hỗ hộ mổ mồ mỗ mộ tổ tồ tỗ tộ sổ sồ sỗ sộ nổ nồ nỗ nộ bổ bồ bỗ bộ gổ gồ gỗ gộ dổ dồ đồ dỗ đỗ dộ độ rổ rồ rỗ rộ hố hồ hổ hỗ hộ tố tồ tổ tỗ tộ mố mồ mổ mỗ mộ nố nồ nổ nỗ nộ hồ hố hổ hỗ hộ bồ bố bổ bỗ bộ tồ tố tổ tỗ tộ dồ dố đố dổ đổ dỗ đỗ dộ độ"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_433_romaji_cere_cese_cefe_ceje_tone_override_unlatch_and_english_preservation() {
         let input = "tere teref terex terej kere keref kerex kerej nere neref nerex nerej bere beref berex berej dere deref derefd derex derexd derej derejd rere reref rerex rerej chere cheref cherex cherej tese tesef teser tesex tesej kese kesef keser kesex kesej mese mesef meser mesex mesej nese nesef neser nesex nesej hese hesef heser hesex hesej sese sesef seser sesex sesej bese besef beser besex besej dese desef desefd desex desexd desej desejd rese resef resex resej chese chesef cheser chesex chesej kefe kefes kefer kefex kefej defe defes defesd defex defexd defej defejd defer defers refer refers reset beset"
-        let expected = "tere tề tễ tệ kere kề kễ kệ nere nề nễ nệ bere bề bễ bệ dere dề đề dễ đễ dệ đệ rere rề rễ rệ chere chề chễ chệ tese tề tể tễ tệ kese kề kể kễ kệ mese mề mể mễ mệ nese nề nể nễ nệ hese hề hể hễ hệ sese sề sể sễ sệ bese bề bể bễ bệ dese dề đề dễ đễ dệ đệ rese rề rễ rệ chese chề chể chễ chệ kefe kế kể kễ kệ defe dế đế dễ đễ dệ đệ defer defers refer refers reset beset"
+        let expected = "tể tề tễ tệ kể kề kễ kệ nể nề nễ nệ bể bề bễ bệ dể dề đề dễ đễ dệ đệ rể rề rễ rệ chể chề chễ chệ tế tề tể tễ tệ kế kề kể kễ kệ mế mề mể mễ mệ nế nề nể nễ nệ hế hề hể hễ hệ sế sề sể sễ sệ bế bề bể bễ bệ dế dề đề dễ đễ dệ đệ rế rề rễ rệ chế chề chể chễ chệ kề kế kể kễ kệ dề dế đế dễ đễ dệ đệ defer defers refer refers reset beset"
         assertBuffer(input, equals: expected)
     }
 
@@ -2723,31 +2728,31 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_435_vietnamese_collocation_phrases_te_ke_be_ne_he_te_be_ke_te_he_ke() {
         let input = "tese kinh tese quoocs tese thuwcj tese y tese kese thieets kese thoongs kese nhieetj kese bese mej bese boongf bese leex bese nefe nawngj nefe thowj nefe hefe khoong hefe chawrng hefe chus hefe tefe chinhr tefe befe boonj befe boons befe kefe caanj kefe lieenf kefe teje tieenf teje tooif teje heje thees heje quan heje lieen heje keje mawcj keje gias keje tur keje"
-        let expected = "tese kinh tế quốc tế thực tế y tế kese thiết kế thống kế nhiệt kế bese mẹ bế bồng bế lễ bế nefe nặng nề thợ nề hefe không hề chẳng hề chú hề tefe chỉnh tề befe bộn bề bốn bề kefe cận kề liền kề teje tiền tệ tồi tệ heje thế hệ quan hệ liên hệ keje mặc kệ giá kệ tủ kệ"
+        let expected = "tế kinh tế quốc tế thực tế y tế kế thiết kế thống kế nhiệt kế bế mẹ bế bồng bế lễ bế nề nặng nề thợ nề hề không hề chẳng hề chú hề tề chỉnh tề bề bộn bề bốn bề kề cận kề liền kề tệ tiền tệ tồi tệ hệ thế hệ quan hệ liên hệ kệ mặc kệ giá kệ tủ kệ"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_436_vietnamese_collocation_phrases_ho_to_so_ro_mo_to_so_ho_bo_no_go() {
         let input = "hoso cais hoso mieengj hoso ddaof hoso toso yeeus toso nguyeen toso baox toso soso con soso chuwx soso taanf soso chir soso daan soso rofo ddieen rofo phats rofo mofo naams mofo ddoor mofo hooi tofo ngaay tofo gaf tofo sofo beos sofo to sofo hojo baor hojo cuwus hojo cawn hojo ungr hojo bojo ddi bojo chayj bojo cans bojo toanf bojo tieens bojo nojo phaanx nojo thinhj nojo goxo caay goxo banf goxo nhaf goxo ddoof goxo"
-        let expected = "hoso cái hố miệng hố đào hố toso yếu tố nguyên tố bão tố soso con số chữ số tần số chỉ số dân số rofo điên rồ phát rồ mofo nấm mồ đổ mồ hôi tofo ngây tồ gà tồ sofo béo sồ to sồ hojo bảo hộ cứu hộ căn hộ ủng hộ bojo đi bộ chạy bộ cán bộ toàn bộ tiến bộ nojo phẫn nộ thịnh nộ goxo cây gỗ bàn gỗ nhà gỗ đồ gỗ"
+        let expected = "hố cái hố miệng hố đào hố tố yếu tố nguyên tố bão tố số con số chữ số tần số chỉ số dân số rồ điên rồ phát rồ mồ nấm mồ đổ mồ hôi tồ ngây tồ gà tồ sồ béo sồ to sồ hộ bảo hộ cứu hộ căn hộ ủng hộ bộ đi bộ chạy bộ cán bộ toàn bộ tiến bộ nộ phẫn nộ thịnh nộ gỗ cây gỗ bàn gỗ nhà gỗ đồ gỗ"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_437_romaji_cara_casa_cafa_caja_caxa_tone_override_and_coda_unlatch() {
         let input = "mara marafm marafn maraxn marajp hara harafm harafn harajn sara sarafm sarafn sarajp tara tarafm tarafn tarafng tarajn tarajp tarajt dara darafm darafmd darafn darafnd daraxn daraxnd darajm darajmd darajn darajnd darajp darajpd darajt darajtd masa masafm masafn masajp tasa tasafm tasafn tasajp tasajt basa basafm basarm basajp dasa dasafm dasafmd dasarm dasarmd dasajp dasajpd mafa mafasm mafarn mafajp tafa tafasm tafarn tafajp tafajt maja majafm majasm majarn maxa maxafm maxasm maxarn maxajp charas sasaru nasaru masaru tasaru hasaru"
-        let expected = "mara mầm mần mẫn mập hara hầm hần hận sara sầm sần sập tara tầm tần tầng tận tập tật dara dầm đầm dần đần dẫn đẫn dậm đậm dận đận dập đập dật đật masa mầm mần mập tasa tầm tần tập tật basa bầm bẩm bập dasa dầm đầm dẩm đẩm dập đập mafa mấm mẩn mập tafa tấm tẩn tập tật maja mầm mấm mẩn maxa mầm mấm mẩn mập charas sasaru nasaru masaru tasaru hasaru"
+        let expected = "mara mầm mần mẫn mập hara hầm hần hận sara sầm sần sập tara tầm tần tầng tận tập tật dara dầm đầm dần đần dẫn đẫn dậm đậm dận đận dập đập dật đật masa mầm mần mập tasa tầm tần tập tật basa bầm bẩm bập dasa dầm đầm dẩm đẩm dập đập mầ mấm mẩn mập tầ tấm tẩn tập tật maja mầm mấm mẩn mẫ mầm mấm mẩn mập charas sasaru nasaru masaru tasaru hasaru"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_438_romaji_cojo_coxo_ceje_chefe_and_english_honor_donor_tone_override_unlatch() {
         let input = "nojo nojos nojof nojor nojox hojo hojos hojof hojor hojox sojo sojos sojof sojor sojox tojo tojos tojof tojor tojox bojo bojos bojof bojor bojox gojo gojos gojof gojor gojox dojo dojof dojofd dojor dojord dojox dojoxd dojos rojos moxo moxos moxof moxor moxoj doxo doxos doxosd doxof doxofd doxor doxord doxoj doxojd keje kejes kejef kejer kejex teje tejes tejef tejer tejex deje dejes dejesd dejef dejefd dejer dejerd dejex dejexd cheje chejes chejef chejer chejex honor honorf honorx honorj donor donord donorf donorfd donorx donorxd donorj donorjd"
-        let expected = "nojo nố nồ nổ nỗ hojo hố hồ hổ hỗ sojo số sồ sổ sỗ tojo tố tồ tổ tỗ bojo bố bồ bổ bỗ gojo gố gồ gổ gỗ dojo dồ đồ dổ đổ dỗ đỗ dojos rojos moxo mố mồ mổ mộ doxo dố đố dồ đồ dổ đổ dộ độ keje kế kề kể kễ teje tế tề tể tễ deje dế đế dề đề dể để dễ đễ cheje chế chề chể chễ honor hồn hỗn hộn donor đổn dồn đồn dỗn đỗn dộn độn"
+        let expected = "nộ nố nồ nổ nỗ hộ hố hồ hổ hỗ sộ số sồ sổ sỗ tộ tố tồ tổ tỗ bộ bố bồ bổ bỗ gojo gố gồ gổ gỗ dojo dồ đồ dổ đổ dỗ đỗ dojos rojos mỗ mố mồ mổ mộ dỗ dố đố dồ đồ dổ đổ dộ độ kệ kế kề kể kễ tệ tế tề tể tễ dệ dế đế dề đề dể để dễ đễ chệ chế chề chể chễ honor hồn hỗn hộn donor đổn dồn đồn dỗn đỗn dộn độn"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_439_scenario73_trilingual_gojo_soso_honor_and_vietnamese_kinh_te_thiet_ke_can_ho_cay_go_chat() {
         let input = "Dù điểm đánh giá soso nhưng mẫu thiết kế (thieets kese) căn hộ (cawn hojo) tại tầng (tarafng) cao với bàn gỗ (banf goxo) và tủ kệ (tur keje) chỉnh tề (chinhr tefe) không hề (khoong hefe) tồi tệ (tooif teje): các nhà kinh tế (kinh tese) thế hệ (thees heje) mới đánh giá toàn bộ (toanf bojo) yếu tố (yeeus toso) tần số (taanf soso) đều đạt chuẩn, xứng đáng nhận giải honor từ nhà tài trợ donor sau màn biểu diễn của gojo tại các võ đường dojos!"
-        let expected = "Dù điểm đánh giá soso nhưng mẫu thiết kế (thiết kế) căn hộ (căn hộ) tại tầng (tầng) cao với bàn gỗ (bàn gỗ) và tủ kệ (tủ kệ) chỉnh tề (chỉnh tề) không hề (không hề) tồi tệ (tồi tệ): các nhà kinh tế (kinh tế) thế hệ (thế hệ) mới đánh giá toàn bộ (toàn bộ) yếu tố (yếu tố) tần số (tần số) đều đạt chuẩn, xứng đáng nhận giải honor từ nhà tài trợ donor sau màn biểu diễn của gojo tại các võ đường dojos!"
+        let expected = "Dù điểm đánh giá số nhưng mẫu thiết kế (thiết kế) căn hộ (căn hộ) tại tầng (tầng) cao với bàn gỗ (bàn gỗ) và tủ kệ (tủ kệ) chỉnh tề (chỉnh tề) không hề (không hề) tồi tệ (tồi tệ): các nhà kinh tế (kinh tế) thế hệ (thế hệ) mới đánh giá toàn bộ (toàn bộ) yếu tố (yếu tố) tần số (tần số) đều đạt chuẩn, xứng đáng nhận giải honor từ nhà tài trợ donor sau màn biểu diễn của gojo tại các võ đường dojos!"
         assertBuffer(input, equals: expected)
     }
 
@@ -2757,25 +2762,25 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_440_vietnamese_collocation_phrases_san_han_ham_sam_hon_mon_hom_ro_ro_do_ho_no_ne_re_reo_miu() {
         let input = "sana ra sana treen sana giwax sana hana raats hana vinh hana hama bij hama lof hama sama nhaan sama hoongf sama traf sama hono keets hono ddinhs hono hoangf hono mono booj mono chuyeen mono thur mono homo chieeuf homo ddeem homo maays homo roro cais roro ddan roro roxo mawtj roxo loox roxo doxo duj doxo khuyeen doxo hoxo tuwowng hoxo cuwus hoxo noxo suwj noxo luwcj luoon noxo luwcj neje caau neje chaaps neje reje treex reje bungj reje rero manhr rero vungf rero misu baaus misu nius misu"
-        let expected = "sana ra sân trên sân giữa sân hana rất hân vinh hân hama bị hâm lò hâm sama nhân sâm hồng sâm trà sâm hono kết hôn đính hôn hoàng hôn mono bộ môn chuyên môn thủ môn homo chiều hôm đêm hôm mấy hôm roro cái rổ đan rổ roxo mặt rỗ lỗ rỗ doxo dụ dỗ khuyên dỗ hoxo tương hỗ cứu hỗ noxo sự nỗ lực luôn nỗ lực neje câu nệ chấp nệ reje trễ rệ bụng rệ rero mảnh rẻo vùng rẻo misu bấu míu níu míu"
+        let expected = "sana ra sân trên sân giữa sân hana rất hân vinh hân hama bị hâm lò hâm sama nhân sâm hồng sâm trà sâm hono kết hôn đính hôn hoàng hôn mono bộ môn chuyên môn thủ môn homo chiều hôm đêm hôm mấy hôm rổ cái rổ đan rổ rỗ mặt rỗ lỗ rỗ dỗ dụ dỗ khuyên dỗ hỗ tương hỗ cứu hỗ nỗ sự nỗ lực luôn nỗ lực nệ câu nệ chấp nệ rệ trễ rệ bụng rệ rero mảnh rẻo vùng rẻo misu bấu míu níu míu"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_441_romaji_curo_cuso_cufo_cujo_cuxo_tone_override_and_duos_unlatch() {
         let input = "turo turoswng turofwng turojwng turoswc turosoc suro suroswng surofwng muro muroswp murofwn murojwn murojwt duro durofwng durofwngd durojwcd durojotd huro huroswng hurofwng hurojwng churo churoswng churofwng churojwng churoswc churojwc tuso tusorwng tusofwng tusojwng tufo tufoswng tuforwng tufojwng tujo tujoswng tujofwng tujorwng duos duosfwngd duosrwngd duosxwngd duosjwngd duosjwcd duosfond duosjond"
-        let expected = "turo tướng tường tượng tước tuốc suro sướng sường muro mướp mườn mượn mượt duro dường đường được đuột huro hướng hường hượng churo chướng chường chượng chước chược tuso tưởng tường tượng tufo tướng tưởng tượng tujo tướng tường tưởng duos đường đưởng đưỡng đượng được đuồn đuộn"
+        let expected = "tủo tướng tường tượng tước tuốc suro sướng sường muro mướp mườn mượn mượt dủo dường đường được đuột hủo hướng hường hượng churo chướng chường chượng chước chược túo tưởng tường tượng tùo tướng tưởng tượng tụo tướng tường tưởng duos đường đưởng đưỡng đượng được đuồn đuộn"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_442_romaji_curu_cusu_cufu_cuju_cuxu_tone_override_w_unlatch() {
         let input = "turu turusw turufw turuxw turujw suru surusw surufw suruxw surujw huru hurusw hurufw huruxw hurujw churu churusw churufw churuxw churujw duru durusw durufw duruxw durujw durujwd tufu tufusw tufurw tufuxw tufujw hufu hufusw hufurw hufuxw hufujw tuju tujusw tujufw tujurw tujuxw huju hujusw hujufw hujurw hujuxw"
-        let expected = "turu tứu từu tữu tựu suru sứu sừu sữu sựu huru hứu hừu hữu hựu churu chứu chừu chữu chựu duru dứu dừu dữu dựu đựu tufu tứu tửu tữu tựu hufu hứu hửu hữu hựu tuju tứu từu tửu tữu huju hứu hừu hửu hữu"
+        let expected = "tủu tứu từu tữu tựu suru sứu sừu sữu sựu hủu hứu hừu hữu hựu churu chứu chừu chữu chựu dủu dứu dừu dữu dựu đựu tùu tứu tửu tữu tựu hùu hứu hửu hữu hựu tụu tứu từu tửu tữu hụu hứu hừu hửu hữu"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_443_romaji_giro_gifu_giju_gire_gise_tone_override_and_dure_duse_dufe_duje_delayed_d_unlatch() {
         let input = "giro giros girof girox giroj girosng girofng gifu gifus gifur gifux gifuj gifusw gifurw gifuxw gifujw giju gijus gijuf gijur gijux gijusw gijufw gijurw gijuxw gire gires giref girex girej gise gisef giser gisex gisej dure dured durede duse dused dusede dufe dufed dufede duje dujed dujede"
-        let expected = "giro gió giò giõ giọ gióng giòng gifu giú giủ giũ giụ giứ giử giữ giự giju giú giù giủ giũ giứ giừ giử giữ gire gié giè giẽ giẹ gise giè giẻ giẽ giẹ dure đủe đuể duse đúe đuế dufe đùe đuề duje đụe đuệ"
+        let expected = "giro gió giò giõ giọ gióng giòng gifu giú giủ giũ giụ giứ giử giữ giự giju giú giù giủ giũ giứ giừ giử giữ gire gié giè giẽ giẹ gise giè giẻ giẽ giẹ dủe đủe đuể dúe đúe đuế dùe đùe đuề dụe đụe đuệ"
         assertBuffer(input, equals: expected)
     }
 
@@ -2791,13 +2796,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_445_vietnamese_collocation_phrases_che_de_re_me_te_de_be_se_che_de_re_se_me_so_to_do_mo_mia_ria_dua_chui() {
         let input = "chese hanj chese cow chese pha chese tais chese dese con dese tieengs dese ddas dese bawts dese rese cais rese ddan rese roor rese mese baf mese cacs mese tere chuas tere ddoof tere moor tere dere khinh dere beje haj beje cais beje chaan beje seje chayr seje bungj seje mawtj seje cheje cheemx cheje treex cheje defe daamf defe uwowts defe refe leef refe chaamj refe sefe lownj sefe heo sefe beos sefe mefe cais mefe longf mefe sojo ddoof sojo keets sojo tojo kho tojo cas kho tojo nooif tojo dofo ngaay dofo ddieen dofo moso cais moso chaan moso misa caay misa nuwowcs misa eps misa rira cawns rira gawmj rira moor rira dura gotj dura trau dura maif dura churi luri churi"
-        let expected = "chese hạn chế cơ chế pha chế tái chế dese con dế tiếng dế đá dế bắt dế rese cái rế đan rế rổ rế mese bà mế các mế tere chúa tể đồ tể mổ tể dere khinh dể beje hạ bệ cái bệ chân bệ seje chảy sệ bụng sệ mặt sệ cheje chễm chệ trễ chệ defe dầm dề ướt dề refe lề rề chậm rề sefe lợn sề heo sề béo sề mefe cái mề lòng mề sojo đồ sộ kết sộ tojo kho tộ cá kho tộ nồi tộ dofo ngây dồ điên dồ moso cái mố chân mố misa cây mía nước mía ép mía rira cắn rỉa gặm rỉa mổ rỉa dura gọt dủa trau dủa mài dủa churi lủi chủi"
+        let expected = "chế hạn chế cơ chế pha chế tái chế dế con dế tiếng dế đá dế bắt dế rế cái rế đan rế rổ rế mế bà mế các mế tể chúa tể đồ tể mổ tể dể khinh dể bệ hạ bệ cái bệ chân bệ sệ chảy sệ bụng sệ mặt sệ chệ chễm chệ trễ chệ dề dầm dề ướt dề rề lề rề chậm rề sề lợn sề heo sề béo sề mề cái mề lòng mề sộ đồ sộ kết sộ tộ kho tộ cá kho tộ nồi tộ dồ ngây dồ điên dồ mố cái mố chân mố misa cây mía nước mía ép mía rira cắn rỉa gặm rỉa mổ rỉa dủa gọt dủa trau dủa mài dủa churi lủi chủi"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_446_delayed_circumflex_stop_coda_w_sj_and_d_sj_unlatch() {
         let input = "tata tataws tatawj mata mataws matawj sata sataws satawj nata nataws natawj hata hataws hatawj data dataws datawj datawsd datawjd datawds datawdj datad datads datadj datadws datadwj tapa tapaws tapawj sapa sapaws sapawj napa napaws napawj lapa lapaws lapawj gapa gapaws gapawj capa capaws capawj dapa dapaws dapawj dapawsd dapawjd dapad dapads dapadj dapadws dapadwj topo topows topowj hopo hopows hopowj lopo lopows lopowj bopo bopows bopowj copo copows copowj nopo nopows nopowj dopo dopowsd dopowjd dopod dopods dopodj dopodws dopodwj toto totows totowj hoto hotows hotowj boto botows botowj goto gotows gotowj doto dotowsd dotowjd dotod dotods dotodj dotodws dotodwj doco docod docods docodj dete deted deteds detedj depe deped depeds depedj dieted dieteds dietedj dueted dueteds duetedj photos photosw"
-        let expected = "tata tắt tặt mata mắt mặt sata sắt sặt nata nắt nặt hata hắt hặt data dắt dặt đắt đặt đắt đặt đât đất đật đắt đặt tapa tắp tặp sapa sắp sặp napa nắp nặp lapa lắp lặp gapa gắp gặp capa cắp cặp dapa dắp dặp đắp đặp đâp đấp đập đắp đặp topo tớp tợp hopo hớp hợp lopo lớp lợp bopo bớp bợp copo cớp cợp nopo nớp nợp dopo đớp đợp đôp đốp độp đớp đợp toto tớt tợt hoto hớt hợt boto bớt bợt goto gớt gợt doto đớt đợt đôt đốt đột đớt đợt doco đôc đốc độc dete đêt đết đệt depe đêp đếp đệp dieted điết điệt đuêt đuết đuệt photos phớt"
+        let expected = "tata tắt tặt mata mắt mặt sata sắt sặt nata nắt nặt hata hắt hặt data dắt dặt đắt đặt đắt đặt đât đất đật đắt đặt tapa tắp tặp sapa sắp sặp napa nắp nặp lâp lắp lặp gapa gắp gặp capa cắp cặp dapa dắp dặp đắp đặp đâp đấp đập đắp đặp topo tớp tợp hopo hớp hợp lôp lớp lợp bopo bớp bợp copo cớp cợp nopo nớp nợp dopo đớp đợp đôp đốp độp đớp đợp toto tớt tợt hoto hớt hợt boto bớt bợt goto gớt gợt doto đớt đợt đôt đốt đột đớt đợt doco đôc đốc độc dete đêt đết đệt depe đêp đếp đệp dieted điết điệt đuêt đuết đuệt photos phớt"
         assertBuffer(input, equals: expected)
     }
 
@@ -2809,13 +2814,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_448_romaji_cire_cise_cife_cije_cure_cuse_cufe_cuje_tone_override_unlatch() {
         let input = "kire kirese kiresen kirefen kirejen kirexen nire niresen nirefen bire biresen birefen chire chiresen chirefen chireseu chirefeu mise misefen miseren misejen misexen misefeu nise nisefem niserem nisejem tise tisefen tiseren tisejen tisexen tisefeu bise bisefen biseren bisejen hise hisefen hiseren hisejen dise disefend diserend disejend disefeud kife kifesen kiferen kifejen tife tifesen tiferen tifejen kije kijesen kijefen kijeren tije tijesen tijefen tijeren ture turese turefe turexe tureje turejech hure hurese hurefe hureje chure churese chureje churesenh churejech tuse tusere tusefe tusexe tuseje huse husere husefe huseje duse dusejed tufe tufese tufere tufeje hufe hufese hufeje tuje tujese tujefe tujere huje hujese hujefe"
-        let expected = "kire kiế kiến kiền kiện kiễn nire niến niền bire biến biền chire chiến chiền chiếu chiều mise miền miển miện miễn miều nise niềm niểm niệm tise tiền tiển tiện tiễn tiều bise biền biển biện hise hiền hiển hiện dise điền điển điện điều kife kiến kiển kiện tife tiến tiển tiện kije kiến kiền kiển tije tiến tiền tiển ture tuế tuề tuễ tuệ tuệch hure huế huề huệ chure chuế chuệ chuếnh chuệch tuse tuể tuề tuễ tuệ huse huể huề huệ duse đuệ tufe tuế tuể tuệ hufe huế huệ tuje tuế tuề tuể huje huế huề"
+        let expected = "kire kiế kiến kiền kiện kiễn nire niến niền bire biến biền chire chiến chiền chiếu chiều mise miền miển miện miễn miều nise niềm niểm niệm tíe tiền tiển tiện tiễn tiều bise biền biển biện hise hiền hiển hiện díe điền điển điện điều kìe kiến kiển kiện tìe tiến tiển tiện kije kiến kiền kiển tịe tiến tiền tiển tủe tuế tuề tuễ tuệ tuệch hủe huế huề huệ chure chuế chuệ chuếnh chuệch túe tuể tuề tuễ tuệ húe huể huề huệ dúe đuệ tùe tuế tuể tuệ hùe huế huệ tụe tuế tuề tuể hụe huế huề"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_449_scenario75_trilingual_chese_misa_tojo_and_vietnamese_co_che_nuoc_mia_ca_kho_to_chat() {
         let input = "Theo cơ chế (cow chese) phối hợp (hopowj) mới trên kênh (keneh) truyền thông công (conog) cộng, đoàn kiến (kiresen) trúc sư đến (denesd) thăm công trình đồ sộ (ddoof sojo) tại tojo, thưởng thức cá kho tộ (cas kho tojo) ăn kèm măng (managw) tươi và ly nước mía (nuwowcs misa) pha chế (pha chese) đặc biệt, vừa xem memes vừa đặt (datawjd) vé tàu đi cùng cô bạn misa!"
-        let expected = "Theo cơ chế (cơ chế) phối hợp (hợp) mới trên kênh (kênh) truyền thông công (công) cộng, đoàn kiến (kiến) trúc sư đến (đến) thăm công trình đồ sộ (đồ sộ) tại tojo, thưởng thức cá kho tộ (cá kho tộ) ăn kèm măng (măng) tươi và ly nước mía (nước mía) pha chế (pha chế) đặc biệt, vừa xem memes vừa đặt (đặt) vé tàu đi cùng cô bạn misa!"
+        let expected = "Theo cơ chế (cơ chế) phối hợp (hợp) mới trên kênh (kênh) truyền thông công (công) cộng, đoàn kiến (kiến) trúc sư đến (đến) thăm công trình đồ sộ (đồ sộ) tại tộ, thưởng thức cá kho tộ (cá kho tộ) ăn kèm măng (măng) tươi và ly nước mía (nước mía) pha chế (pha chế) đặc biệt, vừa xem memes vừa đặt (đặt) vé tàu đi cùng cô bạn misa!"
         assertBuffer(input, equals: expected)
     }
 
@@ -2859,7 +2864,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_455_vietnamese_collocation_phrases_gui_dui_nui_bui_me_de_go_so_bo_mo_no_se_ne_he_kiu_hiu_kia_chia() {
         let input = "guri gaanf guri duri con duri chuootj duri may duri xui duri nuri ngawns nuri its nuri trow nuri buri dden buri buij buri meje baf meje cacs meje oon meje deje beej deje gofo nooir gofo trans gofo ddaauf gofo mawtj gofo soxo nois soxo cuwowif soxo boxo nois boxo cuwowif boxo moxo laox moxo baanf moxo nofo gaf nofo con nofo sese bongs sese chieeuf sese xees sese nese neef nese hese cuwowif hese kisu cuwus kisu keeu kisu hisu mawts hisu cuwowif hisu kisa ddawngf kisa been kisa choox kisa chisa muix chisa sungs chisa"
-        let expected = "guri gần gủi duri con dủi chuột dủi may dủi xui dủi nuri ngắn nủi ít nủi trơ nủi buri đen bủi bụi bủi meje bà mệ các mệ ôn mệ deje bệ dệ gofo nổi gồ trán gồ đầu gồ mặt gồ soxo nói sỗ cười sỗ boxo nói bỗ cười bỗ moxo lão mỗ bần mỗ nofo gà nồ con nồ sese bóng sế chiều sế xế sế nese nề nế hese cười hế kisu cứu kíu kêu kíu hisu mắt híu cười híu kisa đằng kía bên kía chỗ kía chisa mũi chía súng chía"
+        let expected = "guri gần gủi dủi con dủi chuột dủi may dủi xui dủi nuri ngắn nủi ít nủi trơ nủi buri đen bủi bụi bủi mệ bà mệ các mệ ôn mệ dệ bệ dệ gồ nổi gồ trán gồ đầu gồ mặt gồ sỗ nói sỗ cười sỗ bỗ nói bỗ cười bỗ mỗ lão mỗ bần mỗ nồ gà nồ con nồ sế bóng sế chiều sế xế sế nế nề nế hế cười hế kisu cứu kíu kêu kíu hisu mắt híu cười híu kisa đằng kía bên kía chỗ kía chisa mũi chía súng chía"
         assertBuffer(input, equals: expected)
     }
 
@@ -2927,19 +2932,19 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_465_vietnamese_collocation_phrases_arau_mojo_goro_doro_here_mere_chefe_lose_chose_hose_keeps_deeps_rooms_gasu() {
         let input = "arau lamf arau chayj arau lais arau mojo ngooi mojo haam mojo nguwowngx mojo goro gaay goro caix goro doro gaay doro caix doro here cuwowif here vui here mere cais mere gaf mere chefe treef chefe mooi chefe lose sangs lose chowps lose tia lose chose ddor chose vangf chose sangs chose hose ddor hose vangf hose keeps banhs keeps deeps rau deeps cas deeps rooms nooir rooms rôm rooms gasu cais gasu mucs gasu"
-        let expected = "arau làm ẩu chạy ẩu lái ẩu mojo ngôi mộ hâm mộ ngưỡng mộ goro gây gổ cãi gổ doro gây dổ cãi dổ here cười hể vui hể mere cái mể gà mể chefe trề chề môi chề lose sáng lóe chớp lóe tia lóe chose đỏ chóe vàng chóe sáng chóe hose đỏ hóe vàng hóe keeps bánh kếp deeps rau dếp cá dếp rooms nổi rốm rôm rốm gasu cái gáu múc gáu"
+        let expected = "arau làm ẩu chạy ẩu lái ẩu mojo ngôi mộ hâm mộ ngưỡng mộ gổ gây gổ cãi gổ dổ gây dổ cãi dổ here cười hể vui hể mere cái mể gà mể chề trề chề môi chề lose sáng lóe chớp lóe tia lóe chose đỏ chóe vàng chóe sáng chóe hose đỏ hóe vàng hóe keeps bánh kếp deeps rau dếp cá dếp rooms nổi rốm rôm rốm gasu cái gáu múc gáu"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_466_romaji_cuo_cua_stop_coda_delayed_diacritic_and_tone_override_unlatch() {
         let input = "turo turotws turotwj turotsw turotjw turotos turotoj turotso turotjo muro murotws murotwj muropws muropwj churo churocws churocwj duro durotwsd durotwjd durocwjd durocjwd durotojd tura turatas turataj turatsa turatja sura suratas surataj suratsa suratja chura churatas churataj churatsa churatja dura duratasd duratajd duratsad duratjad"
-        let expected = "turo tướt tượt tướt tượt tuốt tuột tuốt tuột muro mướt mượt mướp mượp churo chước chược duro đướt đượt được được đuột tura tuất tuật tuất tuật sura suất suật suất suật chura chuất chuật chuất chuật dura đuất đuật đuất đuật"
+        let expected = "tủo tướt tượt tướt tượt tuốt tuột tuốt tuột muro mướt mượt mướp mượp churo chước chược dủo đướt đượt được được đuột tủa tuất tuật tuất tuật sura suất suật suất suật chura chuất chuật chuất chuật dủa đuất đuật đuất đuật"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_467_romaji_and_english_cie_cue_stop_coda_delayed_circumflex_and_tone_override_unlatch() {
         let input = "tire tiretes tiretej tiretse tiretje tireces tirecej tirecse tirecje tirepes tirepej tirepse tirepje hire hiretes hiretej kire kiretes kiretej nire niretes niretej bire biretes biretej mire miretes miretej sire siretes siretej dire diretesd diretejd diretsed diretjed direcesd direcejd direpesd direpejd ture turetes turetej turetse turetje hure huretes huretej chure churetes churetej dure duretesd duretejd duretsed duretjed"
-        let expected = "tire tiết tiệt tiết tiệt tiếc tiệc tiếc tiệc tiếp tiệp tiếp tiệp hire hiết hiệt kire kiết kiệt nire niết niệt bire biết biệt mire miết miệt sire siết siệt dire điết điệt điết điệt điếc điệc điếp điệp ture tuết tuệt tuết tuệt hure huết huệt chure chuết chuệt dure đuết đuệt đuết đuệt"
+        let expected = "tire tiết tiệt tiết tiệt tiếc tiệc tiếc tiệc tiếp tiệp tiếp tiệp hire hiết hiệt kire kiết kiệt nire niết niệt bire biết biệt mire miết miệt sire siết siệt dire điết điệt điết điệt điếc điệc điếp điệp tủe tuết tuệt tuết tuệt hủe huết huệt chure chuết chuệt dủe đuết đuệt đuết đuệt"
         assertBuffer(input, equals: expected)
     }
 
@@ -2991,7 +2996,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_475_vietnamese_collocation_phrases_dooms_teems_keens_moons_goons_loons_gojo_dojo_toxo_noso_mura_hura_gura_chura_baru_maru() {
         let input = "dooms chos dooms ddooms dooms teems toom teems mawms teems keens con keens ddanf keens moons cas moons rau moons goons voons goons loons lowns loons gojo ngooj gojo dojo ddooj dojo toxo cais toxo bats toxo noso loos noso mura muas mura hura hufa hura gura goas gura chura chuas chura baru chaau baru baus baru maru maaur maru"
-        let expected = "dooms chó dốm đốm dốm teems tôm tếm mắm tếm keens con kến đàn kến moons cá mốn rau mốn goons vốn gốn loons lớn lốn gojo ngộ gộ dojo độ dộ toxo cái tỗ bát tỗ noso lố nố mura múa mủa hura hùa hủa gura góa gủa chura chúa chủa baru châu bảu báu bảu maru mẩu mảu"
+        let expected = "dooms chó dốm đốm dốm teems tôm tếm mắm tếm keens con kến đàn kến moons cá mốn rau mốn goons vốn gốn loons lớn lốn gojo ngộ gộ dojo độ dộ tỗ cái tỗ bát tỗ nố lố nố mura múa mủa hủa hùa hủa gura góa gủa chura chúa chủa baru châu bảu báu bảu maru mẩu mảu"
         assertBuffer(input, equals: expected)
     }
 
@@ -3023,7 +3028,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_480_vietnamese_collocation_phrases_noops_goops_troops_rojos_gotos_nonos_mamas_nura_rora_raru_taru_garu_daru_seru_meru_cheru() {
         let input = "noops suwng noops phoongf noops goops nooir gofo goops cais goops troops boopj troops loopj troops rojos mawts rojos looif rojos gotos vair gotos coor gotos nonos boonf nonos coonf nonos mamas naams mamas caay mamas nura nawngs nura chins nura chere treef chere mooi chere raru raauf raru rau raru taru ddaof taru taaur taru garu cais garu mucs garu daru yeeu daru con daru seru chim seru con seru meru moms meru cheru chawtj cheru"
-        let expected = "noops sưng nốp phồng nốp goops nổi gồ gốp cái gốp troops bộp trốp lộp trốp rojos mắt rố lồi rố gotos vải gốt cổ gốt nonos bồn nốn cồn nốn mamas nấm mấm cây mấm nura nắng nủa chín nủa chere trề chể môi chể raru rầu rảu rau rảu taru đào tảu tẩu tảu garu cái gảu múc gảu daru yêu dảu con dảu seru chim sẻu con sẻu meru móm mẻu cheru chặt chẻu"
+        let expected = "noops sưng nốp phồng nốp goops nổi gồ gốp cái gốp troops bộp trốp lộp trốp rojos mắt rố lồi rố gotos vải gốt cổ gốt nonos bồn nốn cồn nốn mamas nấm mấm cây mấm nura nắng nủa chín nủa chể trề chể môi chể raru rầu rảu rau rảu taru đào tảu tẩu tảu garu cái gảu múc gảu daru yêu dảu con dảu seru chim sẻu con sẻu meru móm mẻu cheru chặt chẻu"
         assertBuffer(input, equals: expected)
     }
 
@@ -3087,7 +3092,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_490_vietnamese_collocation_phrases_niju_biju_riju_miju_gifu_nisu_risu_kere_bere_nere_tese_kese_bese_horo_moro_toro_soro_noro() {
         let input = "niju nungx niju binj niju biju baanj biju binj biju riju buoonf riju meetj riju ngotj riju miju meemf miju eem miju gifu dawts gifu naang gifu nisu bams nisu keos nisu risu rocs risu quaans risu kere khoong kere ddangs kere nghe kere bere bowi bere voxw bere nuwowcs bere nere kinhs nere kieeng nere tese kinh tese quoocs tese thuwjc tese kese thieets kese thuwaf kese nhieetj kese bese boongf bese mej bese horo con horo xaaus horo moro ca moro phongf moro toro cais toro xaay toro gioox toro soro cuoons soro cuwar soro noro chays noro bungf noro phats noro hiru hawts hiru kiru keeu kiru"
-        let expected = "niju nũng nịu bịn nịu biju bận bịu bịn bịu riju buồn rịu mệt rịu ngọt rịu miju mềm mịu êm mịu gifu dắt giù nâng giù nisu bám níu kéo níu risu róc ríu quấn ríu kere không kể đáng kể nghe kể bere bơi bể vỡ bể nước bể nere kính nể kiêng nể tese kinh tế quốc tế thực tế kese thiết kế thừa kế nhiệt kế bese bồng bế mẹ bế horo con hổ xấu hổ moro ca mổ phòng mổ toro cái tổ xây tổ giỗ tổ soro cuốn sổ cửa sổ noro cháy nổ bùng nổ phát nổ hiru hắt hỉu kiru kêu kỉu"
+        let expected = "niju nũng nịu bịn nịu biju bận bịu bịn bịu riju buồn rịu mệt rịu ngọt rịu miju mềm mịu êm mịu gifu dắt giù nâng giù nisu bám níu kéo níu risu róc ríu quấn ríu kể không kể đáng kể nghe kể bể bơi bể vỡ bể nước bể nể kính nể kiêng nể tế kinh tế quốc tế thực tế kế thiết kế thừa kế nhiệt kế bế bồng bế mẹ bế hổ con hổ xấu hổ mổ ca mổ phòng mổ tổ cái tổ xây tổ giỗ tổ sổ cuốn sổ cửa sổ nổ cháy nổ bùng nổ phát nổ hiru hắt hỉu kiru kêu kỉu"
         assertBuffer(input, equals: expected)
     }
 
@@ -3105,7 +3110,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_493_romaji_gifi_gisi_giji_tone_override_and_peepsj_unlatch() {
         let input = "gifi gifis gifir gifix gifij gifijt gifijp gifijc gisi gisif gisir gisix gisij giji gijis gijif gijir gijix keeps keepsj deeps deepsj cheeps cheepsj noops noopsj goops goopsj troops troopsj"
-        let expected = "gifi gií giỉ giĩ giị giịt giịp giịc gisi giì giỉ giĩ giị giji gií giì giỉ giĩ keeps kệp deeps dệp cheeps chệp noops nộp goops gộp troops trộp"
+        let expected = "giì gií giỉ giĩ giị giịt giịp giịc gisi giì giỉ giĩ giị giji gií giì giỉ giĩ keeps kệp deeps dệp cheeps chệp noops nộp goops gộp troops trộp"
         assertBuffer(input, equals: expected)
     }
 
@@ -3341,7 +3346,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_530_vietnamese_collocation_phrases_daasu_datas_diets_quiets_nieces_verse_refers_defer_lexer_refer_refuse_reuse_major_majors_corsair_corsairs_horse_those_coax_kerf_taxi_maxi_worm_worms_worn_worst_hiju_kifu_kiju_niru_haru_naru_saru_narau_sarau_dora_guwa_huwa_ruwa_giwa() {
         let input = "daasu yeeu daasu ddongs daasu datas trowif datas mawjt datas diets rieets diets khoon diets quiets taam quiets ddinhj quiets nieces cas nieces lieecs nieces verse caau verse moojt verse refers roor refers chieecs refers defer khinh defer lexer keer lexer refer changf refer lamf refer refuse ddaats refuse cayf refuse reuse ddaats reuse cayf reuse major giowf major maox major majors mux majors maof majors corsair ueer corsair oair corsair corsairs nhifn corsairs ngoais corsairs horse ddor horse vangf horse those nois those cuwowif those coax xoax coax tocs coax kerf cawjp kerf bowf kerf taxi baix taxi trair taxi maxi nhows maxi thuwowng maxi worm uowms worm thuwr worm worms thuwr worms lowif worms worn uowxn worn nguwjc worn worst aarm worst muwa worst hiju quanhj hiju ddifu hiju kifu keeu kifu cuwus kifu kiju nawjng kiju trixu kiju niru bams niru nius niru haru haof haru naru aarn naru troons naru saru quar saru trais saru narau troons narau aarn narau sarau quar sarau trais sarau dora tocs dora xoax dora guwa nawngs guwa muwa guwa huwa daj huwa thuwa huwa ruwa buooir ruwa truwa ruwa giwa luwowxi giwa giuwax giwa"
-        let expected = "daasu yêu dấu đóng dấu datas trời dất mặt dất diets riết diết khôn diết quiets tâm quiết định quiết nieces cá niếc liếc niếc verse câu vế một vế refers rổ rế chiếc rế defer khinh dể lexer kể lể refer chàng rể làm rể refuse đất rếu cày rếu reuse đất rếu cày rếu major giờ mảo mão mảo majors mũ máo mào máo corsair uể coải oải coải corsairs nhìn coái ngoái coái horse đỏ hóe vàng hóe those nói thóe cười thóe coax xõa cõa tóc cõa kerf cặp kè bờ kè taxi bãi tãi trải tãi maxi nhớ mãi thương mãi worm ướm ưởm thử ưởm worms thử ướm lời ướm worn ưỡn ưởn ngực ưởn worst ẩm ướt mưa ướt hiju quạnh hịu đìu hịu kifu kêu kìu cứu kìu kiju nặng kịu trĩu kịu niru bám nỉu níu nỉu haru hào hảu naru ẩn nảu trốn nảu saru quả sảu trái sảu narau trốn nẩu ẩn nẩu sarau quả sẩu trái sẩu dora tóc dỏa xõa dỏa guwa nắng gưa mưa gưa huwa dạ hưa thưa hưa ruwa buổi rưa trưa rưa giwa lưỡi giưa giữa giưa"
+        let expected = "daasu yêu dấu đóng dấu datas trời dất mặt dất diets riết diết khôn diết quiets tâm quiết định quiết nieces cá niếc liếc niếc verse câu vế một vế refers rổ rế chiếc rế defer khinh dể lexer kể lể refer chàng rể làm rể refuse đất rếu cày rếu reuse đất rếu cày rếu major giờ mảo mão mảo majors mũ máo mào máo corsair uể coải oải coải corsairs nhìn coái ngoái coái horse đỏ hóe vàng hóe those nói thóe cười thóe coax xõa cõa tóc cõa kerf cặp kè bờ kè taxi bãi tãi trải tãi maxi nhớ mãi thương mãi worm ướm ưởm thử ưởm worms thử ướm lời ướm worn ưỡn ưởn ngực ưởn worst ẩm ướt mưa ướt hiju quạnh hịu đìu hịu kifu kêu kìu cứu kìu kiju nặng kịu trĩu kịu niru bám nỉu níu nỉu haru hào hảu naru ẩn nảu trốn nảu saru quả sảu trái sảu narau trốn nẩu ẩn nẩu sarau quả sẩu trái sẩu dora tóc dỏa xõa dỏa guwa nắng gưa mưa gưa hưa dạ hưa thưa hưa ruwa buổi rưa trưa rưa giwa lưỡi giưa giữa giưa"
         assertBuffer(input, equals: expected)
     }
 
@@ -3449,7 +3454,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_547_ari_stems_kari_mari_hari_nari_tari_bari_sari_gari_rari_dari_pari_tone_override_unlatch() {
         let input = "kari karif karix karij rari raris rarif rarix rarij pari parif parix parij kuri kuris kurif kurix kurij kuriw muri muris murif murix murij muriw huri huris hurif hurix hurij huriw nuri nuris nurif nurix nurij nuriw turi turis turif turix turij turiw buri buris burif burix burij buriw suri suris surif surix surij suriw guri guris gurif gurix gurij guriw ruri ruris rurif rurix rurij ruriw duri duris durif durix durij duriw durid churi churis churif churix churij churiw puri puris purif purix purij puriw"
-        let expected = "kari kài kãi kại rari rái rài rãi rại pari pài pãi pại kuri kúi kùi kũi kụi kửi muri múi mùi mũi mụi mửi huri húi hùi hũi hụi hửi nuri núi nùi nũi nụi nửi turi túi tùi tũi tụi tửi buri búi bùi bũi bụi bửi suri súi sùi sũi sụi sửi guri gúi gùi gũi gụi gửi ruri rúi rùi rũi rụi rửi duri dúi dùi dũi dụi dửi đủi churi chúi chùi chũi chụi chửi puri púi pùi pũi pụi pửi"
+        let expected = "kari kài kãi kại rari rái rài rãi rại pari pài pãi pại kuri kúi kùi kũi kụi kửi muri múi mùi mũi mụi mửi hủi húi hùi hũi hụi hửi nuri núi nùi nũi nụi nửi tủi túi tùi tũi tụi tửi buri búi bùi bũi bụi bửi suri súi sùi sũi sụi sửi guri gúi gùi gũi gụi gửi ruri rúi rùi rũi rụi rửi dủi dúi dùi dũi dụi dửi đủi churi chúi chùi chũi chụi chửi puri púi pùi pũi pụi pửi"
         assertBuffer(input, equals: expected)
     }
 
@@ -3597,7 +3602,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_570_vietnamese_collocation_phrases_cose_cofe_core_coxe_coje_nosa_rosa_rofa_roxa_roja_gofa_gora_goxa_goja_phosa_phofa_phora_phoxa_phoja_trosa_trofa_trora_troxa_troja_basa_bafa_bara_baxa_baja_dasa_dafa_dara_daxa_daja_gasa_gafa_gara_gaxa_gaja_hasa() {
         let input = "cose ddor cose sangs cose cofe ddor cofe hoef cofe core meejt core khoer core coxe ddor coxe hoef coxe coje ddor coje nhoej coje nosa xoas nosa toas nosa rosa xoas rosa toas rosa rofa xoaf rofa toaf rofa roxa toar roxa xoax roxa roja ddoaj roja toaj roja gofa xoaf gofa toaf gofa gora toar gora xoax gora goxa toar goxa xoax goxa goja ddoaj goja toaj goja phosa xoas phosa toas phosa phofa xoaf phofa toaf phofa phora toar phora xoax phora phoxa toar phoxa xoax phoxa phoja ddoaj phoja toaj phoja trosa xoas trosa toas trosa trofa xoaf trofa toaf trofa trora toar trora xoax trora troxa toar troxa xoax troxa troja ddoaj troja toaj troja basa caaps basa taaps basa bafa caauf bafa traamf bafa bara caanr bara khaanr bara baxa caamx baxa daamx baxa baja caapj baja taapj baja dasa caaps dasa taaps dasa dafa caauf dafa traamf dafa dara caanr dara khaanr dara daxa caamx daxa daamx daxa daja caapj daja taapj daja gasa caaps gasa taaps gasa gafa caauf gafa traamf gafa gara caanr gara khaanr gara gaxa caamx gaxa daamx gaxa gaja caapj gaja taapj gaja hasa caaps hasa taaps hasa"
-        let expected = "cose đỏ cóe sáng cóe cofe đỏ còe hòe còe core mệt cỏe khỏe cỏe coxe đỏ cõe hòe cõe coje đỏ cọe nhọe cọe nosa xóa nóa tóa nóa rosa xóa róa tóa róa rofa xòa ròa tòa ròa roxa tỏa rõa xõa rõa roja đọa rọa tọa rọa gofa xòa gòa tòa gòa gora tỏa gỏa xõa gỏa goxa tỏa gõa xõa gõa goja đọa gọa tọa gọa phosa xóa phóa tóa phóa phofa xòa phòa tòa phòa phora tỏa phỏa xõa phỏa phoxa tỏa phõa xõa phõa phoja đọa phọa tọa phọa trosa xóa tróa tóa tróa trofa xòa tròa tòa tròa trora tỏa trỏa xõa trỏa troxa tỏa trõa xõa trõa troja đọa trọa tọa trọa basa cấp bấ tấp bấ bafa cầu bầ trầm bầ bara cẩn bẩ khẩn bẩ baxa cẫm bẫ dẫm bẫ baja cập bậ tập bậ dasa cấp dấ tấp dấ dafa cầu dầ trầm dầ dara cẩn dẩ khẩn dẩ daxa cẫm dẫ dẫm dẫ daja cập dậ tập dậ gasa cấp gấ tấp gấ gafa cầu gầ trầm gầ gara cẩn gẩ khẩn gẩ gaxa cẫm gẫ dẫm gẫ gaja cập gậ tập gậ hasa cấp hấ tấp hấ"
+        let expected = "cose đỏ cóe sáng cóe cofe đỏ còe hòe còe core mệt cỏe khỏe cỏe coxe đỏ cõe hòe cõe coje đỏ cọe nhọe cọe nosa xóa nóa tóa nóa rosa xóa róa tóa róa rofa xòa ròa tòa ròa roxa tỏa rõa xõa rõa roja đọa rọa tọa rọa gofa xòa gòa tòa gòa gora tỏa gỏa xõa gỏa goxa tỏa gõa xõa gõa goja đọa gọa tọa gọa phosa xóa phóa tóa phóa phofa xòa phòa tòa phòa phora tỏa phỏa xõa phỏa phoxa tỏa phõa xõa phõa phoja đọa phọa tọa phọa trosa xóa tróa tóa tróa trofa xòa tròa tòa tròa trora tỏa trỏa xõa trỏa troxa tỏa trõa xõa trõa troja đọa trọa tọa trọa basa cấp bấ tấp bấ bầ cầu bầ trầm bầ bara cẩn bẩ khẩn bẩ bẫ cẫm bẫ dẫm bẫ baja cập bậ tập bậ dasa cấp dấ tấp dấ dầ cầu dầ trầm dầ dara cẩn dẩ khẩn dẩ dẫ cẫm dẫ dẫm dẫ daja cập dậ tập dậ gasa cấp gấ tấp gấ gầ cầu gầ trầm gầ gara cẩn gẩ khẩn gẩ gẫ cẫm gẫ dẫm gẫ gaja cập gậ tập gậ hasa cấp hấ tấp hấ"
         assertBuffer(input, equals: expected)
     }
 
@@ -3627,7 +3632,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_575_vietnamese_collocation_phrases_hafa_hara_haxa_haja_masa_mafa_mara_maxa_maja_nasa_nafa_nara_naxa_naja_rasa_rafa_rara_raxa_raja_sasa_safa_sara_saxa_saja_tasa_tafa_tara_taxa_taja_chasa_chafa_chara_chaxa_chaja_asa_esu_efu_eru_pexu_peju() {
         let input = "hafa caauf hafa traamf hafa hara caanr hara khaanr hara haxa caamx haxa daamx haxa haja caapj haja taapj haja masa caaps masa taaps masa mafa caauf mafa traamf mafa mara caanr mara khaanr mara maxa caamx maxa daamx maxa maja caapj maja taapj maja nasa caaps nasa taaps nasa nafa caauf nafa traamf nafa nara caanr nara khaanr nara naxa caamx naxa daamx naxa naja caapj naja taapj naja rasa caaps rasa taaps rasa rafa caauf rafa traamf rafa rara caanr rara khaanr rara raxa caamx raxa daamx raxa raja caapj raja taapj raja sasa caaps sasa taaps sasa safa caauf safa traamf safa sara caanr sara khaanr sara saxa caamx saxa daamx saxa saja caapj saja taapj saja tasa caaps tasa taaps tasa tafa caauf tafa traamf tafa tara caanr tara khaanr tara taxa caamx taxa daamx taxa taja caapj taja taapj taja chasa caaps chasa taaps chasa chafa caauf chafa traamf chafa chara caanr chara khaanr chara chaxa caamx chaxa daamx chaxa chaja caapj chaja taapj chaja asa caaps asa taaps asa esu keeu esu meesu esu efu meemf efu phefu efu eru dero eru lero eru pexu meemf pexu phefu pexu peju meesu peju beeju peju"
-        let expected = "hafa cầu hầ trầm hầ hara cẩn hẩ khẩn hẩ haxa cẫm hẫ dẫm hẫ haja cập hậ tập hậ masa cấp mấ tấp mấ mafa cầu mầ trầm mầ mara cẩn mẩ khẩn mẩ maxa cẫm mẫ dẫm mẫ maja cập mậ tập mậ nasa cấp nấ tấp nấ nafa cầu nầ trầm nầ nara cẩn nẩ khẩn nẩ naxa cẫm nẫ dẫm nẫ naja cập nậ tập nậ rasa cấp rấ tấp rấ rafa cầu rầ trầm rầ rara cẩn rẩ khẩn rẩ raxa cẫm rẫ dẫm rẫ raja cập rậ tập rậ sasa cấp sấ tấp sấ safa cầu sầ trầm sầ sara cẩn sẩ khẩn sẩ saxa cẫm sẫ dẫm sẫ saja cập sậ tập sậ tasa cấp tấ tấp tấ tafa cầu tầ trầm tầ tara cẩn tẩ khẩn tẩ taxa cẫm tẫ dẫm tẫ taja cập tậ tập tậ chasa cấp chấ tấp chấ chafa cầu chầ trầm chầ chara cẩn chẩ khẩn chẩ chaxa cẫm chẫ dẫm chẫ chaja cập chậ tập chậ asa cấp ấ tấp ấ esu kêu éu mếu éu efu mềm èu phèu èu eru dẻo ẻu lẻo ẻu pexu mềm pẽu phèu pẽu peju mếu pẹu bệu pẹu"
+        let expected = "hầ cầu hầ trầm hầ hara cẩn hẩ khẩn hẩ hẫ cẫm hẫ dẫm hẫ haja cập hậ tập hậ masa cấp mấ tấp mấ mầ cầu mầ trầm mầ mara cẩn mẩ khẩn mẩ mẫ cẫm mẫ dẫm mẫ maja cập mậ tập mậ nasa cấp nấ tấp nấ nầ cầu nầ trầm nầ nara cẩn nẩ khẩn nẩ nẫ cẫm nẫ dẫm nẫ naja cập nậ tập nậ rasa cấp rấ tấp rấ rầ cầu rầ trầm rầ rara cẩn rẩ khẩn rẩ rẫ cẫm rẫ dẫm rẫ raja cập rậ tập rậ sasa cấp sấ tấp sấ sầ cầu sầ trầm sầ sara cẩn sẩ khẩn sẩ sẫ cẫm sẫ dẫm sẫ saja cập sậ tập sậ tasa cấp tấ tấp tấ tầ cầu tầ trầm tầ tara cẩn tẩ khẩn tẩ taxa cẫm tẫ dẫm tẫ taja cập tậ tập tậ chasa cấp chấ tấp chấ chầ cầu chầ trầm chầ chara cẩn chẩ khẩn chẩ chẫ cẫm chẫ dẫm chẫ chaja cập chậ tập chậ asa cấp ấ tấp ấ esu kêu éu mếu éu efu mềm èu phèu èu eru dẻo ẻu lẻo ẻu pexu mềm pẽu phèu pẽu peju mếu pẹu bệu pẹu"
         assertBuffer(input, equals: expected)
     }
 
@@ -3639,13 +3644,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_577_basa_bafa_bara_baxa_baja_dasa_dafa_dara_daxa_daja_gasa_gafa_gara_gaxa_gaja_unlatch() {
         let input = "basa basac basam basan basap basat basau basay basaw basaf basar basax basaj bafa bafam bafan bafau bafay bafaw bafas bafar bafax bafaj bara baram baran barau baray baraw baraf barax baraj baxa baxam baxan baxau baxay baxaw baxas baxaf baxar baxaj baja bajac bajam bajan bajap bajat bajau bajay bajaw bajas bajaf bajar bajax dasa dasad dasac dasam dasan dasap dasat dasau dasay dasaw dasaf dasar dasax dasaj dafa dafad dafam dafan dafau dafay dafaw dafas dafar dafax dafaj dara darad daram daran darau daray daraw daraf darax daraj daxa daxad daxam daxan daxau daxay daxaw daxas daxaf daxar daxaj daja dajad dajac dajam dajan dajap dajat dajau dajay dajaw dajas dajaf dajar dajax gasa gasac gasam gasan gasap gasat gasau gasay gasaw gasaf gasar gasax gasaj gafa gafam gafan gafau gafay gafaw gafas gafar gafax gafaj gara garam garan garau garay garaw garaf garax garaj gaxa gaxam gaxan gaxau gaxay gaxaw gaxas gaxaf gaxar gaxaj gaja gajac gajam gajan gajap gajat gajau gajay gajaw gajas gajaf gajar gajax"
-        let expected = "basa bấc bấm bấn bấp bất bấu bấy bắ bầ bẩ bẫ bậ bafa bầm bần bầu bầy bằ bấ bẩ bẫ bậ bara bẩm bẩn bẩu bẩy bẳ bầ bẫ bậ baxa bẫm bẫn bẫu bẫy bẵ bấ bầ bẩ bậ baja bậc bậm bận bập bật bậu bậy bặ bấ bầ bẩ bẫ dasa đấ dấc dấm dấn dấp dất dấu dấy dắ dầ dẩ dẫ dậ dafa đầ dầm dần dầu dầy dằ dấ dẩ dẫ dậ dara đẩ dẩm dẩn dẩu dẩy dẳ dầ dẫ dậ daxa đẫ dẫm dẫn dẫu dẫy dẵ dấ dầ dẩ dậ daja đậ dậc dậm dận dập dật dậu dậy dặ dấ dầ dẩ dẫ gasa gấc gấm gấn gấp gất gấu gấy gắ gầ gẩ gẫ gậ gafa gầm gần gầu gầy gằ gấ gẩ gẫ gậ gara gẩm gẩn gẩu gẩy gẳ gầ gẫ gậ gaxa gẫm gẫn gẫu gẫy gẵ gấ gầ gẩ gậ gaja gậc gậm gận gập gật gậu gậy gặ gấ gầ gẩ gẫ"
+        let expected = "basa bấc bấm bấn bấp bất bấu bấy bắ bầ bẩ bẫ bậ bầ bầm bần bầu bầy bằ bấ bẩ bẫ bậ bara bẩm bẩn bẩu bẩy bẳ bầ bẫ bậ bẫ bẫm bẫn bẫu bẫy bẵ bấ bầ bẩ bậ baja bậc bậm bận bập bật bậu bậy bặ bấ bầ bẩ bẫ dasa đấ dấc dấm dấn dấp dất dấu dấy dắ dầ dẩ dẫ dậ dầ đầ dầm dần dầu dầy dằ dấ dẩ dẫ dậ dara đẩ dẩm dẩn dẩu dẩy dẳ dầ dẫ dậ dẫ đẫ dẫm dẫn dẫu dẫy dẵ dấ dầ dẩ dậ daja đậ dậc dậm dận dập dật dậu dậy dặ dấ dầ dẩ dẫ gasa gấc gấm gấn gấp gất gấu gấy gắ gầ gẩ gẫ gậ gầ gầm gần gầu gầy gằ gấ gẩ gẫ gậ gara gẩm gẩn gẩu gẩy gẳ gầ gẫ gậ gẫ gẫm gẫn gẫu gẫy gẵ gấ gầ gẩ gậ gaja gậc gậm gận gập gật gậu gậy gặ gấ gầ gẩ gẫ"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_578_hasa_hafa_hara_haxa_haja_masa_mafa_mara_maxa_maja_nasa_nafa_nara_naxa_naja_unlatch() {
         let input = "hasa hasac hasam hasan hasap hasat hasau hasay hasaw hasaf hasax hasaj hafa hafam hafan hafau hafay hafaw hafas hafar hafax hafaj hara haram haran haray haraw haraf harax haraj haxa haxam haxan haxau haxay haxaw haxas haxaf haxar haxaj haja hajac hajam hajan hajap hajat hajau hajay hajaw hajas hajaf hajar hajax masa masac masam masan masap masat masau masay masaw masaf masax masaj mafa mafam mafan mafau mafay mafaw mafas mafar mafax mafaj mara maram maran marau maray maraw maraf marax maraj maxa maxam maxan maxau maxay maxaw maxas maxaf maxar maxaj maja majac majam majan majap majat majau majay majaw majas majaf majar majax nasa nasac nasam nasan nasap nasat nasau nasay nasaw nasaf nasax nasaj nafa nafam nafan nafau nafay nafaw nafas nafar nafax nafaj nara naram naran naray naraw naraf narax naraj naxa naxam naxan naxau naxay naxaw naxas naxaf naxar naxaj naja najac najam najan najap najat najau najay najaw najas najaf najar najax"
-        let expected = "hasa hấc hấm hấn hấp hất hấu hấy hắ hầ hẫ hậ hafa hầm hần hầu hầy hằ hấ hẩ hẫ hậ hara hẩm hẩn hẩy hẳ hầ hẫ hậ haxa hẫm hẫn hẫu hẫy hẵ hấ hầ hẩ hậ haja hậc hậm hận hập hật hậu hậy hặ hấ hầ hẩ hẫ masa mấc mấm mấn mấp mất mấu mấy mắ mầ mẫ mậ mafa mầm mần mầu mầy mằ mấ mẩ mẫ mậ mara mẩm mẩn mẩu mẩy mẳ mầ mẫ mậ maxa mẫm mẫn mẫu mẫy mẵ mấ mầ mẩ mậ maja mậc mậm mận mập mật mậu mậy mặ mấ mầ mẩ mẫ nasa nấc nấm nấn nấp nất nấu nấy nắ nầ nẫ nậ nafa nầm nần nầu nầy nằ nấ nẩ nẫ nậ nara nẩm nẩn nẩy nẳ nầ nẫ nậ naxa nẫm nẫn nẫu nẫy nẵ nấ nầ nẩ nậ naja nậc nậm nận nập nật nậu nậy nặ nấ nầ nẩ nẫ"
+        let expected = "hasa hấc hấm hấn hấp hất hấu hấy hắ hầ hẫ hậ hầ hầm hần hầu hầy hằ hấ hẩ hẫ hậ hara hẩm hẩn hẩy hẳ hầ hẫ hậ hẫ hẫm hẫn hẫu hẫy hẵ hấ hầ hẩ hậ haja hậc hậm hận hập hật hậu hậy hặ hấ hầ hẩ hẫ masa mấc mấm mấn mấp mất mấu mấy mắ mầ mẫ mậ mầ mầm mần mầu mầy mằ mấ mẩ mẫ mậ mara mẩm mẩn mẩu mẩy mẳ mầ mẫ mậ mẫ mẫm mẫn mẫu mẫy mẵ mấ mầ mẩ mậ maja mậc mậm mận mập mật mậu mậy mặ mấ mầ mẩ mẫ nasa nấc nấm nấn nấp nất nấu nấy nắ nầ nẫ nậ nầ nầm nần nầu nầy nằ nấ nẩ nẫ nậ nara nẩm nẩn nẩy nẳ nầ nẫ nậ nẫ nẫm nẫn nẫu nẫy nẵ nấ nầ nẩ nậ naja nậc nậm nận nập nật nậu nậy nặ nấ nầ nẩ nẫ"
         assertBuffer(input, equals: expected)
     }
 
@@ -3663,7 +3668,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_581_rasa_rafa_rara_raxa_raja_sasa_safa_sara_saxa_saja_tasa_tafa_tara_taxa_taja_chasa_chafa_chara_chaxa_chaja_unlatch() {
         let input = "rasa rasac rasam rasan rasap rasat rasau rasay rasaw rasaf rasar rasax rasaj rafa rafam rafan rafau rafay rafaw rafas rafar rafax rafaj rara raram raran rarau raray raraw raraf rarax raraj raxa raxam raxan raxau raxay raxaw raxas raxaf raxar raxaj raja rajac rajam rajan rajap rajat rajau rajay rajaw rajas rajaf rajar rajax sasa sasac sasam sasan sasap sasat sasau sasay sasaw sasaf sasax sasaj safa safam safan safau safay safaw safas safax safaj sara saram saran saray saraw saraf sarax saraj saxa saxam saxan saxau saxay saxaw saxas saxaf saxar saxaj saja sajac sajam sajan sajap sajat sajau sajay sajaw sajas sajaf sajar sajax tasa tasac tasam tasan tasap tasat tasau tasay tasaw tasaf tasax tasaj tafa tafam tafan tafau tafay tafaw tafas tafar tafax tafaj tara taram taran taray taraw taraf tarax taraj taxa taxam taxan taxau taxay taxaw taxas taxaf taxar taxaj taja tajac tajam tajan tajap tajat tajau tajay tajaw tajas tajaf tajar tajax chasa chasac chasam chasan chasap chasat chasau chasay chasaw chasaf chasar chasax chasaj chafa chafam chafan chafau chafay chafaw chafas chafar chafax chafaj chara charam charan charau charay charaw charaf charax charaj chaxa chaxam chaxan chaxau chaxay chaxaw chaxas chaxaf chaxar chaxaj chaja chajac chajam chajan chajap chajat chajau chajay chajaw chajas chajaf chajar chajax"
-        let expected = "rasa rấc rấm rấn rấp rất rấu rấy rắ rầ rẩ rẫ rậ rafa rầm rần rầu rầy rằ rấ rẩ rẫ rậ rara rẩm rẩn rẩu rẩy rẳ rầ rẫ rậ raxa rẫm rẫn rẫu rẫy rẵ rấ rầ rẩ rậ raja rậc rậm rận rập rật rậu rậy rặ rấ rầ rẩ rẫ sasa sấc sấm sấn sấp sất sấu sấy sắ sầ sẫ sậ safa sầm sần sầu sầy sằ sấ sẫ sậ sara sẩm sẩn sẩy sẳ sầ sẫ sậ saxa sẫm sẫn sẫu sẫy sẵ sấ sầ sẩ sậ saja sậc sậm sận sập sật sậu sậy sặ sấ sầ sẩ sẫ tasa tấc tấm tấn tấp tất tấu tấy tắ tầ tẫ tậ tafa tầm tần tầu tầy tằ tấ tẩ tẫ tậ tara tẩm tẩn tẩy tẳ tầ tẫ tậ taxa tẫm tẫn tẫu tẫy tẵ tấ tầ tẩ tậ taja tậc tậm tận tập tật tậu tậy tặ tấ tầ tẩ tẫ chasa chấc chấm chấn chấp chất chấu chấy chắ chầ chẩ chẫ chậ chafa chầm chần chầu chầy chằ chấ chẩ chẫ chậ chara chẩm chẩn chẩu chẩy chẳ chầ chẫ chậ chaxa chẫm chẫn chẫu chẫy chẵ chấ chầ chẩ chậ chaja chậc chậm chận chập chật chậu chậy chặ chấ chầ chẩ chẫ"
+        let expected = "rasa rấc rấm rấn rấp rất rấu rấy rắ rầ rẩ rẫ rậ rầ rầm rần rầu rầy rằ rấ rẩ rẫ rậ rara rẩm rẩn rẩu rẩy rẳ rầ rẫ rậ rẫ rẫm rẫn rẫu rẫy rẵ rấ rầ rẩ rậ raja rậc rậm rận rập rật rậu rậy rặ rấ rầ rẩ rẫ sasa sấc sấm sấn sấp sất sấu sấy sắ sầ sẫ sậ sầ sầm sần sầu sầy sằ sấ sẫ sậ sara sẩm sẩn sẩy sẳ sầ sẫ sậ sẫ sẫm sẫn sẫu sẫy sẵ sấ sầ sẩ sậ saja sậc sậm sận sập sật sậu sậy sặ sấ sầ sẩ sẫ tasa tấc tấm tấn tấp tất tấu tấy tắ tầ tẫ tậ tầ tầm tần tầu tầy tằ tấ tẩ tẫ tậ tara tẩm tẩn tẩy tẳ tầ tẫ tậ taxa tẫm tẫn tẫu tẫy tẵ tấ tầ tẩ tậ taja tậc tậm tận tập tật tậu tậy tặ tấ tầ tẩ tẫ chasa chấc chấm chấn chấp chất chấu chấy chắ chầ chẩ chẫ chậ chầ chầm chần chầu chầy chằ chấ chẩ chẫ chậ chara chẩm chẩn chẩu chẩy chẳ chầ chẫ chậ chẫ chẫm chẫn chẫu chẫy chẵ chấ chầ chẩ chậ chaja chậc chậm chận chập chật chậu chậy chặ chấ chầ chẩ chẫ"
         assertBuffer(input, equals: expected)
     }
 
@@ -4425,7 +4430,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_700_vietnamese_collocation_phrases_soemx_to_hies() {
         let input = "soemx thomf soemx themf soemx soemj thomf soemj themf soemj coets khoets coets toets coets coetj khoets coetj toets coetj soets khoets soets toets soets soetj khoets soetj toets soetj coeps bepj coeps nhepj coeps coepj bepj coepj nhepj coepj soeps bepj soeps nhepj soeps soepj bepj soepj nhepj soepj coecs hoecs coecs ngoecs coecs coecj hoecs coecj ngoecs coecj soecs hoecs soecs ngoecs soecs soecj hoecs soecj ngoecs soecj goast toats goast thoats goast goasp toats goasp thoats goasp goasc khacs goasc toacs goasc sosen hoen sosen nhoenf sosen doesn hoen doesn nhoenf doesn howa xoas howa toas howa dowa xoas dowa toas dowa nowa xoas nowa toas nowa sowa xoas sowa toas sowa towa xoas towa toas towa rowa xoas rowa toas rowa gifi cais gifi gif gifi gisi cais gisi gif gisi giji cais giji gif giji chixe vui chixe ver chixe dues vui dues ver dues hues vui hues ver hues sues vui sues ver sues rues vui rues ver rues tues vui tues ver tues ties vui ties ver ties dies vui dies ver dies lies vui lies ver lies vies vui vies ver vies hies vui hies ver hies pies vui pies ver pies"
-        let expected = "soemx thòm soẽm thèm soẽm soemj thòm soẹm thèm soẹm coets khoét coét toét coét coetj khoét coẹt toét coẹt soets khoét soét toét soét soetj khoét soẹt toét soẹt coeps bẹp coép nhẹp coép coepj bẹp coẹp nhẹp coẹp soeps bẹp soép nhẹp soép soepj bẹp soẹp nhẹp soẹp coecs hoéc coéc ngoéc coéc coecj hoéc coẹc ngoéc coẹc soecs hoéc soéc ngoéc soéc soecj hoéc soẹc ngoéc soẹc goast toát goát thoát goát goasp toát goáp thoát goáp goasc khác goác toác goác sosen hoen soén nhoèn soén doesn hoen doén nhoèn doén howa xóa hoă tóa hoă dowa xóa doă tóa doă nowa xóa noă tóa noă sowa xóa soă tóa soă towa xóa toă tóa toă rowa xóa roă tóa roă gifi cái giì gì giì gisi cái gií gì gií giji cái giị gì giị chixe vui chĩe vẻ chĩe dues vui dúe vẻ dúe hues vui húe vẻ húe sues vui súe vẻ súe rues vui rúe vẻ rúe tues vui túe vẻ túe ties vui tíe vẻ tíe dies vui díe vẻ díe lies vui líe vẻ líe vies vui víe vẻ víe hies vui híe vẻ híe pies vui píe vẻ píe"
+        let expected = "soemx thòm soẽm thèm soẽm soemj thòm soẹm thèm soẹm coets khoét coét toét coét coetj khoét coẹt toét coẹt soets khoét soét toét soét soetj khoét soẹt toét soẹt coeps bẹp coép nhẹp coép coepj bẹp coẹp nhẹp coẹp soeps bẹp soép nhẹp soép soepj bẹp soẹp nhẹp soẹp coecs hoéc coéc ngoéc coéc coecj hoéc coẹc ngoéc coẹc soecs hoéc soéc ngoéc soéc soecj hoéc soẹc ngoéc soẹc goast toát goát thoát goát goasp toát goáp thoát goáp goasc khác goác toác goác sosen hoen soén nhoèn soén doesn hoen doén nhoèn doén howa xóa hoă tóa hoă dowa xóa doă tóa doă nowa xóa noă tóa noă sowa xóa soă tóa soă towa xóa toă tóa toă rowa xóa roă tóa roă giì cái giì gì giì gisi cái gií gì gií giji cái giị gì giị chĩe vui chĩe vẻ chĩe dues vui dúe vẻ dúe hues vui húe vẻ húe sues vui súe vẻ súe rues vui rúe vẻ rúe tues vui túe vẻ túe ties vui tíe vẻ tíe dies vui díe vẻ díe lies vui líe vẻ líe vies vui víe vẻ víe hies vui híe vẻ híe pies vui píe vẻ píe"
         assertBuffer(input, equals: expected)
     }
 
@@ -4457,13 +4462,13 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_705_vietnamese_collocation_phrases_mise_to_suse() {
         let input = "mise vui mise ver mise nise vui nise ver nise kise vui kise ver kise hise vui hise ver hise bise vui bise ver bise tise vui tise ver tise dise vui dise ver dise sise vui sise ver sise chise vui chise ver chise lise vui lise ver lise vise vui vise ver vise kife vui kife ver kife mife vui mife ver mife nife vui nife ver nife hife vui hife ver hife sife vui sife ver sife tife vui tife ver tife bife vui bife ver bife dife vui dife ver dife chife vui chife ver chife rife vui rife ver rife kire vui kire ver kire nire vui nire ver nire bire vui bire ver bire rire vui rire ver rire chire vui chire ver chire lire vui lire ver lire vire vui vire ver vire kije vui kije ver kije mije vui mije ver mije nije vui nije ver nije hije vui hije ver hije sije vui sije ver sije tije vui tije ver tije bije vui bije ver bije dije vui dije ver dije rije vui rije ver rije chije vui chije ver chije nuse vui nuse ver nuse suse vui suse ver suse"
-        let expected = "mise vui míe vẻ míe nise vui níe vẻ níe kise vui kíe vẻ kíe hise vui híe vẻ híe bise vui bíe vẻ bíe tise vui tíe vẻ tíe dise vui díe vẻ díe sise vui síe vẻ síe chise vui chíe vẻ chíe lise vui líe vẻ líe vise vui víe vẻ víe kife vui kìe vẻ kìe mife vui mìe vẻ mìe nife vui nìe vẻ nìe hife vui hìe vẻ hìe sife vui sìe vẻ sìe tife vui tìe vẻ tìe bife vui bìe vẻ bìe dife vui dìe vẻ dìe chife vui chìe vẻ chìe rife vui rìe vẻ rìe kire vui kỉe vẻ kỉe nire vui nỉe vẻ nỉe bire vui bỉe vẻ bỉe rire vui rỉe vẻ rỉe chire vui chỉe vẻ chỉe lire vui lỉe vẻ lỉe vire vui vỉe vẻ vỉe kije vui kịe vẻ kịe mije vui mịe vẻ mịe nije vui nịe vẻ nịe hije vui hịe vẻ hịe sije vui sịe vẻ sịe tije vui tịe vẻ tịe bije vui bịe vẻ bịe dije vui dịe vẻ dịe rije vui rịe vẻ rịe chije vui chịe vẻ chịe nuse vui núe vẻ núe suse vui súe vẻ súe"
+        let expected = "mise vui míe vẻ míe nise vui níe vẻ níe kise vui kíe vẻ kíe hise vui híe vẻ híe bise vui bíe vẻ bíe tíe vui tíe vẻ tíe díe vui díe vẻ díe sise vui síe vẻ síe chise vui chíe vẻ chíe lise vui líe vẻ líe vise vui víe vẻ víe kìe vui kìe vẻ kìe mìe vui mìe vẻ mìe nìe vui nìe vẻ nìe hìe vui hìe vẻ hìe sìe vui sìe vẻ sìe tìe vui tìe vẻ tìe bìe vui bìe vẻ bìe dìe vui dìe vẻ dìe chìe vui chìe vẻ chìe rife vui rìe vẻ rìe kire vui kỉe vẻ kỉe nire vui nỉe vẻ nỉe bire vui bỉe vẻ bỉe rire vui rỉe vẻ rỉe chire vui chỉe vẻ chỉe lire vui lỉe vẻ lỉe vire vui vỉe vẻ vỉe kije vui kịe vẻ kịe mije vui mịe vẻ mịe nije vui nịe vẻ nịe hije vui hịe vẻ hịe sije vui sịe vẻ sịe tịe vui tịe vẻ tịe bije vui bịe vẻ bịe dịe vui dịe vẻ dịe rije vui rịe vẻ rịe chije vui chịe vẻ chịe nuse vui núe vẻ núe suse vui súe vẻ súe"
         assertBuffer(input, equals: expected)
     }
 
     func test_tier4_706_rife_life_and_kife_to_chije_tone_override_and_delayed_e_unlatch() {
         let input = "rife rifes rifer rifex rifej rifese rifere rifexe rifeje life lifex lifej lifexe lifeje kife kifes kifer kifex kifej kifese kifere kifexe kifeje mife mifes mifer mifex mifej mifese mifere mifexe mifeje nife nifes nifer nifex nifej nifese nifere nifexe nifeje hife hifes hifer hifex hifej hifese hifere hifexe hifeje sife sifes sifer sifex sifej sifese sifere sifexe sifeje tife tifes tifer tifex tifej tifese tifere tifexe tifeje bife bifes bifer bifex bifej bifese bifere bifexe bifeje dife difes difer difex difej difese difere difexe difeje chife chifes chifer chifex chifej chifese chifere chifexe chifeje"
-        let expected = "rife ríe rỉe rĩe rịe riế riể riễ riệ life lĩe lịe liễ liệ kife kíe kỉe kĩe kịe kiế kiể kiễ kiệ mife míe mỉe mĩe mịe miế miể miễ miệ nife níe nỉe nĩe nịe niế niể niễ niệ hife híe hỉe hĩe hịe hiế hiể hiễ hiệ sife síe sỉe sĩe sịe siế siể siễ siệ tife tíe tỉe tĩe tịe tiế tiể tiễ tiệ bife bíe bỉe bĩe bịe biế biể biễ biệ dife díe dỉe dĩe dịe diế diể diễ diệ chife chíe chỉe chĩe chịe chiế chiể chiễ chiệ"
+        let expected = "rife ríe rỉe rĩe rịe riế riể riễ riệ life lĩe lịe liễ liệ kìe kíe kỉe kĩe kịe kiế kiể kiễ kiệ mìe míe mỉe mĩe mịe miế miể miễ miệ nìe níe nỉe nĩe nịe niế niể niễ niệ hìe híe hỉe hĩe hịe hiế hiể hiễ hiệ sìe síe sỉe sĩe sịe siế siể siễ siệ tìe tíe tỉe tĩe tịe tiế tiể tiễ tiệ bìe bíe bỉe bĩe bịe biế biể biễ biệ dìe díe dỉe dĩe dịe diế diể diễ diệ chìe chíe chỉe chĩe chịe chiế chiể chiễ chiệ"
         assertBuffer(input, equals: expected)
     }
 
@@ -4481,7 +4486,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_709_scenario127_trilingual_mise_kife_nuse_and_vietnamese_vui_mie_ve_kie_vui_nue_chat() {
         let input = "Khi khảo sát chuỗi cửa hàng mise ở Tokyo cùng hai mô-đun kife và nuse trong kho dữ liệu, nhóm biên dịch vừa ghi chép nét vui míe (vui mise), vừa đối chiếu vẻ kìe (ver kife) và nụ cười vui núe (vui nuse) trong bản thảo phương ngữ!"
-        let expected = "Khi khảo sát chuỗi cửa hàng mise ở Tokyo cùng hai mô-đun kife và nuse trong kho dữ liệu, nhóm biên dịch vừa ghi chép nét vui míe (vui míe), vừa đối chiếu vẻ kìe (vẻ kìe) và nụ cười vui núe (vui núe) trong bản thảo phương ngữ!"
+        let expected = "Khi khảo sát chuỗi cửa hàng mise ở Tokyo cùng hai mô-đun kìe và nuse trong kho dữ liệu, nhóm biên dịch vừa ghi chép nét vui míe (vui míe), vừa đối chiếu vẻ kìe (vẻ kìe) và nụ cười vui núe (vui núe) trong bản thảo phương ngữ!"
         assertBuffer(input, equals: expected)
     }
 
@@ -4489,7 +4494,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_710_vietnamese_collocation_phrases_buse_to_ruje() {
         let input = "buse vui buse ver buse duse vui duse ver duse guse vui guse ver guse huse vui huse ver huse muse vui muse ver muse puse vui puse ver puse ruse vui ruse ver ruse tuse vui tuse ver tuse chuse vui chuse ver chuse bufe vui bufe ver bufe dufe vui dufe ver dufe gufe vui gufe ver gufe hufe vui hufe ver hufe mufe vui mufe ver mufe nufe vui nufe ver nufe rufe vui rufe ver rufe sufe vui sufe ver sufe tufe vui tufe ver tufe chufe vui chufe ver chufe bure vui bure ver bure cure vui cure ver cure dure vui dure ver dure gure vui gure ver gure hure vui hure ver hure lure vui lure ver lure mure vui mure ver mure nure vui nure ver nure pure vui pure ver pure rure vui rure ver rure sure vui sure ver sure ture vui ture ver ture chure vui chure ver chure luxe vui luxe ver luxe buje vui buje ver buje duje vui duje ver duje guje vui guje ver guje huje vui huje ver huje muje vui muje ver muje nuje vui nuje ver nuje ruje vui ruje ver ruje"
-        let expected = "buse vui búe vẻ búe duse vui dúe vẻ dúe guse vui gúe vẻ gúe huse vui húe vẻ húe muse vui múe vẻ múe puse vui púe vẻ púe ruse vui rúe vẻ rúe tuse vui túe vẻ túe chuse vui chúe vẻ chúe bufe vui bùe vẻ bùe dufe vui dùe vẻ dùe gufe vui gùe vẻ gùe hufe vui hùe vẻ hùe mufe vui mùe vẻ mùe nufe vui nùe vẻ nùe rufe vui rùe vẻ rùe sufe vui sùe vẻ sùe tufe vui tùe vẻ tùe chufe vui chùe vẻ chùe bure vui bủe vẻ bủe cure vui củe vẻ củe dure vui dủe vẻ dủe gure vui gủe vẻ gủe hure vui hủe vẻ hủe lure vui lủe vẻ lủe mure vui mủe vẻ mủe nure vui nủe vẻ nủe pure vui pủe vẻ pủe rure vui rủe vẻ rủe sure vui sủe vẻ sủe ture vui tủe vẻ tủe chure vui chủe vẻ chủe luxe vui lũe vẻ lũe buje vui bụe vẻ bụe duje vui dụe vẻ dụe guje vui gụe vẻ gụe huje vui hụe vẻ hụe muje vui mụe vẻ mụe nuje vui nụe vẻ nụe ruje vui rụe vẻ rụe"
+        let expected = "buse vui búe vẻ búe dúe vui dúe vẻ dúe guse vui gúe vẻ gúe húe vui húe vẻ húe muse vui múe vẻ múe puse vui púe vẻ púe ruse vui rúe vẻ rúe túe vui túe vẻ túe chuse vui chúe vẻ chúe bùe vui bùe vẻ bùe dùe vui dùe vẻ dùe gùe vui gùe vẻ gùe hùe vui hùe vẻ hùe mùe vui mùe vẻ mùe nùe vui nùe vẻ nùe rùe vui rùe vẻ rùe sùe vui sùe vẻ sùe tùe vui tùe vẻ tùe chùe vui chùe vẻ chùe bure vui bủe vẻ bủe cure vui củe vẻ củe dủe vui dủe vẻ dủe gure vui gủe vẻ gủe hủe vui hủe vẻ hủe lure vui lủe vẻ lủe mure vui mủe vẻ mủe nure vui nủe vẻ nủe pure vui pủe vẻ pủe rure vui rủe vẻ rủe sure vui sủe vẻ sủe tủe vui tủe vẻ tủe chure vui chủe vẻ chủe luxe vui lũe vẻ lũe buje vui bụe vẻ bụe dụe vui dụe vẻ dụe guje vui gụe vẻ gụe hụe vui hụe vẻ hụe muje vui mụe vẻ mụe nuje vui nụe vẻ nụe ruje vui rụe vẻ rụe"
         assertBuffer(input, equals: expected)
     }
 
@@ -4501,7 +4506,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_712_buse_to_chuje_tone_override_and_delayed_e_unlatch() {
         let input = "buse busef buser busex busej busefe busere busexe buseje duse dusef duser dusex dusej dusefe dusere dusexe duseje guse gusef guser gusex gusej gusefe gusere gusexe guseje huse husef huser husex husej husefe husere husexe huseje tuse tusef tuser tusex tusej tusefe tusere tusexe tuseje chuse chusef chuser chusex chusej chusefe chusere chusexe chuseje bufe bufes bufer bufex bufej bufese bufere bufexe bufeje dufe dufes dufer dufex dufej dufese dufere dufexe dufeje gufe gufes gufer gufex gufej gufese gufere gufexe gufeje hufe hufes hufer hufex hufej hufese hufere hufexe hufeje mufe mufes mufer mufex mufej mufese mufere mufexe mufeje nufe nufes nufer nufex nufej nufese nufere nufexe nufeje rufe rufes rufer rufex rufej rufese rufere rufexe rufeje sufe sufes sufer sufex sufej sufese sufere sufexe sufeje tufe tufes tufer tufex tufej tufese tufere tufexe tufeje chufe chufes chufer chufex chufej chufese chufere chufexe chufeje buje bujes bujef bujer bujex bujese bujefe bujere bujexe duje dujes dujef dujer dujex dujese dujefe dujere dujexe guje gujes gujef gujer gujex gujese gujefe gujere gujexe huje hujes hujef hujer hujex hujese hujefe hujere hujexe muje mujes mujef mujer mujex mujese mujefe mujere mujexe nuje nujes nujef nujer nujex nujese nujefe nujere nujexe ruje rujes rujef rujer rujex rujese rujefe rujere rujexe"
-        let expected = "buse bùe bủe bũe bụe buề buể buễ buệ duse dùe dủe dũe dụe duề duể duễ duệ guse gùe gủe gũe gụe guề guể guễ guệ huse hùe hủe hũe hụe huề huể huễ huệ tuse tùe tủe tũe tụe tuề tuể tuễ tuệ chuse chùe chủe chũe chụe chuề chuể chuễ chuệ bufe búe bủe bũe bụe buế buể buễ buệ dufe dúe dủe dũe dụe duế duể duễ duệ gufe gúe gủe gũe gụe guế guể guễ guệ hufe húe hủe hũe hụe huế huể huễ huệ mufe múe mủe mũe mụe muế muể muễ muệ nufe núe nủe nũe nụe nuế nuể nuễ nuệ rufe rúe rủe rũe rụe ruế ruể ruễ ruệ sufe súe sủe sũe sụe suế suể suễ suệ tufe túe tủe tũe tụe tuế tuể tuễ tuệ chufe chúe chủe chũe chụe chuế chuể chuễ chuệ buje búe bùe bủe bũe buế buề buể buễ duje dúe dùe dủe dũe duế duề duể duễ guje gúe gùe gủe gũe guế guề guể guễ huje húe hùe hủe hũe huế huề huể huễ muje múe mùe mủe mũe muế muề muể muễ nuje núe nùe nủe nũe nuế nuề nuể nuễ ruje rúe rùe rủe rũe ruế ruề ruể ruễ"
+        let expected = "buse bùe bủe bũe bụe buề buể buễ buệ dúe dùe dủe dũe dụe duề duể duễ duệ guse gùe gủe gũe gụe guề guể guễ guệ húe hùe hủe hũe hụe huề huể huễ huệ túe tùe tủe tũe tụe tuề tuể tuễ tuệ chuse chùe chủe chũe chụe chuề chuể chuễ chuệ bùe búe bủe bũe bụe buế buể buễ buệ dùe dúe dủe dũe dụe duế duể duễ duệ gùe gúe gủe gũe gụe guế guể guễ guệ hùe húe hủe hũe hụe huế huể huễ huệ mùe múe mủe mũe mụe muế muể muễ muệ nùe núe nủe nũe nụe nuế nuể nuễ nuệ rùe rúe rủe rũe rụe ruế ruể ruễ ruệ sùe súe sủe sũe sụe suế suể suễ suệ tùe túe tủe tũe tụe tuế tuể tuễ tuệ chùe chúe chủe chũe chụe chuế chuể chuễ chuệ buje búe bùe bủe bũe buế buề buể buễ dụe dúe dùe dủe dũe duế duề duể duễ guje gúe gùe gủe gũe guế guề guể guễ hụe húe hùe hủe hũe huế huề huể huễ muje múe mùe mủe mũe muế muề muể muễ nuje núe nùe nủe nũe nuế nuề nuể nuễ ruje rúe rùe rủe rũe ruế ruề ruể ruễ"
         assertBuffer(input, equals: expected)
     }
 
@@ -4521,7 +4526,7 @@ public final class TrilingualUserExperienceTests: VietFlowTestCase {
 
     func test_tier4_715_vietnamese_collocation_phrases_suje_to_pamf() {
         let input = "suje vui suje ver suje tuje vui tuje ver tuje chuje vui chuje ver chuje kuse vui kuse ver kuse kufe vui kufe ver kufe kure vui kure ver kure kuxe vui kuxe ver kuxe kuje vui kuje ver kuje pufe vui pufe ver pufe puxe vui puxe ver puxe puje vui puje ver puje dire vui dire ver dire hire vui hire ver hire life vui life ver life mire vui mire ver mire sire vui sire ver sire tire vui tire ver tire rise vui rise ver rise pise vui pise ver pise pife vui pife ver pife pire vui pire ver pire pixe vui pixe ver pixe pije vui pije ver pije kans banf kans ddanf kans kanf banf kanf ddanf kanf kanr banf kanr ddanf kanr kanx banf kanx ddanf kanx kanj banf kanj ddanf kanj pans banf pans ddanf pans panf banf panf ddanf panf panr banf panr ddanf panr panx banf panx ddanf panx panj banf panj ddanf panj kams bams kams nhams kams kamf bams kamf nhams kamf kamr bams kamr nhams kamr kamx bams kamx nhams kamx kamj bams kamj nhams kamj pams bams pams nhams pams pamf bams pamf nhams pamf"
-        let expected = "suje vui sụe vẻ sụe tuje vui tụe vẻ tụe chuje vui chụe vẻ chụe kuse vui kúe vẻ kúe kufe vui kùe vẻ kùe kure vui kủe vẻ kủe kuxe vui kũe vẻ kũe kuje vui kụe vẻ kụe pufe vui pùe vẻ pùe puxe vui pũe vẻ pũe puje vui pụe vẻ pụe dire vui dỉe vẻ dỉe hire vui hỉe vẻ hỉe life vui lìe vẻ lìe mire vui mỉe vẻ mỉe sire vui sỉe vẻ sỉe tire vui tỉe vẻ tỉe rise vui ríe vẻ ríe pise vui píe vẻ píe pife vui pìe vẻ pìe pire vui pỉe vẻ pỉe pixe vui pĩe vẻ pĩe pije vui pịe vẻ pịe kans bàn kán đàn kán kanf bàn kàn đàn kàn kanr bàn kản đàn kản kanx bàn kãn đàn kãn kanj bàn kạn đàn kạn pans bàn pán đàn pán panf bàn pàn đàn pàn panr bàn pản đàn pản panx bàn pãn đàn pãn panj bàn pạn đàn pạn kams bám kám nhám kám kamf bám kàm nhám kàm kamr bám kảm nhám kảm kamx bám kãm nhám kãm kamj bám kạm nhám kạm pams bám pám nhám pám pamf bám pàm nhám pàm"
+        let expected = "suje vui sụe vẻ sụe tụe vui tụe vẻ tụe chuje vui chụe vẻ chụe kuse vui kúe vẻ kúe kufe vui kùe vẻ kùe kure vui kủe vẻ kủe kuxe vui kũe vẻ kũe kuje vui kụe vẻ kụe pufe vui pùe vẻ pùe puxe vui pũe vẻ pũe puje vui pụe vẻ pụe dire vui dỉe vẻ dỉe hire vui hỉe vẻ hỉe life vui lìe vẻ lìe mire vui mỉe vẻ mỉe sire vui sỉe vẻ sỉe tire vui tỉe vẻ tỉe rise vui ríe vẻ ríe pise vui píe vẻ píe pife vui pìe vẻ pìe pire vui pỉe vẻ pỉe pixe vui pĩe vẻ pĩe pije vui pịe vẻ pịe kans bàn kán đàn kán kanf bàn kàn đàn kàn kanr bàn kản đàn kản kanx bàn kãn đàn kãn kanj bàn kạn đàn kạn pans bàn pán đàn pán panf bàn pàn đàn pàn panr bàn pản đàn pản panx bàn pãn đàn pãn panj bàn pạn đàn pạn kams bám kám nhám kám kamf bám kàm nhám kàm kamr bám kảm nhám kảm kamx bám kãm nhám kãm kamj bám kạm nhám kạm pams bám pám nhám pám pamf bám pàm nhám pàm"
         assertBuffer(input, equals: expected)
     }
 

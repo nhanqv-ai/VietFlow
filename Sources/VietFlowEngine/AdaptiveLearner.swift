@@ -682,7 +682,15 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
 
     private static let nativelyResolvedEngineTriggers: Set<String> = [
         "air", "barn", "boro", "daasu", "rofo", "twucs", "twu",
-        "arre", "inssects", "ussage", "ussag", "mall", "item", "fli", "googe", "outlie", "airport", "nag"
+        "arre", "inssects", "ussage", "ussag", "mall", "item", "fli", "googe", "outlie", "airport", "nag",
+        "bojo", "hojo", "nojo", "sojo", "tojo", "soso", "toso", "hoso", "moso", "noso",
+        "hofo", "bofo", "mofo", "tofo", "sofo", "dofo", "gofo", "nofo",
+        "goxo", "moxo", "boxo", "roxo", "doxo", "hoxo", "noxo", "soxo",
+        "moro", "noro", "roro", "soro", "toro", "doro", "horo", "goro",
+        "heje", "teje", "keje", "beje", "deje", "meje", "neje", "reje", "seje", "cheje",
+        "chese", "kese", "tese", "bese", "dese", "mese", "rese", "sese", "nese", "hese",
+        "kefe", "nefe", "hefe", "tefe", "befe", "mefe", "refe", "sefe", "defe", "chefe",
+        "tere", "dere", "kere", "nere", "bere", "rere", "chere"
     ]
 
     /// Re-evaluates all loaded entries against current classification and noise-filtering rules,
@@ -859,9 +867,12 @@ public final class AdaptiveLearningManager: @unchecked Sendable {
     }
 
     // MARK: - String Utilities
+    private static let vietnameseDiacriticChars: Set<Character> = Set(
+        "àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđÀÁẢÃẠĂẰẮẲẴẶÂẦẤẨẪẬÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴĐ"
+    )
+
     public static func hasVietnameseDiacritics(_ str: String) -> Bool {
-        let vietnameseChars = Set("àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđÀÁẢÃẠĂẰẮẲẴẶÂẦẤẨẪẬÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴĐ")
-        return str.contains(where: { vietnameseChars.contains($0) })
+        return str.contains(where: { vietnameseDiacriticChars.contains($0) })
     }
 
     public static func stripDiacritics(_ str: String) -> String {

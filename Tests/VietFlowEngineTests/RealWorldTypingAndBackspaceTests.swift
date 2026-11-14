@@ -3017,9 +3017,9 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         engine.reset()
         XCTAssertEqual(apply("tooif teje heje khachs"), "tồi tệ hệ khách")
         engine.reset()
-        XCTAssertEqual(apply("neje heje thoongs"), "neje hệ thống")
+        XCTAssertEqual(apply("neje heje thoongs"), "nệ hệ thống")
         engine.reset()
-        XCTAssertEqual(apply("neje heje soso"), "neje hệ số")
+        XCTAssertEqual(apply("neje heje soso"), "nệ hệ số")
 
         // 4. Double-key undo and backspace recovery (including spaceHistory boundary restoration)
         engine.reset()
@@ -3031,7 +3031,7 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         engine.reset()
         XCTAssertEqual(apply("heje thoongs<BS><BS><BS><BS><BS>quar"), "hệ quả")
         engine.reset()
-        XCTAssertEqual(apply("neje, foo <BS><BS><BS><BS>heje"), "neje, hệ")
+        XCTAssertEqual(apply("neje, foo <BS><BS><BS><BS>heje"), "nệ, hệ")
 
         // 5. VNI mode
         let vniEng = makeEngine(inputMethod: .vni, tonePlacement: .modern)
@@ -3712,7 +3712,145 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
         XCTAssertEqual(apply("myx"), "mỹ", "Retyping 'myx' after 'my' + Backspace must transform to 'mỹ'")
     }
 
-    // MARK: - Test Registry (409 Tests)
+    func test_410_fast_telex_bojo_soso_chese_kese_tese_hofo_goxo_priority() {
+        let fastTelexAndRomajiCases: [(String, String)] = [
+            // Fast-Telex C + o/e + [sfrxj] + o/e Vietnamese priority
+            ("bojo", "bộ"),
+            ("Bojo", "Bộ"),
+            ("BOJO", "BỘ"),
+            ("bojo gox", "bộ gõ"),
+            ("cair thieenj bojo gox", "cải thiện bộ gõ"),
+            ("bojo nhows", "bộ nhớ"),
+            ("toanf bojo", "toàn bộ"),
+            ("soso", "số"),
+            ("soso luwowngj", "số lượng"),
+            ("chese", "chế"),
+            ("chese ddojo", "chế độ"),
+            ("kese", "kế"),
+            ("kese hoachj", "kế hoạch"),
+            ("tese", "tế"),
+            ("kinh tese", "kinh tế"),
+            ("teje", "tệ"),
+            ("keje", "kệ"),
+            ("neje", "nệ"),
+            ("heje", "hệ"),
+            ("hojo", "hộ"),
+            ("hofo", "hồ"),
+            ("goxo", "gỗ"),
+            ("moro", "mổ"),
+            ("noro", "nổ"),
+            ("toxo", "tỗ"),
+            ("roxo", "rỗ"),
+            ("mofo", "mồ"),
+            ("kefe", "kề"),
+            ("mafa", "mầ"),
+            ("gaxa", "gẫ"),
+            // Genuine non-colliding Romaji & loanwords preserved
+            ("gojo", "gojo"),
+            ("poro", "poro"),
+            ("dojo", "dojo"),
+            ("mojo", "mojo"),
+            ("tokyo", "tokyo"),
+            ("sushi", "sushi"),
+            ("cosplay", "cosplay"),
+            ("nasa", "nasa"),
+            ("nara", "nara"),
+        ]
+
+        for (raw, expected) in fastTelexAndRomajiCases {
+            engine.reset()
+            XCTAssertEqual(apply(raw), expected, "Fast-Telex / Romaji priority mismatch for input: '\(raw)'")
+        }
+    }
+
+    func test_411_stray_key_auto_restore_and_single_backspace_diacritic_recovery() {
+        func applyEventTapRealistic(_ input: String) -> String {
+            let bamboo = BambooEngine(config: EngineConfig(inputMethod: .telex, tonePlacement: .modern))
+            let normalized = input.replacingOccurrences(of: "<BS>", with: "\u{08}")
+            var screen = ""
+            for ch in normalized {
+                if ch == "\u{08}" || ch == "\u{7F}" {
+                    if let revertDelta = bamboo.handleBackspaceWithRevertDelta() {
+                        XCTAssertTrue(screen.count >= revertDelta.backspaces, "Underrun on revertDelta for '\(input)'")
+                        if revertDelta.backspaces > 0 {
+                            screen = String(screen.dropLast(revertDelta.backspaces))
+                        }
+                        screen.append(revertDelta.insertText)
+                    } else {
+                        _ = bamboo.handleBackspace()
+                        if !screen.isEmpty {
+                            screen.removeLast()
+                        }
+                    }
+                } else if ch == "\n" || ch == "\t" || ch == "\u{1B}" {
+                    bamboo.reset()
+                    screen.append(ch)
+                } else {
+                    if let delta = bamboo.processKey(ch) {
+                        XCTAssertTrue(screen.count >= delta.backspaces, "Underrun on processKey for '\(input)'")
+                        if delta.backspaces > 0 {
+                            screen = String(screen.dropLast(delta.backspaces))
+                        }
+                        screen.append(delta.insertText)
+                    } else {
+                        screen.append(ch)
+                    }
+                }
+            }
+            return screen
+        }
+
+        // 1. Single-Backspace diacritic recovery after stray trailing key
+        let recoveryCases: [(String, String)] = [
+            ("masyt<BS>", "máy"),
+            ("masyt<BS> tinhs", "máy tính"),
+            ("treene<BS>", "trên"),
+            ("treene<BS> banf", "trên bàn"),
+            ("tooit<BS>", "tôi"),
+            ("tooit<BS>s", "tối"),
+            ("mafuh<BS>", "màu"),
+            ("mafuh<BS> xanh", "màu xanh"),
+            ("ddaxv<BS>", "đã"),
+            ("ddaxv<BS> xong", "đã xong"),
+            ("xaryr<BS>", "xảy"),
+            ("xaryr<BS> ra", "xảy ra"),
+            ("ddayff<BS>", "đày"),
+            ("ddayff<BS>a", "đầy"),
+            ("cafai<BS>", "cầ"),
+            ("cafai<BS>n", "cần"),
+            ("bojot<BS>", "bộ"),
+            ("bojot<BS> gox", "bộ gõ"),
+            ("vieetjk<BS>", "việt"),
+        ]
+        for (raw, expected) in recoveryCases {
+            XCTAssertEqual(applyEventTapRealistic(raw), expected, "1-Backspace diacritic recovery failed for '\(raw)'")
+        }
+
+        // 2. Non-interference & zero over-deletion on English words, Romaji, double-key escapes, and normal Vietnamese
+        let nonInterferenceCases: [(String, String)] = [
+            ("systre<BS>", "systr"),
+            ("system<BS>", "syste"),
+            ("foo system<BS><BS><BS><BS><BS><BS>", "foo "),
+            ("foo user<BS><BS><BS><BS>", "foo "),
+            ("foo case<BS><BS><BS><BS>", "foo "),
+            ("foo cost<BS><BS><BS><BS>", "foo "),
+            ("foo down<BS><BS><BS><BS>", "foo "),
+            ("foo swim<BS><BS><BS><BS>", "foo "),
+            ("foo nasa<BS><BS><BS><BS>", "foo "),
+            ("tesst<BS>", "tes"),
+            ("barnr<BS>", "bar"),
+            ("toioo<BS>", "toi"),
+            ("hejee<BS>", "hẹ"),
+            ("carr<BS>", "ca"),
+            ("masy<BS>", "má"),
+            ("treen<BS>", "trê"),
+        ]
+        for (raw, expected) in nonInterferenceCases {
+            XCTAssertEqual(applyEventTapRealistic(raw), expected, "Backspace non-interference failed for '\(raw)'")
+        }
+    }
+
+    // MARK: - Test Registry (411 Tests)
     
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -4168,6 +4306,8 @@ public final class RealWorldTypingAndBackspaceTests: VietFlowTestCase {
             ("test_407_barn_to_ban_telex_and_backspace_recovery", test_407_barn_to_ban_telex_and_backspace_recovery),
             ("test_408_smart_telex_double_key_escape_disambiguation_and_backspace", test_408_smart_telex_double_key_escape_disambiguation_and_backspace),
             ("test_409_boro_daasu_rofo_twu_air_and_yen_delimiter", test_409_boro_daasu_rofo_twu_air_and_yen_delimiter),
+            ("test_410_fast_telex_bojo_soso_chese_kese_tese_hofo_goxo_priority", test_410_fast_telex_bojo_soso_chese_kese_tese_hofo_goxo_priority),
+            ("test_411_stray_key_auto_restore_and_single_backspace_diacritic_recovery", test_411_stray_key_auto_restore_and_single_backspace_diacritic_recovery),
         ]
     }
 }
