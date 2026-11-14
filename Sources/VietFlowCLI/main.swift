@@ -92,9 +92,16 @@ while running {
     
     // Check for Backspace (0x7F or 0x08)
     if buffer[0] == 127 || buffer[0] == 8 {
-        _ = engine.handleBackspace()
-        // Send terminal backspace sequence: move back, erase char, move back
-        print("\u{08} \u{08}", terminator: "")
+        if let revertDelta = engine.handleBackspaceWithRevertDelta() {
+            for _ in 0..<revertDelta.backspaces {
+                print("\u{08} \u{08}", terminator: "")
+            }
+            print(revertDelta.insertText, terminator: "")
+        } else {
+            _ = engine.handleBackspace()
+            // Send terminal backspace sequence: move back, erase char, move back
+            print("\u{08} \u{08}", terminator: "")
+        }
         fflush(stdout)
         continue
     }

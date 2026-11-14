@@ -1032,6 +1032,71 @@ public final class AdaptiveLearningTests: TestCase {
         }
     }
 
+    // MARK: - Test 30: Natively Resolved Fast-Telex Triggers Pruned on Reload
+    func test_30_natively_resolved_fast_telex_triggers_pruned_on_load() {
+        let logFile = TypingErrorLogFile(
+            version: 1,
+            entries: [
+                TypingErrorEntry(
+                    id: "imeFriction:bojo->bộ",
+                    rawKeysBeforeBackspace: "bojo",
+                    displayedBeforeBackspace: "bojo",
+                    finalCommittedText: "bộ",
+                    category: .imeFriction,
+                    count: 2
+                ),
+                TypingErrorEntry(
+                    id: "imeFriction:soso->số",
+                    rawKeysBeforeBackspace: "soso",
+                    displayedBeforeBackspace: "soso",
+                    finalCommittedText: "số",
+                    category: .imeFriction,
+                    count: 3
+                ),
+                TypingErrorEntry(
+                    id: "imeFriction:chese->chế",
+                    rawKeysBeforeBackspace: "chese",
+                    displayedBeforeBackspace: "chese",
+                    finalCommittedText: "chế",
+                    category: .imeFriction,
+                    count: 1
+                ),
+                TypingErrorEntry(
+                    id: "personalTypo:ddnag->đang",
+                    rawKeysBeforeBackspace: "ddnag",
+                    displayedBeforeBackspace: "ddnag",
+                    finalCommittedText: "đang",
+                    category: .personalTypo,
+                    count: 2
+                ),
+            ],
+            learnedRules: [
+                LearnedRule(
+                    id: "imeFriction:soso->số",
+                    trigger: "soso",
+                    replacement: "số",
+                    category: .imeFriction,
+                    count: 3,
+                    isPreserveVietnamese: true
+                )
+            ]
+        )
+
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.dateEncodingStrategy = .iso8601
+        guard let data = try? encoder.encode(logFile) else {
+            XCTFail("Failed to encode TypingErrorLogFile fixture")
+            return
+        }
+        try? data.write(to: tempFileURL, options: .atomic)
+
+        let reloaded = AdaptiveLearningManager(fileURL: tempFileURL, isSecureEventInputActive: { false })
+        XCTAssertEqual(reloaded.loggedPatternsCount, 1, "Natively resolved fast-Telex triggers (bojo, soso, chese) must be pruned on reload")
+        XCTAssertEqual(reloaded.activeRulesCount, 0, "Stale learned rule for soso must be pruned")
+        XCTAssertEqual(reloaded.allEntries.first?.id, "personalTypo:ddnag->đang")
+    }
+
     // MARK: - Registration of All Tests
     public override var allTests: [(name: String, test: TestMethod)] {
         return [
@@ -1064,6 +1129,7 @@ public final class AdaptiveLearningTests: TestCase {
             ("test_27_backspace_across_space_history_personal_typo", test_27_backspace_across_space_history_personal_typo),
             ("test_28_telex_evaluation_distinguishes_ime_friction_vs_personal_typo", test_28_telex_evaluation_distinguishes_ime_friction_vs_personal_typo),
             ("test_29_personal_typo_noise_filtering_and_log_sanitization", test_29_personal_typo_noise_filtering_and_log_sanitization),
+            ("test_30_natively_resolved_fast_telex_triggers_pruned_on_load", test_30_natively_resolved_fast_telex_triggers_pruned_on_load),
         ]
     }
 }
